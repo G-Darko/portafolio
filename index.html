@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gael Uribe | Portafafolio</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+	<header>
+		<div class="nB">
+			<nav>
+				<ul>						
+					<li><a href="#">Inicio</a></li> 
+					<li><a href="#skills">Habilidades</a></li> 
+					<li><a href="#portfolio">Proyectos</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+
+	<section>
+		<div class="hero">
+			
+			<img src="img/fondo.gif" alt="">
+		</div>
+
+		<div class="perfil">
+			<div class="cuadro"></div>
+			<div class="circulo-t"></div>
+			<div class="circulo"></div>
+			<div class="img-perfil">
+				<img src="img/DARKO.png" alt="">
+			</div>
+			<div class="txt-name">Gael Uribe</div>
+			<div class="txt-type">
+				<span>{Desarrollador FullStack}</span>
+			</div>
+
+			<div class="contact-icons">
+
+				<a title="GitHub" target="_blank" href="https://github.com/G-Darko">
+					<ion-icon name="logo-github"></ion-icon>
+				</a>
+
+				<a title="Contacto" onclick="showModal('contact')">
+					<ion-icon name="mail-outline"></ion-icon>
+				</a>
+			
+			</div>
+
+		</div>
+	</section>
+
+
+	<section class="skills" id="skills">
+		
+		<div class="skill">
+			
+			<div class="conocimientos-part">
+				<h2><span>{Lenguajes | </span>Conocimientos}</h2>
+				
+				<div class="conocimientos">
+					
+					<div>
+						<img src="img/skills/php.png" alt="">
+						<h3>PHP</h3>
+					</div>
+
+					<div>
+						<img src="img/skills/mysql.png" alt="">
+						<h3>MySQL</h3>
+					</div>
+
+					<div>
+						<img src="img/skills/html.png" alt="">
+						<h3>HTML</h3>
+					</div>
+
+					<div>
+						<img src="img/skills/css.png" alt="">
+						<h3>CSS</h3>
+					</div>
+
+					<div>
+						<img src="img/skills/js.png" alt="">
+						<h3>JavaScript</h3>
+					</div>
+
+					<div>
+						<img src="img/skills/java.png" alt="">
+						<h3>Java</h3>
+					</div>
+
+
+				</div>
+
+			</div>
+
+			<div class="herramientas-part">
+				<h2><span>{Herramientas | </span>Librerias}</h2>
+				<div class="herramientas">
+					
+					<div>
+						<img src="img/skills/sublime-text.png" alt="">
+						<h3>Sublime</h3>
+					</div>
+					
+					<div>
+						<img src="img/skills/xampp.png" alt="">
+						<h3>XAMPP</h3>
+					</div>
+
+					<div>
+						<img src="img/skills/sweet.png" alt="">
+						<h3>sweetalert2</h3>
+					</div>
+					
+					<div>
+						<img src="img/skills/ionicons.png" alt="">
+						<h3>Ionicons</h3>
+					</div>
+					
+					<div>
+						<img src="img/skills/000host.png" alt="">
+						<h3>000webhost</h3>
+					</div>
+
+					<div>
+						<img src="img/skills/github.png" alt="">
+						<h3>GitHub</h3>
+					</div>
+					
+					<div>
+						<img src="img/skills/heroku.png" alt="">
+						<h3>Heroku</h3>
+					</div>
+
+					<div>
+						<img src="img/skills/node.png" alt="">
+						<h3>Node js</h3>
+					</div>
+
+					<div>
+						<img src="img/skills/vsc.png" alt="">
+						<h3>VS Code</h3>
+					</div>
+					
+				</div>
+
+			</div>
+
+		</div>
+
+	</section>
+
+	<section class="portfolio" id="portfolio">
+		
+		<div class="port-section">
+			<h2>
+				<span>{Proyectos |</span> Portafolio}
+			</h2>
+
+			<div class="port-grid">
+				
+				<div onclick="showModal('YIZA')">
+					<img src="img/YIZA.png" alt="">
+				</div>
+
+				<div onclick="showModal('YIZA')">
+					<img src="img/YIZAsa.png" alt="">
+				</div>
+
+				<div onclick="showModal('YIZA')">
+					<img src="img/Hospital.png" alt="">
+				</div>
+
+				<div onclick="showModal('YIZA')">
+					<img src="img/sistema.png" alt="">
+				</div>
+
+			</div>
+
+		</div>
+
+	</section>
+
+	<div class="modal-container" id="YIZA">
+		<div class="back" onclick="hideModal('YIZA')"></div>
+		<div class="modal-content">
+			
+			<div class="header">
+				
+				<div class="back-head">
+					
+					<h2>E-Commerce | YIZA</h2>
+				</div>
+
+				<button class="close" onclick="hideModal('YIZA')">
+					<ion-icon name="close"></ion-icon>
+				</button>
+			</div>
+
+
+			<div class="content">
+				
+				<div class="preview">
+					<img src="img/YIZA.png" alt="">
+				</div>
+
+				<div class="des">
+					<span>Descripción</span>
+					<p>
+					 	hhjsd
+					</p>
+				
+
+					<div class="link">
+						<span>Enlace:</span><a href="#">Ver demo</a>
+					</div>
+
+					<div class="tools">
+						
+						<span>Desarrollado con:</span>
+
+						<div class="tec">
+							<img title="HTML" src="img/skills/html.png" alt="">
+							<img title="CSS" src="img/skills/css.png" alt="">
+							<img title="JavaScript" src="img/skills/js.png" alt="">
+							<img title="PHP" src="img/skills/php.png" alt="">
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+	<div class="modal-container" id="contact">
+		<div class="back" onclick="hideModal('contact')"></div>
+		<div class="modal-content">
+			
+			<div class="header">
+				
+				<div class="back-head">
+					<h2>Contacto | Gael Uribe</h2>
+				</div>
+
+				<button class="close" onclick="hideModal('contact')">
+					<ion-icon name="close"></ion-icon>
+				</button>
+			</div>
+
+
+			<div class="content">
+				
+				<div class="des">
+					<p>
+						Si desea contactarme puede mandar un correo por medio de este formulario
+					</p>
+				</div>
+
+				<form action="https://formspree.io/f/xlevgjee" method="POST">
+
+					<div class="inputBx">
+				    	<input type="email" name="email" required>
+
+					 	<label class="sp">
+					    	Correo electrónico
+					  	</label>
+					</div>
+
+					<div class="inputBx">
+				    	<textarea name="message" required></textarea>
+					  	<label class="sp">
+					    	Mensaje
+					  	</label>
+						
+					</div>
+
+				  	<!-- your other form fields go here -->
+				  	<button type="submit">
+				  		<ion-icon name="send"></ion-icon>
+				  		Enviar
+				  	</button>
+				</form>
+				
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+	<script src="js/main.js"></script>
+</body>
+</html>
