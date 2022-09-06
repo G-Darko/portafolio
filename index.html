@@ -11,7 +11,7 @@
 
 	<header>
 		<div class="nB">
-			<h1 onclick="window.location.href='./index.html'"><span>{G-Darko}</span></h1>
+			<h1 onclick="window.location.href='./'"><span>{G-Darko}</span></h1>
 			<nav id="nav">
 				<ul>						
 					<li><a href="#" onclick="selected(this)">Inicio</a></li>
@@ -129,7 +129,7 @@
 					
 					<div>
 						<img src="img/skills/ionicons.png" alt="">
-						<h3>Ionicons</h3>
+						<h3>ionicons</h3>
 					</div>
 					
 					<div>
@@ -181,21 +181,28 @@
 					</div>
 				</div>
 
-				<div class="proyecto" onclick="showModal('YIZA')">
+				<div class="proyecto" onclick="showModal('Portafolio')">
+					<img src="img/portafolio.png" alt="">
+					<div class="info">
+						<h4>Portafolio | G-Darko</h4>
+					</div>
+				</div>
+
+				<div class="proyecto" onclick="showModal('YIZAsa')">
 					<img src="img/YIZAsa.png" alt="">
 					<div class="info">
 						<h4>Proyecto Empresa | YIZA S.A</h4>
 					</div>
 				</div>
 
-				<div class="proyecto" onclick="showModal('YIZA')">
+				<div class="proyecto" onclick="showModal('Hospital')">
 					<img src="img/Hospital.png" alt="">
 					<div class="info">
 						<h4>Proyecto Hospital | MG</h4>
 					</div>
 				</div>
 
-				<div class="proyecto" onclick="showModal('YIZA')">
+				<div class="proyecto" onclick="showModal('Tiendita')">
 					<img src="img/sistema.png" alt="">
 					<div class="info">
 						<h4>Proyecto Tiendita | HyC</h4>
@@ -232,18 +239,22 @@
 			<div class="content">
 				
 				<div class="preview">
-					<img src="img/YIZA.png" alt="">
+					<video src="vid/yiza.mp4" poster="img/YIZA.png" preload="auto" controls muted></video>
 				</div>
 
 				<div class="des">
 					<span>Descripción</span>
 					<p>
-					 	hhjsd
+					 	YIZA, es una simulación de un E-Commerce que cuenta con su propia base de datos, manual de usuario, panel de control y el apartado de la tienda. <br>
+					 	Este proyecto fue desarrollado con HTML, PHP, JavaScript y CSS puro, las unicas librerias que se agregan son para facilitar y mejorar las alertas y tener iconos
+
+					 	<label style="color: #f00;"><b>Nota:</b></label> Es una version aun temprana y por estar en Host gratuitos puede tener fallas, por eso se agrega un video mostrando su funcionalidad.
 					</p>
 				
 
 					<div class="link">
-						<span>Enlace:</span><a href="#">Ver demo</a>
+						<span>Enlace:</span><a target="_blank" href="img/Manual.pdf">Manual</a> <br>
+						<span>Enlace:</span><a target="_blank" href="http://e-yiza.herokuapp.com/STORE/">Ver demo</a>
 					</div>
 
 					<div class="tools">
@@ -251,10 +262,274 @@
 						<span>Desarrollado con:</span>
 
 						<div class="tec">
+							<img title="PHP" src="img/skills/php.png" alt="">
+							<img title="MySQL" src="img/skills/mysql.png" alt="">
 							<img title="HTML" src="img/skills/html.png" alt="">
 							<img title="CSS" src="img/skills/css.png" alt="">
 							<img title="JavaScript" src="img/skills/js.png" alt="">
+							<img title="sweetalalert2" src="img/skills/sweet.png" alt="">
+							<img title="ionicons" src="img/skills/ionicons.png" alt="">
+							<img title="XAMPP" src="img/skills/xampp.png" alt="">
+							<img title="Sublime Text" src="img/skills/sublime-text.png" alt="">
+							<img title="Heroku" src="img/skills/heroku.png" alt="">
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="modal-container" id="Portafolio">
+		<div class="back" onclick="hideModal('Portafolio')"></div>
+		<div class="modal-content">
+			
+			<div class="header">
+				
+				<div class="back-head">
+					
+					<h2>Portafolio | G-Darko</h2>
+				</div>
+
+				<button class="close" onclick="hideModal('Portafolio')">
+					<ion-icon name="close"></ion-icon>
+				</button>
+			</div>
+
+
+			<div class="content">
+				
+				<div class="preview">
+					<img src="img/portafolio.png" alt="">
+				</div>
+
+				<div class="des">
+					<span>Descripción</span>
+					<p>
+					 	Portafolio web personal desarrollado con HTML, CSS, JavaScript y la libreria de ionicons 
+					</p>
+				
+
+					<div class="link">
+						<span>Enlace:</span><a target="_blank" href="https://g-darko.github.io/portafolio/">Ver demo</a>
+					</div>
+
+					<div class="tools">
+						
+						<span>Desarrollado con:</span>
+
+						<div class="tec">
+							<img title="CSS" src="img/skills/css.png" alt="">
+							<img title="HTML" src="img/skills/html.png" alt="">
+							<img title="ionicons" src="img/skills/ionicons.png" alt="">
+							<img title="JavaScript" src="img/skills/js.png" alt="">
+							<img title="Sublime Text" src="img/skills/sublime-text.png" alt=""><br>
+							<img title="GitHub" src="img/skills/github.png" alt="">
+							<span>
+								<a target="_blank" href="https://github.com/G-Darko/portafolio.git">
+									<ion-icon name="code-slash-outline"></ion-icon>
+									Código en repositorio de GitHub
+								</a>
+							</span>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="modal-container" id="YIZAsa">
+		<div class="back" onclick="hideModal('YIZAsa')"></div>
+		<div class="modal-content">
+			
+			<div class="header">
+				
+				<div class="back-head">
+					
+					<h2>Proyecto Empresa | YIZA S.A</h2>
+				</div>
+
+				<button class="close" onclick="hideModal('YIZAsa')">
+					<ion-icon name="close"></ion-icon>
+				</button>
+			</div>
+
+
+			<div class="content">
+				
+				<div class="preview">
+					<img src="img/YIZAsa.png" alt="">
+				</div>
+
+				<div class="des">
+					<span>Descripción</span>
+					<p>
+					 	Proyecto de bachillerato en Administración, esta página compila 4 proyectos desarrollados en el transcurso de Educación Dual
+					</p>
+				
+
+					<div class="link">
+						<span>Enlace:</span><a target="_blank" href="https://yiza.000webhostapp.com">Ver demo</a>
+					</div>
+
+					<div class="tools">
+						
+						<span>Desarrollado con:</span>
+
+						<div class="tec">
 							<img title="PHP" src="img/skills/php.png" alt="">
+							<img title="MySQL" src="img/skills/mysql.png" alt="">
+							<img title="HTML" src="img/skills/html.png" alt="">
+							<img title="CSS" src="img/skills/css.png" alt="">
+							<img title="JavaScript" src="img/skills/js.png" alt="">
+							<img title="sweetalalert2" src="img/skills/sweet.png" alt="">
+							<img title="ionicons" src="img/skills/ionicons.png" alt="">
+							<img title="XAMPP" src="img/skills/xampp.png" alt="">
+							<img title="Sublime Text" src="img/skills/sublime-text.png" alt="">
+							<img title="000webhost" src="img/skills/000host.png" alt="">
+
+							<br>
+							<img title="GitHub" src="img/skills/github.png" alt="">
+							<span>
+								<a target="_blank" href="https://github.com/G-Darko/YIZA-S.A.git">
+									<ion-icon name="code-slash-outline"></ion-icon>
+									Código en repositorio de GitHub
+								</a>
+							</span>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="modal-container" id="Hospital">
+		<div class="back" onclick="hideModal('Hospital')"></div>
+		<div class="modal-content">
+			
+			<div class="header">
+				
+				<div class="back-head">
+					
+					<h2>Proyecto Hospital | MG</h2>
+				</div>
+
+				<button class="close" onclick="hideModal('Hospital')">
+					<ion-icon name="close"></ion-icon>
+				</button>
+			</div>
+
+
+			<div class="content">
+				
+				<div class="preview">
+					<video src="vid/hospital.mp4" poster="img/Hospital.png" preload="auto" controls muted></video>
+				</div>
+
+				<div class="des">
+					<span>Descripción</span>
+					<p>
+					 	Simulacion de una página para hospital desarrollada con HTML, PHP y sweetalert. <br>
+					 	Esta pagina no se encuentra alojada en un Host por lo que se adjunta un video al principio.
+					</p>
+				
+
+					<div class="link">
+					</div>
+
+					<div class="tools">
+						
+						<span>Desarrollado con:</span>
+
+						<div class="tec">
+							<img title="PHP" src="img/skills/php.png" alt="">
+							<img title="MySQL" src="img/skills/mysql.png" alt="">
+							<img title="HTML" src="img/skills/html.png" alt="">
+							<img title="CSS" src="img/skills/css.png" alt="">
+							<img title="JavaScript" src="img/skills/js.png" alt="">
+							<img title="sweetalalert2" src="img/skills/sweet.png" alt="">
+							<img title="XAMPP" src="img/skills/xampp.png" alt="">
+							<img title="Sublime Text" src="img/skills/sublime-text.png" alt="">
+							<br>
+							<img title="GitHub" src="img/skills/github.png" alt="">
+							<span>
+								<a target="_blank" href="https://github.com/G-Darko/hospital.git">
+									<ion-icon name="code-slash-outline"></ion-icon>
+									Código en repositorio de GitHub
+								</a>
+							</span>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="modal-container" id="Tiendita">
+		<div class="back" onclick="hideModal('Tiendita')"></div>
+		<div class="modal-content">
+			
+			<div class="header">
+				
+				<div class="back-head">
+					
+					<h2>Proyecto Tiendita | HyC</h2>
+				</div>
+
+				<button class="close" onclick="hideModal('Tiendita')">
+					<ion-icon name="close"></ion-icon>
+				</button>
+			</div>
+
+
+			<div class="content">
+				
+				<div class="preview">
+					<img src="img/sistema.png" alt="">
+				</div>
+
+				<div class="des">
+					<span>Descripción</span>
+					<p>
+					 	HyC, es un proyecto desarrollado con HTML, CSS y PHP para administrar tiendas de abarrotes.
+					</p>
+				
+
+					<div class="link">
+						<span>Enlace:</span><a target="_blank" href="https://sistema-tienda.000webhostapp.com">Ver demo</a>
+					</div>
+
+					<div class="tools">
+						
+						<span>Desarrollado con:</span>
+
+						<div class="tec">
+							<img title="PHP" src="img/skills/php.png" alt="">
+							<img title="MySQL" src="img/skills/mysql.png" alt="">
+							<img title="HTML" src="img/skills/html.png" alt="">
+							<img title="CSS" src="img/skills/css.png" alt="">
+							<img title="XAMPP" src="img/skills/xampp.png" alt="">
+							<img title="Sublime Text" src="img/skills/sublime-text.png" alt="">
 						</div>
 
 					</div>
