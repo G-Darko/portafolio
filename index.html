@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<title>Gael Uribe | Portafafolio</title>
 	<link rel="stylesheet" href="css/style.css">
 </head>
@@ -10,13 +10,22 @@
 
 	<header>
 		<div class="nB">
-			<nav>
+			<h1 onclick="window.location.href='./index.html'"><span>{G-Darko}</span></h1>
+			<nav id="nav">
 				<ul>						
-					<li><a href="#">Inicio</a></li> 
-					<li><a href="#skills">Habilidades</a></li> 
-					<li><a href="#portfolio">Proyectos</a></li>
+					<li><a href="#" onclick="selected(this)">Inicio</a></li>
+					<li><a href="#skills" onclick="selected(this)">Habilidades</a></li> 
+					<li><a href="#portfolio" onclick="selected(this)">Proyectos</a></li>
 				</ul>
 			</nav>
+
+			<!-- Para responsive -->
+
+			<div class="nav-icon" onclick="responsive()">
+				<ion-icon name="menu-outline"></ion-icon>
+			</div>
+
+
 		</div>
 	</header>
 
@@ -44,7 +53,7 @@
 					<ion-icon name="logo-github"></ion-icon>
 				</a>
 
-				<a title="Contacto" onclick="showModal('contact')">
+				<a href="javascript:showModal('contact')" title="Contacto">
 					<ion-icon name="mail-outline"></ion-icon>
 				</a>
 			
@@ -164,20 +173,32 @@
 
 			<div class="port-grid">
 				
-				<div onclick="showModal('YIZA')">
+				<div class="proyecto" onclick="showModal('YIZA')">
 					<img src="img/YIZA.png" alt="">
+					<div class="info">
+						<h4>E-Commerce | YIZA</h4>
+					</div>
 				</div>
 
-				<div onclick="showModal('YIZA')">
+				<div class="proyecto" onclick="showModal('YIZA')">
 					<img src="img/YIZAsa.png" alt="">
+					<div class="info">
+						<h4>Proyecto Empresa | YIZA S.A</h4>
+					</div>
 				</div>
 
-				<div onclick="showModal('YIZA')">
+				<div class="proyecto" onclick="showModal('YIZA')">
 					<img src="img/Hospital.png" alt="">
+					<div class="info">
+						<h4>Proyecto Hospital | MG</h4>
+					</div>
 				</div>
 
-				<div onclick="showModal('YIZA')">
+				<div class="proyecto" onclick="showModal('YIZA')">
 					<img src="img/sistema.png" alt="">
+					<div class="info">
+						<h4>Proyecto Tiendita | HyC</h4>
+					</div>
 				</div>
 
 			</div>
@@ -185,6 +206,10 @@
 		</div>
 
 	</section>
+
+	<footer>
+		&copy; 2022 <span>G-Darko</span>
+	</footer>
 
 	<div class="modal-container" id="YIZA">
 		<div class="back" onclick="hideModal('YIZA')"></div>
