@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Ecuación xy</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="img/DARKO.png">
+</head>
+<body>
+
+  <header>
+    <div class="nB">
+      <h1 onclick="window.location.href='./'"><span>{G-Darko}</span></h1>
+      <nav id="nav">
+        <ul>            
+          <li><a>Ecuación </span>x <sup>y</sup> = y <sup>x</sup></a></li>
+        </ul>
+      </nav>
+
+      <!-- Para responsive -->
+
+      <div class="nav-icon" onclick="responsive()">
+        <!-- <ion-icon name="menu-outline"></ion-icon> -->
+      </div>
+    </div>
+  </header>
+
+  <!-- <section>
+    <div class="hero">
+      <img src="img/fondo.gif" alt="">
+    </div> 
+  </section> -->
+
+
+
+  
+  
+  
+
+  <section class="skills" id="skills">
+    
+    <div class="skill">
+      
+      <div class="conocimientos-part">
+        <h2><span>{Formula | </span>x <sup>y</sup> = y <sup>x</sup>}</h2>
+        
+        <div class="conocimientos">
+          <div>
+            <h1>
+              x <sup>y</sup> = y <sup>x</sup> <br>
+              x = ? &nbsp; y = ? <br>
+              y = ux &nbsp; x =
+            </h1>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="herramientas-part">
+        <h2><span>{Calcular | </span>x <sup>y</sup> = y <sup>x</sup>}</h2>
+        <div class="herramientas">
+          <div>
+            
+            <div class="inputBx">
+              <input type="number" name="u" id="u" value="3" min="2" required>
+
+              <label class="sp">
+                Valor de u (mayor a 1)
+              </label>
+            </div>
+            <button onclick="calculate()">
+              <ion-icon name="send"></ion-icon>
+              Calcular
+            </button>
+            <div id="procedimiento">
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <footer>
+    &copy; 2023 <span>G-Darko</span>
+  </footer>
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>
