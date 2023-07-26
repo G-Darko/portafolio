@@ -55,13 +55,13 @@
 	    const procedimientoElement = document.getElementById("procedimiento");
 	    procedimientoElement.innerHTML = '';
 
-	    let procedimientoHTML = `<h1>Resultado de la ecuación</h1><h1>Procedimiento para u = ${result.u}:</h1>`;
+	    let procedimientoHTML = `<h1>Resultado de la ecuación</h1><h1>Procedimiento cuando u = ${result.u}:</h1>`;
 	    result.procedure.forEach((step, index) => {
 	      procedimientoHTML += `<p>${index + 1}. ${step}</p>`;
 	    });
 	    procedimientoElement.innerHTML += procedimientoHTML;
 
-	    let resultadoHTML = `<h1>Resultado para u = ${result.u} en decimal:</h1>`;
+	    let resultadoHTML = `<h1>Resultado cuando u = ${result.u} en decimal:</h1>`;
 	    resultadoHTML += `<p>x = ${result.x}</p>`;
 	    resultadoHTML += `<p>y = ${result.y}</p>`;
 	    procedimientoElement.innerHTML += resultadoHTML;
