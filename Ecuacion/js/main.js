@@ -21,9 +21,12 @@
         sr = '';
       }
 
-      if (uM1 == 1) {
 
-      }
+      procedure.push(`Calcular x utilizando la fórmula: x = u<sup><sup>1</sup>/<sub>(u-1)</sub></sup>`);
+      procedure.push(`   x = ${u}<sup><sup>1</sup>/<sub>${uM1}</sub></sup>`);
+      procedure.push(`   x = <sup>${r}</sup>${sr}${u}`);
+      let xr = `<sup>${r}</sup>${sr}${u}`;
+      let yr = `${u}<sup>${r}</sup>${sr}${u}`;
 
       procedure.push(`Calcular y utilizando la fórmula: y = u<sup><sup>u</sup>/<sub>(u-1)</sub></sup>`);
       procedure.push(`   y = ${u}<sup><sup>${u}</sup>/<sub>${u}-1</sub></sup>`);
@@ -33,38 +36,51 @@
       	procedure.push(`   y = ${u}<sup>${r}</sup>${sr}${u}`);
       }
 
-      procedure.push(`Calcular x utilizando la fórmula: x = u<sup><sup>1</sup>/<sub>(u-1)</sub></sup>`);
-      procedure.push(`   x = ${u}<sup><sup>1</sup>/<sub>${uM1}</sub></sup>`);
-      procedure.push(`   x = <sup>${r}</sup>${sr}${u}`);
-      let xr = `<sup>${r}</sup>${sr}${u}`;
-      let yr = `${u}<sup>${r}</sup>${sr}${u}`;
       procedure.push(`Sustituir en x <sup>y</sup> = y <sup>x</sup>`);
       if (uM1 != 1) {
       	procedure.push(`${xr} <sup>${yr}</sup> = ${yr} <sup>${xr}</sup>`);
       }else{
       	procedure.push(`${xr} <sup>${uPot}</sup> = ${uPot} <sup>${xr}</sup>`);
       }
+
       return { x, y, procedure, u, xr, yr };
     }
     calculate();
   	function calculate(){
+  		let mainC = getComputedStyle(document.body).getPropertyValue('--mainC');
+			let letra = getComputedStyle(document.body).getPropertyValue('--blanco');
+
 	    let uIn = document.getElementById('u').value;
-	    const u = uIn;
-	    const result = solveEquation(u);
 
-	    const procedimientoElement = document.getElementById("procedimiento");
-	    procedimientoElement.innerHTML = '';
+	    if (uIn < 2) {
+	    	Swal.fire({
+					icon: 'error',
+					title: 'Error',
+					text: 'Ingrese un número mayor o igual a 2',
+					background: mainC,
+					color: letra
+				});
+				document.getElementById('u').value = 3;
+	    }else{
 
-	    let procedimientoHTML = `<h1>Resultado de la ecuación</h1><h1>Procedimiento cuando u = ${result.u}:</h1>`;
-	    result.procedure.forEach((step, index) => {
-	      procedimientoHTML += `<p>${index + 1}. ${step}</p>`;
-	    });
-	    procedimientoElement.innerHTML += procedimientoHTML;
+		    const u = uIn;
+		    const result = solveEquation(u);
 
-	    let resultadoHTML = `<h1>Resultado cuando u = ${result.u} en decimal:</h1>`;
-	    resultadoHTML += `<p>x = ${result.x}</p>`;
-	    resultadoHTML += `<p>y = ${result.y}</p>`;
-	    procedimientoElement.innerHTML += resultadoHTML;
+		    const procedimientoElement = document.getElementById("procedimiento");
+		    procedimientoElement.innerHTML = '';
+
+		    let procedimientoHTML = `<h1>Resultado de la ecuación</h1><h1>Procedimiento cuando u = ${result.u}:</h1>`;
+		    result.procedure.forEach((step, index) => {
+		      procedimientoHTML += `<p>${index + 1}. ${step}</p>`;
+		    });
+		    procedimientoElement.innerHTML += procedimientoHTML;
+
+		    let resultadoHTML = `<h1>Resultado cuando u = ${result.u} en decimal:</h1>`;
+		    resultadoHTML += `<p>x = ${result.x}</p>`;
+		    resultadoHTML += `<p>y = ${result.y}</p>`;
+		    procedimientoElement.innerHTML += resultadoHTML;
+
+	    }
   	}
 
 	function showModal(id){
