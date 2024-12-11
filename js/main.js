@@ -1,31 +1,33 @@
-	
+const year = document.getElementById("year");
+const date = new Date();
+const thisYear = date.getFullYear();
 
-	function showModal(id){
-		document.getElementById(id).style.opacity=1;
-		document.getElementById(id).style.visibility="visible";
-		document.getElementById(id).classList.add('open');
-	}
-	function hideModal(id){
-		document.getElementById(id).style.opacity=0;
-		document.getElementById(id).style.visibility="hidden";
-		document.getElementById(id).classList.remove('open');
-	}
+year.innerText = thisYear;
 
-	
-	function responsive(){
-		let nav = document.getElementById('nav');
-		nav.classList.toggle('responsive');
-	}
-	
+function showModal(id){
+	document.getElementById(id).style.opacity=1;
+	document.getElementById(id).style.visibility="visible";
+	document.getElementById(id).classList.add('open');
+}
+function hideModal(id){
+	document.getElementById(id).style.opacity=0;
+	document.getElementById(id).style.visibility="hidden";
+	document.getElementById(id).classList.remove('open');
+}
 
-	function selected(link){
-		let opcion = document.querySelectorAll('#nav a');	
-		opcion[0].className = "";
-		opcion[1].className = "";
-		opcion[2].className = "";
+function responsive(){
+	let nav = document.getElementById('nav');
+	nav.classList.toggle('responsive');
+}
 
-		link.className = "selected";
+function selected(link){
+	let opcion = document.querySelectorAll('#nav a');	
+	opcion[0].className = "";
+	opcion[1].className = "";
+	opcion[2].className = "";
 
-		let nav = document.getElementById('nav');
-		nav.className = "";
-	}
+	link.className = "selected";
+
+	let nav = document.getElementById('nav');
+	nav.className = "";
+}

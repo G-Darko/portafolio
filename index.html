@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -7,15 +8,16 @@
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="icon" href="img/DARKO.png">
 </head>
+
 <body>
 
 	<header>
 		<div class="nB">
 			<h1 onclick="window.location.href='./'"><span>{G-Darko}</span></h1>
 			<nav id="nav">
-				<ul>						
+				<ul>
 					<li><a href="#" onclick="selected(this)">Inicio</a></li>
-					<li><a href="#skills" onclick="selected(this)">Habilidades</a></li> 
+					<li><a href="#skills" onclick="selected(this)">Habilidades</a></li>
 					<li><a href="#portfolio" onclick="selected(this)">Proyectos</a></li>
 				</ul>
 			</nav>
@@ -32,7 +34,7 @@
 
 	<section>
 		<div class="hero">
-			
+
 			<img src="img/fondo.gif" alt="">
 		</div>
 
@@ -57,7 +59,7 @@
 				<a href="javascript:showModal('contact')" title="Contacto">
 					<ion-icon name="mail-outline"></ion-icon>
 				</a>
-			
+
 			</div>
 
 		</div>
@@ -65,14 +67,14 @@
 
 
 	<section class="skills" id="skills">
-		
+
 		<div class="skill">
-			
+
 			<div class="conocimientos-part">
-				<h2><span>{Lenguajes | </span>Conocimientos}</h2>
-				
+				<h2><span>{Tecnologías | </span>Conocimientos}</h2>
+
 				<div class="conocimientos">
-					
+
 					<div>
 						<img src="img/skills/php.png" alt="">
 						<h3>PHP</h3>
@@ -109,14 +111,19 @@
 			</div>
 
 			<div class="herramientas-part">
-				<h2><span>{Herramientas | </span>Librerias}</h2>
+				<h2><span>{Herramientas | </span>Bibliotecas}</h2>
 				<div class="herramientas">
-					
+
+					<div>
+						<img src="img/skills/vsc.png" alt="">
+						<h3>VS Code</h3>
+					</div>
+
 					<div>
 						<img src="img/skills/sublime-text.png" alt="">
 						<h3>Sublime</h3>
 					</div>
-					
+
 					<div>
 						<img src="img/skills/xampp.png" alt="">
 						<h3>XAMPP</h3>
@@ -126,22 +133,22 @@
 						<img src="img/skills/sweet.png" alt="">
 						<h3>sweetalert2</h3>
 					</div>
-					
-					<div>
-						<img src="img/skills/ionicons.png" alt="">
-						<h3>ionicons</h3>
-					</div>
-					
-					<div>
-						<img src="img/skills/000host.png" alt="">
-						<h3>000webhost</h3>
-					</div>
 
 					<div>
 						<img src="img/skills/github.png" alt="">
 						<h3>GitHub</h3>
 					</div>
-					
+
+					<div>
+						<img src="img/skills/ionicons.png" alt="">
+						<h3>ionicons</h3>
+					</div>
+
+					<div>
+						<img src="img/skills/000host.png" alt="">
+						<h3>000webhost</h3>
+					</div>
+
 					<div>
 						<img src="img/skills/heroku.png" alt="">
 						<h3>Heroku</h3>
@@ -152,11 +159,6 @@
 						<h3>Node js</h3>
 					</div>
 
-					<div>
-						<img src="img/skills/vsc.png" alt="">
-						<h3>VS Code</h3>
-					</div>
-					
 				</div>
 
 			</div>
@@ -166,21 +168,15 @@
 	</section>
 
 	<section class="portfolio" id="portfolio">
-		
+
 		<div class="port-section">
 			<h2>
 				<span>{Proyectos |</span> Portafolio}
 			</h2>
 
 			<div class="port-grid">
-				
-				<div class="proyecto" onclick="showModal('YIZA')">
-					<img src="img/YIZA.png" alt="">
-					<div class="info">
-						<h4>E-Commerce | YIZA</h4>
-					</div>
-				</div>
 
+				
 				<div class="proyecto" onclick="showModal('Portafolio')">
 					<img src="img/portafolio.png" alt="">
 					<div class="info">
@@ -188,6 +184,19 @@
 					</div>
 				</div>
 
+				<div class="proyecto" onclick="showModal('POST')">
+					<img src="img/post.png" alt="">
+					<div class="info">
+						<h4>Postgrados | UPVM</h4>
+					</div>
+				</div>
+				
+				<div class="proyecto" onclick="showModal('YIZA')">
+					<img src="img/YIZA.png" alt="">
+					<div class="info">
+						<h4>E-Commerce | YIZA</h4>
+					</div>
+				</div>
 				<!-- 
 				<div class="proyecto" onclick="showModal('YIZAsa')">
 					<img src="img/YIZAsa.png" alt="">
@@ -218,83 +227,17 @@
 	</section>
 
 	<footer>
-		&copy; 2022 <span>G-Darko</span>
+		&copy;<span id="year">2022</span> <span>G-Darko</span>
 	</footer>
-
-	<div class="modal-container" id="YIZA">
-		<div class="back" onclick="hideModal('YIZA')"></div>
-		<div class="modal-content">
-			
-			<div class="header">
-				
-				<div class="back-head">
-					
-					<h2>E-Commerce | YIZA</h2>
-				</div>
-
-				<button class="close" onclick="hideModal('YIZA')">
-					<ion-icon name="close"></ion-icon>
-				</button>
-			</div>
-
-
-			<div class="content">
-				
-				<div class="preview">
-					<video src="vid/yiza.mp4" poster="img/YIZA.png" preload="auto" controls muted></video>
-				</div>
-
-				<div class="des">
-					<span>Descripción</span>
-					<p>
-					 	YIZA, es una simulación de un E-Commerce que cuenta con su propia base de datos, manual de usuario, panel de control y el apartado de la tienda. <br>
-					 	Este proyecto fue desarrollado con HTML, PHP, JavaScript y CSS puro, las unicas librerias que se agregan son para facilitar y mejorar las alertas y tener iconos. <br>
-
-					 	<label style="color: #f00;"><b>Nota:</b></label> Es una version aun temprana y por estar en Host gratuitos puede tener fallas, por eso se agrega un video mostrando su funcionalidad.
-					</p>
-				
-
-					<div class="link">
-						<span>Enlace:</span><a target="_blank" href="img/Manual.pdf">Manual</a> <br>
-						<span>Enlace:</span><a target="_blank" href="http://g-darko.rf.gd">Ver demo</a>
-					</div>
-
-					<div class="tools">
-						
-						<span>Desarrollado con:</span>
-
-						<div class="tec">
-							<img title="PHP" src="img/skills/php.png" alt="">
-							<img title="MySQL" src="img/skills/mysql.png" alt="">
-							<img title="HTML" src="img/skills/html.png" alt="">
-							<img title="CSS" src="img/skills/css.png" alt="">
-							<img title="JavaScript" src="img/skills/js.png" alt="">
-							<img title="sweetalalert2" src="img/skills/sweet.png" alt="">
-							<img title="ionicons" src="img/skills/ionicons.png" alt="">
-							<img title="XAMPP" src="img/skills/xampp.png" alt="">
-							<img title="Sublime Text" src="img/skills/sublime-text.png" alt="">
-							<img title="Heroku" src="img/skills/heroku.png" alt="">
-
-						</div>
-
-					</div>
-
-				</div>
-
-			</div>
-
-		</div>
-
-	</div>
 
 	<div class="modal-container" id="Portafolio">
 		<div class="back" onclick="hideModal('Portafolio')"></div>
 		<div class="modal-content">
-			
+
 			<div class="header">
-				
+
 				<div class="back-head">
-					
+
 					<h2>Portafolio | G-Darko</h2>
 				</div>
 
@@ -305,7 +248,7 @@
 
 
 			<div class="content">
-				
+
 				<div class="preview">
 					<img src="img/portafolio.png" alt="">
 				</div>
@@ -313,16 +256,14 @@
 				<div class="des">
 					<span>Descripción</span>
 					<p>
-					 	Portafolio web personal desarrollado con HTML, CSS, JavaScript y la libreria de ionicons 
+						Portafolio web personal desarrollado con HTML, CSS, JavaScript y la libreria de ionicons
 					</p>
-				
-
-					<div class="link">
-						<span>Enlace:</span><a target="_blank" href="https://g-darko.github.io/portafolio/">Ver demo</a>
-					</div>
+					<!-- <div class="link">
+						<span>Enlace:</span><a target="_blank" href="https://g-darko.github.io/portafolio/">Ver portafolio</a>
+					</div> -->
 
 					<div class="tools">
-						
+
 						<span>Desarrollado con:</span>
 
 						<div class="tec">
@@ -350,14 +291,150 @@
 
 	</div>
 
+	<div class="modal-container" id="POST">
+		<div class="back" onclick="hideModal('POST')"></div>
+		<div class="modal-content">
+
+			<div class="header">
+
+				<div class="back-head">
+
+					<h2>Postgrados | UPVM</h2>
+				</div>
+
+				<button class="close" onclick="hideModal('POST')">
+					<ion-icon name="close"></ion-icon>
+				</button>
+			</div>
+
+
+			<div class="content">
+
+				<div class="preview">
+					<img src="img/post.png" alt="">
+				</div>
+
+				<div class="des">
+					<span>Descripción</span>
+					<p>
+						Esta página web fue desarrollada en el periodo de <i>Estancias I en la UPVM</i>
+					</p>
+
+					<div class="tools">
+
+						<span>Desarrollado con:</span>
+
+						<div class="tec">
+							<img title="PHP" src="img/skills/php.png" alt="">
+							<img title="MySQL" src="img/skills/mysql.png" alt="">
+							<img title="HTML" src="img/skills/html.png" alt="">
+							<img title="CSS" src="img/skills/css.png" alt="">
+							<img title="JavaScript" src="img/skills/js.png" alt="">
+							<img title="sweetalalert2" src="img/skills/sweet.png" alt="">
+							<img title="ionicons" src="img/skills/ionicons.png" alt="">
+							<img title="XAMPP" src="img/skills/xampp.png" alt="">
+							<img title="Sublime Text" src="img/skills/vsc.png" alt="">
+							<img title="Heroku" src="img/skills/000host.png" alt="">
+						</div>
+
+						<span>
+							<a target="_blank" href="https://github.com/G-Darko/Postgrados_UPVM.git">
+								<ion-icon name="code-slash-outline"></ion-icon>
+								Código en repositorio de GitHub
+							</a>
+						</span>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="modal-container" id="YIZA">
+		<div class="back" onclick="hideModal('YIZA')"></div>
+		<div class="modal-content">
+
+			<div class="header">
+
+				<div class="back-head">
+
+					<h2>E-Commerce | YIZA</h2>
+				</div>
+
+				<button class="close" onclick="hideModal('YIZA')">
+					<ion-icon name="close"></ion-icon>
+				</button>
+			</div>
+
+
+			<div class="content">
+
+				<div class="preview">
+					<video src="vid/yiza.mp4" poster="img/YIZA.png" preload="auto" controls muted></video>
+				</div>
+
+				<div class="des">
+					<span>Descripción</span>
+					<p>
+						YIZA, es una simulación de un E-Commerce que cuenta con su propia base de datos, manual de
+						usuario, panel de control y el apartado de la tienda. <br>
+						Este proyecto fue desarrollado con HTML, PHP, JavaScript y CSS puro, las unicas librerias que se
+						agregan son para facilitar y mejorar las alertas e iconos.
+						<!-- <label style="color: #f00;"><b>Nota:</b></label> Es una version aun temprana y por estar en Host
+						gratuitos puede tener fallas, por eso se agrega un video mostrando su funcionalidad. -->
+					</p>
+
+					<div class="link">
+						<span>Enlace:</span><a target="_blank" href="img/Manual.pdf">Manual</a> <br>						
+					</div>
+
+					<div class="tools">
+
+						<span>Desarrollado con:</span>
+
+						<div class="tec">
+							<img title="PHP" src="img/skills/php.png" alt="">
+							<img title="MySQL" src="img/skills/mysql.png" alt="">
+							<img title="HTML" src="img/skills/html.png" alt="">
+							<img title="CSS" src="img/skills/css.png" alt="">
+							<img title="JavaScript" src="img/skills/js.png" alt="">
+							<img title="sweetalalert2" src="img/skills/sweet.png" alt="">
+							<img title="ionicons" src="img/skills/ionicons.png" alt="">
+							<img title="XAMPP" src="img/skills/xampp.png" alt="">
+							<img title="Sublime Text" src="img/skills/sublime-text.png" alt="">
+							<img title="Heroku" src="img/skills/heroku.png" alt="">
+
+						</div>
+
+						<span>
+							<a target="_blank" href="https://github.com/G-Darko/YIZA.git">
+								<ion-icon name="code-slash-outline"></ion-icon>
+								Código en repositorio de GitHub
+							</a>
+						</span>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
 	<div class="modal-container" id="YIZAsa">
 		<div class="back" onclick="hideModal('YIZAsa')"></div>
 		<div class="modal-content">
-			
+
 			<div class="header">
-				
+
 				<div class="back-head">
-					
+
 					<h2>Proyecto Empresa | YIZA S.A</h2>
 				</div>
 
@@ -368,7 +445,7 @@
 
 
 			<div class="content">
-				
+
 				<div class="preview">
 					<img src="img/YIZAsa.png" alt="">
 				</div>
@@ -376,16 +453,17 @@
 				<div class="des">
 					<span>Descripción</span>
 					<p>
-					 	Proyecto de bachillerato en Administración, esta página compila 4 proyectos desarrollados en el transcurso de Educación Dual
+						Proyecto de bachillerato en Administración, esta página compila 4 proyectos desarrollados en el
+						transcurso de Educación Dual
 					</p>
-				
+
 
 					<div class="link">
 						<span>Enlace:</span><a target="_blank" href="https://yiza.000webhostapp.com">Ver demo</a>
 					</div>
 
 					<div class="tools">
-						
+
 						<span>Desarrollado con:</span>
 
 						<div class="tec">
@@ -423,11 +501,11 @@
 	<div class="modal-container" id="Hospital">
 		<div class="back" onclick="hideModal('Hospital')"></div>
 		<div class="modal-content">
-			
+
 			<div class="header">
-				
+
 				<div class="back-head">
-					
+
 					<h2>Proyecto Hospital | MG</h2>
 				</div>
 
@@ -438,7 +516,7 @@
 
 
 			<div class="content">
-				
+
 				<div class="preview">
 					<video src="vid/hospital.mp4" poster="img/Hospital.png" preload="auto" controls muted></video>
 				</div>
@@ -446,16 +524,16 @@
 				<div class="des">
 					<span>Descripción</span>
 					<p>
-					 	Simulacion de una página para hospital desarrollada con HTML, PHP y sweetalert. <br>
-					 	Esta pagina no se encuentra alojada en un Host por lo que se adjunta un video al principio.
+						Simulacion de una página para hospital desarrollada con HTML, PHP y sweetalert. <br>
+						Esta pagina no se encuentra alojada en un Host por lo que se adjunta un video al principio.
 					</p>
-				
+
 
 					<div class="link">
 					</div>
 
 					<div class="tools">
-						
+
 						<span>Desarrollado con:</span>
 
 						<div class="tec">
@@ -490,11 +568,11 @@
 	<div class="modal-container" id="Tiendita">
 		<div class="back" onclick="hideModal('Tiendita')"></div>
 		<div class="modal-content">
-			
+
 			<div class="header">
-				
+
 				<div class="back-head">
-					
+
 					<h2>Proyecto Tiendita | HyC</h2>
 				</div>
 
@@ -505,7 +583,7 @@
 
 
 			<div class="content">
-				
+
 				<div class="preview">
 					<img src="img/sistema.png" alt="">
 				</div>
@@ -513,16 +591,17 @@
 				<div class="des">
 					<span>Descripción</span>
 					<p>
-					 	HyC, es un proyecto desarrollado con HTML, CSS y PHP para administrar tiendas de abarrotes.
+						HyC, es un proyecto desarrollado con HTML, CSS y PHP para administrar tiendas de abarrotes.
 					</p>
-				
+
 
 					<div class="link">
-						<span>Enlace:</span><a target="_blank" href="https://sistema-tienda.000webhostapp.com">Ver demo</a>
+						<span>Enlace:</span><a target="_blank" href="https://sistema-tienda.000webhostapp.com">Ver
+							demo</a>
 					</div>
 
 					<div class="tools">
-						
+
 						<span>Desarrollado con:</span>
 
 						<div class="tec">
@@ -544,13 +623,12 @@
 
 	</div>
 
-
 	<div class="modal-container" id="contact">
 		<div class="back" onclick="hideModal('contact')"></div>
 		<div class="modal-content">
-			
+
 			<div class="header">
-				
+
 				<div class="back-head">
 					<h2>Contacto | Gael Uribe</h2>
 				</div>
@@ -562,7 +640,7 @@
 
 
 			<div class="content">
-				
+
 				<div class="des">
 					<p>
 						Si desea contactarme puede mandar un correo por medio de este formulario
@@ -572,28 +650,28 @@
 				<form action="https://formspree.io/f/xlevgjee" method="POST">
 
 					<div class="inputBx">
-				    	<input type="email" name="email" required>
+						<input type="email" name="email" required>
 
-					 	<label class="sp">
-					    	Correo electrónico
-					  	</label>
+						<label class="sp">
+							Correo electrónico
+						</label>
 					</div>
 
 					<div class="inputBx">
-				    	<textarea name="message" required></textarea>
-					  	<label class="sp">
-					    	Mensaje
-					  	</label>
-						
+						<textarea name="message" required></textarea>
+						<label class="sp">
+							Mensaje
+						</label>
+
 					</div>
 
-				  	<!-- your other form fields go here -->
-				  	<button type="submit">
-				  		<ion-icon name="send"></ion-icon>
-				  		Enviar
-				  	</button>
+					<!-- your other form fields go here -->
+					<button type="submit">
+						<ion-icon name="send"></ion-icon>
+						Enviar
+					</button>
 				</form>
-				
+
 
 			</div>
 
@@ -601,11 +679,10 @@
 
 	</div>
 
-
-
 	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 	<script src="js/main.js"></script>
 </body>
+
 </html>
