@@ -117,3 +117,17 @@ function initializeSlider(modalId) {
     // Mostrar la primera diapositiva al inicializar
     showSlide(0);
 }
+
+
+const textElement = document.getElementById("typewriter");
+const texts = ["Desarrollador web: ", "Frontend &", "Backend."];
+let index = 0;
+
+setInterval(() => {
+	textElement.classList.add("fade-out");
+	setTimeout(() => {
+		index = (index + 1) % texts.length;
+		textElement.textContent = texts[index];
+		textElement.classList.remove("fade-out");
+	}, 500); // esperar que termine la transición
+}, 2500);
