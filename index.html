@@ -10,15 +10,15 @@
 </head>
 
 <body>
-
     <header>
-        <div class="nB">
+        <main class="nB">
             <h1 onclick="window.location.href='./'"><span>G-Darko</span></h1>
             <nav id="nav">
                 <ul>
                     <li><a href="#" onclick="selected(this)">Inicio</a></li>
+                    <li><a href="#aboutme" onclick="selected(this)">Sobre mi</a></li>
                     <li><a href="#skills" onclick="selected(this)">Habilidades</a></li>
-                    <li><a href="#portfolio" onclick="selected(this)">Proyectos</a></li>
+                    <li><a href="#portfolio" onclick="selected(this)">Portafolio</a></li>
                 </ul>
             </nav>
 
@@ -26,14 +26,14 @@
                 <ion-icon name="menu-outline"></ion-icon>
             </div>
 
-        </div>
+        </main>
     </header>
 
     <section id="whoami">
-        <div id="iam">
+        <main id="iam">
 			<div class="txt-name">Gael Uribe</div>
             <div class="txt-type">
-                <span id="typewriter">Desarrollador web: </span>
+                <span id="typewriter">Desarrollador web & </span>
             </div>
             <div class="contact-icons">
                 <a title="GitHub" target="_blank" href="https://github.com/G-Darko">
@@ -43,7 +43,7 @@
                     <ion-icon name="mail-outline"></ion-icon> <b>Contacto</b>
                 </a>
             </div>
-        </div>
+        </main>
         <div class="hero">
             <img class="imgbg" src="img/fondo.gif" alt="">
 
@@ -57,6 +57,68 @@
 				
 			</div>
         </div>
+
+    </section>
+
+    <section id="aboutme">
+        <main class="aboutme">
+            <h2><span>Sobre mí</span></h2>
+            <p>
+                Ingeniero en Tecnologías de la Información. Apasionado por el desarrollo web y de software. Me encanta aprender nuevas tecnologías y mejorar mis habilidades en programación. Actualmente, estoy trabajando en proyectos que me permiten aplicar mis conocimientos y seguir creciendo como desarrollador.
+                Me considero una persona analítica y siempre dispuesta a enfrentar nuevos desafíos y destaco por mi capacidad de adaptación, aprendizaje rápido y enfoque en la eficiencia. 
+            </p>
+        </main>
+    </section>
+
+    <section class="portfolio" id="portfolio">
+        <main class="port-section">
+            <h2>
+                <span>Proyectos</span>
+            </h2>
+            <div class="proyectos">
+
+                <div class="proyecto">
+                    <div class="imgBx">
+                        <img src="img/portafolio.png" alt="">
+                    </div>
+                    <div class="info">
+                        <h4>Portafolio | G-Darko</h4>
+                        <span>Descripción</span>
+                        <div class="description">
+                            <p>
+                                Portafolio web personal desarrollado con HTML, CSS, JavaScript y la librería de ionicons. Este proyecto muestra mis habilidades en desarrollo frontend y mi enfoque en un diseño responsivo y una experiencia de usuario fluida.
+                            </p>
+                        </div>
+                        <button class="btn" onclick="showModal('Portafolio')">Ver más</button>
+                    </div>
+                </div>
+                <div class="proyecto" onclick="showModal('Portafolio')">
+                    <div class="imgBx">
+                        <img src="img/post.png" alt="">
+                    </div>
+                    <div class="info">
+                        <h4>Portafolio | G-Darko</h4>
+                    </div>
+                </div>
+
+
+
+                <!-- <div class="proyecto" onclick="showModal('POST')">
+                    <img src="img/post.png" alt="">
+                    <div class="info">
+                        <h4>Postgrados | UPVM</h4>
+                    </div>
+                </div>
+                <div class="proyecto" onclick="showModal('YIZA')">
+                    <img src="img/YIZA.png" alt="">
+                    <div class="info">
+                        <h4>E-Commerce | YIZA</h4>
+                    </div>
+                </div> -->
+
+            </div>
+
+        </main>
 
     </section>
 
@@ -134,38 +196,7 @@
             </div>
         </div>
     </section>
-
-    <section class="portfolio" id="portfolio">
-        <div class="port-section">
-            <h2>
-                <span>Proyectos |</span> Portafolio
-            </h2>
-            <div class="port-grid">
-                <div class="proyecto" onclick="showModal('Portafolio')">
-                    <img src="img/portafolio.png" alt="">
-                    <div class="info">
-                        <h4>Portafolio | G-Darko</h4>
-                    </div>
-                </div>
-                <div class="proyecto" onclick="showModal('POST')">
-                    <img src="img/post.png" alt="">
-                    <div class="info">
-                        <h4>Postgrados | UPVM</h4>
-                    </div>
-                </div>
-                <div class="proyecto" onclick="showModal('YIZA')">
-                    <img src="img/YIZA.png" alt="">
-                    <div class="info">
-                        <h4>E-Commerce | YIZA</h4>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
+    
     <footer>
         <b id="year">2025</b> | <span>G-Darko</span>
     </footer>
@@ -203,10 +234,6 @@
                 </div>
 
                 <div class="des">
-                    <span>Descripción</span>
-                    <p>
-                        Portafolio web personal desarrollado con HTML, CSS, JavaScript y la librería de ionicons. Este proyecto showcases mis habilidades en desarrollo frontend y mi enfoque en un diseño responsivo y una experiencia de usuario fluida.
-                    </p>
                     <div class="tools">
                         <span>Desarrollado con:</span>
                         <div class="tec">

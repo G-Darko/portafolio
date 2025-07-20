@@ -27,10 +27,10 @@ function responsive() {
 }
 
 function selected(link) {
-    let opcion = document.querySelectorAll('#nav a');    
-    opcion[0].className = "";
-    opcion[1].className = "";
-    opcion[2].className = "";
+    let opcion = document.querySelectorAll('#nav a');   
+    for (let i = 0; i < opcion.length; i++) {
+        opcion[i].className = "";
+    } 
 
     link.className = "selected";
 
@@ -120,7 +120,7 @@ function initializeSlider(modalId) {
 
 
 const textElement = document.getElementById("typewriter");
-const texts = ["Desarrollador web: ", "Frontend &", "Backend."];
+const texts = ["Desarrollador web & ", "de Software: ", "Frontend &", "Backend."];
 let index = 0;
 
 setInterval(() => {

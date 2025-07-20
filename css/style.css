@@ -5,6 +5,24 @@ ion-icon {
    pointer-events: none;
 }
 
+.btn {
+   background: var(--accent);
+   border: none;
+   font-size: 1em;
+   margin: 10px 0;
+   padding: 10px;
+   border-radius: 10px;
+   cursor: pointer;
+   letter-spacing: .3em;
+   transition: .5s;
+   text-transform: uppercase;
+}
+
+.btn:hover {
+   background: linear-gradient(var(--lg));
+}
+
+
 * {
    margin: 0;
    padding: 0;
@@ -34,7 +52,7 @@ body.light {
    --text: #121212;
    --accent: #0077ff;
    --card: #d7dce7;
-   --complement: #454546;
+   --complement: #ddd;
 }
 
 body {
@@ -298,6 +316,24 @@ span {
 
 }
 
+/* About me */
+
+.aboutme {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   padding: 60px;
+   padding-bottom: 0;
+   background: var(--bg);
+}
+
+.aboutme h2 {
+   text-align: center;
+   padding-bottom: 20px;
+   /* padding-top: 60px; */
+   width: 100%;
+}
 
 /* Portfolio */
 
@@ -308,53 +344,57 @@ span {
    width: 100%;
 }
 
-.port-grid {
-   display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(290px, auto));
-   gap: 25px;
+.proyectos {
    width: 90%;
    margin: 0 auto;
 }
 
-.port-grid .proyecto {
+.proyectos .proyecto {
    position: relative;
-   margin: 0 auto;
+   display: flex;
+   flex-wrap: wrap;
+   margin: 10px auto;
+   padding: 10px;
+   border-radius: 10px;
+   -webkit-border-radius: 10px;
+   -moz-border-radius: 10px;
+   -ms-border-radius: 10px;
+   -o-border-radius: 10px;
+   background: var(--card);
 }
 
-.port-grid img {
+.proyectos .proyecto .imgBx {
+   width: 50%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   position: relative;
+   background: var(--card);
+}
+
+.proyectos .imgBx img {
    width: 100%;
-   height: 100%;
-   filter: grayscale(1);
-   border-radius: 10px;
-   transition: .5s;
-   cursor: pointer;
+   padding: 5px;
+   border-radius: 15px;
    object-fit: contain;
    aspect-ratio: 16/9;
    z-index: 1000;
+   -webkit-border-radius: 15px;
+   -moz-border-radius: 15px;
+   -ms-border-radius: 15px;
+   -o-border-radius: 15px;
 }
 
-.port-grid img:hover {
-   transform: scale(1.1);
-   filter: grayscale(0);
+.proyectos .proyecto .info {
+   background: var(--complement);
+   width: 50%;
+   padding: 20px;
+   min-height: 300px;
+   max-height: 300px;
 }
-
-.port-grid .proyecto .info {
-   position: absolute;
-   left: -5%;
-   background: var(--gris);
-   color: var(--c1);
-   width: calc(100% + 10.1%);
-   padding: 10px;
-   opacity: 0;
-   bottom: -40px;
-   transition: .5s;
-   cursor: pointer;
-   border-radius: 10px;
-}
-
-.port-grid .proyecto:hover .info {
-   opacity: .8;
-   bottom: -5%;
+.proyecto .info .description{
+   max-height: 155px;
+   overflow-y: auto;
 }
 
 /* Skills */
@@ -369,6 +409,7 @@ span {
 }
 
 .skill h2 {
+   text-align: center;
    padding: 40px;
    padding-bottom: 80px;
    margin-top: 30px;
@@ -488,17 +529,18 @@ span {
 
 .modal-content h2 {
    padding: 10px;
-   background: var(--gris);
+   color: var(--accent);
+   /* background: var(--gris); */
    padding-right: 45px;
    /*color: var(--c1);*/
-   background: linear-gradient(var(--lg));
+   /* background: linear-gradient(var(--lg));
    background-clip: text;
-   -webkit-text-fill-color: transparent;
+   -webkit-text-fill-color: transparent; */
 
 }
 
 .modal-content .back-head {
-   background: var(--gris);
+   background: var(--complement);
 }
 
 .header {
@@ -804,6 +846,7 @@ span {
 }
 
 footer {
+   border-top: 1px solid var(--accent);
    background: var(--card);
    text-align: center;
    align-items: center;
@@ -897,6 +940,11 @@ body.light .theme-toggle {
 
    nav.responsive ul li {
       margin: 5px 0;
+      width: 100%;
+   }
+
+   .proyectos .proyecto .imgBx,
+   .proyectos .proyecto .info {
       width: 100%;
    }
 }
