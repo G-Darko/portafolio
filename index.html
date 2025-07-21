@@ -17,8 +17,8 @@
                 <ul>
                     <li><a href="#" onclick="selected(this)">Inicio</a></li>
                     <li><a href="#aboutme" onclick="selected(this)">Sobre mi</a></li>
-                    <li><a href="#skills" onclick="selected(this)">Habilidades</a></li>
                     <li><a href="#portfolio" onclick="selected(this)">Portafolio</a></li>
+                    <li><a href="#skills" onclick="selected(this)">Habilidades</a></li>
                 </ul>
             </nav>
 
@@ -29,211 +29,231 @@
         </main>
     </header>
 
-    <section id="whoami">
-        <main id="iam">
-			<div class="txt-name">Gael Uribe</div>
-            <div class="txt-type">
-                <span id="typewriter">Desarrollador web & </span>
-            </div>
-            <div class="contact-icons">
-                <a title="GitHub" target="_blank" href="https://github.com/G-Darko">
-                    <ion-icon name="logo-github"></ion-icon> <b>Github</b>
-                </a>
-                <a href="javascript:showModal('contact')" title="Contacto">
-                    <ion-icon name="mail-outline"></ion-icon> <b>Contacto</b>
-                </a>
-            </div>
-        </main>
-        <div class="hero">
-            <img class="imgbg" src="img/fondo.gif" alt="">
-
-			<div class="perfil">
-				<!-- <div class="cuadro"></div> -->
-				<div class="circulo-t"></div>
-				<div class="circulo"></div>
-				<div class="img-perfil">
-					<img src="img/DARKO.png" alt="">
-				</div>
-				
-			</div>
-        </div>
-
-    </section>
-
-    <section id="aboutme">
-        <main class="aboutme">
-            <h2><span>Sobre mí</span></h2>
-            <p>
-                Ingeniero en Tecnologías de la Información. Apasionado por el desarrollo web y de software. Me encanta aprender nuevas tecnologías y mejorar mis habilidades en programación. Actualmente, estoy trabajando en proyectos que me permiten aplicar mis conocimientos y seguir creciendo como desarrollador.
-                Me considero una persona analítica y siempre dispuesta a enfrentar nuevos desafíos y destaco por mi capacidad de adaptación, aprendizaje rápido y enfoque en la eficiencia. 
-            </p>
-        </main>
-    </section>
-
-    <section class="portfolio" id="portfolio">
-        <main class="port-section">
-            <h2>
-                <span>Proyectos</span>
-            </h2>
-            <div class="proyectos">
-
-                <div class="proyecto">
-                    <div class="imgBx">
-                        <img src="img/portafolio.png" alt="">
-                    </div>
-                    <div class="info">
-                        <h4>Portafolio | G-Darko</h4>
-                        <span>Descripción</span>
-                        <div class="description">
-                            <p>
-                                Portafolio web personal desarrollado con HTML, CSS, JavaScript y la librería de ionicons. Este proyecto muestra mis habilidades en desarrollo frontend y mi enfoque en un diseño responsivo y una experiencia de usuario fluida.
-                            </p>
-                        </div>
-                        <button class="btn" onclick="showModal('Portafolio')">Ver más</button>
-                    </div>
+    <main>
+        <section id="whoami">
+            <article id="iam">
+                <div class="txt-name">Gael Uribe</div>
+                <div class="txt-type">
+                    <span id="typewriter">Desarrollador web & </span>
                 </div>
-                <div class="proyecto" onclick="showModal('Portafolio')">
-                    <div class="imgBx">
+                <section class="contact-icons">
+                    <a title="GitHub" target="_blank" href="https://github.com/G-Darko">
+                        <ion-icon name="logo-github"></ion-icon> <b>Github</b>
+                    </a>
+                    <a href="javascript:showModal('contact')" title="Contacto">
+                        <ion-icon name="mail-outline"></ion-icon> <b>Contacto</b>
+                    </a>
+                </section>
+            </article>
+            <div class="hero">
+                <img class="imgbg" src="img/fondo.gif" alt="">
+
+                <div class="perfil">
+                    <!-- <div class="cuadro"></div> -->
+                    <div class="circulo-t"></div>
+                    <div class="circulo"></div>
+                    <div class="img-perfil">
+                        <img src="img/DARKO.png" alt="">
+                    </div>
+                    
+                </div>
+            </div>
+
+        </section>
+
+        <section id="aboutme">
+            <article class="aboutme">
+                <h2><span>Sobre mí</span></h2>
+                <p>
+                    Ingeniero en Tecnologías de la Información. Apasionado por el desarrollo web y de software. Me encanta aprender nuevas tecnologías y mejorar mis habilidades en programación. Actualmente, estoy trabajando en proyectos que me permiten aplicar mis conocimientos y seguir creciendo como desarrollador.
+                    Me considero una persona analítica y siempre dispuesta a enfrentar nuevos desafíos y destaco por mi capacidad de adaptación, aprendizaje rápido y enfoque en la eficiencia. 
+                </p>
+            </article>
+        </section>
+
+        <section class="portfolio" id="portfolio">
+            <main>
+                <h2>
+                    <span>Proyectos</span>
+                </h2>
+                <section class="proyectos">
+                    <article class="proyecto">
+                        <figure class="imgBx">
+                            <img src="img/portafolio.png" alt="Portafolio de G-Darko">
+                        </figure>
+                        <main class="info">
+                            <h4><span>Portafolio | G-Darko</span></h4>
+                            <div>
+                                <b>Descripción</b>
+                                <div class="description">
+                                    <p>
+                                        Portafolio web personal desarrollado con HTML, CSS, JavaScript y la librería de Ionicons. Este proyecto muestra mis habilidades en desarrollo frontend.
+                                    </p>
+                                </div>
+                            </div>
+                            <button class="btn" onclick="showModal('Portafolio')">Ver más</button>
+                        </main>
+                    </article>
+
+                    <!-- <div class="proyecto" onclick="showModal('POST')">
                         <img src="img/post.png" alt="">
+                        <div class="info">
+                            <h4>Postgrados | UPVM</h4>
+                        </div>
                     </div>
-                    <div class="info">
-                        <h4>Portafolio | G-Darko</h4>
-                    </div>
-                </div>
+                    <div class="proyecto" onclick="showModal('YIZA')">
+                        <img src="img/YIZA.png" alt="">
+                        <div class="info">
+                            <h4>E-Commerce | YIZA</h4>
+                        </div>
+                    </div> -->
 
+                </section>
 
+            </main>
 
-                <!-- <div class="proyecto" onclick="showModal('POST')">
-                    <img src="img/post.png" alt="">
-                    <div class="info">
-                        <h4>Postgrados | UPVM</h4>
-                    </div>
-                </div>
-                <div class="proyecto" onclick="showModal('YIZA')">
-                    <img src="img/YIZA.png" alt="">
-                    <div class="info">
-                        <h4>E-Commerce | YIZA</h4>
-                    </div>
-                </div> -->
+        </section>
 
-            </div>
+        <section id="skills">
+            <h2><span>Habilidades</span></h2>
+            <main class="skills">
+                <section class="conjunto">
+                    <h2><span>Frontend</span></h2>
+                    <div class="grid">
+                        <div class="skill">
+                            <svg class="svg" viewBox="0 0 24 24">
+                                <use xlink:href="#html"></use>
+                            </svg>
+                            <h3>HTML</h3>
+                        </div> 
+                        <div class="skill">
+                            <svg class="svg" viewBox="0 0 24 24">
+                                <use xlink:href="#css"></use>
+                            </svg>
+                            <h3>CSS</h3>
+                        </div> 
+                        <div class="skill">
+                            <svg class="svg" viewBox="0 0 24 24">
+                                <use xlink:href="#js"></use>
+                            </svg>
+                            <h3>JavaScript</h3>
+                        </div>
+                        <div class="skill">
+                            <svg class="svg" viewBox="0 0 24 24">
+                                <use xlink:href="#vue"></use>
+                            </svg>
+                            <h3>Vue.js</h3>
+                        </div>
+                        <div class="skill">
+                            <svg class="svg" viewBox="0 0 24 24">
+                                <use xlink:href="#jquery"></use>
+                            </svg>
+                            <h3>JQuery</h3>
+                        </div>
+                        <div class="skill">
+                            <svg class="svg" viewBox="0 0 24 24">
+                                <use xlink:href="#tail"></use>
+                            </svg>
+                            <h3>Tailwind CSS</h3>
+                        </div>
+                        <div class="skill">
+                            <svg class="svg" viewBox="0 0 24 24">
+                                <use xlink:href="#flow"></use>
+                            </svg>
+                            <h3>Flowbite</h3>
+                        </div>
+                        <div class="skill">
+                            <img src="img/skills/sweet.png" alt="">
+                            <h3>Sweetalalert2</h3>
+                        </div>
+                    </div>
+                </section>
+                <section class="conjunto">
+                    <h2><span>Backend</span></h2>
+                    <div class="grid">
+                        <div class="skill">
+                            <svg class="svg" viewBox="0 0 24 24">
+                                <use xlink:href="#php"></use>
+                            </svg>
+                            <h3>PHP</h3>
+                        </div>
+                        <div class="skill">
+                            <svg class="svg" viewBox="0 0 24 24">
+                                <use xlink:href="#java"></use>
+                            </svg>
+                            <h3>Java</h3>
+                        </div>
+                        <div class="skill">
+                            <svg class="svg" viewBox="0 0 24 24">
+                                <use xlink:href="#laravel"></use>
+                            </svg>
+                            <h3>Laravel</h3>
+                        </div>                        
+                    </div>
+                </section>
+                <section class="conjunto">
+                    <h2><span>Bases de datos</span></h2>
+                    <div class="grid">
+                        <div class="skill">
+                            <svg class="svg" viewBox="0 0 24 24">
+                                <use xlink:href="#php"></use>
+                            </svg>
+                            <h3>MySQL</h3>
+                        </div>
+                        <div class="skill">
+                            <svg class="svg" viewBox="0 0 24 24">
+                                <use xlink:href="#java"></use>
+                            </svg>
+                            <h3>PostgreSQL</h3>
+                        </div>
+                        <div class="skill">
+                            <svg class="svg" viewBox="0 0 24 24">
+                                <use xlink:href="#laravel"></use>
+                            </svg>
+                            <h3>MongoDB</h3>
+                        </div>                        
+                    </div>
+                </section>
+            </main>
+        </section>
+        
+        <footer>
+            <b id="year">2025</b> | <span>G-Darko</span>
+        </footer>
 
-        </main>
+    </main>
 
-    </section>
-
-    <section class="skills" id="skills">
-        <div class="skill">
-            <div class="conocimientos-part">
-                <h2><span>Tecnologías | </span>Conocimientos</h2>
-                <div class="conocimientos">
-                    <div>
-                        <img src="img/skills/php.png" alt="">
-                        <h3>PHP</h3>
-                    </div>
-                    <div>
-                        <img src="img/skills/mysql.png" alt="">
-                        <h3>MySQL</h3>
-                    </div>
-                    <div>
-                        <img src="img/skills/html.png" alt="">
-                        <h3>HTML</h3>
-                    </div>
-                    <div>
-                        <img src="img/skills/css.png" alt="">
-                        <h3>CSS</h3>
-                    </div>
-                    <div>
-                        <img src="img/skills/js.png" alt="">
-                        <h3>JavaScript</h3>
-                    </div>
-                    <div>
-                        <img src="img/skills/java.png" alt="">
-                        <h3>Java</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="herramientas-part">
-                <h2><span>Herramientas | </span>Bibliotecas</h2>
-                <div class="herramientas">
-                    <div>
-                        <img src="img/skills/vsc.png" alt="">
-                        <h3>VS Code</h3>
-                    </div>
-                    <div>
-                        <img src="img/skills/sublime-text.png" alt="">
-                        <h3>Sublime</h3>
-                    </div>
-                    <div>
-                        <img src="img/skills/xampp.png" alt="">
-                        <h3>XAMPP</h3>
-                    </div>
-                    <div>
-                        <img src="img/skills/sweet.png" alt="">
-                        <h3>sweetalert2</h3>
-                    </div>
-                    <div>
-                        <img src="img/skills/github.png" alt="">
-                        <h3>GitHub</h3>
-                    </div>
-                    <div>
-                        <img src="img/skills/ionicons.png" alt="">
-                        <h3>ionicons</h3>
-                    </div>
-                    <div>
-                        <img src="img/skills/000host.png" alt="">
-                        <h3>000webhost</h3>
-                    </div>
-                    <div>
-                        <img src="img/skills/heroku.png" alt="">
-                        <h3>Heroku</h3>
-                    </div>
-                    <div>
-                        <img src="img/skills/node.png" alt="">
-                        <h3>Node js</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <footer>
-        <b id="year">2025</b> | <span>G-Darko</span>
-    </footer>
-
-    <div class="modal-container" id="Portafolio">
+    <article class="modal-container" id="Portafolio">
         <div class="back" onclick="hideModal('Portafolio')"></div>
-        <div class="modal-content">
-
-            <div class="header">
+        <main class="modal-content">
+            <header class="header">
                 <div class="back-head">
                     <h2>Portafolio | G-Darko</h2>
                 </div>
                 <button class="close" onclick="hideModal('Portafolio')">
                     <ion-icon name="close"></ion-icon>
                 </button>
-            </div>
+            </header>
 
-            <div class="content">
-                <div class="slider-container">
+            <main class="content">
+                <section class="slider-container">
                     <div class="slider-track">
-                        <div class="slider-item video-item">
+                        <figure class="slider-item video-item">
                             <iframe src="http://googleusercontent.com/youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                        </div>
-                        <div class="slider-item">
+                        </figure>
+                        <figure class="slider-item">
                             <img src="img/portafolio.png" alt="Captura de pantalla 1 del portafolio">
-                        </div>
-                        <div class="slider-item">
+                        </figure>
+                        <figure class="slider-item">
                             <img src="img/fondo.gif" alt="Captura de pantalla 2 del portafolio">
-                        </div>
+                        </f>
                     </div>
                     <button class="slider-nav prev"><ion-icon name="chevron-back-outline"></ion-icon></button>
                     <button class="slider-nav next"><ion-icon name="chevron-forward-outline"></ion-icon></button>
-                    <div class="slider-dots">
-                        </div>
-                </div>
+                    <div class="slider-dots"></div>
+                </section>
 
-                <div class="des">
+                <article class="des">
                     <div class="tools">
                         <span>Desarrollado con:</span>
                         <div class="tec">
@@ -251,10 +271,10 @@
                             </span>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                </article>
+            </section>
+        </main>
+    </article>
 
     <div class="modal-container" id="POST">
         <div class="back" onclick="hideModal('POST')"></div>
@@ -390,35 +410,29 @@
 
     </div>
 
-    <div class="modal-container" id="contact">
+    <article class="modal-container" id="contact">
         <div class="back" onclick="hideModal('contact')"></div>
-        <div class="modal-content">
+        <main class="modal-content">
 
-            <div class="header">
-
+            <header class="header">
                 <div class="back-head">
                     <h2>Contacto | Gael Uribe</h2>
                 </div>
-
                 <button class="close" onclick="hideModal('contact')">
                     <ion-icon name="close"></ion-icon>
                 </button>
-            </div>
+            </header>
 
-
-            <div class="content">
-
+            <main class="content">
                 <div class="des">
                     <p>
-                        Si desea contactarme puede mandar un correo por medio de este formulario
+                        Si desea contactarme, puede mandar un correo por medio de este formulario
                     </p>
                 </div>
-
                 <form action="https://formspree.io/f/xlevgjee" method="POST">
 
                     <div class="inputBx">
                         <input type="email" name="email" required>
-
                         <label class="sp">
                             Correo electrónico
                         </label>
@@ -429,7 +443,6 @@
                         <label class="sp">
                             Mensaje
                         </label>
-
                     </div>
 
                     <button type="submit">
@@ -437,18 +450,59 @@
                         Enviar
                     </button>
                 </form>
-
-            </div>
-
-        </div>
-
-    </div>
+            </main>
+        </main>
+    </article>
 
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 	<script src="js/main.js"></script>
 	<script src="CV/main.js"></script>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <defs>
+            <symbol id="php" viewBox="0 0 24 24">
+                <path d="M7.01 10.207h-.944l-.515 2.648h.838c.556 0 .97-.105 1.242-.314.272-.21.455-.559.55-1.049.092-.47.05-.802-.124-.995-.175-.193-.523-.29-1.047-.29zM12 5.688C5.373 5.688 0 8.514 0 12s5.373 6.313 12 6.313S24 15.486 24 12c0-3.486-5.373-6.312-12-6.312zm-3.26 7.451c-.261.25-.575.438-.917.551-.336.108-.765.164-1.285.164H5.357l-.327 1.681H3.652l1.23-6.326h2.65c.797 0 1.378.209 1.744.628.366.418.476 1.002.33 1.752a2.836 2.836 0 0 1-.305.847c-.143.255-.33.49-.561.703zm4.024.715l.543-2.799c.063-.318.039-.536-.068-.651-.107-.116-.336-.174-.687-.174H11.46l-.704 3.625H9.388l1.23-6.327h1.367l-.327 1.682h1.218c.767 0 1.295.134 1.586.401s.378.7.263 1.299l-.572 2.944h-1.389zm7.597-2.265a2.782 2.782 0 0 1-.305.847c-.143.255-.33.49-.561.703a2.44 2.44 0 0 1-.917.551c-.336.108-.765.164-1.286.164h-1.18l-.327 1.682h-1.378l1.23-6.326h2.649c.797 0 1.378.209 1.744.628.366.417.477 1.001.331 1.751zM17.766 10.207h-.943l-.516 2.648h.838c.557 0 .971-.105 1.242-.314.272-.21.455-.559.551-1.049.092-.47.049-.802-.125-.995s-.524-.29-1.047-.29z"/>
+            </symbol>
+            <symbol id="java" viewBox="0 0 24 24">
+                <path d="M11.622 24.74s-1.23.748.855.962c2.51.32 3.847.267 6.625-.267a10.02 10.02 0 0 0 1.763.855c-6.25 2.672-14.16-.16-9.244-1.55zm-.8-3.473s-1.336 1.015.748 1.23c2.725.267 4.862.32 8.55-.427a3.26 3.26 0 0 0 1.282.801c-7.534 2.244-15.976.214-10.58-1.603zm14.747 6.09s.908.748-1.015 1.336c-3.58 1.07-15.014 1.39-18.22 0-1.122-.48 1.015-1.175 1.7-1.282.695-.16 1.07-.16 1.07-.16-1.23-.855-8.175 1.763-3.526 2.51 12.77 2.084 23.296-.908 19.983-2.404zM12.2 17.633s-5.824 1.39-2.084 1.87c1.603.214 4.755.16 7.694-.053 2.404-.214 4.81-.64 4.81-.64s-.855.374-1.443.748c-5.93 1.55-17.312.855-14.052-.748 2.778-1.336 5.076-1.175 5.076-1.175zm10.42 5.824c5.984-3.1 3.206-6.09 1.282-5.717-.48.107-.695.214-.695.214s.16-.32.534-.427c3.794-1.336 6.786 4.007-1.23 6.09 0 0 .053-.053.107-.16zm-9.83 8.442c5.77.374 14.587-.214 14.8-2.94 0 0-.427 1.07-4.755 1.87-4.916.908-11.007.8-14.587.214 0 0 .748.64 4.542.855z"/><path d="M18.996.001s3.313 3.366-3.152 8.442c-5.183 4.114-1.175 6.465 0 9.137-3.046-2.725-5.236-5.13-3.74-7.373C14.294 6.893 20.332 5.3 18.996.001zm-1.7 15.335c1.55 1.763-.427 3.366-.427 3.366s3.954-2.03 2.137-4.542c-1.656-2.404-2.94-3.58 4.007-7.587 0 0-10.953 2.725-5.717 8.763z""/>
+            </symbol>
+            <symbol id="laravel" viewBox="0 0 24 24">
+                <path d="M23.642 5.43a.364.364 0 01.014.1v5.149c0 .135-.073.26-.189.326l-4.323 2.49v4.934a.378.378 0 01-.188.326L9.93 23.949a.316.316 0 01-.066.027c-.008.002-.016.008-.024.01a.348.348 0 01-.192 0c-.011-.002-.02-.008-.03-.012-.02-.008-.042-.014-.062-.025L.533 18.755a.376.376 0 01-.189-.326V2.974c0-.033.005-.066.014-.098.003-.012.01-.02.014-.032a.369.369 0 01.023-.058c.004-.013.015-.022.023-.033l.033-.045c.012-.01.025-.018.037-.027.014-.012.027-.024.041-.034H.53L5.043.05a.375.375 0 01.375 0L9.93 2.647h.002c.015.01.027.021.04.033l.038.027c.013.014.02.03.033.045.008.011.02.021.025.033.01.02.017.038.024.058.003.011.01.021.013.032.01.031.014.064.014.098v9.652l3.76-2.164V5.527c0-.033.004-.066.013-.098.003-.01.01-.02.013-.032a.487.487 0 01.024-.059c.007-.012.018-.02.025-.033.012-.015.021-.03.033-.043.012-.012.025-.02.037-.028.014-.01.026-.023.041-.032h.001l4.513-2.598a.375.375 0 01.375 0l4.513 2.598c.016.01.027.021.042.031.012.01.025.018.036.028.013.014.022.03.034.044.008.012.019.021.024.033.011.02.018.04.024.06.006.01.012.021.015.032zm-.74 5.032V6.179l-1.578.908-2.182 1.256v4.283zm-4.51 7.75v-4.287l-2.147 1.225-6.126 3.498v4.325zM1.093 3.624v14.588l8.273 4.761v-4.325l-4.322-2.445-.002-.003H5.04c-.014-.01-.025-.021-.04-.031-.011-.01-.024-.018-.035-.027l-.001-.002c-.013-.012-.021-.025-.031-.04-.01-.011-.021-.022-.028-.036h-.002c-.008-.014-.013-.031-.02-.047-.006-.016-.014-.027-.018-.043a.49.49 0 01-.008-.057c-.002-.014-.006-.027-.006-.041V5.789l-2.18-1.257zM5.23.81L1.47 2.974l3.76 2.164 3.758-2.164zm1.956 13.505l2.182-1.256V3.624l-1.58.91-2.182 1.255v9.435zm11.581-10.95l-3.76 2.163 3.76 2.163 3.759-2.164zm-.376 4.978L16.21 7.087 14.63 6.18v4.283l2.182 1.256 1.58.908zm-8.65 9.654l5.514-3.148 2.756-1.572-3.757-2.163-4.323 2.489-3.941 2.27z"/>
+            </symbol>
+            <symbol id="html" viewBox="0 0 24 24">
+                <path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/>
+            </symbol>
+            <symbol id="css" viewBox="0 0 24 24">
+                <path d="M0 0v20.16A3.84 3.84 0 0 0 3.84 24h16.32A3.84 3.84 0 0 0 24 20.16V3.84A3.84 3.84 0 0 0 20.16 0Zm14.256 13.08c1.56 0 2.28 1.08 2.304 2.64h-1.608c.024-.288-.048-.6-.144-.84-.096-.192-.288-.264-.552-.264-.456 0-.696.264-.696.84-.024.576.288.888.768 1.08.72.288 1.608.744 1.92 1.296q.432.648.432 1.656c0 1.608-.912 2.592-2.496 2.592-1.656 0-2.4-1.032-2.424-2.688h1.68c0 .792.264 1.176.792 1.176.264 0 .456-.072.552-.24.192-.312.24-1.176-.048-1.512-.312-.408-.912-.6-1.32-.816q-.828-.396-1.224-.936c-.24-.36-.36-.888-.36-1.536 0-1.44.936-2.472 2.424-2.448m5.4 0c1.584 0 2.304 1.08 2.328 2.64h-1.608c0-.288-.048-.6-.168-.84-.096-.192-.264-.264-.528-.264-.48 0-.72.264-.72.84s.288.888.792 1.08c.696.288 1.608.744 1.92 1.296.264.432.408.984.408 1.656.024 1.608-.888 2.592-2.472 2.592-1.68 0-2.424-1.056-2.448-2.688h1.68c0 .744.264 1.176.792 1.176.264 0 .456-.072.552-.24.216-.312.264-1.176-.048-1.512-.288-.408-.888-.6-1.32-.816-.552-.264-.96-.576-1.2-.936s-.36-.888-.36-1.536c-.024-1.44.912-2.472 2.4-2.448m-11.031.018c.711-.006 1.419.198 1.839.63.432.432.672 1.128.648 1.992H9.336c.024-.456-.096-.792-.432-.96-.312-.144-.768-.048-.888.24-.12.264-.192.576-.168.864v3.504c0 .744.264 1.128.768 1.128a.65.65 0 0 0 .552-.264c.168-.24.192-.552.168-.84h1.776c.096 1.632-.984 2.712-2.568 2.688-1.536 0-2.496-.864-2.472-2.472v-4.032c0-.816.24-1.44.696-1.848.432-.408 1.146-.624 1.857-.63"/>
+            </symbol>
+            <symbol id="js" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/>
+            </symbol>
+            <symbol id="vue" viewBox="0 0 24 24">
+                <path d="M24,1.61H14.06L12,5.16,9.94,1.61H0L12,22.39ZM12,14.08,5.16,2.23H9.59L12,6.41l2.41-4.18h4.43Z"/>
+            </symbol>
+            <symbol id="jquery" viewBox="0 0 24 24">
+                <path d="M1.525 5.87c-2.126 3.054-1.862 7.026-.237 10.269.037.079.078.154.118.229.023.052.049.1.077.15.013.027.031.056.047.082.026.052.054.102.081.152l.157.266c.03.049.057.097.09.146.056.094.12.187.178.281.026.04.05.078.079.117a6.368 6.368 0 00.31.445c.078.107.156.211.24.315.027.038.058.076.086.115l.22.269c.028.03.055.067.084.099.098.118.202.233.306.35l.005.006a3.134 3.134 0 00.425.44c.08.083.16.165.245.245l.101.097c.111.105.223.209.34.309.002 0 .003.002.005.003l.057.05c.102.089.205.178.31.26l.125.105c.085.068.174.133.26.2l.137.105c.093.07.192.139.287.207.035.025.07.05.106.073l.03.023.28.185.12.08c.148.094.294.184.44.272.041.02.084.044.123.068.108.062.22.125.329.183.06.034.122.063.184.094.075.042.153.083.234.125a.324.324 0 01.056.023c.033.015.064.031.096.047.12.06.245.118.375.175.024.01.05.02.076.034.144.063.289.123.438.182.034.01.07.027.105.04.135.051.274.103.411.152l.05.018c.154.052.305.102.46.15.036.01.073.023.111.033.16.048.314.105.474.137 10.273 1.872 13.258-6.177 13.258-6.177-2.508 3.266-6.958 4.127-11.174 3.169-.156-.036-.312-.086-.47-.132a13.539 13.539 0 01-.567-.182l-.062-.024c-.136-.046-.267-.097-.4-.148a1.615 1.615 0 00-.11-.04c-.148-.06-.29-.121-.433-.184-.031-.01-.057-.024-.088-.036a23.44 23.44 0 01-.362-.17 1.485 1.485 0 01-.106-.052c-.094-.044-.188-.095-.28-.143a3.947 3.947 0 01-.187-.096c-.114-.06-.227-.125-.34-.187-.034-.024-.073-.044-.112-.066a15.922 15.922 0 01-.439-.27 2.107 2.107 0 01-.118-.078 6.01 6.01 0 01-.312-.207c-.035-.023-.067-.048-.103-.073a9.553 9.553 0 01-.295-.212c-.042-.034-.087-.066-.132-.1-.088-.07-.177-.135-.265-.208l-.118-.095a10.593 10.593 0 01-.335-.28.258.258 0 00-.037-.031l-.347-.316-.1-.094c-.082-.084-.166-.164-.25-.246l-.098-.1a9.081 9.081 0 01-.309-.323l-.015-.016c-.106-.116-.21-.235-.313-.355-.027-.03-.053-.064-.08-.097l-.227-.277a21.275 21.275 0 01-.34-.449C2.152 11.79 1.306 7.384 3.177 3.771m4.943-.473c-1.54 2.211-1.454 5.169-.254 7.508a9.111 9.111 0 00.678 1.133c.23.33.484.721.793.988.107.122.223.24.344.36l.09.09c.114.11.232.217.35.325l.016.013a9.867 9.867 0 00.414.342c.034.023.063.05.096.073.14.108.282.212.428.316l.015.009c.062.045.128.086.198.13.028.018.06.042.09.06.106.068.21.132.318.197.017.007.032.016.048.023.09.055.188.108.282.157.033.02.065.035.1.054.066.033.132.068.197.102l.032.014c.135.067.273.129.408.19.034.014.063.025.092.039.111.048.224.094.336.137.05.017.097.037.144.052.102.038.21.073.31.108l.14.045c.147.045.295.104.449.13C22.164 17.206 24 11.098 24 11.098c-1.653 2.38-4.852 3.513-8.261 2.628a8.04 8.04 0 01-.449-.13c-.048-.014-.09-.029-.136-.043-.104-.036-.211-.07-.312-.109l-.144-.054c-.113-.045-.227-.087-.336-.135-.034-.015-.065-.025-.091-.04-.14-.063-.281-.125-.418-.192l-.206-.107-.119-.06a5.673 5.673 0 01-.265-.15.62.62 0 01-.062-.035c-.106-.066-.217-.13-.318-.198-.034-.019-.065-.042-.097-.062l-.208-.136c-.144-.1-.285-.208-.428-.313-.032-.029-.063-.053-.094-.079-1.499-1.178-2.681-2.79-3.242-4.613-.59-1.897-.46-4.023.56-5.75m4.292-.147c-.909 1.334-.996 2.99-.37 4.46.665 1.563 2.024 2.79 3.608 3.37.065.025.128.046.196.07l.088.027c.092.03.185.063.28.084 4.381.845 5.567-2.25 5.886-2.704-1.043 1.498-2.792 1.857-4.938 1.335a4.85 4.85 0 01-.516-.16 6.352 6.352 0 01-.618-.254 6.53 6.53 0 01-1.082-.66c-1.922-1.457-3.113-4.236-1.859-6.5"/>
+            </symbol>
+            <symbol id="tail" viewBox="0 0 24 24">
+                <path d="M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 c1.177,1.194,2.538,2.576,5.512,2.576c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z"/>
+            </symbol>
+            <symbol id="flow" viewBox="0 0 24 24">
+                <path d="M15.907 11.998 10.332 9.23a.9.9 0 0 1-.16-.037l-.018-.007v6.554c0 .017.008.034.01.051l2.388-2.974 3.355-.82Z"/>
+                <path d="m11.463 4.054 5.579 3.323A4.02 4.02 0 0 1 18.525 9c.332.668.47 1.414.398 2.155a3.07 3.07 0 0 1-.745 1.65 3.108 3.108 0 0 1-1.55.951c-.022.007-.045.005-.07.01-.062.03-.126.057-.191.08l-2.72.667-1.992 2.48c-.18.227-.41.409-.67.534.047.034.085.077.137.107a2.05 2.05 0 0 0 1.995.035c.592-.33 2.15-1.201 4.636-2.892l.28-.19c1.328-.895 3.616-2.442 3.967-4.215a9.94 9.94 0 0 0-1.713-4.154 10.027 10.027 0 0 0-3.375-2.989 10.107 10.107 0 0 0-8.802-.418c1.162.287 2.287.704 3.354 1.243Z"/>
+                <path d="M5.382 17.082v-6.457a3.7 3.7 0 0 1 .45-1.761 3.733 3.733 0 0 1 1.238-1.34 3.915 3.915 0 0 1 3.433-.245c.176.03.347.084.508.161l5.753 2.856c.082.05.161.105.236.165a2.128 2.128 0 0 0-.953-1.455l-5.51-3.284c-1.74-.857-3.906-1.523-5.244-1.097a9.96 9.96 0 0 0-2.5 3.496 9.895 9.895 0 0 0 .283 8.368 9.973 9.973 0 0 0 2.73 3.322 17.161 17.161 0 0 1-.424-2.729Z"/>
+                <path d="m19.102 16.163-.272.183c-2.557 1.74-4.169 2.64-4.698 2.935a4.083 4.083 0 0 1-2 .53 3.946 3.946 0 0 1-1.983-.535 3.788 3.788 0 0 1-1.36-1.361 3.752 3.752 0 0 1-.51-1.85 1.812 1.812 0 0 1-.043-.26V9.143c0-.024.009-.046.01-.07-.056.02-.11.043-.162.07a1.796 1.796 0 0 0-.787 1.516v6.377a10.67 10.67 0 0 0 1.113 4.27 10.11 10.11 0 0 0 8.505-.53 10.022 10.022 0 0 0 3.282-2.858 9.936 9.936 0 0 0 1.75-3.97 19.615 19.615 0 0 1-2.845 2.216Z"/>
+
+            </symbol>
+            <symbol id="git" viewBox="0 0 24 24">
+                
+            </symbol>
+        </defs>
+    </svg>
+
 </body>
+
+
 
 </html>

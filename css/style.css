@@ -16,6 +16,8 @@ ion-icon {
    letter-spacing: .3em;
    transition: .5s;
    text-transform: uppercase;
+   /* color: var(--card); */
+   font-weight: 600;
 }
 
 .btn:hover {
@@ -391,61 +393,96 @@ span {
    padding: 20px;
    min-height: 300px;
    max-height: 300px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   align-items: flex-start;
 }
 .proyecto .info .description{
-   max-height: 155px;
+   max-height: 130px;
    overflow-y: auto;
 }
 
 /* Skills */
 
-.skill {
-   display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(250px, auto));
-   justify-content: center;
-   gap: 120px;
+#skills {
+   /* display: flex; */
    width: 90%;
    margin: 0 auto;
 }
 
-.skill h2 {
+#skills h2{
    text-align: center;
    padding: 40px;
-   padding-bottom: 80px;
-   margin-top: 30px;
-   width: calc(100% + 10%);
-   transform: translateX(-5%);
+   width: 100%;
 }
 
-.skill img {
-   width: 100px;
-   height: 100px;
-}
-
-.conocimientos {
-   display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(110px, auto));
+.skills {
+   /* display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(250px, auto)); */
+   /* display: flex;
+   flex-wrap: wrap; */
    justify-content: center;
-   gap: 25px;
+   gap: 80px;
+   width: 100%;
+   margin: 0 auto;
+   padding: 20px;
+   background: var(--card);
 }
 
-.herramientas {
+.skills .grid {
+   background: var(--complement);
+   padding: 20px;
+   border-radius: 10px;
+}
+
+.skills .svg {
+   fill: var(--text);
+   max-width: 100px;
+}
+
+.skills h2 {
+   text-align: center;
+}
+
+.skills .skill {
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   transition: .5s;
+}
+
+.skills .skill img {
+   width: 100%;
+   object-fit: contain;
+   transition: .5s;
+   filter:  brightness(1.2) invert(0) grayscale(1);
+   -webkit-filter:  brightness(1.2) invert(0) grayscale(1);
+}
+
+.grid {
    display: grid;
    grid-template-columns: repeat(auto-fit, minmax(70px, auto));
    justify-content: center;
-   gap: 50px;
+   gap: 25px;
+   height: 100%;
 }
 
 /* tooltip */
 
-.skill h3 {
+.skills h3 {
+   position: absolute;
+   bottom: 0;
    background: var(--complement);
    text-align: center;
    border-radius: 5px;
    padding: 5px 0;
    font-size: 1.1em;
    width: 120px;
-   transform: translate(-10px, -100px);
+   height: 36px;
    opacity: 0;
    transition: .5s;
    box-shadow: 0 5px 20px var(--rgba);
@@ -454,7 +491,7 @@ span {
    animation: text 5s linear infinite;
 }
 
-.skill h3::after {
+.skills h3::after {
    content: '';
    position: absolute;
    right: 50px;
@@ -466,10 +503,14 @@ span {
    transform: rotate(-45deg);
 }
 
-.conocimientos>div:hover h3,
-.herramientas>div:hover h3 {
-   transform: translate(-10px, -160px);
-   opacity: 1;
+.grid>div.skill:hover h3 {
+   transform: translate(0, -105px);
+   /*top: -20px;
+   */opacity: 1;
+   -webkit-transform: translate(0, -105px);
+   -moz-transform: translate(0, -105px);
+   -ms-transform: translate(0, -105px);
+   -o-transform: translate(0, -105px);
 }
 
 
@@ -946,6 +987,9 @@ body.light .theme-toggle {
    .proyectos .proyecto .imgBx,
    .proyectos .proyecto .info {
       width: 100%;
+   }
+   .skills {
+      gap: 0;
    }
 }
 
