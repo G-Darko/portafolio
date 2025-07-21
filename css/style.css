@@ -438,7 +438,7 @@ span {
 
 .skills .svg {
    fill: var(--text);
-   max-width: 100px;
+   width: 70px;
 }
 
 .skills h2 {
@@ -456,11 +456,16 @@ span {
 }
 
 .skills .skill img {
-   width: 100%;
+   width: 70px;
    object-fit: contain;
    transition: .5s;
    filter:  brightness(1.2) invert(0) grayscale(1);
    -webkit-filter:  brightness(1.2) invert(0) grayscale(1);
+}
+
+body.light .skills .skill img {
+   filter: brightness(1.2) invert(1) grayscale(1);
+   -webkit-filter: brightness(1.2) invert(1) grayscale(1);
 }
 
 .grid {
@@ -476,7 +481,7 @@ span {
 .skills h3 {
    position: absolute;
    bottom: 0;
-   background: var(--complement);
+   background: var(--gris);
    text-align: center;
    border-radius: 5px;
    padding: 5px 0;
@@ -498,19 +503,19 @@ span {
    top: 25px;
    width: 20px;
    height: 20px;
-   background: var(--complement);
+   background: var(--gris);
    border-radius: 0% 100% 0% 100% / 100% 100% 0% 0%;
    transform: rotate(-45deg);
 }
 
 .grid>div.skill:hover h3 {
-   transform: translate(0, -105px);
+   transform: translate(0, -100px);
    /*top: -20px;
    */opacity: 1;
-   -webkit-transform: translate(0, -105px);
-   -moz-transform: translate(0, -105px);
-   -ms-transform: translate(0, -105px);
-   -o-transform: translate(0, -105px);
+   -webkit-transform: translate(0, -100px);
+   -moz-transform: translate(0, -100px);
+   -ms-transform: translate(0, -100px);
+   -o-transform: translate(0, -100px);
 }
 
 
