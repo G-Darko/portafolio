@@ -1,65 +1,80 @@
+// Año automático
 const year = document.getElementById("year");
 const date = new Date();
-const thisYear = date.getFullYear();
+year.innerText = date.getFullYear();
 
-year.innerText = thisYear;
-
+// Mostrar modal
 function showModal(id) {
-    document.getElementById(id).style.opacity = 1;
-    document.getElementById(id).style.visibility = "visible";
-    document.getElementById(id).classList.add('open');
+    const modal = document.getElementById(id);
+    modal.style.opacity = 1;
+    modal.style.visibility = "visible";
+    modal.classList.add('open');
 
-    // Inicializar slider si es el modal del Portafolio
-    if (id === 'Portafolio') {
-        initializeSlider('Portafolio');
+    // Inicializar slider solo si es necesario
+    if (id === 'Portafolio' || id === 'POST' || id === 'YIZA') {
+        initializeSlider(id);
     }
 }
 
+// Ocultar modal
 function hideModal(id) {
-    document.getElementById(id).style.opacity = 0;
-    document.getElementById(id).style.visibility = "hidden";
-    document.getElementById(id).classList.remove('open');
+    const modal = document.getElementById(id);
+    modal.style.opacity = 0;
+    modal.style.visibility = "hidden";
+    modal.classList.remove('open');
 }
 
+// Responsive menú
 function responsive() {
     let nav = document.getElementById('nav');
     nav.classList.toggle('responsive');
 }
 
+// Marcar opción seleccionada del menú
 function selected(link) {
-    let opcion = document.querySelectorAll('#nav a');   
-    for (let i = 0; i < opcion.length; i++) {
-        opcion[i].className = "";
-    } 
-
+    let opciones = document.querySelectorAll('#nav a');
+    opciones.forEach(op => op.className = "");
     link.className = "selected";
 
-    let nav = document.getElementById('nav');
-    nav.className = "";
+    // Cerrar menú en modo responsive
+    document.getElementById('nav').className = "";
 }
 
-// Lógica del Slider
+// Máquina de escribir animada
+const textElement = document.getElementById("typewriter");
+const texts = ["Desarrollador web & ", "de Software: ", "Frontend &", "Backend."];
+let index = 0;
+
+setInterval(() => {
+    textElement.classList.add("fade-out");
+    setTimeout(() => {
+        index = (index + 1) % texts.length;
+        textElement.textContent = texts[index];
+        textElement.classList.remove("fade-out");
+    }, 500);
+}, 2500);
+
+// Inicializar slider con navegación, dots y miniaturas estilo Steam
 function initializeSlider(modalId) {
     const modal = document.getElementById(modalId);
-    if (!modal) return; // Asegurarse de que el modal exista
+    if (!modal) return;
 
     const sliderTrack = modal.querySelector('.slider-track');
     const sliderItems = modal.querySelectorAll('.slider-item');
     const prevBtn = modal.querySelector('.slider-nav.prev');
     const nextBtn = modal.querySelector('.slider-nav.next');
     const sliderDotsContainer = modal.querySelector('.slider-dots');
+    const thumbnailsContainer = modal.querySelector('.slider-thumbnails');
 
-    // Verificar si todos los elementos del slider existen antes de continuar
-    if (!sliderTrack || !sliderItems.length || !prevBtn || !nextBtn || !sliderDotsContainer) {
-        // console.warn(`Elementos del slider no encontrados en el modal ${modalId}.`);
+    if (!sliderTrack || !sliderItems.length || !prevBtn || !nextBtn || !sliderDotsContainer || !thumbnailsContainer) {
         return;
     }
 
     let currentSlide = 0;
     const totalSlides = sliderItems.length;
 
-    // Crear los puntos de navegación
-    sliderDotsContainer.innerHTML = ''; // Limpiar antes de crear
+    // Crear puntos de navegación
+    sliderDotsContainer.innerHTML = '';
     for (let i = 0; i < totalSlides; i++) {
         const dot = document.createElement('div');
         dot.classList.add('slider-dot');
@@ -68,36 +83,60 @@ function initializeSlider(modalId) {
         sliderDotsContainer.appendChild(dot);
     }
 
-    const sliderDots = modal.querySelectorAll('.slider-dot');
+    // Crear miniaturas estilo Steam
+    thumbnailsContainer.innerHTML = '';
+    sliderItems.forEach((item, i) => {
+        const img = item.querySelector('img');
+        const iframe = item.querySelector('iframe');
+        const video = item.querySelector('video');
 
-    function showSlide(index) {
-        if (index >= totalSlides) {
-            currentSlide = 0;
-        } else if (index < 0) {
-            currentSlide = totalSlides - 1;
+        const thumbnail = document.createElement('img');
+        thumbnail.classList.add('slider-thumbnail');
+        thumbnail.dataset.slideIndex = i;
+
+        if (img) {
+            thumbnail.src = img.src;
+        } else if (iframe || video) {
+            thumbnail.src = "https://img.icons8.com/ios-filled/50/video.png"; // miniatura por defecto
         } else {
-            currentSlide = index;
+            thumbnail.src = "https://via.placeholder.com/80x45";
         }
 
-        const offset = -currentSlide * 100;
-        sliderTrack.style.transform = `translateX(${offset}%)`;
+        thumbnail.alt = `Vista previa ${i + 1}`;
+        thumbnail.addEventListener('click', () => showSlide(i));
+        thumbnailsContainer.appendChild(thumbnail);
+    });
 
-        // Actualizar la clase activa de los puntos
+    const sliderDots = modal.querySelectorAll('.slider-dot');
+    const sliderThumbnails = modal.querySelectorAll('.slider-thumbnail');
+
+    function showSlide(index) {
+        if (index >= totalSlides) index = 0;
+        if (index < 0) index = totalSlides - 1;
+        currentSlide = index;
+
+        sliderTrack.style.transform = `translateX(-${index * 100}%)`;
+
+        // Actualizar puntos
         sliderDots.forEach((dot, i) => {
-            if (i === currentSlide) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
+            dot.classList.toggle('active', i === index);
         });
 
-        // Pausar videos cuando se cambia de slide
+        // Actualizar miniaturas
+        sliderThumbnails.forEach((thumb, i) => {
+            thumb.classList.toggle('active', i === index);
+        });
+
+        // Pausar videos de otros slides
         sliderItems.forEach((item, i) => {
             const iframe = item.querySelector('iframe');
-            if (iframe && i !== currentSlide) {
-                // Reiniciar el src para detener el video
-                const src = iframe.src;
-                iframe.src = src; // Carga el iframe nuevamente, deteniendo la reproducción
+            const video = item.querySelector('video');
+            if ((iframe || video) && i !== currentSlide) {
+                if (iframe) iframe.src = iframe.src;
+                if (video) {
+                    video.pause();
+                    video.currentTime = 0;
+                }
             }
         });
     }
@@ -110,24 +149,30 @@ function initializeSlider(modalId) {
         showSlide(currentSlide - 1);
     }
 
-    // AñadirEventListeners
-    prevBtn.addEventListener('click', prevSlide);
     nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
 
-    // Mostrar la primera diapositiva al inicializar
     showSlide(0);
 }
 
+// Animaciones al hacer scroll
+document.addEventListener("DOMContentLoaded", () => {
+    const faders = document.querySelectorAll(".fade-in");
 
-const textElement = document.getElementById("typewriter");
-const texts = ["Desarrollador web & ", "de Software: ", "Frontend &", "Backend."];
-let index = 0;
+    const appearOptions = {
+        threshold: 0.2,
+        rootMargin: "0px 0px -50px 0px"
+    };
 
-setInterval(() => {
-	textElement.classList.add("fade-out");
-	setTimeout(() => {
-		index = (index + 1) % texts.length;
-		textElement.textContent = texts[index];
-		textElement.classList.remove("fade-out");
-	}, 500); // esperar que termine la transición
-}, 2500);
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("appear");
+            observer.unobserve(entry.target);
+        });
+    }, appearOptions);
+
+    faders.forEach(fader => {
+        appearOnScroll.observe(fader);
+    });
+});
