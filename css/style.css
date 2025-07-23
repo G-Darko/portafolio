@@ -330,13 +330,13 @@ span {
    /* padding: 30px; */
    width: 90%;
    margin: 0 auto;
-   padding-bottom: 0;
+   padding-top: 20px;
    background: var(--bg);
 }
 
 .aboutme h2 {
    text-align: center;
-   padding-bottom: 20px;
+   padding: 40px;
    /* padding-top: 60px; */
    width: 100%;
 }
@@ -396,7 +396,7 @@ span {
    width: 50%;
    padding: 20px;
    min-height: 300px;
-   max-height: 300px;
+   /* max-height: 300px; */
    display: flex;
    flex-direction: column;
    justify-content: space-between;
@@ -457,7 +457,7 @@ span {
    transition: .5s;
 }
 
-.skills .skill img {
+.skill img {
    width: 70px;
    object-fit: contain;
    transition: .5s;
@@ -465,7 +465,7 @@ span {
    -webkit-filter:  brightness(1.2) invert(0) grayscale(1);
 }
 
-body.light .skills .skill img {
+body.light .skill img {
    filter: brightness(1.2) invert(1) grayscale(1);
    -webkit-filter: brightness(1.2) invert(1) grayscale(1);
 }
@@ -750,27 +750,26 @@ body.light .skills .skill img {
    justify-content: center;
    align-items: center;
    overflow: hidden;
-   object-fit: contain;
-   aspect-ratio: 16/9;
+   /* object-fit: contain;
+   aspect-ratio: 16/9; */
 }
 
 .slider-item img,
 .slider-item video {
    width: 100%;
-   height: 100%;
    object-fit: contain;
-   display: block;
+   /* display: block; */
    aspect-ratio: 16/9;
 }
 
 .slider-item.video-item iframe {
    width: 100%;
-   height: 100%;
    object-fit: contain;
    aspect-ratio: 16/9;
 }
 
 .slider-nav {
+   display: none;
    position: absolute;
    top: 50%;
    transform: translateY(-50%);
@@ -800,6 +799,10 @@ body.light .skills .skill img {
    right: 10px;
    border-top-left-radius: 5px;
    border-bottom-left-radius: 5px;
+}
+
+.slider-track:has(.slider-item:nth-child(2)) ~ .slider-nav {
+   display: block;
 }
 
 .slider-dots {
@@ -972,7 +975,7 @@ footer {
    align-items: center;
    justify-content: center;
    font-size: 1.8em;
-   padding: 30px;
+   padding: 5px;
    margin-top: 50px;
    font-weight: 700;
 }
