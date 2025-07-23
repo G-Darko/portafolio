@@ -11,9 +11,9 @@ function showModal(id) {
     modal.classList.add('open');
 
     // Inicializar slider solo si es necesario
-    if (id === 'Portafolio' || id === 'POST' || id === 'YIZA') {
+    // if (id === 'Portafolio' || id === 'POST' || id === 'YIZA') {
         initializeSlider(id);
-    }
+    // }
 }
 
 // Ocultar modal
@@ -93,7 +93,7 @@ function initializeSlider(modalId) {
         const thumbnail = document.createElement('img');
         thumbnail.classList.add('slider-thumbnail');
         thumbnail.dataset.slideIndex = i;
-
+        console.log(img)
         if (img) {
             thumbnail.src = img.src;
         } else if (iframe || video) {
