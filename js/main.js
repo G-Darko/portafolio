@@ -93,7 +93,6 @@ function initializeSlider(modalId) {
         const thumbnail = document.createElement('img');
         thumbnail.classList.add('slider-thumbnail');
         thumbnail.dataset.slideIndex = i;
-        console.log(img)
         if (img) {
             thumbnail.src = img.src;
         } else if (iframe || video) {
