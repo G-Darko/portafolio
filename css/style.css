@@ -778,19 +778,25 @@ body.light .skill img {
    position: absolute;
    top: 50%;
    transform: translateY(-50%);
-   background: rgba(0, 0, 0, 0.5);
+   background: var(--complement);
    color: var(--text);
    border: none;
    padding: 10px;
    cursor: pointer;
-   font-size: 2em;
+   font-size: 1em;
    z-index: 500;
    transition: background 0.3s ease;
-   opacity: 0.7;
+   /*opacity: 0.7;
+   */box-shadow: 0 0 5px var(--accent);
+   border-radius: 50%;
+   -webkit-border-radius: 50%;
+   -moz-border-radius: 50%;
+   -ms-border-radius: 50%;
+   -o-border-radius: 50%;
 }
 
 .slider-nav:hover {
-   background: rgba(0, 0, 0, 0.8);
+   background: var(--bg);
    opacity: 1;
 }
 
