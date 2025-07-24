@@ -1092,6 +1092,10 @@ body.light .theme-toggle {
    .skills {
       gap: 0;
    }
+
+   .slider-item.video-item{
+   padding: 0;
+}
 }
 
 @keyframes animate {
