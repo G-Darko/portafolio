@@ -94,6 +94,7 @@ header {
    opacity: .85;
    border-bottom: 1px solid var(--accent);
    padding: 10px;
+   max-height: 117px;
 }
 
 .nB {
@@ -121,7 +122,7 @@ header {
 }
 
 .nB a {
-   font-size: 1.4em;
+   font-size: clamp(14px, 1em, 1.2em);
    padding: 5px;
    text-decoration: none;
    color: var(--text);
@@ -148,6 +149,11 @@ header {
    opacity: 1;
    visibility: hidden;
 }
+
+/* #main{
+   max-width: 1200px;
+   margin: 0 auto;
+} */
 
 #whoami {
    display: flex;
@@ -270,7 +276,7 @@ header {
 }
 
 .contact-icons a {
-   width: fit-content;
+   width: 100%;
    height: auto;
    text-decoration: none;
    color: var(--text);
@@ -289,7 +295,18 @@ header {
    padding: 0 5px;
 }
 
-.contact-icons ion-icon {
+svg.icon {
+   width: 30.39px;
+   fill: var(--text);
+   transition: .5s;
+   transform: translateY(8px);
+   -webkit-transform: translateY(8px);
+   -moz-transform: translateY(8px);
+   -ms-transform: translateY(8px);
+   -o-transform: translateY(8px);
+}
+
+.contact-icons .icon {
    font-size: 1.9em;
    transform: translateY(8px);
    -webkit-transform: translateY(8px);
@@ -302,7 +319,11 @@ header {
    color: var(--accent);
 }
 
-.contact-icons a:hover ion-icon,
+.contact-icons a:hover svg.icon{
+   fill: var(--accent)
+}
+
+.contact-icons a:hover .icon,
 .contact-icons a:hover b {
    transform: translateY(6px) scale(1.1);
    transition: .5s;
@@ -485,8 +506,8 @@ body.light .skill img {
    overflow: hidden;
    white-space: nowrap;
    text-overflow: ellipsis;
-   /*font-size: clamp(1.2em, 1vw, 1.4em);*/
-   font-size: 1.3em;
+   font-size: clamp(1.2em, 1vw, 1.4em);
+   /* font-size: 1.3em; */
    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
    animation: zoomText 2s infinite alternate ease-in-out;
    transform-origin: center center;
@@ -1045,6 +1066,52 @@ body.light .theme-toggle {
     transform: translateY(0);
 }
 
+/* Certificaciones */
+
+.certifications h2 {
+   text-align: center;
+   padding: 40px;
+   padding-top: 20px;
+   width: 100%;
+}
+
+.certificaciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.certificacion {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.certificacion:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(102, 204, 255, 0.15);
+}
+
+.cert-org {
+  font-style: italic;
+  font-weight: 800;
+  margin-top: 10px;
+}
+
+.cert-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.cert-link:hover {
+  text-decoration: underline;
+}
 
 @media screen and (max-width: 800px) {
    .nB nav {
