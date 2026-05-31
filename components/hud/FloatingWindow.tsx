@@ -3,7 +3,6 @@
 import { useRef, useState, useCallback, type ReactNode } from "react";
 import { motion } from "motion/react";
 import Draggable from "react-draggable";
-import { Maximize2 } from "lucide-react";
 
 interface FloatingWindowProps {
   id: string;
@@ -43,8 +42,8 @@ export default function FloatingWindow({
     <Draggable
       nodeRef={nodeRef as React.RefObject<HTMLElement>}
       defaultPosition={{ x: defaultX, y: defaultY }}
-      bounds="parent"
-      handle=".window-header"
+      bounds="body"
+      handle=".hologram-header"
       onStart={handleStart}
     >
       <motion.div
@@ -54,56 +53,95 @@ export default function FloatingWindow({
         exit={{ opacity: 0, scale: 0.9 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         onMouseDown={handleStart}
-        className="absolute flex flex-col overflow-hidden rounded-xl border backdrop-blur-xl"
+        className="absolute flex flex-col overflow-hidden"
         style={{
           zIndex,
           width: defaultWidth,
-          height: isMinimized ? 44 : defaultHeight,
-          borderColor: "var(--glass-border)",
-          background: "rgba(12, 16, 24, 0.85)",
-          boxShadow: "var(--hud-glow), 0 25px 50px -12px rgba(0,0,0,0.6)",
+          height: isMinimized ? 40 : defaultHeight,
+          /* Stark hologram style */
+          background: "rgba(8, 16, 32, 0.75)",
+          border: "1px solid rgba(13, 248, 249, 0.3)",
+          boxShadow: `
+            0 0 20px rgba(13, 248, 249, 0.1),
+            0 0 40px rgba(13, 248, 249, 0.05),
+            inset 0 1px 0 rgba(255,255,255,0.05)
+          `,
+          backdropFilter: "blur(12px)",
+          clipPath: "polygon(0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px))",
         }}
       >
-        {/* Window header */}
+        {/* Corner accents */}
+        <div className="pointer-events-none absolute inset-0"
+          style={{
+            background: `
+              linear-gradient(135deg, rgba(13,248,249,0.3) 0px, transparent 8px),
+              linear-gradient(-135deg, rgba(13,248,249,0.3) 0px, transparent 8px),
+              linear-gradient(45deg, rgba(13,248,249,0.3) 0px, transparent 8px),
+              linear-gradient(-45deg, rgba(13,248,249,0.3) 0px, transparent 8px)
+            `,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "20px 20px",
+            backgroundPosition: "0 0, 100% 0, 0 100%, 100% 100%",
+          }}
+        />
+
+        {/* Scanline overlay */}
+        <div className="pointer-events-none absolute inset-0 opacity-20"
+          style={{
+            background: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(13,248,249,0.03) 2px, rgba(13,248,249,0.03) 4px)",
+          }}
+        />
+
+        {/* Window header - hologram style */}
         <div
-          className="window-header flex cursor-move items-center justify-between border-b px-3 py-2.5 select-none"
-          style={{ borderColor: "var(--glass-border)" }}
+          className="hologram-header relative flex cursor-move items-center justify-between border-b px-3 py-2 select-none"
+          style={{
+            borderColor: "rgba(13, 248, 249, 0.2)",
+            background: "linear-gradient(90deg, rgba(13,248,249,0.1) 0%, transparent 50%, rgba(13,248,249,0.05) 100%)",
+          }}
         >
           <div className="flex items-center gap-2">
-            <div className="flex gap-1.5">
-              <button
-                onClick={onClose}
-                className="flex h-3 w-3 items-center justify-center rounded-full bg-[#ff5f57] hover:brightness-110"
-              />
-              <button
-                onClick={() => setIsMinimized((p) => !p)}
-                className="flex h-3 w-3 items-center justify-center rounded-full bg-[#febc2e] hover:brightness-110"
-              />
-              <div className="h-3 w-3 rounded-full bg-[#28c840]" />
-            </div>
-            <div className="ml-2">
-              <span className="text-[10px] font-bold tracking-widest" style={{ color: "var(--c1)" }}>
+            {/* Status dot */}
+            <div
+              className="h-2 w-2 rounded-full"
+              style={{
+                background: "var(--c1)",
+                boxShadow: "0 0 6px var(--c1)",
+              }}
+            />
+            <div>
+              <span className="text-[10px] font-bold tracking-[0.2em]" style={{ color: "var(--c1)" }}>
                 {title}
               </span>
               {subtitle && (
-                <span className="ml-1 text-[9px] opacity-50" style={{ color: "var(--text)" }}>
-                  {subtitle}
+                <span className="ml-1.5 text-[9px] opacity-40 font-mono" style={{ color: "var(--accent)" }}>
+                  // {subtitle}
                 </span>
               )}
             </div>
           </div>
-          <button
-            onClick={() => setIsMinimized((p) => !p)}
-            className="flex h-5 w-5 items-center justify-center rounded opacity-50 hover:opacity-100"
-            style={{ color: "var(--accent)" }}
-          >
-            <Maximize2 size={10} />
-          </button>
+
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setIsMinimized((p) => !p)}
+              className="flex h-5 w-5 items-center justify-center text-[10px] font-mono transition-colors hover:text-[var(--c1)]"
+              style={{ color: "var(--accent)" }}
+            >
+              {isMinimized ? "+" : "−"}
+            </button>
+            <button
+              onClick={onClose}
+              className="flex h-5 w-5 items-center justify-center text-[10px] transition-colors hover:text-[var(--hud-red)]"
+              style={{ color: "var(--accent)" }}
+            >
+              ✕
+            </button>
+          </div>
         </div>
 
         {/* Window body */}
         {!isMinimized && (
-          <div className="scrollbar-thin flex-1 overflow-auto p-3">
+          <div className="scrollbar-thin relative z-10 flex-1 overflow-auto p-3">
             {children}
           </div>
         )}

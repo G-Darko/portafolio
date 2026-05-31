@@ -16,15 +16,17 @@ interface HUDHeaderProps {
   totalPercent: number;
 }
 
-const WINDOW_BUTTONS: { id: WindowId; label: string; icon: typeof Terminal }[] = [
-  { id: "profile", label: "Profile", icon: User },
-  { id: "experience", label: "Experience", icon: Briefcase },
-  { id: "projects", label: "Projects", icon: FolderOpen },
-  { id: "skills", label: "Skills", icon: Box },
-  { id: "certifications", label: "Certs", icon: Award },
-  { id: "terminal", label: "Terminal", icon: Terminal },
-  { id: "minigame", label: "Defense", icon: Shield },
-  { id: "contact", label: "Contact", icon: Mail },
+type HeaderKey = "profile" | "experience" | "projects" | "skills" | "certifications" | "terminal" | "minigame" | "contact";
+
+const WINDOW_BUTTONS: { id: WindowId; labelKey: HeaderKey; icon: typeof Terminal }[] = [
+  { id: "profile", labelKey: "profile", icon: User },
+  { id: "experience", labelKey: "experience", icon: Briefcase },
+  { id: "projects", labelKey: "projects", icon: FolderOpen },
+  { id: "skills", labelKey: "skills", icon: Box },
+  { id: "certifications", labelKey: "certifications", icon: Award },
+  { id: "terminal", labelKey: "terminal", icon: Terminal },
+  { id: "minigame", labelKey: "minigame", icon: Shield },
+  { id: "contact", labelKey: "contact", icon: Mail },
 ];
 
 export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps) {
@@ -79,7 +81,7 @@ export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps
 
           {/* Desktop quick buttons */}
           <div className="ml-3 hidden items-center gap-0.5 md:flex">
-            {WINDOW_BUTTONS.map(({ id, icon: Icon }) => (
+            {WINDOW_BUTTONS.map(({ id, labelKey, icon: Icon }) => (
               <button
                 key={id}
                 onClick={() => handleOpen(id)}
@@ -90,7 +92,7 @@ export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps
                 title={id}
               >
                 <Icon size={12} />
-                <span className="hidden lg:inline">{id}</span>
+                <span className="hidden lg:inline">{t.header[labelKey]}</span>
               </button>
             ))}
           </div>
@@ -168,7 +170,7 @@ export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps
             }}
           >
             <div className="grid grid-cols-3 gap-2">
-              {WINDOW_BUTTONS.map(({ id, label, icon: Icon }) => (
+              {WINDOW_BUTTONS.map(({ id, labelKey, icon: Icon }) => (
                 <button
                   key={id}
                   onClick={() => handleOpen(id)}
@@ -179,7 +181,7 @@ export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps
                   }}
                 >
                   <Icon size={16} />
-                  {label}
+                  {t.header[labelKey]}
                 </button>
               ))}
             </div>

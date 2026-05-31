@@ -29,94 +29,7 @@
   --section: #1f2937;
   --deg: -45deg;
   --deg-even: 45deg;
-}
-
-html.light {
-  --bg: #f2f2f2;
-  --text: #121212;
-  --accent: #0077ff;
-  --card: #d7dce7;
-  --complement: #ddd;
-  --header: #f0f0f0;
-  --section: #e9ecef;
-}
-
-body {
-  background-color: var(--bg);
-  color: var(--text);
-  min-height: 100dvh;
-  width: 100dvw;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-}
-
-::-webkit-scrollbar {
-  width: 3px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(45deg, var(--c1), var(--c2));
-  border-radius: 10px;
-}
-
-@keyframes hueRotate {
-  0% { filter: hue-rotate(0deg); }
-  100% { filter: hue-rotate(360deg); }
-}
-
-@keyframes animateBlur {
-  0% { filter: blur(5px) hue-rotate(0deg); }
-  100% { filter: blur(5px) hue-rotate(360deg); }
-}
-
-@keyframes zoomText {
-  0% {
-    transform: translate(0, 0) rotate(var(--deg));
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  }
-  25% {
-    transform: translate(2px, -1px) rotate(var(--deg));
-    text-shadow: 3px 3px 5px rgba(255, 193, 7, 0.7);
-  }
-  50% {
-    transform: translate(-3px, 2px) rotate(var(--deg));
-    text-shadow: 4px 4px 6px rgba(255, 235, 59, 0.8);
-  }
-  75% {
-    transform: translate(1px, -2px) rotate(var(--deg));
-    text-shadow: 3px 3px 5px rgba(255, 193, 7, 0.7);
-  }
-  100% {
-    transform: translate(0, 0) rotate(var(--deg));
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  }
-}
-
-@keyframes zoomTextEven {
-  0% {
-    transform: translate(0, 0) rotate(var(--deg-even));
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  }
-  25% {
-    transform: translate(2px, -1px) rotate(var(--deg-even));
-    text-shadow: 3px 3px 5px rgba(255, 193, 7, 0.7);
-  }
-  50% {
-    transform: translate(-3px, 2px) rotate(var(--deg-even));
-    text-shadow: 4px 4px 6px rgba(255, 235, 59, 0.8);
-  }
-  75% {
-    transform: translate(1px, -2px) rotate(var(--deg-even));
-    text-shadow: 3px 3px 5px rgba(255, 193, 7, 0.7);
-  }
-  100% {
-    transform: translate(0, 0) rotate(var(--deg-even));
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  }
-}
-
-/* FUI HUD variables */
-:root {
+  /* HUD vars */
   --hud-bg: rgba(8, 12, 18, 0.92);
   --glass-border: rgba(102, 204, 255, 0.18);
   --glass-active: rgba(102, 204, 255, 0.08);
@@ -129,6 +42,13 @@ body {
 }
 
 html.light {
+  --bg: #f2f2f2;
+  --text: #121212;
+  --accent: #0077ff;
+  --card: #d7dce7;
+  --complement: #ddd;
+  --header: #f0f0f0;
+  --section: #e9ecef;
   --hud-bg: rgba(240, 244, 248, 0.92);
   --glass-border: rgba(0, 119, 255, 0.18);
   --glass-active: rgba(0, 119, 255, 0.08);
