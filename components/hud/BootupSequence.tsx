@@ -39,7 +39,7 @@ export default function BootupSequence() {
         clearInterval(interval);
         setTimeout(() => {
           setPhase("done");
-          setTimeout(setBootupDone, 400);
+          setTimeout(() => setBootupDone(true), 400);
         }, 400);
       }
     }, 350);
