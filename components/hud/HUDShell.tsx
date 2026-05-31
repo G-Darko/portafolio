@@ -43,19 +43,19 @@ interface OpenWindow {
   zIndex: number;
 }
 
-/* Tony Stark workshop layout — distributed around a central workspace */
+/* Tony Stark workshop — surround layout, all within viewport height */
 const WINDOW_CONFIG: Record<
   WindowId,
-  { title: string; subtitle: string; x: number; y: number; w: number; h: number }
+  { x: number; y: number; w: number; h: number }
 > = {
-  profile: { title: "PROFILE", subtitle: "Identity", x: 30, y: 60, w: 320, h: 380 },
-  experience: { title: "EXPERIENCE", subtitle: "Career", x: 420, y: 50, w: 360, h: 280 },
-  projects: { title: "PROJECTS", subtitle: "Missions", x: 40, y: 460, w: 380, h: 350 },
-  skills: { title: "TECH SPHERE", subtitle: "Stack", x: 850, y: 50, w: 380, h: 380 },
-  certifications: { title: "CREDENTIALS", subtitle: "Certs", x: 880, y: 460, w: 320, h: 260 },
-  terminal: { title: "TERMINAL", subtitle: "CLI", x: 440, y: 470, w: 360, h: 280 },
-  minigame: { title: "JARVIS DEFENSE", subtitle: "Security", x: 820, y: 740, w: 400, h: 400 },
-  contact: { title: "CONTACT", subtitle: "Comm", x: 60, y: 820, w: 320, h: 300 },
+  profile: { x: 20, y: 60, w: 320, h: 380 },
+  experience: { x: 370, y: 60, w: 360, h: 280 },
+  projects: { x: 20, y: 460, w: 380, h: 300 },
+  skills: { x: 750, y: 60, w: 380, h: 380 },
+  certifications: { x: 750, y: 460, w: 320, h: 260 },
+  terminal: { x: 370, y: 460, w: 360, h: 280 },
+  minigame: { x: 1150, y: 60, w: 400, h: 400 },
+  contact: { x: 1150, y: 460, w: 320, h: 300 },
 };
 
 export default function HUDShell() {
@@ -106,8 +106,34 @@ export default function HUDShell() {
     }
   };
 
+  const getTitle = (id: WindowId) => {
+    switch (id) {
+      case "profile": return t.header.profile;
+      case "experience": return t.header.experience;
+      case "projects": return t.header.projects;
+      case "skills": return t.header.skills;
+      case "certifications": return t.header.certifications;
+      case "terminal": return t.header.terminal;
+      case "minigame": return t.header.minigame;
+      case "contact": return t.header.contact;
+    }
+  };
+
+  const getSubtitle = (id: WindowId) => {
+    switch (id) {
+      case "profile": return "Identity";
+      case "experience": return "Career";
+      case "projects": return "Missions";
+      case "skills": return "Stack";
+      case "certifications": return "Certs";
+      case "terminal": return "CLI";
+      case "minigame": return "Security";
+      case "contact": return "Comm";
+    }
+  };
+
   return (
-    <div className="relative h-screen w-screen overflow-hidden bg-background text-foreground">
+    <div className="relative h-screen w-screen overflow-x-auto overflow-y-hidden bg-background text-foreground">
       <DesktopBackground />
 
       <HUDHeader
@@ -115,8 +141,8 @@ export default function HUDShell() {
         totalPercent={totalPercent}
       />
 
-      {/* Desktop area with floating windows */}
-      <div className="absolute inset-0 pt-12">
+      {/* Wide desktop canvas for horizontal scroll */}
+      <div className="relative h-full w-[1600px] pt-12">
         <AnimatePresence>
           {openWindows.map(({ id, zIndex }) => {
             const cfg = WINDOW_CONFIG[id];
@@ -124,8 +150,8 @@ export default function HUDShell() {
               <FloatingWindow
                 key={id}
                 id={id}
-                title={cfg.title}
-                subtitle={cfg.subtitle}
+                title={getTitle(id)}
+                subtitle={getSubtitle(id)}
                 defaultX={cfg.x}
                 defaultY={cfg.y}
                 defaultWidth={cfg.w}

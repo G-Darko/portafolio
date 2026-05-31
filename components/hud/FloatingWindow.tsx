@@ -34,10 +34,8 @@ export default function FloatingWindow({
   const [pos, setPos] = useState({ x: defaultX, y: defaultY });
   const [isDragging, setIsDragging] = useState(false);
   const dragOffset = useRef({ x: 0, y: 0 });
-  const nodeRef = useRef<HTMLDivElement>(null);
   const animatingRef = useRef(false);
 
-  // Initial position animation then unlock drag
   useEffect(() => {
     animatingRef.current = true;
     const t = setTimeout(() => { animatingRef.current = false; }, 500);
@@ -64,10 +62,8 @@ export default function FloatingWindow({
       if (!isDragging) return;
       const newX = e.clientX - dragOffset.current.x;
       const newY = e.clientY - dragOffset.current.y;
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      const maxX = w - defaultWidth;
-      const maxY = h - (defaultHeight || 300);
+      const maxX = 1600 - defaultWidth;
+      const maxY = window.innerHeight - (defaultHeight || 300) - 48;
       setPos({
         x: Math.max(0, Math.min(newX, maxX)),
         y: Math.max(48, Math.min(newY, maxY)),
@@ -92,13 +88,12 @@ export default function FloatingWindow({
 
   return (
     <motion.div
-      ref={nodeRef}
       initial={{ opacity: 0, scale: 0.85 }}
       animate={{ opacity: 1, scale: 1, x: pos.x, y: pos.y }}
       exit={{ opacity: 0, scale: 0.85 }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       onMouseDown={() => !isDragging && onFocus(id)}
-      className="absolute flex flex-col overflow-hidden rounded-lg border border-hud-border bg-hud-bg shadow-[var(--hud-glow)] backdrop-blur-xl"
+      className="absolute flex flex-col overflow-hidden rounded-lg border border-hud-border bg-hud-bg/80 shadow-[0_0_20px_oklch(0.65_0.18_255/0.1),0_0_40px_oklch(0.65_0.18_255/0.05),inset_0_1px_0_oklch(1_0_0/0.05)] backdrop-blur-xl"
       style={{
         zIndex,
         width: defaultWidth,
@@ -108,6 +103,28 @@ export default function FloatingWindow({
         top: 0,
       }}
     >
+      {/* Corner hologram accents */}
+      <div className="pointer-events-none absolute inset-0"
+        style={{
+          background: `
+            linear-gradient(135deg, oklch(0.65 0.18 255 / 0.3) 0px, transparent 8px),
+            linear-gradient(-135deg, oklch(0.65 0.18 255 / 0.3) 0px, transparent 8px),
+            linear-gradient(45deg, oklch(0.65 0.18 255 / 0.3) 0px, transparent 8px),
+            linear-gradient(-45deg, oklch(0.65 0.18 255 / 0.3) 0px, transparent 8px)
+          `,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "16px 16px",
+          backgroundPosition: "0 0, 100% 0, 0 100%, 100% 100%",
+        }}
+      />
+
+      {/* Scanlines */}
+      <div className="pointer-events-none absolute inset-0 opacity-20"
+        style={{
+          background: "repeating-linear-gradient(0deg, transparent, transparent 2px, oklch(0.65 0.18 255 / 0.03) 2px, oklch(0.65 0.18 255 / 0.03) 4px)",
+        }}
+      />
+
       {/* Hologram header */}
       <div
         className="hologram-header relative flex cursor-grab items-center justify-between border-b border-hud-border px-3 py-2 select-none bg-gradient-to-r from-hud-cyan/10 via-transparent to-hud-cyan/5 active:cursor-grabbing"
