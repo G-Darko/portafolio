@@ -2,101 +2,92 @@
 
 import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Points, PointMaterial, Float } from "@react-three/drei";
+import { OrbitControls, Html } from "@react-three/drei";
 import * as THREE from "three";
 
-function SpherePoints() {
-  const ref = useRef<THREE.Points>(null!);
+const TECHS = [
+  { name: "Next.js", color: "#000" },
+  { name: "React", color: "#61DAFB" },
+  { name: "Vue.js", color: "#4FC08D" },
+  { name: "Astro", color: "#BC52EE" },
+  { name: "Laravel", color: "#FF2D20" },
+  { name: "Tailwind", color: "#06B6D4" },
+  { name: "TypeScript", color: "#3178C6" },
+  { name: "JavaScript", color: "#F7DF1E" },
+  { name: "PHP", color: "#777BB4" },
+  { name: "Python", color: "#3776AB" },
+  { name: "PostgreSQL", color: "#336791" },
+  { name: "MySQL", color: "#4479A1" },
+  { name: "Linux", color: "#FCC624" },
+  { name: "Docker", color: "#2496ED" },
+  { name: "Git", color: "#F05032" },
+  { name: "Vite", color: "#646CFF" },
+  { name: "HTML5", color: "#E34F26" },
+  { name: "CSS", color: "#1572B6" },
+  { name: "Sass", color: "#CC6699" },
+];
 
-  const particles = useMemo(() => {
-    const positions = new Float32Array(600 * 3);
-    for (let i = 0; i < 600; i++) {
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(Math.random() * 2 - 1);
-      const r = 1;
-      const x = r * Math.sin(phi) * Math.cos(theta);
-      const y = r * Math.sin(phi) * Math.sin(theta);
-      const z = r * Math.cos(phi);
-      positions[i * 3] = x;
-      positions[i * 3 + 1] = y;
-      positions[i * 3 + 2] = z;
-    }
-    return positions;
-  }, []);
+function TechNodes() {
+  const groupRef = useRef<THREE.Group>(null);
 
-  const colors = useMemo(() => {
-    const c = new Float32Array(600 * 3);
-    const color1 = new THREE.Color("#0df8f9");
-    const color2 = new THREE.Color("#0D82F9");
-    for (let i = 0; i < 600; i++) {
-      const col = Math.random() > 0.5 ? color1 : color2;
-      c[i * 3] = col.r;
-      c[i * 3 + 1] = col.g;
-      c[i * 3 + 2] = col.b;
+  const positions = useMemo(() => {
+    const pts: THREE.Vector3[] = [];
+    const count = TECHS.length;
+    const phi = Math.PI * (3 - Math.sqrt(5));
+    for (let i = 0; i < count; i++) {
+      const y = 1 - (i / (count - 1)) * 2;
+      const radius = Math.sqrt(1 - y * y);
+      const theta = phi * i;
+      pts.push(new THREE.Vector3(Math.cos(theta) * radius * 2, y * 2, Math.sin(theta) * radius * 2));
     }
-    return c;
+    return pts;
   }, []);
 
   useFrame((_, delta) => {
-    if (ref.current) {
-      ref.current.rotation.y += delta * 0.1;
-      ref.current.rotation.x += delta * 0.03;
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.15;
+      groupRef.current.rotation.x += delta * 0.05;
     }
   });
 
   return (
-    <Points ref={ref} positions={particles} colors={colors}>
-      <PointMaterial
-        transparent
-        vertexColors
-        size={5}
-        sizeAttenuation
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
-        opacity={0.8}
-      />
-    </Points>
-  );
-}
+    <group ref={groupRef}>
+      {/* Core sphere */}
+      <mesh>
+        <sphereGeometry args={[0.3, 32, 32]} />
+        <meshBasicMaterial color="#0df8f9" transparent opacity={0.3} />
+      </mesh>
+      {/* Outer wireframe sphere */}
+      <mesh>
+        <sphereGeometry args={[2, 32, 32]} />
+        <meshBasicMaterial color="#66ccff" transparent opacity={0.03} wireframe />
+      </mesh>
 
-function Ring() {
-  const ref = useRef<THREE.Mesh>(null!);
-  useFrame((_, delta) => {
-    if (ref.current) {
-      ref.current.rotation.z += delta * 0.15;
-    }
-  });
-
-  return (
-    <mesh ref={ref} rotation={[Math.PI / 2, 0, 0]}>
-      <torusGeometry args={[1.6, 0.01, 16, 100]} />
-      <meshBasicMaterial color="#0df8f9" transparent opacity={0.15} />
-    </mesh>
-  );
-}
-
-function TechLabels() {
-  const techs = [
-    "Next.js", "React Native", "Astro", "Vue", "Laravel",
-    "Three.js", "Tailwind", "PostgreSQL", "MySQL", "Expo",
-  ];
-
-  return (
-    <group>
-      {techs.map((name, i) => {
-        const theta = (i / techs.length) * Math.PI * 2;
-        const phi = Math.acos((i / techs.length) * 2 - 1);
-        const r = 2;
-        const x = r * Math.sin(phi) * Math.cos(theta);
-        const y = r * Math.sin(phi) * Math.sin(theta);
-        const z = r * Math.cos(phi);
+      {/* Tech nodes */}
+      {TECHS.map((tech, i) => {
+        const pos = positions[i];
         return (
-          <Float key={name} speed={2} rotationIntensity={0} floatIntensity={0.5}>
-            <mesh position={[x, y, z]}>
-              <sphereGeometry args={[0.06, 8, 8]} />
-              <meshBasicMaterial color="#66ccff" />
+          <group key={tech.name} position={pos}>
+            {/* Glow sphere */}
+            <mesh>
+              <sphereGeometry args={[0.15, 16, 16]} />
+              <meshBasicMaterial color={tech.color} transparent opacity={0.6} />
             </mesh>
-          </Float>
+            {/* Label */}
+            <Html center distanceFactor={8}>
+              <div
+                className="rounded border px-1.5 py-0.5 text-[8px] font-bold whitespace-nowrap backdrop-blur-sm pointer-events-none"
+                style={{
+                  borderColor: tech.color,
+                  background: `${tech.color}20`,
+                  color: tech.color,
+                  textShadow: `0 0 8px ${tech.color}80`,
+                }}
+              >
+                {tech.name}
+              </div>
+            </Html>
+          </group>
         );
       })}
     </group>
@@ -105,12 +96,12 @@ function TechLabels() {
 
 export default function TechSphere() {
   return (
-    <div className="h-full w-full">
-      <Canvas camera={{ position: [0, 0, 4], fov: 50 }}>
+    <div className="h-64 w-full md:h-80">
+      <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
         <ambientLight intensity={0.5} />
-        <SpherePoints />
-        <Ring />
-        <TechLabels />
+        <pointLight position={[10, 10, 10]} />
+        <TechNodes />
+        <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
       </Canvas>
     </div>
   );

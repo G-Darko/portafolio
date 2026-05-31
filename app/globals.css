@@ -128,6 +128,15 @@ body {
   --hud-glow: 0 0 15px rgba(102, 204, 255, 0.15), 0 0 30px rgba(102, 204, 255, 0.05);
 }
 
+html.light {
+  --hud-bg: rgba(240, 244, 248, 0.92);
+  --glass-border: rgba(0, 119, 255, 0.18);
+  --glass-active: rgba(0, 119, 255, 0.08);
+  --scanline: rgba(0, 119, 255, 0.03);
+  --crt-flicker: rgba(0, 119, 255, 0.02);
+  --hud-glow: 0 0 15px rgba(0, 119, 255, 0.15), 0 0 30px rgba(0, 119, 255, 0.05);
+}
+
 @keyframes scanline {
   0% { transform: translateY(-100%); }
   100% { transform: translateY(100vh); }
@@ -151,4 +160,16 @@ body {
 @keyframes typewriter {
   from { width: 0; }
   to { width: 100%; }
+}
+
+@keyframes gridMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 40px; }
+}
+
+@keyframes floatParticle {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+  25% { transform: translateY(-20px) translateX(10px); opacity: 0.6; }
+  50% { transform: translateY(-10px) translateX(-10px); opacity: 0.4; }
+  75% { transform: translateY(-30px) translateX(5px); opacity: 0.5; }
 }
