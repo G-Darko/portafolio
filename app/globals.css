@@ -114,3 +114,41 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   }
 }
+
+/* FUI HUD variables */
+:root {
+  --hud-bg: rgba(8, 12, 18, 0.92);
+  --glass-border: rgba(102, 204, 255, 0.18);
+  --glass-active: rgba(102, 204, 255, 0.08);
+  --scanline: rgba(102, 204, 255, 0.03);
+  --crt-flicker: rgba(102, 204, 255, 0.02);
+  --hud-green: #00e676;
+  --hud-red: #ff5252;
+  --hud-amber: #ffc107;
+  --hud-glow: 0 0 15px rgba(102, 204, 255, 0.15), 0 0 30px rgba(102, 204, 255, 0.05);
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes crtFlicker {
+  0%, 100% { opacity: 0.02; }
+  50% { opacity: 0.04; }
+}
+
+@keyframes pulseBorder {
+  0%, 100% { border-color: rgba(102, 204, 255, 0.18); }
+  50% { border-color: rgba(102, 204, 255, 0.45); }
+}
+
+@keyframes bootupScan {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 0% 100%; }
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}

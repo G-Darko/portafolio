@@ -1,25 +1,17 @@
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import About from "@/components/About";
-import Experience from "@/components/Experience";
-import Projects from "@/components/Projects";
-import Skills from "@/components/Skills";
-import Certifications from "@/components/Certifications";
-import Contact from "@/components/Contact";
+"use client";
+
+import { useHUDStore } from "@/lib/store/useHUDStore";
+import BootupSequence from "@/components/hud/BootupSequence";
+import HUDShell from "@/components/hud/HUDShell";
+import EasterEggManager from "@/components/hud/EasterEggManager";
 
 export default function Home() {
+  const { bootupDone } = useHUDStore();
+
   return (
     <>
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Experience />
-        <Projects />
-        <Skills />
-        <Certifications />
-        <Contact />
-      </main>
+      <EasterEggManager />
+      {!bootupDone ? <BootupSequence /> : <HUDShell />}
     </>
   );
 }
