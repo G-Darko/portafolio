@@ -53,68 +53,25 @@ export default function FloatingWindow({
         exit={{ opacity: 0, scale: 0.9 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         onMouseDown={handleStart}
-        className="absolute flex flex-col overflow-hidden"
+        className="absolute flex flex-col overflow-hidden rounded-lg border border-hud-border bg-hud-bg shadow-[var(--hud-glow)] backdrop-blur-xl"
         style={{
           zIndex,
           width: defaultWidth,
           height: isMinimized ? 40 : defaultHeight,
-          /* Stark hologram style */
-          background: "rgba(8, 16, 32, 0.75)",
-          border: "1px solid rgba(13, 248, 249, 0.3)",
-          boxShadow: `
-            0 0 20px rgba(13, 248, 249, 0.1),
-            0 0 40px rgba(13, 248, 249, 0.05),
-            inset 0 1px 0 rgba(255,255,255,0.05)
-          `,
-          backdropFilter: "blur(12px)",
-          clipPath: "polygon(0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px))",
         }}
       >
-        {/* Corner accents */}
-        <div className="pointer-events-none absolute inset-0"
-          style={{
-            background: `
-              linear-gradient(135deg, rgba(13,248,249,0.3) 0px, transparent 8px),
-              linear-gradient(-135deg, rgba(13,248,249,0.3) 0px, transparent 8px),
-              linear-gradient(45deg, rgba(13,248,249,0.3) 0px, transparent 8px),
-              linear-gradient(-45deg, rgba(13,248,249,0.3) 0px, transparent 8px)
-            `,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "20px 20px",
-            backgroundPosition: "0 0, 100% 0, 0 100%, 100% 100%",
-          }}
-        />
-
-        {/* Scanline overlay */}
-        <div className="pointer-events-none absolute inset-0 opacity-20"
-          style={{
-            background: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(13,248,249,0.03) 2px, rgba(13,248,249,0.03) 4px)",
-          }}
-        />
-
-        {/* Window header - hologram style */}
+        {/* Hologram header */}
         <div
-          className="hologram-header relative flex cursor-move items-center justify-between border-b px-3 py-2 select-none"
-          style={{
-            borderColor: "rgba(13, 248, 249, 0.2)",
-            background: "linear-gradient(90deg, rgba(13,248,249,0.1) 0%, transparent 50%, rgba(13,248,249,0.05) 100%)",
-          }}
+          className="hologram-header relative flex cursor-move items-center justify-between border-b border-hud-border px-3 py-2 select-none bg-gradient-to-r from-hud-cyan/10 via-transparent to-hud-cyan/5"
         >
           <div className="flex items-center gap-2">
-            {/* Status dot */}
-            <div
-              className="h-2 w-2 rounded-full"
-              style={{
-                background: "var(--c1)",
-                boxShadow: "0 0 6px var(--c1)",
-              }}
-            />
+            <div className="h-2 w-2 rounded-full bg-hud-cyan shadow-[0_0_6px_var(--hud-cyan)]" />
             <div>
-              <span className="text-[10px] font-bold tracking-[0.2em]" style={{ color: "var(--c1)" }}>
+              <span className="text-[10px] font-bold tracking-[0.2em] text-hud-cyan">
                 {title}
               </span>
               {subtitle && (
-                <span className="ml-1.5 text-[9px] opacity-40 font-mono" style={{ color: "var(--accent)" }}>
+                <span className="ml-1.5 text-[9px] font-mono text-muted-foreground">
                   // {subtitle}
                 </span>
               )}
@@ -124,22 +81,20 @@ export default function FloatingWindow({
           <div className="flex items-center gap-1">
             <button
               onClick={() => setIsMinimized((p) => !p)}
-              className="flex h-5 w-5 items-center justify-center text-[10px] font-mono transition-colors hover:text-[var(--c1)]"
-              style={{ color: "var(--accent)" }}
+              className="flex h-5 w-5 items-center justify-center text-[10px] font-mono text-muted-foreground transition-colors hover:text-hud-cyan"
             >
               {isMinimized ? "+" : "−"}
             </button>
             <button
               onClick={onClose}
-              className="flex h-5 w-5 items-center justify-center text-[10px] transition-colors hover:text-[var(--hud-red)]"
-              style={{ color: "var(--accent)" }}
+              className="flex h-5 w-5 items-center justify-center text-[10px] text-muted-foreground transition-colors hover:text-hud-red"
             >
               ✕
             </button>
           </div>
         </div>
 
-        {/* Window body */}
+        {/* Body */}
         {!isMinimized && (
           <div className="scrollbar-thin relative z-10 flex-1 overflow-auto p-3">
             {children}

@@ -10,26 +10,19 @@ export default function ProfileWindow() {
 
   return (
     <div className="flex flex-col items-center gap-3">
-      <div className="relative h-24 w-24 overflow-hidden rounded-full border-2"
-        style={{ borderColor: "var(--c1)", boxShadow: "0 0 20px rgba(13,248,249,0.2)" }}
+      <div className="relative h-24 w-24 overflow-hidden rounded-full border-2 border-hud-cyan shadow-[0_0_20px_oklch(0.65_0.18_255/0.2)]"
       >
-        <Image
-          src="img/DARKO.png"
-          alt="Gael Uribe"
-          fill
-          className="object-cover"
-        />
+        <Image src="img/DARKO.png" alt="Gael Uribe" fill className="object-cover" />
       </div>
 
-      <h2 className="text-center font-mono text-lg font-bold" style={{ color: "var(--c1)" }}>
+      <h2 className="text-center font-mono text-lg font-bold text-hud-cyan">
         {t.profile.name}
       </h2>
-      <p className="text-center text-xs opacity-70" style={{ color: "var(--accent)" }}>
+      <p className="text-center text-xs text-muted-foreground">
         {t.profile.role}
       </p>
 
-      <div className="mt-2 w-full rounded border p-3 text-xs leading-relaxed"
-        style={{ borderColor: "rgba(13,248,249,0.1)", background: "rgba(13,248,249,0.03)" }}
+      <div className="mt-2 w-full rounded border border-hud-border bg-hud-cyan/5 p-3 text-xs leading-relaxed text-foreground"
       >
         {t.profile.about}
       </div>
@@ -37,8 +30,7 @@ export default function ProfileWindow() {
       <div className="mt-1 flex w-full gap-2">
         <a
           href="cv"
-          className="flex flex-1 items-center justify-center gap-1 rounded border py-2 text-[10px] font-bold tracking-widest transition-colors hover:bg-[rgba(13,248,249,0.1)]"
-          style={{ borderColor: "rgba(13,248,249,0.2)", color: "var(--c1)" }}
+          className="flex flex-1 items-center justify-center gap-1 rounded border border-hud-border py-2 text-[10px] font-bold tracking-widest text-hud-cyan transition-colors hover:bg-hud-cyan/10"
         >
           {t.profile.viewCv}
         </a>
@@ -46,8 +38,7 @@ export default function ProfileWindow() {
           href="https://github.com/G-Darko"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex h-8 w-8 items-center justify-center rounded border transition-colors hover:bg-[rgba(13,248,249,0.1)]"
-          style={{ borderColor: "rgba(13,248,249,0.2)", color: "var(--accent)" }}
+          className="flex h-8 w-8 items-center justify-center rounded border border-hud-border text-muted-foreground transition-colors hover:bg-hud-cyan/10 hover:text-hud-cyan"
         >
           <GitBranch size={14} />
         </a>

@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Sun, Moon, Globe, Terminal, Box, Shield, User, Briefcase, FolderOpen, Award, Mail } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/useTranslation";
+import { Sun, Moon, Globe } from "lucide-react";
 import { useThemeStore } from "@/lib/store/useThemeStore";
 import { useLocaleStore } from "@/lib/store/useLocaleStore";
-import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useProgressStore } from "@/lib/store/useProgressStore";
 import { playHUDClick, playWindowOpen } from "@/lib/audio/audio";
 
@@ -16,17 +16,15 @@ interface HUDHeaderProps {
   totalPercent: number;
 }
 
-type HeaderKey = "profile" | "experience" | "projects" | "skills" | "certifications" | "terminal" | "minigame" | "contact";
-
-const WINDOW_BUTTONS: { id: WindowId; labelKey: HeaderKey; icon: typeof Terminal }[] = [
-  { id: "profile", labelKey: "profile", icon: User },
-  { id: "experience", labelKey: "experience", icon: Briefcase },
-  { id: "projects", labelKey: "projects", icon: FolderOpen },
-  { id: "skills", labelKey: "skills", icon: Box },
-  { id: "certifications", labelKey: "certifications", icon: Award },
-  { id: "terminal", labelKey: "terminal", icon: Terminal },
-  { id: "minigame", labelKey: "minigame", icon: Shield },
-  { id: "contact", labelKey: "contact", icon: Mail },
+const WINDOW_BUTTONS = [
+  { id: "profile" as WindowId, labelKey: "profile", icon: () => <span className="text-hud-cyan">&#9673;</span> },
+  { id: "experience" as WindowId, labelKey: "experience", icon: () => <span className="text-hud-cyan">&#9642;</span> },
+  { id: "projects" as WindowId, labelKey: "projects", icon: () => <span className="text-hud-cyan">&#9646;</span> },
+  { id: "skills" as WindowId, labelKey: "skills", icon: () => <span className="text-hud-cyan">&#9670;</span> },
+  { id: "certifications" as WindowId, labelKey: "certifications", icon: () => <span className="text-hud-cyan">&#9671;</span> },
+  { id: "terminal" as WindowId, labelKey: "terminal", icon: () => <span className="text-hud-cyan">&#9654;</span> },
+  { id: "minigame" as WindowId, labelKey: "minigame", icon: () => <span className="text-hud-cyan">&#9889;</span> },
+  { id: "contact" as WindowId, labelKey: "contact", icon: () => <span className="text-hud-cyan">&#64;</span> },
 ];
 
 export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps) {
@@ -36,14 +34,11 @@ export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps
   const { t } = useTranslation();
   const { secretsFound } = useProgressStore();
 
-  const handleOpen = useCallback(
-    (id: WindowId) => {
-      playWindowOpen();
-      onOpenWindow(id);
-      setMobileOpen(false);
-    },
-    [onOpenWindow]
-  );
+  const handleOpen = (id: WindowId) => {
+    playWindowOpen();
+    onOpenWindow(id);
+    setMobileOpen(false);
+  };
 
   return (
     <>
@@ -51,48 +46,35 @@ export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps
         initial={{ y: -60 }}
         animate={{ y: 0 }}
         transition={{ delay: 0.4, duration: 0.6 }}
-        className="fixed left-0 right-0 top-0 z-[200] flex items-center justify-between border-b px-3 py-2 backdrop-blur-lg"
-        style={{
-          borderColor: "var(--glass-border)",
-          background: "rgba(8, 12, 18, 0.7)",
-        }}
+        className="fixed left-0 right-0 top-0 z-[200] flex items-center justify-between border-b border-hud-border bg-hud-bg px-3 py-2 backdrop-blur-lg"
       >
         <div className="flex items-center gap-2">
           <div
             data-hud-logo
-            className="flex h-7 w-7 select-none items-center justify-center rounded font-mono text-xs font-bold"
-            style={{
-              background: "var(--card)",
-              border: "1px solid var(--glass-border)",
-              color: "var(--c1)",
-              cursor: "pointer",
-            }}
+            className="flex h-7 w-7 cursor-pointer select-none items-center justify-center rounded border border-hud-border bg-card font-mono text-xs font-bold text-hud-cyan shadow-[0_0_8px_rgba(13,248,249,0.2)]"
           >
             G
           </div>
           <div className="hidden sm:block">
-            <h1 className="font-mono text-xs font-bold tracking-widest" style={{ color: "var(--text)" }}>
+            <h1 className="font-mono text-xs font-bold tracking-widest text-foreground">
               {t.header.title}
             </h1>
-            <p className="font-mono text-[10px] opacity-50" style={{ color: "var(--accent)" }}>
+            <p className="font-mono text-[10px] text-muted-foreground">
               {t.header.subtitle}
             </p>
           </div>
 
-          {/* Desktop quick buttons */}
+          {/* Desktop buttons */}
           <div className="ml-3 hidden items-center gap-0.5 md:flex">
             {WINDOW_BUTTONS.map(({ id, labelKey, icon: Icon }) => (
               <button
                 key={id}
                 onClick={() => handleOpen(id)}
-                className="flex items-center gap-1 rounded px-2 py-1 text-[10px] font-mono transition-colors hover:bg-accent/10"
-                style={{
-                  color: "var(--accent)",
-                }}
+                className="flex items-center gap-1 rounded px-2 py-1 text-[10px] font-mono text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
                 title={id}
               >
-                <Icon size={12} />
-                <span className="hidden lg:inline">{t.header[labelKey]}</span>
+                <Icon />
+                <span className="hidden lg:inline">{t.header[labelKey as keyof typeof t.header]}</span>
               </button>
             ))}
           </div>
@@ -101,22 +83,16 @@ export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps
         <div className="flex items-center gap-2">
           {/* Progress */}
           <div className="hidden items-center gap-2 sm:flex">
-            <span className="font-mono text-[10px]" style={{ color: "var(--c1)" }}>
+            <span className="font-mono text-[10px] text-hud-cyan">
               {totalPercent}%
             </span>
-            <div className="h-1 w-16 overflow-hidden rounded-full" style={{ background: "var(--complement)" }}>
+            <div className="h-1 w-16 overflow-hidden rounded-full bg-muted">
               <div
-                className="h-full rounded-full transition-all duration-700"
-                style={{
-                  width: `${totalPercent}%`,
-                  background: "linear-gradient(90deg, var(--c1), var(--c2))",
-                }}
+                className="h-full rounded-full bg-gradient-to-r from-hud-cyan to-hud-blue transition-all duration-700"
+                style={{ width: `${totalPercent}%` }}
               />
             </div>
-            <span
-              className="font-mono text-[10px]"
-              style={{ color: secretsFound.length > 0 ? "var(--hud-green)" : "var(--accent)" }}
-            >
+            <span className="font-mono text-[10px] text-muted-foreground">
               {secretsFound.length}/{t.header.secrets}
             </span>
           </div>
@@ -124,8 +100,7 @@ export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps
           {/* Theme toggle */}
           <button
             onClick={() => { playHUDClick(); toggleTheme(); }}
-            className="flex h-7 w-7 items-center justify-center rounded transition-colors hover:bg-accent/10"
-            style={{ color: "var(--accent)" }}
+            className="flex h-7 w-7 items-center justify-center rounded text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             title={theme === "dark" ? "Light mode" : "Dark mode"}
           >
             {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
@@ -134,8 +109,7 @@ export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps
           {/* Locale toggle */}
           <button
             onClick={() => { playHUDClick(); toggleLocale(); }}
-            className="flex h-7 items-center justify-center rounded px-1.5 font-mono text-[10px] transition-colors hover:bg-accent/10"
-            style={{ color: "var(--accent)" }}
+            className="flex h-7 items-center justify-center rounded px-1.5 font-mono text-[10px] text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             title="Toggle language"
           >
             <Globe size={12} className="mr-1" />
@@ -148,9 +122,9 @@ export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps
             onClick={() => setMobileOpen((p) => !p)}
             aria-label="Menu"
           >
-            <span className={`block h-0.5 w-5 transition-transform ${mobileOpen ? "translate-y-[3px] rotate-45" : ""}`} style={{ background: "var(--accent)" }} />
-            <span className={`block h-0.5 w-5 transition-opacity ${mobileOpen ? "opacity-0" : "opacity-100"}`} style={{ background: "var(--accent)" }} />
-            <span className={`block h-0.5 w-5 transition-transform ${mobileOpen ? "-translate-y-[3px] -rotate-45" : ""}`} style={{ background: "var(--accent)" }} />
+            <span className={`block h-0.5 w-5 bg-muted-foreground transition-transform ${mobileOpen ? "translate-y-[3px] rotate-45" : ""}`} />
+            <span className={`block h-0.5 w-5 bg-muted-foreground transition-opacity ${mobileOpen ? "opacity-0" : "opacity-100"}`} />
+            <span className={`block h-0.5 w-5 bg-muted-foreground transition-transform ${mobileOpen ? "-translate-y-[3px] -rotate-45" : ""}`} />
           </button>
         </div>
       </motion.header>
@@ -162,26 +136,17 @@ export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="fixed left-0 right-0 top-12 z-[199] border-b p-4 md:hidden"
-            style={{
-              background: "rgba(8,12,18,0.95)",
-              borderColor: "var(--glass-border)",
-              backdropFilter: "blur(16px)",
-            }}
+            className="fixed left-0 right-0 top-12 z-[199] border-b border-hud-border bg-hud-bg p-4 backdrop-blur-xl md:hidden"
           >
             <div className="grid grid-cols-3 gap-2">
               {WINDOW_BUTTONS.map(({ id, labelKey, icon: Icon }) => (
                 <button
                   key={id}
                   onClick={() => handleOpen(id)}
-                  className="flex flex-col items-center gap-1 rounded border px-2 py-3 text-[10px] font-mono transition-colors hover:bg-accent/10"
-                  style={{
-                    borderColor: "var(--glass-border)",
-                    color: "var(--accent)",
-                  }}
+                  className="flex flex-col items-center gap-1 rounded border border-hud-border px-2 py-3 text-[10px] font-mono text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
                 >
-                  <Icon size={16} />
-                  {t.header[labelKey]}
+                  <Icon />
+                  {t.header[labelKey as keyof typeof t.header]}
                 </button>
               ))}
             </div>

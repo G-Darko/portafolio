@@ -6,7 +6,7 @@ import { OrbitControls, Html } from "@react-three/drei";
 import * as THREE from "three";
 
 const TECHS = [
-  { name: "Next.js", color: "#000" },
+  { name: "Next.js", color: "#888" },
   { name: "React", color: "#61DAFB" },
   { name: "Vue.js", color: "#4FC08D" },
   { name: "Astro", color: "#BC52EE" },
@@ -52,28 +52,23 @@ function TechNodes() {
 
   return (
     <group ref={groupRef}>
-      {/* Core sphere */}
       <mesh>
         <sphereGeometry args={[0.3, 32, 32]} />
         <meshBasicMaterial color="#0df8f9" transparent opacity={0.3} />
       </mesh>
-      {/* Outer wireframe sphere */}
       <mesh>
         <sphereGeometry args={[2, 32, 32]} />
         <meshBasicMaterial color="#66ccff" transparent opacity={0.03} wireframe />
       </mesh>
 
-      {/* Tech nodes */}
       {TECHS.map((tech, i) => {
         const pos = positions[i];
         return (
           <group key={tech.name} position={pos}>
-            {/* Glow sphere */}
             <mesh>
               <sphereGeometry args={[0.15, 16, 16]} />
               <meshBasicMaterial color={tech.color} transparent opacity={0.6} />
             </mesh>
-            {/* Label */}
             <Html center distanceFactor={8}>
               <div
                 className="rounded border px-1.5 py-0.5 text-[8px] font-bold whitespace-nowrap backdrop-blur-sm pointer-events-none"

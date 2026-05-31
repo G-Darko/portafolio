@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ExternalLink } from "lucide-react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
+import { ExternalLink } from "lucide-react";
 
 interface CertData {
   icon: string;
@@ -30,7 +30,7 @@ export default function CertificationsWindow() {
     },
     {
       icon: "EC",
-      iconColor: "var(--c1)",
+      iconColor: "var(--hud-cyan)",
       title: t.certifications.conocer.title,
       org: t.certifications.conocer.org,
       date: t.certifications.conocer.date,
@@ -48,38 +48,26 @@ export default function CertificationsWindow() {
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: i * 0.1 }}
-          className="rounded-lg border p-3"
-          style={{ borderColor: "var(--glass-border)", background: "rgba(102,204,255,0.03)" }}
+          className="rounded-lg border border-hud-border bg-hud-cyan/5 p-3"
         >
           <div className="flex items-start gap-3">
             <div
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg font-mono text-xs font-bold"
-              style={{
-                background: "var(--card)",
-                border: "1px solid var(--glass-border)",
-                color: cert.iconColor,
-              }}
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-hud-border bg-card font-mono text-xs font-bold"
+              style={{ color: cert.iconColor }}
             >
               {cert.icon}
             </div>
             <div className="flex-1">
-              <h4 className="text-xs font-bold" style={{ color: "var(--text)" }}>
-                {cert.title}
-              </h4>
-              <p className="text-[10px] opacity-60" style={{ color: "var(--accent)" }}>
-                {cert.org} • {cert.date}
-              </p>
+              <h4 className="text-xs font-bold text-foreground">{cert.title}</h4>
+              <p className="text-[10px] text-muted-foreground">{cert.org} • {cert.date}</p>
               {cert.folio && (
-                <p className="mt-1 text-[9px] opacity-50 font-mono" style={{ color: "var(--accent)" }}>
-                  {cert.folio}
-                </p>
+                <p className="mt-1 text-[9px] font-mono text-muted-foreground opacity-50">{cert.folio}</p>
               )}
               <a
                 href={cert.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-2 inline-flex items-center gap-1 text-[10px] transition-colors hover:opacity-80"
-                style={{ color: "var(--c1)" }}
+                className="mt-2 inline-flex items-center gap-1 text-[10px] text-hud-cyan transition-colors hover:opacity-80"
               >
                 <ExternalLink size={10} />
                 {cert.linkText}

@@ -2,26 +2,18 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useHUDStore } from "@/lib/store/useHUDStore";
 import { playBootupChime } from "@/lib/audio/audio";
-
-const BOOT_LINES = [
-  "Initializing HUD kernel...",
-  "Loading subsystems...",
-  "Mounting mission modules...",
-  "Allocating render buffers...",
-  "Establishing neural link...",
-  "Access granted.",
-];
 
 export default function BootupSequence() {
   const [phase, setPhase] = useState<"idle" | "typing" | "done">("idle");
   const [visibleLines, setVisibleLines] = useState<number>(0);
   const [showButton, setShowButton] = useState(false);
+  const { t } = useTranslation();
   const { soundEnabled, setBootupDone } = useHUDStore();
 
   useEffect(() => {
-    // Show "Iniciar Sistema" button after a tiny delay
     const t = setTimeout(() => setShowButton(true), 600);
     return () => clearTimeout(t);
   }, []);
@@ -31,11 +23,20 @@ export default function BootupSequence() {
     setPhase("typing");
     if (soundEnabled) playBootupChime();
 
+    const lines = [
+      t.bootup.initializing,
+      t.bootup.loading,
+      t.bootup.mounting,
+      t.bootup.allocating,
+      t.bootup.neural,
+      t.bootup.granted,
+    ];
+
     let i = 0;
     const interval = setInterval(() => {
       i++;
       setVisibleLines(i);
-      if (i >= BOOT_LINES.length) {
+      if (i >= lines.length) {
         clearInterval(interval);
         setTimeout(() => {
           setPhase("done");
@@ -45,8 +46,17 @@ export default function BootupSequence() {
     }, 350);
   };
 
+  const lines = [
+    t.bootup.initializing,
+    t.bootup.loading,
+    t.bootup.mounting,
+    t.bootup.allocating,
+    t.bootup.neural,
+    t.bootup.granted,
+  ];
+
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center" style={{ background: "var(--background)" }}>
+    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-background">
       <div className="mx-4 w-full max-w-lg">
         <AnimatePresence>
           {phase === "idle" && (
@@ -57,20 +67,12 @@ export default function BootupSequence() {
               exit={{ opacity: 0, y: -20 }}
               className="flex flex-col items-center gap-6"
             >
-              <div
-                className="flex h-20 w-20 items-center justify-center rounded-full text-3xl font-black"
-                style={{
-                  border: "2px solid var(--c1)",
-                  color: "var(--c1)",
-                  boxShadow: "0 0 30px rgba(13,248,249,0.15)",
-                }}
+              <div className="flex h-20 w-20 items-center justify-center rounded-full border-2 border-hud-cyan text-3xl font-black text-hud-cyan shadow-[0_0_30px_oklch(0.65_0.18_255/0.15)]"
               >
                 G
               </div>
-              <h1
-                className="text-center font-mono text-sm tracking-[0.3em] text-[var(--accent)]"
-              >
-                G-DARKO OS
+              <h1 className="text-center font-mono text-sm tracking-[0.3em] text-muted-foreground">
+                {t.bootup.title}
               </h1>
               {showButton && (
                 <motion.button
@@ -79,10 +81,9 @@ export default function BootupSequence() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={start}
-                  className="rounded border px-6 py-2 font-mono text-xs font-bold tracking-widest transition-colors hover:bg-accent/5"
-                  style={{ borderColor: "var(--c1)", color: "var(--c1)" }}
+                  className="rounded border border-hud-cyan px-6 py-2 font-mono text-xs font-bold tracking-widest text-hud-cyan transition-colors hover:bg-hud-cyan/10"
                 >
-                  INICIAR SISTEMA
+                  {t.bootup.start}
                 </motion.button>
               )}
             </motion.div>
@@ -96,33 +97,27 @@ export default function BootupSequence() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="rounded-lg border p-5 font-mono text-xs"
-              style={{
-                borderColor: "var(--glass-border)",
-                background: "rgba(8,12,18,0.8)",
-              }}
+              className="rounded-lg border border-hud-border bg-hud-bg p-5 font-mono text-xs backdrop-blur-xl"
             >
-              {BOOT_LINES.slice(0, visibleLines).map((line, i) => (
+              {lines.slice(0, visibleLines).map((line, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   className="mb-1"
-                  style={{
-                    color:
-                      line.startsWith("Access")
-                        ? "var(--hud-green)"
-                        : line.startsWith("Establishing")
-                        ? "var(--c1)"
-                        : "var(--accent)",
-                  }}
                 >
-                  {line.startsWith("Access") && "✔ "}
-                  {line}
+                  {line === t.bootup.granted && <span className="text-hud-green">✔ </span>}
+                  <span className={
+                    line === t.bootup.granted ? "text-hud-green" :
+                    line === t.bootup.neural ? "text-hud-cyan" :
+                    "text-muted-foreground"
+                  }>
+                    {line}
+                  </span>
                 </motion.div>
               ))}
               {phase === "typing" && (
-                <span className="inline-block h-3 w-1.5 animate-pulse bg-[var(--c1)]" />
+                <span className="inline-block h-3 w-1.5 animate-pulse bg-hud-cyan" />
               )}
             </motion.div>
           )}

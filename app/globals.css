@@ -1,85 +1,145 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 @theme inline {
-  --color-bg: var(--bg);
-  --color-text: var(--text);
-  --color-accent: var(--accent);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
   --color-card: var(--card);
-  --color-complement: var(--complement);
-  --color-gris: var(--gris);
-  --color-c1: var(--c1);
-  --color-c2: var(--c2);
-  --color-header: var(--header);
-  --color-section: var(--section);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-hud-cyan: var(--hud-cyan);
+  --color-hud-blue: var(--hud-blue);
+  --color-hud-green: var(--hud-green);
+  --color-hud-red: var(--hud-red);
+  --color-hud-amber: var(--hud-amber);
+  --color-hud-glow: var(--hud-glow);
+  --color-hud-border: var(--hud-border);
+  --color-hud-bg: var(--hud-bg);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
   --font-sans: var(--font-poppins);
 }
 
+button {
+  cursor: pointer;
+}
+
+/* ── Light (default) ─────────────────────────── */
 :root {
-  --lg: 45deg, #0df8f9, #0D82F9;
-  --c1: #0df8f9;
-  --c2: #0D82F9;
-  --complement: #222;
-  --gris: #454546;
-  --rgba: rgba(255, 255, 255, .25);
-  --bg: #121212;
-  --text: #f0f0f0;
-  --accent: #66ccff;
-  --card: #1e1e1e;
-  --header: #161b22;
-  --section: #1f2937;
-  --deg: -45deg;
-  --deg-even: 45deg;
-  /* HUD vars */
-  --hud-bg: rgba(8, 12, 18, 0.92);
-  --glass-border: rgba(102, 204, 255, 0.18);
-  --glass-active: rgba(102, 204, 255, 0.08);
-  --scanline: rgba(102, 204, 255, 0.03);
-  --crt-flicker: rgba(102, 204, 255, 0.02);
-  --hud-green: #00e676;
-  --hud-red: #ff5252;
-  --hud-amber: #ffc107;
-  --hud-glow: 0 0 15px rgba(102, 204, 255, 0.15), 0 0 30px rgba(102, 204, 255, 0.05);
+  --radius: 0.5rem;
+
+  --background: oklch(0.97 0 0);
+  --foreground: oklch(0.15 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.15 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0 0);
+  --primary: oklch(0.2 0 0);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.92 0 0);
+  --secondary-foreground: oklch(0.2 0 0);
+  --muted: oklch(0.92 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  --accent: oklch(0.92 0 0);
+  --accent-foreground: oklch(0.2 0 0);
+  --destructive: oklch(0.6 0.2 25);
+  --border: oklch(0.85 0 0);
+  --input: oklch(0.85 0 0);
+  --ring: oklch(0.6 0 0);
+
+  /* Stark HUD palette — light */
+  --hud-cyan: oklch(0.75 0.18 195);
+  --hud-blue: oklch(0.55 0.18 255);
+  --hud-green: oklch(0.7 0.2 145);
+  --hud-red: oklch(0.6 0.22 25);
+  --hud-amber: oklch(0.8 0.18 80);
+  --hud-glow: 0 0 15px oklch(0.55 0.18 255 / 0.15), 0 0 30px oklch(0.55 0.18 255 / 0.05);
+  --hud-border: oklch(0.55 0.18 255 / 0.25);
+  --hud-bg: oklch(0.95 0 0 / 0.9);
 }
 
-html.light {
-  --bg: #f2f2f2;
-  --text: #121212;
-  --accent: #0077ff;
-  --card: #d7dce7;
-  --complement: #ddd;
-  --header: #f0f0f0;
-  --section: #e9ecef;
-  --hud-bg: rgba(240, 244, 248, 0.92);
-  --glass-border: rgba(0, 119, 255, 0.18);
-  --glass-active: rgba(0, 119, 255, 0.08);
-  --scanline: rgba(0, 119, 255, 0.03);
-  --crt-flicker: rgba(0, 119, 255, 0.02);
-  --hud-glow: 0 0 15px rgba(0, 119, 255, 0.15), 0 0 30px rgba(0, 119, 255, 0.05);
+/* ── Dark ────────────────────────────────────── */
+.dark {
+  --background: oklch(0.12 0 0);
+  --foreground: oklch(0.95 0 0);
+  --card: oklch(0.18 0 0);
+  --card-foreground: oklch(0.95 0 0);
+  --popover: oklch(0.18 0 0);
+  --popover-foreground: oklch(0.95 0 0);
+  --primary: oklch(0.85 0 0);
+  --primary-foreground: oklch(0.12 0 0);
+  --secondary: oklch(0.22 0 0);
+  --secondary-foreground: oklch(0.85 0 0);
+  --muted: oklch(0.22 0 0);
+  --muted-foreground: oklch(0.65 0 0);
+  --accent: oklch(0.22 0 0);
+  --accent-foreground: oklch(0.85 0 0);
+  --destructive: oklch(0.55 0.2 25);
+  --border: oklch(0.25 0 0);
+  --input: oklch(0.25 0 0);
+  --ring: oklch(0.5 0 0);
+
+  /* Stark HUD palette — dark */
+  --hud-cyan: oklch(0.8 0.18 195);
+  --hud-blue: oklch(0.65 0.18 255);
+  --hud-green: oklch(0.75 0.2 145);
+  --hud-red: oklch(0.65 0.22 25);
+  --hud-amber: oklch(0.85 0.18 80);
+  --hud-glow: 0 0 15px oklch(0.65 0.18 255 / 0.2), 0 0 30px oklch(0.65 0.18 255 / 0.08);
+  --hud-border: oklch(0.65 0.18 255 / 0.25);
+  --hud-bg: oklch(0.08 0.02 240 / 0.85);
 }
 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* ── Scrollbar ───────────────────────────────── */
+* {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--hud-cyan) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 3px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--hud-cyan), var(--hud-blue));
+  border-radius: 10px;
+}
+
+/* ── Animations ──────────────────────────────── */
 @keyframes scanline {
   0% { transform: translateY(-100%); }
   100% { transform: translateY(100vh); }
 }
 
-@keyframes crtFlicker {
-  0%, 100% { opacity: 0.02; }
-  50% { opacity: 0.04; }
-}
-
 @keyframes pulseBorder {
-  0%, 100% { border-color: rgba(102, 204, 255, 0.18); }
-  50% { border-color: rgba(102, 204, 255, 0.45); }
-}
-
-@keyframes bootupScan {
-  0% { background-position: 0% 0%; }
-  100% { background-position: 0% 100%; }
-}
-
-@keyframes typewriter {
-  from { width: 0; }
-  to { width: 100%; }
+  0%, 100% { border-color: oklch(0.65 0.18 255 / 0.18); }
+  50% { border-color: oklch(0.65 0.18 255 / 0.45); }
 }
 
 @keyframes gridMove {
@@ -92,4 +152,12 @@ html.light {
   25% { transform: translateY(-20px) translateX(10px); opacity: 0.6; }
   50% { transform: translateY(-10px) translateX(-10px); opacity: 0.4; }
   75% { transform: translateY(-30px) translateX(5px); opacity: 0.5; }
+}
+
+/* ── Reduced motion ──────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition-duration: 0.001ms !important;
+  }
 }

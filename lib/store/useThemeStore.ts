@@ -12,11 +12,20 @@ interface ThemeState {
 
 function resolveTheme(theme: Theme): "dark" | "light" {
   if (theme === "system") {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
+    if (typeof window === "undefined") return "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   }
   return theme;
+}
+
+function applyThemeClass(resolved: "dark" | "light") {
+  if (typeof document === "undefined") return;
+  const root = document.documentElement;
+  if (resolved === "dark") {
+    root.classList.add("dark");
+  } else {
+    root.classList.remove("dark");
+  }
 }
 
 export const useThemeStore = create<ThemeState>()(
@@ -27,15 +36,13 @@ export const useThemeStore = create<ThemeState>()(
       setTheme: (t) => {
         const resolved = typeof window !== "undefined" ? resolveTheme(t) : "dark";
         set({ theme: t, resolved });
-        if (typeof document !== "undefined") {
-          document.documentElement.classList.remove("dark", "light");
-          document.documentElement.classList.add(resolved);
-        }
+        applyThemeClass(resolved);
       },
       toggleTheme: () => {
-        const current = get().theme;
+        const current = get().resolved;
         const next = current === "dark" ? "light" : "dark";
-        get().setTheme(next);
+        set({ theme: next, resolved: next });
+        applyThemeClass(next);
       },
     }),
     {
@@ -44,8 +51,7 @@ export const useThemeStore = create<ThemeState>()(
         if (state && typeof window !== "undefined") {
           const resolved = resolveTheme(state.theme);
           state.resolved = resolved;
-          document.documentElement.classList.remove("dark", "light");
-          document.documentElement.classList.add(resolved);
+          applyThemeClass(resolved);
         }
       },
     }
