@@ -13,7 +13,7 @@ import dynamic from "next/dynamic";
 const TechSphere = dynamic(() => import("@/components/three/TechSphere"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-64 items-center justify-center text-xs opacity-50" style={{ color: "var(--accent)" }}>
+    <div className="flex h-64 items-center justify-center text-xs text-muted-foreground">
       Loading 3D engine...
     </div>
   ),
@@ -43,18 +43,19 @@ interface OpenWindow {
   zIndex: number;
 }
 
+/* Tony Stark workshop layout — distributed around a central workspace */
 const WINDOW_CONFIG: Record<
   WindowId,
-  { title: string; subtitle: string; x: number; y: number; w: number; h?: number }
+  { title: string; subtitle: string; x: number; y: number; w: number; h: number }
 > = {
-  profile: { title: "PROFILE", subtitle: "Identity Module", x: 20, y: 60, w: 340, h: 420 },
-  experience: { title: "EXPERIENCE", subtitle: "Career Timeline", x: 400, y: 60, w: 360, h: 320 },
-  projects: { title: "PROJECTS", subtitle: "Mission Archives", x: 20, y: 320, w: 400, h: 400 },
-  skills: { title: "TECH SPHERE", subtitle: "Stack Visualization", x: 450, y: 300, w: 380, h: 380 },
-  certifications: { title: "CREDENTIALS", subtitle: "Certifications", x: 20, y: 520, w: 340, h: 280 },
-  terminal: { title: "TERMINAL", subtitle: "Command Interface", x: 380, y: 500, w: 380, h: 300 },
-  minigame: { title: "JARVIS DEFENSE", subtitle: "Security Protocol", x: 780, y: 60, w: 400, h: 420 },
-  contact: { title: "CONTACT", subtitle: "Communication", x: 780, y: 400, w: 340, h: 320 },
+  profile: { title: "PROFILE", subtitle: "Identity", x: 30, y: 60, w: 320, h: 380 },
+  experience: { title: "EXPERIENCE", subtitle: "Career", x: 420, y: 50, w: 360, h: 280 },
+  projects: { title: "PROJECTS", subtitle: "Missions", x: 40, y: 460, w: 380, h: 350 },
+  skills: { title: "TECH SPHERE", subtitle: "Stack", x: 850, y: 50, w: 380, h: 380 },
+  certifications: { title: "CREDENTIALS", subtitle: "Certs", x: 880, y: 460, w: 320, h: 260 },
+  terminal: { title: "TERMINAL", subtitle: "CLI", x: 440, y: 470, w: 360, h: 280 },
+  minigame: { title: "JARVIS DEFENSE", subtitle: "Security", x: 820, y: 740, w: 400, h: 400 },
+  contact: { title: "CONTACT", subtitle: "Comm", x: 60, y: 820, w: 320, h: 300 },
 };
 
 export default function HUDShell() {
@@ -65,6 +66,7 @@ export default function HUDShell() {
     { id: "experience", zIndex: 9 },
     { id: "projects", zIndex: 8 },
     { id: "skills", zIndex: 7 },
+    { id: "certifications", zIndex: 6 },
   ]);
   const [topZ, setTopZ] = useState(20);
 
@@ -92,29 +94,20 @@ export default function HUDShell() {
 
   const renderWindowContent = (id: WindowId) => {
     switch (id) {
-      case "profile":
-        return <ProfileWindow />;
-      case "experience":
-        return <ExperienceWindow />;
-      case "projects":
-        return <ProjectsWindow />;
-      case "skills":
-        return <SkillsWindow />;
-      case "certifications":
-        return <CertificationsWindow />;
-      case "terminal":
-        return <TerminalPanel />;
-      case "minigame":
-        return <JarvisDefense />;
-      case "contact":
-        return <ContactWindow />;
-      default:
-        return null;
+      case "profile": return <ProfileWindow />;
+      case "experience": return <ExperienceWindow />;
+      case "projects": return <ProjectsWindow />;
+      case "skills": return <SkillsWindow />;
+      case "certifications": return <CertificationsWindow />;
+      case "terminal": return <TerminalPanel />;
+      case "minigame": return <JarvisDefense />;
+      case "contact": return <ContactWindow />;
+      default: return null;
     }
   };
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden text-[var(--text)]">
+    <div className="relative h-screen w-screen overflow-hidden bg-background text-foreground">
       <DesktopBackground />
 
       <HUDHeader

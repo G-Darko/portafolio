@@ -1,8 +1,7 @@
 "use client";
 
-import { useRef, useState, useCallback, type ReactNode } from "react";
+import { useRef, useState, useCallback, useEffect, type ReactNode } from "react";
 import { motion } from "motion/react";
-import Draggable from "react-draggable";
 
 interface FloatingWindowProps {
   id: string;
@@ -26,81 +25,129 @@ export default function FloatingWindow({
   defaultX = 50,
   defaultY = 80,
   defaultWidth = 380,
-  defaultHeight,
+  defaultHeight = 400,
   onClose,
   onFocus,
   zIndex,
 }: FloatingWindowProps) {
   const [isMinimized, setIsMinimized] = useState(false);
+  const [pos, setPos] = useState({ x: defaultX, y: defaultY });
+  const [isDragging, setIsDragging] = useState(false);
+  const dragOffset = useRef({ x: 0, y: 0 });
   const nodeRef = useRef<HTMLDivElement>(null);
+  const animatingRef = useRef(false);
 
-  const handleStart = useCallback(() => {
-    onFocus(id);
-  }, [id, onFocus]);
+  // Initial position animation then unlock drag
+  useEffect(() => {
+    animatingRef.current = true;
+    const t = setTimeout(() => { animatingRef.current = false; }, 500);
+    return () => clearTimeout(t);
+  }, []);
+
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (animatingRef.current) return;
+      if (!(e.target as HTMLElement).closest(".hologram-header")) return;
+      onFocus(id);
+      setIsDragging(true);
+      dragOffset.current = {
+        x: e.clientX - pos.x,
+        y: e.clientY - pos.y,
+      };
+      e.preventDefault();
+    },
+    [onFocus, id, pos]
+  );
+
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isDragging) return;
+      const newX = e.clientX - dragOffset.current.x;
+      const newY = e.clientY - dragOffset.current.y;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const maxX = w - defaultWidth;
+      const maxY = h - (defaultHeight || 300);
+      setPos({
+        x: Math.max(0, Math.min(newX, maxX)),
+        y: Math.max(48, Math.min(newY, maxY)),
+      });
+    },
+    [isDragging, defaultWidth, defaultHeight]
+  );
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  useEffect(() => {
+    if (!isDragging) return;
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDragging, handleMouseMove, handleMouseUp]);
 
   return (
-    <Draggable
-      nodeRef={nodeRef as React.RefObject<HTMLElement>}
-      defaultPosition={{ x: defaultX, y: defaultY }}
-      bounds="body"
-      handle=".hologram-header"
-      onStart={handleStart}
+    <motion.div
+      ref={nodeRef}
+      initial={{ opacity: 0, scale: 0.85 }}
+      animate={{ opacity: 1, scale: 1, x: pos.x, y: pos.y }}
+      exit={{ opacity: 0, scale: 0.85 }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      onMouseDown={() => !isDragging && onFocus(id)}
+      className="absolute flex flex-col overflow-hidden rounded-lg border border-hud-border bg-hud-bg shadow-[var(--hud-glow)] backdrop-blur-xl"
+      style={{
+        zIndex,
+        width: defaultWidth,
+        height: isMinimized ? 40 : defaultHeight,
+        cursor: isDragging ? "grabbing" : "default",
+        left: 0,
+        top: 0,
+      }}
     >
-      <motion.div
-        ref={nodeRef}
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        onMouseDown={handleStart}
-        className="absolute flex flex-col overflow-hidden rounded-lg border border-hud-border bg-hud-bg shadow-[var(--hud-glow)] backdrop-blur-xl"
-        style={{
-          zIndex,
-          width: defaultWidth,
-          height: isMinimized ? 40 : defaultHeight,
-        }}
+      {/* Hologram header */}
+      <div
+        className="hologram-header relative flex cursor-grab items-center justify-between border-b border-hud-border px-3 py-2 select-none bg-gradient-to-r from-hud-cyan/10 via-transparent to-hud-cyan/5 active:cursor-grabbing"
+        onMouseDown={handleMouseDown}
       >
-        {/* Hologram header */}
-        <div
-          className="hologram-header relative flex cursor-move items-center justify-between border-b border-hud-border px-3 py-2 select-none bg-gradient-to-r from-hud-cyan/10 via-transparent to-hud-cyan/5"
-        >
-          <div className="flex items-center gap-2">
-            <div className="h-2 w-2 rounded-full bg-hud-cyan shadow-[0_0_6px_var(--hud-cyan)]" />
-            <div>
-              <span className="text-[10px] font-bold tracking-[0.2em] text-hud-cyan">
-                {title}
+        <div className="flex items-center gap-2">
+          <div className="h-2 w-2 rounded-full bg-hud-cyan shadow-[0_0_6px_var(--hud-cyan)]" />
+          <div>
+            <span className="text-[10px] font-bold tracking-[0.2em] text-hud-cyan">
+              {title}
+            </span>
+            {subtitle && (
+              <span className="ml-1.5 text-[9px] font-mono text-muted-foreground">
+                // {subtitle}
               </span>
-              {subtitle && (
-                <span className="ml-1.5 text-[9px] font-mono text-muted-foreground">
-                  // {subtitle}
-                </span>
-              )}
-            </div>
-          </div>
-
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => setIsMinimized((p) => !p)}
-              className="flex h-5 w-5 items-center justify-center text-[10px] font-mono text-muted-foreground transition-colors hover:text-hud-cyan"
-            >
-              {isMinimized ? "+" : "−"}
-            </button>
-            <button
-              onClick={onClose}
-              className="flex h-5 w-5 items-center justify-center text-[10px] text-muted-foreground transition-colors hover:text-hud-red"
-            >
-              ✕
-            </button>
+            )}
           </div>
         </div>
 
-        {/* Body */}
-        {!isMinimized && (
-          <div className="scrollbar-thin relative z-10 flex-1 overflow-auto p-3">
-            {children}
-          </div>
-        )}
-      </motion.div>
-    </Draggable>
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => setIsMinimized((p) => !p)}
+            className="flex h-5 w-5 items-center justify-center text-[10px] font-mono text-muted-foreground transition-colors hover:text-hud-cyan"
+          >
+            {isMinimized ? "+" : "−"}
+          </button>
+          <button
+            onClick={onClose}
+            className="flex h-5 w-5 items-center justify-center text-[10px] text-muted-foreground transition-colors hover:text-hud-red"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+
+      {!isMinimized && (
+        <div className="scrollbar-thin relative z-10 flex-1 overflow-auto p-3">
+          {children}
+        </div>
+      )}
+    </motion.div>
   );
 }
