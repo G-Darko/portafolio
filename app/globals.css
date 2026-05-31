@@ -9,6 +9,8 @@
   --color-gris: var(--gris);
   --color-c1: var(--c1);
   --color-c2: var(--c2);
+  --color-header: var(--header);
+  --color-section: var(--section);
   --font-sans: var(--font-poppins);
 }
 
@@ -23,7 +25,10 @@
   --text: #f0f0f0;
   --accent: #66ccff;
   --card: #1e1e1e;
+  --header: #161b22;
+  --section: #1f2937;
   --deg: -45deg;
+  --deg-even: 45deg;
 }
 
 html.light {
@@ -32,6 +37,8 @@ html.light {
   --accent: #0077ff;
   --card: #d7dce7;
   --complement: #ddd;
+  --header: #f0f0f0;
+  --section: #e9ecef;
 }
 
 body {
@@ -81,6 +88,29 @@ body {
   }
   100% {
     transform: translate(0, 0) rotate(var(--deg));
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@keyframes zoomTextEven {
+  0% {
+    transform: translate(0, 0) rotate(var(--deg-even));
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  25% {
+    transform: translate(2px, -1px) rotate(var(--deg-even));
+    text-shadow: 3px 3px 5px rgba(255, 193, 7, 0.7);
+  }
+  50% {
+    transform: translate(-3px, 2px) rotate(var(--deg-even));
+    text-shadow: 4px 4px 6px rgba(255, 235, 59, 0.8);
+  }
+  75% {
+    transform: translate(1px, -2px) rotate(var(--deg-even));
+    text-shadow: 3px 3px 5px rgba(255, 193, 7, 0.7);
+  }
+  100% {
+    transform: translate(0, 0) rotate(var(--deg-even));
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   }
 }

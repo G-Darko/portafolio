@@ -21,20 +21,22 @@ export default function Skills() {
         {skillCategories.map((cat, ci) => (
           <div
             key={cat.title}
-            className="relative w-full max-w-4xl"
+            className="relative mb-10 w-full max-w-4xl"
           >
             <h2
-              className={`absolute top-3 w-36 overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold uppercase text-accent`}
+              className="absolute top-4 w-[150px] overflow-hidden text-ellipsis whitespace-nowrap text-center text-lg font-bold uppercase text-accent"
               style={{
                 ...(ci % 2 === 0
-                  ? { left: "10px", transform: "rotate(-45deg)" }
-                  : { right: "10px", transform: "rotate(-45deg)" }),
+                  ? { left: "-50px" }
+                  : { left: "auto", right: "-50px" }),
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+                animation: ci % 2 === 0
+                  ? "zoomText 2s infinite alternate ease-in-out"
+                  : "zoomTextEven 2s infinite alternate ease-in-out",
                 transformOrigin: "center center",
-                backgroundColor: "rgba(255, 255, 255, 0.25)",
-                borderRadius: "10px",
-                padding: "6px 12px",
-                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                animation: "zoomText 2s infinite alternate ease-in-out",
+                transform: ci % 2 === 0
+                  ? "rotate(var(--deg))"
+                  : "rotate(var(--deg-even))",
               }}
             >
               {cat.title}

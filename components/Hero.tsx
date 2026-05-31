@@ -119,8 +119,8 @@ export default function Hero() {
           <Image
             src={asset("/img/DARKO.png")}
             alt="Gael Uribe"
-            width={157}
-            height={157}
+            fill
+            sizes="157px"
             className="object-cover"
             priority
           />

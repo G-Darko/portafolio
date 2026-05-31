@@ -1,252 +1,261 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
-import { asset } from "@/lib/asset";
-
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="mt-6 border-b-2 border-c1 pb-1 text-xl font-bold uppercase tracking-wide text-accent">
-      {children}
-    </h2>
-  );
-}
-
-function Dot() {
-  return <span className="inline-block h-2 w-2 shrink-0 rounded-full bg-c1" />;
-}
 
 export default function CVPage() {
-  const handleDownload = () => {
-    const html = document.documentElement.outerHTML;
-    const blob = new Blob([html], { type: "text/html" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "CV_Uribe.html";
-    link.click();
-  };
-
   return (
-    <div className="min-h-screen w-full bg-bg text-text">
-      <div className="mx-auto max-w-[210mm] p-4 md:p-8">
-        <div className="mb-4 flex flex-wrap justify-between gap-3">
+    <>
+      <style jsx global>{`
+        @media print {
+          @page {
+            margin: 1cm;
+          }
+          .cv-header {
+            padding: 1rem 0 !important;
+          }
+          .cv-body {
+            zoom: 0.9;
+          }
+          .cv-ignore-print {
+            display: none !important;
+          }
+          .cv-container {
+            width: 1100px !important;
+            grid-template-columns: 400px 1fr !important;
+          }
+          .cv-show-print {
+            display: flex !important;
+          }
+          a.cv-attr[href^="http"]::after {
+            content: " (" attr(href) ")";
+            font-size: 0.8em;
+            color: #555;
+            font-weight: normal;
+            text-decoration: none !important;
+          }
+        }
+      `}</style>
+
+      <div className="cv-body min-h-screen bg-bg text-text">
+        <div className="cv-ignore-print mx-auto flex max-w-[210mm] justify-between px-4 py-4 md:px-8">
           <Link
             href="/"
-            className="rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-white transition-colors hover:brightness-110"
+            className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white hover:brightness-110"
           >
             ← Volver al Portafolio
           </Link>
           <button
-            onClick={handleDownload}
-            className="rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-white transition-colors hover:brightness-110"
+            onClick={() => window.print()}
+            className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white hover:brightness-110"
           >
             Descargar CV
           </button>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 rounded-xl bg-card p-6 md:grid-cols-[280px_1fr] md:p-10">
-          <aside className="flex flex-col gap-5">
-            <div className="mb-2 flex flex-col items-center text-center">
-              <Image
-                src={asset("/img/DARKO.png")}
-                alt="Gael Uribe"
-                width={250}
-                height={250}
-                className="flex h-[250px] w-[250px] items-center justify-center rounded-[30%] transition-transform duration-300 hover:scale-105"
-                style={{
-                  background: "linear-gradient(var(--lg))",
-                }}
-              />
-            </div>
+        <header className="cv-header border-b-2 border-accent bg-header py-8 text-center">
+          <h1 className="mb-2 text-4xl font-bold text-accent">Isaac Gael Uribe Ortiz</h1>
+          <p className="text-lg opacity-90">Desarrollador de Software y Web</p>
+        </header>
 
-            <SectionTitle>Sobre mi</SectionTitle>
-            <p className="text-sm leading-relaxed">
-              Me apasiona el desarrollo web y de software, disfruto aprender
-              nuevas tecnologías y mejorar mis habilidades en programación.
-              Actualmente, estoy trabajando en proyectos que me permiten aplicar
-              mis conocimientos y seguir creciendo como desarrollador.
-            </p>
+        <div className="cv-container mx-auto grid max-w-[1200px] grid-cols-1 gap-8 px-4 py-8 md:grid-cols-[1fr_2fr] md:px-8">
+          <aside className="flex flex-col gap-6">
+            <section className="rounded-lg bg-section p-6 shadow-md">
+              <h2 className="mb-4 border-b-4 border-accent/40 pb-2 text-2xl font-bold text-accent">
+                Perfil
+              </h2>
+              <p className="leading-relaxed">
+                Ingeniero en Tecnologías de la Información. Apasionado por el desarrollo
+                web y de software, con experiencia en proyectos académicos y personales en
+                áreas como bases de datos, backend, frontend y videojuegos. Destaco por mi
+                capacidad de adaptación, aprendizaje rápido y enfoque en la eficiencia.
+              </p>
+            </section>
 
-            <SectionTitle>Educación</SectionTitle>
-            <div className="text-sm">
-              <h6 className="text-lg font-semibold text-c1">
-                Universidad Politécnica del Valle de México
-              </h6>
-              <p>Tultitlán de Mariano Escobedo, Méx.</p>
-              <p>2021 - 2025 (6 meses de educación dual)</p>
-              <p className="mt-1 font-bold text-c2">
-                Ingeniería en Tecnologías de la Información
-              </p>
-              <p>
-                Enfoque en áreas de software como programación e ingeniería web.
-              </p>
-            </div>
+            <section className="rounded-lg bg-section p-6 shadow-md">
+              <h2 className="mb-4 border-b-4 border-accent/40 pb-2 text-2xl font-bold text-accent">
+                Habilidades
+              </h2>
+              <ul className="list-none">
+                <li className="mb-2">
+                  <strong>Técnicas:</strong>
+                  <ul className="mt-1 list-none pl-4">
+                    <li>
+                      <i>Backend:</i> PHP, Java, Laravel, MySQL, PostgreSQL, MongoDB
+                    </li>
+                    <li>
+                      <i>Frontend:</i> HTML, CSS, JavaScript, Vue.js.
+                    </li>
+                    <li>
+                      <i>Otras:</i> Git, GitHub, Sweetalert, Tailwind CSS,
+                      Flowbite, JQuery, Godot Engine.
+                    </li>
+                  </ul>
+                </li>
+                <li className="mb-2">
+                  <strong>Blandas:</strong><br />
+                  Resolución de problemas, aprendizaje rápido, adaptabilidad, altamente
+                  comprometido, trabajo en equipo, liderazgo.
+                </li>
+              </ul>
+            </section>
 
-            <SectionTitle>Experiencia</SectionTitle>
-            <div className="text-sm">
-              <h6 className="text-lg font-semibold text-c1">
-                Desarrollador Freelance
-              </h6>
-              <p>LEAMSI</p>
-              <p>Julio 2025 - Agosto 2025</p>
-              <p className="mt-1">
-                Desarrollo de página web corporativa para una contaduría
-                utilizando Astro y Tailwind CSS.
-              </p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {["Astro", "Tailwind CSS", "JavaScript"].map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded bg-gris px-2 py-0.5 text-xs font-semibold whitespace-nowrap"
+            <section className="rounded-lg bg-section p-6 shadow-md">
+              <h2 className="mb-4 border-b-4 border-accent/40 pb-2 text-2xl font-bold text-accent">
+                Idiomas
+              </h2>
+              <ul className="list-none">
+                <li className="mb-2">Español: Nativo</li>
+                <li className="mb-2">Inglés: Intermedio (B1)</li>
+              </ul>
+            </section>
+
+            <section className="rounded-lg bg-section p-6 shadow-md">
+              <h2 className="mb-4 border-b-4 border-accent/40 pb-2 text-2xl font-bold text-accent">
+                Contacto
+              </h2>
+              <ul className="list-none">
+                <li className="mb-3 flex items-start gap-2">
+                  <strong>🌐 Portafolio:</strong>
+                  <a
+                    href="https://g-darko.github.io/portafolio/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="break-all text-accent transition-opacity hover:opacity-80"
                   >
-                    {tag}
+                    g-darko.github.io/portafolio
+                  </a>
+                </li>
+                <li className="mb-3 flex items-start gap-2">
+                  <span className="shrink-0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12.006 2a9.847 9.847 0 0 0-6.484 2.44 10.32 10.32 0 0 0-3.393 6.17 10.48 10.48 0 0 0 1.317 6.955 10.045 10.045 0 0 0 5.4 4.418c.504.095.683-.223.683-.494 0-.245-.01-1.052-.014-1.908-2.78.62-3.366-1.21-3.366-1.21a2.711 2.711 0 0 0-1.11-1.5c-.907-.637.07-.621.07-.621.317.044.62.163.885.346.266.183.487.426.647.71.135.253.318.476.538.655a2.079 2.079 0 0 0 2.37.196c.045-.52.27-1.006.635-1.37-2.219-.259-4.554-1.138-4.554-5.07a4.022 4.022 0 0 1 1.031-2.75 3.77 3.77 0 0 1 .096-2.713s.839-.275 2.749 1.05a9.26 9.26 0 0 1 5.004 0c1.906-1.325 2.74-1.05 2.74-1.05.37.858.406 1.828.101 2.713a4.017 4.017 0 0 1 1.029 2.75c0 3.939-2.339 4.805-4.564 5.058a2.471 2.471 0 0 1 .679 1.897c0 1.372-.012 2.477-.012 2.814 0 .272.18.592.687.492a10.05 10.05 0 0 0 5.388-4.421 10.473 10.473 0 0 0 1.313-6.948 10.32 10.32 0 0 0-3.39-6.165A9.847 9.847 0 0 0 12.007 2Z" />
+                    </svg>
                   </span>
-                ))}
-              </div>
-            </div>
-
-            <SectionTitle>Contacto</SectionTitle>
-            <ul className="flex flex-col gap-2 text-sm">
-              <li className="flex items-start gap-2">
-                <Dot />
-                <a href="mailto:gael-albuerne@hotmail.com" className="text-c1 underline decoration-current underline-offset-2 transition-colors hover:text-c2">
-                  gael-albuerne@hotmail.com
-                </a>
-              </li>
-              <li className="flex items-start gap-2">
-                <Dot />
-                <a href="https://G-Darko.github.io/portafolio/ 
-| CV" target="_blank" rel="noreferrer" className="text-c1 underline decoration-current underline-offset-2 transition-colors hover:text-c2">
-                  G-Darko.github.io/portafolio/
-                </a>
-              </li>
-              <li className="flex items-start gap-2">
-                <Dot />
-                <a href="https://github.com/G-Darko" target="_blank" rel="noreferrer" className="text-c1 underline decoration-current underline-offset-2 transition-colors hover:text-c2">
-                  github.com/G-Darko
-                </a>
-              </li>
-              <li className="flex items-start gap-2">
-                <Dot />
-                <a href="https://www.credly.com/users/g-darko" target="_blank" rel="noreferrer" className="text-c1 underline decoration-current underline-offset-2 transition-colors hover:text-c2">
-                  credly.com/users/g-darko
-                </a>
-              </li>
-            </ul>
+                  <strong>GitHub:</strong>
+                  <a
+                    href="https://github.com/G-Darko"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="break-all text-accent transition-opacity hover:opacity-80"
+                  >
+                    github.com/G-Darko
+                  </a>
+                </li>
+                <li className="cv-show-print mb-3 hidden items-start gap-2">
+                  <strong>📞 Teléfono:</strong>
+                  7202948727
+                </li>
+                <li className="cv-show-print mb-3 hidden items-start gap-2">
+                  <strong>📧 Correo:</strong>
+                  <a
+                    href="mailto:gdarko.uribe@gmail.com"
+                    className="break-all text-accent transition-opacity hover:opacity-80"
+                  >
+                    gdarko.uribe@gmail.com
+                  </a>
+                </li>
+              </ul>
+            </section>
           </aside>
 
-          <main className="flex flex-col gap-5">
-            <div className="text-center">
-              <h1 className="text-5xl font-bold text-accent drop-shadow">Gael Uribe</h1>
-              <h2 className="mt-2 text-xl text-c1">Software Developer Junior</h2>
-            </div>
+          <main className="flex flex-col gap-6">
+            <section className="rounded-lg bg-section p-6 shadow-md">
+              <h2 className="mb-4 border-b-4 border-accent/40 pb-2 text-2xl font-bold text-accent">
+                Proyectos Académicos y Personales
+              </h2>
+              <ul className="list-none">
+                <li className="mb-4">
+                  <strong className="mb-1 block text-accent">
+                    Sistema de Inventarios (2025, Educación Dual - AERIAL DEPOT):
+                  </strong>
+                  Aplicación web desarrollada con Laravel, Vue.js y MySQL, incluye
+                  visualización 3D del almacén mediante Three.js para facilitar la
+                  localización de productos.
+                </li>
+                <li className="mb-4">
+                  <strong className="mb-1 block text-accent">Gestor de Ventas (2024):</strong>
+                  Sistema completo con registro de productos, ventas y reportes,
+                  desarrollado en Java con base de datos MySQL.
+                </li>
+                <li className="mb-4">
+                  <strong className="mb-1 block text-accent">
+                    Página Posgrados UPVM (2024, Estancia I):
+                  </strong>
+                  Sitio web informativo para los aspirantes y estudiantes de postgrados
+                  de la Universidad Politécnica de Valle de México, desarrollada con
+                  HTML, CSS y JS, PHP y MySQL.
+                </li>
+                <li className="mb-4">
+                  <strong className="mb-1 block text-accent">Portafolio Personal (2022):</strong>
+                  Sitio estático para mostrar mis proyectos, desarrollado con HTML, CSS y
+                  JS, alojado en GitHub Pages.
+                </li>
+                <li className="mb-4">
+                  <strong className="mb-1 block text-accent">
+                    E-Commerce (2022, Educación Dual):
+                  </strong>
+                  Plataforma simulada de comercio electrónico desarrollada con HTML, CSS,
+                  JS, PHP y MySQL.
+                </li>
+              </ul>
+            </section>
 
-            <SectionTitle>Skills</SectionTitle>
-            <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
-              <li className="flex items-center gap-2">
-                <Dot />
-                <span>HTML</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Dot />
-                <span>CSS</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Dot />
-                <span>JavaScript</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Dot />
-                <span>Vue.js</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Dot />
-                <span>PHP</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Dot />
-                <span>Laravel</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Dot />
-                <span>Java</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Dot />
-                <span>MySQL</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Dot />
-                <span>Tailwind CSS</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Dot />
-                <span>JQuery</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Dot />
-                <span>Three.js</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Dot />
-                <span>Flowbite</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Dot />
-                <span>SweetAlert2</span>
-              </li>
-            </div>
+            <section className="rounded-lg bg-section p-6 shadow-md">
+              <h2 className="mb-4 border-b-4 border-accent/40 pb-2 text-2xl font-bold text-accent">
+                Formación Académica
+              </h2>
+              <ul className="mb-4 list-none">
+                <li className="mb-3">
+                  <strong>Ingeniería en Tecnologías de la Información</strong><br />
+                  Universidad Politécnica del Valle de México (UPVM)<br />
+                  2023 – Actualidad
+                </li>
+                <li className="mb-3">
+                  <strong>Técnico en Programación</strong><br />
+                  CECyTEM Tultitlán<br />
+                  2019 – 2022
+                </li>
+              </ul>
 
-            <SectionTitle>Certificaciones</SectionTitle>
-            <div className="text-sm">
-              <div className="mb-1 flex items-start gap-3">
-                <div className="shrink-0 pt-1">
-                  <Dot />
-                </div>
-                <div>
-                  <p className="font-semibold text-c1">
-                    JavaScript Essentials 1
-                  </p>
-                  <p>
-                    Cisco - Netacad | Julio 2025 |{" "}
-                    <a
-                      href="https://www.credly.com/badges/71c8ee70-2d13-423b-8873-961182d252c9"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-c1 underline"
-                    >
-                      Ver insignia en Credly
-                    </a>
-                  </p>
-                </div>
-              </div>
+              <h3 className="mb-2 text-xl font-bold text-accent">Certificaciones y Credenciales</h3>
+              <p className="mb-1">
+                <strong>CONOCER</strong><br />
+                EC0160 – Desarrollo de Código de Software<br />
+                Septiembre 2022
+              </p>
+              <p className="mb-1">
+                Folio: (D-00)<strong>16955622</strong>
+              </p>
+              <p className="mb-3">
+                <a
+                  className="cv-attr text-accent transition-opacity hover:opacity-80"
+                  href="https://conocer.gob.mx/RENAP/certificaciones"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Verificación en RENAP
+                </a>
+              </p>
 
-              <div className="mb-1 flex items-start gap-3">
-                <div className="shrink-0 pt-1">
-                  <Dot />
-                </div>
-                <div>
-                  <p className="font-semibold text-c1">
-                    Desarrollo de Codigo de Software
-                  </p>
-                  <p>
-                    CONOCER - EC0160 | Septiembre 2022 |{" "}
-                    <a
-                      href="https://conocer.gob.mx/RENAP/certificaciones"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-c1 underline"
-                    >
-                      Validar en RENAP
-                    </a>
-                  </p>
-                  <p className="mt-0.5 text-c2">Folio: 16955622</p>
-                </div>
-              </div>
-            </div>
+              <p className="mb-1">
+                <strong>Perfil de Credly (Netacad)</strong><br />
+                <a
+                  href="https://www.credly.com/users/g-darko"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-accent transition-opacity hover:opacity-80"
+                >
+                  credly.com/users/g-darko
+                </a>
+              </p>
+            </section>
           </main>
         </div>
+
+        <footer className="cv-ignore-print border-t border-accent bg-header py-6 text-center text-sm">
+          <p>&copy; 2025 G-Darko</p>
+        </footer>
       </div>
-    </div>
+    </>
   );
 }
