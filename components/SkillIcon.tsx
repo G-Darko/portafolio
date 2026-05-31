@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { asset } from "@/lib/asset";
 
 const iconPaths: Record<string, string> = {
   html: "M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z",
@@ -52,13 +53,13 @@ export default function SkillIcon({ icon, name }: { icon: string; name: string }
 
   return (
     <div
-      className="relative flex flex-col items-center justify-center text-center transition-transform duration-500 hover:scale-110 cursor-default"
+      className="relative flex flex-col items-center justify-center text-center transition-transform duration-500 hover:scale-110 cursor-default group"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       {icon === "sweetalert2" ? (
         <Image
-          src="/img/skills/sweet.png"
+          src={asset("/img/skills/sweet.png")}
           alt={name}
           width={70}
           height={70}
@@ -77,13 +78,14 @@ export default function SkillIcon({ icon, name }: { icon: string; name: string }
       ) : (
         <TechIcon name={icon} className="h-[70px] w-[70px]" />
       )}
+
       <div
-        className={`absolute bottom-0 left-1/2 -translate-x-1/2 rounded-md bg-[var(--gris)] px-2 py-1 text-sm font-medium whitespace-nowrap text-[var(--c1)] shadow-lg transition-all duration-500 pointer-events-none ${
-          hovered ? "opacity-100 -translate-y-[calc(100%+12px)]" : "opacity-0 translate-y-0"
+        className={`absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 rounded-md bg-gris px-2 py-1 text-sm font-medium whitespace-nowrap text-c1 shadow-lg transition-all duration-500 pointer-events-none z-50 ${
+          hovered ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
         }`}
       >
         {name}
-        <span className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-[var(--gris)]" />
+        <span className="absolute left-1/2 -translate-x-1/2 bottom-full w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[6px] border-b-gris" />
       </div>
     </div>
   );

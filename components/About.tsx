@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { asset } from "@/lib/asset";
 
 export default function About() {
   return (
@@ -13,7 +14,7 @@ export default function About() {
         className="flex flex-col items-center justify-center"
       >
         <h2 className="w-full py-10 text-center text-3xl font-bold">
-          <span className="text-[var(--accent)]">Sobre mí</span>
+          <span className="text-accent">Sobre mí</span>
         </h2>
         <p className="max-w-3xl text-center text-base leading-relaxed">
           Ingeniero en Tecnologías de la Información. Apasionado por el desarrollo web y de

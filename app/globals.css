@@ -35,7 +35,7 @@ html.light {
 }
 
 body {
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--text);
   min-height: 100dvh;
   width: 100dvw;

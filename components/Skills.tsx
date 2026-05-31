@@ -14,34 +14,32 @@ export default function Skills() {
         transition={{ duration: 0.5 }}
         className="py-10 text-center text-3xl font-bold"
       >
-        <span className="text-[var(--accent)]">Habilidades</span>
+        <span className="text-accent">Habilidades</span>
       </motion.h2>
 
       <div className="flex flex-col items-center gap-20">
         {skillCategories.map((cat, ci) => (
-          <motion.div
+          <div
             key={cat.title}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: ci * 0.1 }}
             className="relative w-full max-w-4xl"
           >
             <h2
-              className={`absolute top-3 w-36 overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold uppercase shadow-sm ${
-                ci % 2 === 0
-                  ? "-left-4 md:-left-12"
-                  : "-right-4 md:-right-12 md:left-auto"
-              } text-[var(--accent)]`}
+              className={`absolute top-3 w-36 overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold uppercase text-accent`}
               style={{
-                transform: `rotate(${ci % 2 === 0 ? -45 : 45}deg)`,
+                ...(ci % 2 === 0
+                  ? { left: "10px", transform: "rotate(-45deg)" }
+                  : { right: "10px", transform: "rotate(-45deg)" }),
                 transformOrigin: "center center",
+                backgroundColor: "rgba(255, 255, 255, 0.25)",
+                borderRadius: "10px",
+                padding: "6px 12px",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
                 animation: "zoomText 2s infinite alternate ease-in-out",
               }}
             >
               {cat.title}
             </h2>
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(70px,auto))] justify-around gap-6 rounded-xl bg-[var(--card)] p-6">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(70px,auto))] justify-around gap-6 rounded-xl bg-card p-6">
               {cat.skills.map((skill) => (
                 <SkillIcon
                   key={skill.name}
@@ -50,7 +48,7 @@ export default function Skills() {
                 />
               ))}
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     </section>

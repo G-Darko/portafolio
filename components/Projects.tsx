@@ -14,7 +14,7 @@ export default function Projects() {
         transition={{ duration: 0.5 }}
         className="py-10 text-center text-3xl font-bold"
       >
-        <span className="text-[var(--accent)]">Proyectos</span>
+        <span className="text-accent">Proyectos</span>
       </motion.h2>
       <div className="flex flex-col gap-6">
         {projects.map((project, i) => (

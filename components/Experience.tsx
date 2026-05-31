@@ -14,7 +14,7 @@ export default function Experience() {
         transition={{ duration: 0.5 }}
         className="py-10 text-center text-3xl font-bold"
       >
-        <span className="text-[var(--accent)]">Experiencia</span>
+        <span className="text-accent">Experiencia</span>
       </motion.h2>
 
       <div className="relative mx-auto max-w-[1200px] px-5">
@@ -35,27 +35,27 @@ export default function Experience() {
             }`}
           >
             <div
-              className={`absolute top-5 h-4 w-4 rounded-full border-4 border-[var(--card)] bg-[var(--accent)] md:left-auto ${
+              className={`absolute top-5 h-4 w-4 rounded-full border-4 border-card bg-accent md:left-auto ${
                 i % 2 === 0 ? "left-4 md:-right-2" : "left-4 md:-left-2"
               }`}
             />
-            <div className="relative rounded-lg border border-[var(--gris)] bg-[var(--card)] p-5 transition-transform duration-300 hover:-translate-y-2">
+            <div className="relative rounded-lg border border-gris bg-card p-5 transition-transform duration-300 hover:-translate-y-2">
               <div
                 className={`absolute top-5 h-0 w-0 border-[10px] border-transparent md:block hidden ${
                   i % 2 === 0
-                    ? "-right-5 border-l-[var(--card)]"
-                    : "-left-5 border-r-[var(--card)]"
+                    ? "-right-5 border-l-card"
+                    : "-left-5 border-r-card"
                 }`}
               />
               <h3 className="text-lg font-semibold">
-                <span className="text-[var(--accent)]">
+                <span className="text-accent">
                   {exp.role} -{" "}
                   {exp.companyUrl ? (
                     <a
                       href={exp.companyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 italic underline decoration-inherit transition-colors hover:text-[var(--c2)]"
+                      className="inline-flex items-center gap-1 italic underline decoration-inherit transition-colors hover:text-c2"
                     >
                       {exp.company}
                       <ExternalLink size={16} />
@@ -73,7 +73,7 @@ export default function Experience() {
                 {exp.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded bg-[var(--gris)] px-2 py-0.5 text-xs font-semibold whitespace-nowrap"
+                    className="rounded bg-gris px-2 py-0.5 text-xs font-semibold whitespace-nowrap"
                   >
                     {tag}
                   </span>

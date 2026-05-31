@@ -13,7 +13,7 @@ export default function Certifications() {
         transition={{ duration: 0.5 }}
         className="py-10 text-center text-3xl font-bold"
       >
-        <span className="text-[var(--accent)]">Certificaciones</span>
+        <span className="text-accent">Certificaciones</span>
       </motion.h2>
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5">
@@ -24,9 +24,9 @@ export default function Certifications() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.1 }}
-            className="rounded-xl bg-[var(--card)] p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_25px_rgba(102,204,255,0.15)]"
+            className="rounded-xl bg-card p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_25px_rgba(102,204,255,0.15)]"
           >
-            <h3 className="text-lg font-semibold text-[var(--accent)]">
+            <h3 className="text-lg font-semibold text-accent">
               {cert.title}
             </h3>
             <p className="mt-2 text-sm font-extrabold italic">{cert.org}</p>
@@ -41,7 +41,7 @@ export default function Certifications() {
                 href={cert.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-2 inline-block text-sm font-bold text-[var(--accent)] hover:underline"
+                className="mt-2 inline-block text-sm font-bold text-accent hover:underline"
               >
                 {cert.linkText}
               </a>
