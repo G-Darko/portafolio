@@ -9,7 +9,7 @@ import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useProgressStore } from "@/lib/store/useProgressStore";
 import { playHUDClick, playWindowOpen } from "@/lib/audio/audio";
 
-type WindowId = "profile" | "experience" | "projects" | "skills" | "certifications" | "terminal" | "minigame" | "contact";
+type WindowId = "profile" | "experience" | "projects" | "certifications" | "terminal" | "minigame" | "contact";
 
 interface HUDHeaderProps {
   onOpenWindow: (id: WindowId) => void;
@@ -20,7 +20,6 @@ const WINDOW_BUTTONS: { id: WindowId; labelKey: string; icon: string }[] = [
   { id: "profile", labelKey: "profile", icon: "&#9673;" },
   { id: "experience", labelKey: "experience", icon: "&#9642;" },
   { id: "projects", labelKey: "projects", icon: "&#9646;" },
-  { id: "skills", labelKey: "skills", icon: "&#9670;" },
   { id: "certifications", labelKey: "certifications", icon: "&#9671;" },
   { id: "terminal", labelKey: "terminal", icon: "&#9654;" },
   { id: "minigame", labelKey: "minigame", icon: "&#9889;" },
