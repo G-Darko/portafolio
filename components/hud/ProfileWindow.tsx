@@ -10,12 +10,12 @@ export default function ProfileWindow() {
 
   return (
     <div className="flex flex-col items-center gap-3">
-      <div className="relative h-24 w-24 overflow-hidden rounded-full border-2 border-hud-cyan shadow-[0_0_20px_oklch(0.65_0.18_255/0.2)]"
+      <div className="relative mx-auto h-20 w-20 shrink-0 overflow-hidden rounded-full border-2 border-hud-cyan shadow-[0_0_20px_oklch(0.65_0.18_255/0.2)]"
       >
-        <Image src="img/DARKO.png" alt="Gael Uribe" fill className="object-cover" />
+        <img src="img/DARKO.png" alt="Gael Uribe" className="h-full w-full object-cover" />
       </div>
 
-      <h2 className="text-center font-mono text-lg font-bold text-hud-cyan">
+      <h2 className="shrink-0 text-center font-mono text-base font-bold text-hud-cyan">
         {t.profile.name}
       </h2>
       <p className="text-center text-xs text-muted-foreground">

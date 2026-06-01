@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { AnimatePresence } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
-import { useHUDStore } from "@/lib/store/useHUDStore";
 import { useProgressStore } from "@/lib/store/useProgressStore";
 import HUDHeader from "./HUDHeader";
 import DesktopBackground from "./DesktopBackground";
@@ -13,7 +12,7 @@ import dynamic from "next/dynamic";
 const TechSphere = dynamic(() => import("@/components/three/TechSphere"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-64 items-center justify-center text-xs text-muted-foreground">
+    <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
       Loading 3D engine...
     </div>
   ),
@@ -43,20 +42,47 @@ interface OpenWindow {
   zIndex: number;
 }
 
-/* Tony Stark workshop — surround layout, all within viewport height */
-const WINDOW_CONFIG: Record<
-  WindowId,
-  { x: number; y: number; w: number; h: number }
-> = {
-  profile: { x: 20, y: 60, w: 320, h: 380 },
-  experience: { x: 370, y: 60, w: 360, h: 280 },
-  projects: { x: 20, y: 460, w: 380, h: 300 },
-  skills: { x: 750, y: 60, w: 380, h: 380 },
-  certifications: { x: 750, y: 460, w: 320, h: 260 },
-  terminal: { x: 370, y: 460, w: 360, h: 280 },
-  minigame: { x: 1150, y: 60, w: 400, h: 400 },
-  contact: { x: 1150, y: 460, w: 320, h: 300 },
+const GAP = 8;
+const HEADER_H = 48;
+const MARGIN_X = 12;
+
+const PREFERRED_W: Record<WindowId, number> = {
+  profile: 340,
+  experience: 340,
+  projects: 340,
+  skills: 360,
+  certifications: 320,
+  terminal: 340,
+  minigame: 360,
+  contact: 320,
 };
+
+type PWin = OpenWindow & { x: number; y: number; w: number; h: number };
+
+const MIN_WINDOW_W = 300;
+
+function computeLayout(windows: OpenWindow[], vw: number, vh: number): PWin[] {
+  const count = windows.length;
+  if (count === 0) return [];
+
+  const availableW = vw - MARGIN_X * 2 - (count - 1) * GAP;
+  const uniformW = Math.max(MIN_WINDOW_W, Math.min(340, Math.floor(availableW / count)));
+
+  let x = MARGIN_X;
+  const y = HEADER_H;
+  const h = vh - HEADER_H;
+
+  return windows.map((w, i) => {
+    const pw = Math.min(uniformW, PREFERRED_W[w.id]);
+    // If this window would overflow past the right edge, stack it slightly offset
+    const wouldOverflow = x + pw > vw - MARGIN_X;
+    const actualX = wouldOverflow ? vw - pw - MARGIN_X - (i % 3) * 24 : x;
+    const actualY = wouldOverflow ? y + (i % 3) * 16 : y;
+    const pos: PWin = { ...w, x: actualX, y: actualY, w: pw, h };
+    x += pw + GAP;
+    return pos;
+  });
+}
 
 export default function HUDShell() {
   const { t } = useTranslation();
@@ -66,17 +92,36 @@ export default function HUDShell() {
     { id: "experience", zIndex: 9 },
     { id: "projects", zIndex: 8 },
     { id: "skills", zIndex: 7 },
-    { id: "certifications", zIndex: 6 },
   ]);
   const [topZ, setTopZ] = useState(20);
+  const [vw, setVw] = useState(1200);
+  const [vh, setVh] = useState(800);
 
-  const openWindow = useCallback((id: WindowId) => {
-    setOpenWindows((prev) => {
-      if (prev.some((w) => w.id === id)) return prev;
-      return [...prev, { id, zIndex: topZ + 1 }];
-    });
-    setTopZ((z) => z + 1);
-  }, [topZ]);
+  useEffect(() => {
+    const update = () => {
+      setVw(window.innerWidth);
+      setVh(window.innerHeight);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const positioned = useMemo(
+    () => computeLayout(openWindows, vw, vh),
+    [openWindows, vw, vh]
+  );
+
+  const openWindow = useCallback(
+    (id: WindowId) => {
+      setOpenWindows((prev) => {
+        if (prev.some((w) => w.id === id)) return prev;
+        return [...prev, { id, zIndex: topZ + 1 }];
+      });
+      setTopZ((z) => z + 1);
+    },
+    [topZ]
+  );
 
   const closeWindow = useCallback((id: WindowId) => {
     setOpenWindows((prev) => prev.filter((w) => w.id !== id));
@@ -92,7 +137,7 @@ export default function HUDShell() {
     [topZ]
   );
 
-  const renderWindowContent = (id: WindowId) => {
+  const renderContent = (id: WindowId) => {
     switch (id) {
       case "profile": return <ProfileWindow />;
       case "experience": return <ExperienceWindow />;
@@ -133,37 +178,28 @@ export default function HUDShell() {
   };
 
   return (
-    <div className="relative h-screen w-screen overflow-x-auto overflow-y-hidden bg-background text-foreground">
+    <div className="fixed inset-0 overflow-hidden bg-background text-foreground">
       <DesktopBackground />
-
-      <HUDHeader
-        onOpenWindow={openWindow}
-        totalPercent={totalPercent}
-      />
-
-      {/* Wide desktop canvas for horizontal scroll */}
-      <div className="relative h-full w-[1600px] pt-12">
+      <HUDHeader onOpenWindow={openWindow} totalPercent={totalPercent} />
+      <div className="absolute inset-0 pt-12">
         <AnimatePresence>
-          {openWindows.map(({ id, zIndex }) => {
-            const cfg = WINDOW_CONFIG[id];
-            return (
-              <FloatingWindow
-                key={id}
-                id={id}
-                title={getTitle(id)}
-                subtitle={getSubtitle(id)}
-                defaultX={cfg.x}
-                defaultY={cfg.y}
-                defaultWidth={cfg.w}
-                defaultHeight={cfg.h}
-                zIndex={zIndex}
-                onClose={() => closeWindow(id)}
-                onFocus={() => focusWindow(id)}
-              >
-                {renderWindowContent(id)}
-              </FloatingWindow>
-            );
-          })}
+          {positioned.map(({ id, zIndex, x, y, w, h }) => (
+            <FloatingWindow
+              key={id}
+              id={id}
+              title={getTitle(id)}
+              subtitle={getSubtitle(id)}
+              defaultX={x}
+              defaultY={y}
+              defaultWidth={w}
+              defaultHeight={h}
+              zIndex={zIndex}
+              onClose={() => closeWindow(id)}
+              onFocus={() => focusWindow(id)}
+            >
+              {renderContent(id)}
+            </FloatingWindow>
+          ))}
         </AnimatePresence>
       </div>
     </div>

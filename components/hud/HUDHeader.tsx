@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { useTranslation } from "@/lib/i18n/useTranslation";
 import { Sun, Moon, Globe } from "lucide-react";
 import { useThemeStore } from "@/lib/store/useThemeStore";
 import { useLocaleStore } from "@/lib/store/useLocaleStore";
+import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useProgressStore } from "@/lib/store/useProgressStore";
 import { playHUDClick, playWindowOpen } from "@/lib/audio/audio";
 
@@ -16,20 +16,20 @@ interface HUDHeaderProps {
   totalPercent: number;
 }
 
-const WINDOW_BUTTONS = [
-  { id: "profile" as WindowId, labelKey: "profile", icon: () => <span className="text-hud-cyan">&#9673;</span> },
-  { id: "experience" as WindowId, labelKey: "experience", icon: () => <span className="text-hud-cyan">&#9642;</span> },
-  { id: "projects" as WindowId, labelKey: "projects", icon: () => <span className="text-hud-cyan">&#9646;</span> },
-  { id: "skills" as WindowId, labelKey: "skills", icon: () => <span className="text-hud-cyan">&#9670;</span> },
-  { id: "certifications" as WindowId, labelKey: "certifications", icon: () => <span className="text-hud-cyan">&#9671;</span> },
-  { id: "terminal" as WindowId, labelKey: "terminal", icon: () => <span className="text-hud-cyan">&#9654;</span> },
-  { id: "minigame" as WindowId, labelKey: "minigame", icon: () => <span className="text-hud-cyan">&#9889;</span> },
-  { id: "contact" as WindowId, labelKey: "contact", icon: () => <span className="text-hud-cyan">&#64;</span> },
+const WINDOW_BUTTONS: { id: WindowId; labelKey: string; icon: string }[] = [
+  { id: "profile", labelKey: "profile", icon: "&#9673;" },
+  { id: "experience", labelKey: "experience", icon: "&#9642;" },
+  { id: "projects", labelKey: "projects", icon: "&#9646;" },
+  { id: "skills", labelKey: "skills", icon: "&#9670;" },
+  { id: "certifications", labelKey: "certifications", icon: "&#9671;" },
+  { id: "terminal", labelKey: "terminal", icon: "&#9654;" },
+  { id: "minigame", labelKey: "minigame", icon: "&#9889;" },
+  { id: "contact", labelKey: "contact", icon: "&#64;" },
 ];
 
 export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { theme, toggleTheme } = useThemeStore();
+  const { resolved, toggleTheme } = useThemeStore();
   const { locale, toggleLocale } = useLocaleStore();
   const { t } = useTranslation();
   const { secretsFound } = useProgressStore();
@@ -46,12 +46,12 @@ export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps
         initial={{ y: -60 }}
         animate={{ y: 0 }}
         transition={{ delay: 0.4, duration: 0.6 }}
-        className="fixed left-0 right-0 top-0 z-[200] flex items-center justify-between border-b border-hud-border bg-hud-bg px-3 py-2 backdrop-blur-lg"
+        className="fixed left-0 right-0 top-0 z-[200] flex items-center justify-between border-b border-border bg-background/90 px-3 py-2 backdrop-blur-lg"
       >
         <div className="flex items-center gap-2">
           <div
             data-hud-logo
-            className="flex h-7 w-7 cursor-pointer select-none items-center justify-center rounded border border-hud-border bg-card font-mono text-xs font-bold text-hud-cyan shadow-[0_0_8px_rgba(13,248,249,0.2)]"
+            className="flex h-7 w-7 cursor-pointer select-none items-center justify-center rounded border border-hud-border bg-card font-mono text-xs font-bold text-hud-cyan"
           >
             G
           </div>
@@ -66,14 +66,14 @@ export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps
 
           {/* Desktop buttons */}
           <div className="ml-3 hidden items-center gap-0.5 md:flex">
-            {WINDOW_BUTTONS.map(({ id, labelKey, icon: Icon }) => (
+            {WINDOW_BUTTONS.map(({ id, labelKey, icon }) => (
               <button
                 key={id}
                 onClick={() => handleOpen(id)}
                 className="flex items-center gap-1 rounded px-2 py-1 text-[10px] font-mono text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
                 title={id}
               >
-                <Icon />
+                <span dangerouslySetInnerHTML={{ __html: icon }} />
                 <span className="hidden lg:inline">{t.header[labelKey as keyof typeof t.header]}</span>
               </button>
             ))}
@@ -83,9 +83,7 @@ export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps
         <div className="flex items-center gap-2">
           {/* Progress */}
           <div className="hidden items-center gap-2 sm:flex">
-            <span className="font-mono text-[10px] text-hud-cyan">
-              {totalPercent}%
-            </span>
+            <span className="font-mono text-[10px] text-hud-cyan">{totalPercent}%</span>
             <div className="h-1 w-16 overflow-hidden rounded-full bg-muted">
               <div
                 className="h-full rounded-full bg-gradient-to-r from-hud-cyan to-hud-blue transition-all duration-700"
@@ -101,9 +99,9 @@ export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps
           <button
             onClick={() => { playHUDClick(); toggleTheme(); }}
             className="flex h-7 w-7 items-center justify-center rounded text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-            title={theme === "dark" ? "Light mode" : "Dark mode"}
+            title={resolved === "dark" ? "Light mode" : "Dark mode"}
           >
-            {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
+            {resolved === "dark" ? <Sun size={14} /> : <Moon size={14} />}
           </button>
 
           {/* Locale toggle */}
@@ -139,13 +137,13 @@ export default function HUDHeader({ onOpenWindow, totalPercent }: HUDHeaderProps
             className="fixed left-0 right-0 top-12 z-[199] border-b border-hud-border bg-hud-bg p-4 backdrop-blur-xl md:hidden"
           >
             <div className="grid grid-cols-3 gap-2">
-              {WINDOW_BUTTONS.map(({ id, labelKey, icon: Icon }) => (
+              {WINDOW_BUTTONS.map(({ id, labelKey, icon }) => (
                 <button
                   key={id}
                   onClick={() => handleOpen(id)}
                   className="flex flex-col items-center gap-1 rounded border border-hud-border px-2 py-3 text-[10px] font-mono text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
                 >
-                  <Icon />
+                  <span dangerouslySetInnerHTML={{ __html: icon }} />
                   {t.header[labelKey as keyof typeof t.header]}
                 </button>
               ))}

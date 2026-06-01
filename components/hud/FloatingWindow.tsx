@@ -30,7 +30,6 @@ export default function FloatingWindow({
   onFocus,
   zIndex,
 }: FloatingWindowProps) {
-  const [isMinimized, setIsMinimized] = useState(false);
   const [pos, setPos] = useState({ x: defaultX, y: defaultY });
   const [isDragging, setIsDragging] = useState(false);
   const dragOffset = useRef({ x: 0, y: 0 });
@@ -45,13 +44,10 @@ export default function FloatingWindow({
   const handleMouseDown = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (animatingRef.current) return;
-      if (!(e.target as HTMLElement).closest(".hologram-header")) return;
+      if (!(e.target as HTMLElement).closest(".window-header")) return;
       onFocus(id);
       setIsDragging(true);
-      dragOffset.current = {
-        x: e.clientX - pos.x,
-        y: e.clientY - pos.y,
-      };
+      dragOffset.current = { x: e.clientX - pos.x, y: e.clientY - pos.y };
       e.preventDefault();
     },
     [onFocus, id, pos]
@@ -62,8 +58,9 @@ export default function FloatingWindow({
       if (!isDragging) return;
       const newX = e.clientX - dragOffset.current.x;
       const newY = e.clientY - dragOffset.current.y;
-      const maxX = 1600 - defaultWidth;
-      const maxY = window.innerHeight - (defaultHeight || 300) - 48;
+      // Clamp to visible viewport
+      const maxX = window.innerWidth - defaultWidth;
+      const maxY = window.innerHeight - (defaultHeight || 300) - 4;
       setPos({
         x: Math.max(0, Math.min(newX, maxX)),
         y: Math.max(48, Math.min(newY, maxY)),
@@ -97,7 +94,7 @@ export default function FloatingWindow({
       style={{
         zIndex,
         width: defaultWidth,
-        height: isMinimized ? 40 : defaultHeight,
+        height: defaultHeight,
         cursor: isDragging ? "grabbing" : "default",
         left: 0,
         top: 0,
@@ -117,54 +114,36 @@ export default function FloatingWindow({
           backgroundPosition: "0 0, 100% 0, 0 100%, 100% 100%",
         }}
       />
-
-      {/* Scanlines */}
       <div className="pointer-events-none absolute inset-0 opacity-20"
-        style={{
-          background: "repeating-linear-gradient(0deg, transparent, transparent 2px, oklch(0.65 0.18 255 / 0.03) 2px, oklch(0.65 0.18 255 / 0.03) 4px)",
-        }}
+        style={{ background: "repeating-linear-gradient(0deg, transparent, transparent 2px, oklch(0.65 0.18 255 / 0.03) 2px, oklch(0.65 0.18 255 / 0.03) 4px)" }}
       />
 
-      {/* Hologram header */}
+      {/* Header: only close button */}
       <div
-        className="hologram-header relative flex cursor-grab items-center justify-between border-b border-hud-border px-3 py-2 select-none bg-gradient-to-r from-hud-cyan/10 via-transparent to-hud-cyan/5 active:cursor-grabbing"
+        className="window-header relative flex cursor-grab items-center justify-between border-b border-hud-border px-3 py-2 select-none bg-gradient-to-r from-hud-cyan/10 via-transparent to-hud-cyan/5 active:cursor-grabbing"
         onMouseDown={handleMouseDown}
       >
-        <div className="flex items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-hud-cyan shadow-[0_0_6px_var(--hud-cyan)]" />
-          <div>
-            <span className="text-[10px] font-bold tracking-[0.2em] text-hud-cyan">
-              {title}
-            </span>
+        <div className="flex min-w-0 items-center gap-2">
+          <div className="h-2 w-2 shrink-0 rounded-full bg-hud-cyan shadow-[0_0_6px_var(--hud-cyan)]" />
+          <div className="min-w-0">
+            <span className="block truncate text-[10px] font-bold tracking-[0.1em] text-hud-cyan">{title}</span>
             {subtitle && (
-              <span className="ml-1.5 text-[9px] font-mono text-muted-foreground">
-                // {subtitle}
-              </span>
+              <span className="block truncate text-[9px] font-mono text-muted-foreground">// {subtitle}</span>
             )}
           </div>
         </div>
 
-        <div className="flex items-center gap-1">
-          <button
-            onClick={() => setIsMinimized((p) => !p)}
-            className="flex h-5 w-5 items-center justify-center text-[10px] font-mono text-muted-foreground transition-colors hover:text-hud-cyan"
-          >
-            {isMinimized ? "+" : "−"}
-          </button>
-          <button
-            onClick={onClose}
-            className="flex h-5 w-5 items-center justify-center text-[10px] text-muted-foreground transition-colors hover:text-hud-red"
-          >
-            ✕
-          </button>
-        </div>
+        <button
+          onClick={onClose}
+          className="flex h-5 w-5 items-center justify-center text-[10px] text-muted-foreground transition-colors hover:text-hud-red"
+        >
+          ✕
+        </button>
       </div>
 
-      {!isMinimized && (
-        <div className="scrollbar-thin relative z-10 flex-1 overflow-auto p-3">
-          {children}
-        </div>
-      )}
+      <div className="scrollbar-thin relative z-10 flex-1 overflow-auto p-3">
+        {children}
+      </div>
     </motion.div>
   );
 }
