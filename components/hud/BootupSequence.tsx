@@ -6,45 +6,16 @@ import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useHUDStore } from "@/lib/store/useHUDStore";
 import { playBootupChime } from "@/lib/audio/audio";
 
+const BOOT_LINE_COUNT = 6;
+const LOGO_DELAY_MS = 500;
+const LINE_INTERVAL_MS = 350;
+const DONE_DELAY_MS = 400;
+const COMPLETE_DELAY_MS = 400;
+
 export default function BootupSequence() {
-  const [phase, setPhase] = useState<"idle" | "typing" | "done">("idle");
-  const [visibleLines, setVisibleLines] = useState<number>(0);
-  const [showButton, setShowButton] = useState(false);
+  const [phase, setPhase] = useState<"logo" | "typing" | "done">("logo");
+  const [visibleLines, setVisibleLines] = useState(0);
   const { t } = useTranslation();
-  const { soundEnabled, setBootupDone } = useHUDStore();
-
-  useEffect(() => {
-    const t = setTimeout(() => setShowButton(true), 600);
-    return () => clearTimeout(t);
-  }, []);
-
-  const start = () => {
-    setShowButton(false);
-    setPhase("typing");
-    if (soundEnabled) playBootupChime();
-
-    const lines = [
-      t.bootup.initializing,
-      t.bootup.loading,
-      t.bootup.mounting,
-      t.bootup.allocating,
-      t.bootup.neural,
-      t.bootup.granted,
-    ];
-
-    let i = 0;
-    const interval = setInterval(() => {
-      i++;
-      setVisibleLines(i);
-      if (i >= lines.length) {
-        clearInterval(interval);
-        setTimeout(() => {
-          setPhase("done");
-          setTimeout(() => setBootupDone(true), 400);
-        }, 400);
-      }
-    }, 350);
-  };
 
   const lines = [
     t.bootup.initializing,
@@ -55,37 +26,64 @@ export default function BootupSequence() {
     t.bootup.granted,
   ];
 
+  useEffect(() => {
+    let cancelled = false;
+    const timeouts: ReturnType<typeof setTimeout>[] = [];
+    let lineInterval: ReturnType<typeof setInterval> | null = null;
+
+    const schedule = (fn: () => void, delay: number) => {
+      const id = setTimeout(() => {
+        if (!cancelled) fn();
+      }, delay);
+      timeouts.push(id);
+    };
+
+    schedule(() => {
+      setPhase("typing");
+      const { soundEnabled, completeBoot } = useHUDStore.getState();
+      if (soundEnabled) playBootupChime();
+
+      let i = 0;
+      lineInterval = setInterval(() => {
+        if (cancelled) return;
+        i += 1;
+        setVisibleLines(i);
+        if (i >= BOOT_LINE_COUNT) {
+          if (lineInterval) clearInterval(lineInterval);
+          lineInterval = null;
+          schedule(() => {
+            setPhase("done");
+            schedule(() => completeBoot(), COMPLETE_DELAY_MS);
+          }, DONE_DELAY_MS);
+        }
+      }, LINE_INTERVAL_MS);
+    }, LOGO_DELAY_MS);
+
+    return () => {
+      cancelled = true;
+      timeouts.forEach(clearTimeout);
+      if (lineInterval) clearInterval(lineInterval);
+    };
+  }, []);
+
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-background">
+    <div className="fixed inset-0 z-200 flex items-center justify-center bg-background">
       <div className="mx-4 w-full max-w-lg">
         <AnimatePresence>
-          {phase === "idle" && (
+          {phase === "logo" && (
             <motion.div
-              key="idle"
+              key="logo"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, y: -20 }}
               className="flex flex-col items-center gap-6"
             >
-              <div className="flex h-20 w-20 items-center justify-center rounded-full border-2 border-hud-cyan text-3xl font-black text-hud-cyan shadow-[0_0_30px_oklch(0.65_0.18_255/0.15)]"
-              >
+              <div className="flex h-20 w-20 items-center justify-center rounded-full border-2 border-hud-cyan text-3xl font-black text-hud-cyan shadow-[0_0_30px_oklch(0.65_0.18_255/0.15)]">
                 G
               </div>
               <h1 className="text-center font-mono text-sm tracking-[0.3em] text-muted-foreground">
                 {t.bootup.title}
               </h1>
-              {showButton && (
-                <motion.button
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={start}
-                  className="rounded border border-hud-cyan px-6 py-2 font-mono text-xs font-bold tracking-widest text-hud-cyan transition-colors hover:bg-hud-cyan/10"
-                >
-                  {t.bootup.start}
-                </motion.button>
-              )}
             </motion.div>
           )}
         </AnimatePresence>
@@ -107,11 +105,15 @@ export default function BootupSequence() {
                   className="mb-1"
                 >
                   {line === t.bootup.granted && <span className="text-hud-green">✔ </span>}
-                  <span className={
-                    line === t.bootup.granted ? "text-hud-green" :
-                    line === t.bootup.neural ? "text-hud-cyan" :
-                    "text-muted-foreground"
-                  }>
+                  <span
+                    className={
+                      line === t.bootup.granted
+                        ? "text-hud-green"
+                        : line === t.bootup.neural
+                          ? "text-hud-cyan"
+                          : "text-muted-foreground"
+                    }
+                  >
                     {line}
                   </span>
                 </motion.div>

@@ -37,8 +37,13 @@ const TECHS = [
   { id: "vsc", name: "VS Code", color: "#007ACC" },
 ];
 
-function TechNodes() {
+interface TechNodesProps {
+  mode: "idle" | "active";
+}
+
+function TechNodes({ mode }: TechNodesProps) {
   const groupRef = useRef<THREE.Group>(null);
+  const coreRef = useRef<THREE.Mesh>(null);
 
   const positions = useMemo(() => {
     const pts: THREE.Vector3[] = [];
@@ -53,36 +58,39 @@ function TechNodes() {
     return pts;
   }, []);
 
+  const rotSpeed = mode === "idle" ? 0.008 : 0.014;
+  const rotSpeedX = mode === "idle" ? 0.003 : 0.006;
+
   useFrame((state) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y += 0.008;
-      groupRef.current.rotation.x += 0.003;
+      groupRef.current.rotation.y += rotSpeed;
+      groupRef.current.rotation.x += rotSpeedX;
+    }
+    if (coreRef.current && mode === "idle") {
+      const pulse = 0.35 + Math.sin(state.clock.elapsedTime * 2) * 0.15;
+      (coreRef.current.material as THREE.MeshBasicMaterial).opacity = pulse;
     }
   });
 
   return (
     <group ref={groupRef}>
-      {/* Núcleo */}
-      <mesh>
+      <mesh ref={coreRef}>
         <sphereGeometry args={[0.25, 32, 32]} />
-        <meshBasicMaterial color="#0df8f9" transparent opacity={0.4} />
+        <meshBasicMaterial color="#0df8f9" transparent opacity={mode === "idle" ? 0.4 : 0.55} />
       </mesh>
-      {/* Orbe wireframe */}
       <mesh>
         <sphereGeometry args={[2, 32, 32]} />
-        <meshBasicMaterial color="#66ccff" transparent opacity={0.04} wireframe />
+        <meshBasicMaterial color="#66ccff" transparent opacity={mode === "idle" ? 0.05 : 0.03} wireframe />
       </mesh>
 
       {TECHS.map((tech, i) => {
         const pos = positions[i];
         return (
           <group key={tech.id} position={pos}>
-            {/* Glow punto */}
             <mesh>
               <sphereGeometry args={[0.12, 12, 12]} />
               <meshBasicMaterial color={tech.color} transparent opacity={0.5} />
             </mesh>
-            {/* Icono SVG inline */}
             <Html center distanceFactor={8}>
               <div
                 className="flex items-center justify-center rounded-full border backdrop-blur-sm"
@@ -107,14 +115,24 @@ function TechNodes() {
   );
 }
 
-export default function TechSphere() {
+interface TechSphereProps {
+  mode?: "idle" | "active";
+}
+
+export default function TechSphere({ mode = "idle" }: TechSphereProps) {
   return (
     <div className="h-full w-full">
       <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
-        <ambientLight intensity={0.4} />
-        <pointLight position={[10, 10, 10]} />
-        <TechNodes />
-        <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.8} />
+        <ambientLight intensity={mode === "idle" ? 0.5 : 0.35} />
+        <pointLight position={[10, 10, 10]} intensity={mode === "idle" ? 1.2 : 0.9} />
+        <pointLight position={[-5, -5, 5]} color="#0df8f9" intensity={mode === "idle" ? 0.6 : 0.3} />
+        <TechNodes mode={mode} />
+        <OrbitControls
+          enableZoom={false}
+          enablePan={false}
+          autoRotate
+          autoRotateSpeed={mode === "idle" ? 0.8 : 1.2}
+        />
       </Canvas>
     </div>
   );

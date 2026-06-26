@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useCallback, useMemo, useEffect, useRef } from "react";
-import { AnimatePresence } from "motion/react";
+import { useMemo } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useProgressStore } from "@/lib/store/useProgressStore";
+import { useHUDStore, type PanelId } from "@/lib/store/useHUDStore";
 import HUDHeader from "./HUDHeader";
 import DesktopBackground from "./DesktopBackground";
-import FloatingWindow from "./FloatingWindow";
+import HologramPanel from "./HologramPanel";
+import WelcomeHologram from "./WelcomeHologram";
 import TechIconsSprite from "@/components/TechIconsSprite";
 import dynamic from "next/dynamic";
 
@@ -20,230 +22,111 @@ const ProjectsWindow = dynamic(() => import("./ProjectsWindow"), { ssr: false })
 const CertificationsWindow = dynamic(() => import("./CertificationsWindow"), { ssr: false });
 const ContactWindow = dynamic(() => import("./ContactWindow"), { ssr: false });
 
-type WindowId =
-  | "profile"
-  | "experience"
-  | "projects"
-  | "certifications"
-  | "terminal"
-  | "minigame"
-  | "contact";
-
-interface OpenWindow {
-  id: WindowId;
-  zIndex: number;
-}
-
-const GAP = 8;
-const HEADER_H = 48;
-const MARGIN_X = 12;
-
-const PREFERRED_W: Record<WindowId, number> = {
-  profile: 340,
-  experience: 340,
-  projects: 340,
-  certifications: 320,
-  terminal: 340,
-  minigame: 360,
-  contact: 320,
-};
-
-type PWin = OpenWindow & { x: number; y: number; w: number; h: number };
-
-const MIN_WINDOW_W = 300;
-
-function computeLayout(windows: OpenWindow[], vw: number, vh: number): PWin[] {
-  const count = windows.length;
-  if (count === 0) return [];
-
-  const availableW = vw - MARGIN_X * 2 - (count - 1) * GAP;
-  const uniformW = Math.max(MIN_WINDOW_W, Math.min(340, Math.floor(availableW / count)));
-
-  let x = MARGIN_X;
-  const y = HEADER_H;
-  const h = vh - HEADER_H;
-
-  return windows.map((w, i) => {
-    const pw = Math.min(uniformW, PREFERRED_W[w.id]);
-    // If this window would overflow past the right edge, stack it slightly offset
-    const wouldOverflow = x + pw > vw - MARGIN_X;
-    const actualX = wouldOverflow ? vw - pw - MARGIN_X - (i % 3) * 24 : x;
-    const actualY = wouldOverflow ? y + (i % 3) * 16 : y;
-    const pos: PWin = { ...w, x: actualX, y: actualY, w: pw, h };
-    x += pw + GAP;
-    return pos;
-  });
-}
-
 export default function HUDShell() {
   const { t } = useTranslation();
   const { totalPercent } = useProgressStore();
-  const [openWindows, setOpenWindows] = useState<OpenWindow[]>([
-    { id: "profile", zIndex: 10 },
-    { id: "experience", zIndex: 9 },
-    { id: "projects", zIndex: 8 },
-  ]);
-  const [topZ, setTopZ] = useState(20);
-  const [vw, setVw] = useState(1200);
-  const [vh, setVh] = useState(800);
+  const { activePanel, togglePanel, closePanel } = useHUDStore();
+  const isIdle = activePanel === null;
 
-  // Orb drag state
-  const [orbPos, setOrbPos] = useState({ x: 0, y: 0 }); // 0,0 means default bottom-right
-  const orbDragging = useRef(false);
-  const orbDragOffset = useRef({ x: 0, y: 0 });
-  const orbRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const update = () => {
-      setVw(window.innerWidth);
-      setVh(window.innerHeight);
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-
-  const positioned = useMemo(
-    () => computeLayout(openWindows, vw, vh),
-    [openWindows, vw, vh]
-  );
-
-  const openWindow = useCallback(
-    (id: WindowId) => {
-      setOpenWindows((prev) => {
-        if (prev.some((w) => w.id === id)) return prev;
-        return [...prev, { id, zIndex: topZ + 1 }];
-      });
-      setTopZ((z) => z + 1);
-    },
-    [topZ]
-  );
-
-  const closeWindow = useCallback((id: WindowId) => {
-    setOpenWindows((prev) => prev.filter((w) => w.id !== id));
-  }, []);
-
-  const focusWindow = useCallback(
-    (id: WindowId) => {
-      setOpenWindows((prev) =>
-        prev.map((w) => (w.id === id ? { ...w, zIndex: topZ + 1 } : w))
-      );
-      setTopZ((z) => z + 1);
-    },
-    [topZ]
-  );
-
-  const renderContent = (id: WindowId) => {
+  const renderContent = (id: PanelId) => {
     switch (id) {
-      case "profile": return <ProfileWindow />;
-      case "experience": return <ExperienceWindow />;
-      case "projects": return <ProjectsWindow />;
-      case "certifications": return <CertificationsWindow />;
-      case "terminal": return <TerminalPanel />;
-      case "minigame": return <JarvisDefense />;
-      case "contact": return <ContactWindow />;
-      default: return null;
+      case "profile":
+        return <ProfileWindow />;
+      case "experience":
+        return <ExperienceWindow />;
+      case "projects":
+        return <ProjectsWindow />;
+      case "certifications":
+        return <CertificationsWindow />;
+      case "terminal":
+        return <TerminalPanel />;
+      case "minigame":
+        return <JarvisDefense />;
+      case "contact":
+        return <ContactWindow />;
+      default:
+        return null;
     }
   };
 
-  const getTitle = (id: WindowId) => {
-    switch (id) {
-      case "profile": return t.header.profile;
-      case "experience": return t.header.experience;
-      case "projects": return t.header.projects;
-      case "certifications": return t.header.certifications;
-      case "terminal": return t.header.terminal;
-      case "minigame": return t.header.minigame;
-      case "contact": return t.header.contact;
-    }
-  };
-
-  const getSubtitle = (id: WindowId) => {
-    switch (id) {
-      case "profile": return "Identity";
-      case "experience": return "Career";
-      case "projects": return "Missions";
-      case "certifications": return "Certs";
-      case "terminal": return "CLI";
-      case "minigame": return "Security";
-      case "contact": return "Comm";
-    }
-  };
-
-  const onOrbPointerDown = useCallback((e: React.PointerEvent) => {
-    orbDragging.current = true;
-    const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
-    orbDragOffset.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-    (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
-  }, []);
-
-  const onOrbPointerMove = useCallback((e: React.PointerEvent) => {
-    if (!orbDragging.current) return;
-    const newX = e.clientX - orbDragOffset.current.x;
-    const newY = e.clientY - orbDragOffset.current.y;
-    setOrbPos({ x: newX, y: newY });
-  }, []);
-
-  const onOrbPointerUp = useCallback((e: React.PointerEvent) => {
-    orbDragging.current = false;
-    (e.currentTarget as HTMLDivElement).releasePointerCapture(e.pointerId);
-  }, []);
+  const panelMeta = useMemo(
+    () =>
+      ({
+        profile: { title: t.header.profile, subtitle: "Identity" },
+        experience: { title: t.header.experience, subtitle: "Career" },
+        projects: { title: t.header.projects, subtitle: "Missions" },
+        certifications: { title: t.header.certifications, subtitle: "Certs" },
+        terminal: { title: t.header.terminal, subtitle: "CLI" },
+        minigame: { title: t.header.minigame, subtitle: "Security" },
+        contact: { title: t.header.contact, subtitle: "Comm" },
+      }) as Record<PanelId, { title: string; subtitle: string }>,
+    [t]
+  );
 
   return (
     <div className="fixed inset-0 overflow-hidden bg-background text-foreground">
       <TechIconsSprite />
       <DesktopBackground />
-      <HUDHeader onOpenWindow={openWindow} totalPercent={totalPercent} />
+      <HUDHeader
+        activePanel={activePanel}
+        onTogglePanel={togglePanel}
+        totalPercent={totalPercent}
+      />
 
-      {/* Orbe holográfico de Stack — flotante, arrastrable, con hover expand */}
-      <div
-        ref={orbRef}
-        className="pointer-events-none absolute z-[50] flex flex-col items-center transition-all duration-300 ease-out hover:scale-110"
-        style={{
-          right: orbPos.x === 0 && orbPos.y === 0 ? "0.5rem" : undefined,
-          bottom: orbPos.x === 0 && orbPos.y === 0 ? "0.5rem" : undefined,
-          left: orbPos.x !== 0 || orbPos.y !== 0 ? orbPos.x : undefined,
-          top: orbPos.x !== 0 || orbPos.y !== 0 ? orbPos.y : undefined,
-        }}
-      >
-        <span className="mb-1 text-[9px] font-bold tracking-[0.2em] text-hud-cyan opacity-70 uppercase">
-          Stack Orb
-        </span>
-        <div
-          className="pointer-events-auto cursor-grab overflow-hidden rounded-full border bg-hud-bg/20 backdrop-blur-md active:cursor-grabbing"
-          onPointerDown={onOrbPointerDown}
-          onPointerMove={onOrbPointerMove}
-          onPointerUp={onOrbPointerUp}
-          style={{
-            width: "18rem",
-            height: "18rem",
-            borderColor: "oklch(0.65 0.18 255 / 0.15)",
-            boxShadow: "0 0 40px oklch(0.65 0.18 255 / 0.06), inset 0 0 30px oklch(0.65 0.18 255 / 0.03)",
-          }}
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 overflow-y-auto px-3 pt-14 pb-4 md:gap-6 md:px-6 lg:flex-row lg:items-center lg:justify-center lg:gap-10 lg:overflow-hidden lg:pt-12">
+        <AnimatePresence mode="popLayout">
+          {isIdle && (
+            <div key="welcome" className="order-2 w-full lg:order-1 lg:w-auto lg:max-w-lg lg:flex-1">
+              <WelcomeHologram />
+            </div>
+          )}
+        </AnimatePresence>
+
+        <motion.div
+          layout
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className={`relative z-50 flex shrink-0 flex-col items-center ${
+            isIdle ? "order-1 lg:order-2" : "order-1 lg:order-0"
+          }`}
         >
-          <TechSphere />
-        </div>
-      </div>
+          <span className="mb-1.5 text-[9px] font-bold tracking-[0.2em] text-hud-cyan/70 uppercase">
+            Stack Orb
+          </span>
+          <motion.div
+            layout
+            animate={{
+              width: isIdle
+                ? "clamp(10rem, 50vw, 22rem)"
+                : "clamp(8rem, 35vw, 14rem)",
+              height: isIdle
+                ? "clamp(10rem, 50vw, 22rem)"
+                : "clamp(8rem, 35vw, 14rem)",
+            }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden rounded-full border bg-hud-bg/20 backdrop-blur-md"
+            style={{
+              borderColor: "oklch(0.65 0.18 255 / 0.2)",
+              boxShadow: isIdle
+                ? "0 0 60px oklch(0.65 0.18 255 / 0.12), inset 0 0 40px oklch(0.65 0.18 255 / 0.05)"
+                : "0 0 40px oklch(0.65 0.18 255 / 0.08), inset 0 0 30px oklch(0.65 0.18 255 / 0.03)",
+            }}
+          >
+            <TechSphere mode={isIdle ? "idle" : "active"} />
+          </motion.div>
+        </motion.div>
 
-      <div className="absolute inset-0 pt-12">
-        <AnimatePresence>
-          {positioned.map(({ id, zIndex, x, y, w, h }) => (
-            <FloatingWindow
-              key={id}
-              id={id}
-              title={getTitle(id)}
-              subtitle={getSubtitle(id)}
-              defaultX={x}
-              defaultY={y}
-              defaultWidth={w}
-              defaultHeight={h}
-              zIndex={zIndex}
-              onClose={() => closeWindow(id)}
-              onFocus={() => focusWindow(id)}
+        <AnimatePresence mode="wait">
+          {activePanel && (
+            <HologramPanel
+              key={activePanel}
+              title={panelMeta[activePanel].title}
+              subtitle={panelMeta[activePanel].subtitle}
+              onClose={closePanel}
+              className="order-3 max-h-[calc(100vh-18rem)] lg:max-h-[calc(100vh-5rem)] lg:flex-none"
             >
-              {renderContent(id)}
-            </FloatingWindow>
-          ))}
+              {renderContent(activePanel)}
+            </HologramPanel>
+          )}
         </AnimatePresence>
       </div>
     </div>

@@ -17,7 +17,7 @@ export default function TerminalPanel() {
   const [history, setHistory] = useState<string[]>([]);
   const [histIndex, setHistIndex] = useState(-1);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { soundEnabled } = useHUDStore();
+  const { soundEnabled, endSession } = useHUDStore();
   const { totalPercent, unlockSecret } = useProgressStore();
 
   useEffect(() => {
@@ -78,6 +78,12 @@ export default function TerminalPanel() {
 
     if (cmd === "github") {
       push(t.terminal.github, "link");
+      return;
+    }
+
+    if (cmd === "logout" || cmd === "exit" || cmd === "restart") {
+      push(t.terminal.logout, "out");
+      setTimeout(() => endSession(), 600);
       return;
     }
 

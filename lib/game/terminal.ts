@@ -37,6 +37,10 @@ export function linkifyText(raw: string): string[] {
         ">  [##############..] 88%",
         ">  ACCESO DENEGADO. INTENTE DE NUEVO.",
       ];
+    case "logout":
+    case "exit":
+    case "restart":
+      return ["> Reiniciando sistema..."];
     case "open":
       if (cmd[1] === "sphere") return ["> Abriendo visualizador de stack..."];
       if (cmd[1] === "minigame") return ["> Cargando Knight's Slash..."];

@@ -9,10 +9,13 @@ export const translations = {
       granted: "Acceso concedido.",
       start: "INICIAR SISTEMA",
       title: "G-DARKO OS",
+      welcomeTitle: "Sistema en línea",
+      welcomeHint: "Selecciona un módulo del sistema para iniciar el enlace neural.",
     },
     header: {
       title: "G-DARKO",
       subtitle: "SISTEMA HUD v3.0",
+      logout: "Reiniciar sistema",
       terminal: "Terminal",
       sphere: "Stack 3D",
       minigame: "Jarvis Defense",
@@ -112,6 +115,8 @@ export const translations = {
         "  github      — abrir GitHub",
         "  progress    — progreso actual",
         "  hack        — ???",
+        "  logout      — reiniciar sistema HUD",
+        "  restart     — reiniciar sistema HUD",
         "  clear       — limpiar terminal",
       ],
       about:
@@ -122,6 +127,7 @@ export const translations = {
       github: "https://github.com/G-Darko",
       progress: "Calculando...",
       hack: "Acceso concedido. Subsistema secreto habilitado.",
+      logout: "Reiniciando sistema...",
       notFound: 'Comando no encontrado: "{cmd}". Escribe \'help\' para la lista.',
     },
     minigame: {
@@ -165,10 +171,13 @@ export const translations = {
       granted: "Access granted.",
       start: "START SYSTEM",
       title: "G-DARKO OS",
+      welcomeTitle: "System online",
+      welcomeHint: "Select a system module to initiate the neural link.",
     },
     header: {
       title: "G-DARKO",
       subtitle: "HUD SYSTEM v3.0",
+      logout: "Restart system",
       terminal: "Terminal",
       sphere: "Stack 3D",
       minigame: "Jarvis Defense",
@@ -268,6 +277,8 @@ export const translations = {
         "  github      — open GitHub",
         "  progress    — current completion",
         "  hack        — ???",
+        "  logout      — restart HUD system",
+        "  restart     — restart HUD system",
         "  clear       — clear terminal",
       ],
       about:
@@ -278,6 +289,7 @@ export const translations = {
       github: "https://github.com/G-Darko",
       progress: "Calculating...",
       hack: "Access granted. Secret subsystem enabled.",
+      logout: "Restarting system...",
       notFound: 'Command not found: "{cmd}". Type \'help\' for list.',
     },
     minigame: {
