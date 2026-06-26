@@ -25,6 +25,11 @@ export const metadata: Metadata = {
     "JavaScript",
   ],
   authors: [{ name: "Gael Uribe" }],
+  icons: {
+    icon: "/img/DARKO.png",
+    shortcut: "/img/DARKO.png",
+    apple: "/img/DARKO.png",
+  },
   openGraph: {
     title: "Portafolio | G-Darko",
     description:
@@ -43,9 +48,38 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${poppins.variable} antialiased`}
+      className={`${poppins.variable} antialiased dark`}
+      data-palette="default"
       suppressHydrationWarning
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                try {
+                  var paletteRaw = localStorage.getItem("gdarko-hud-palette");
+                  if (paletteRaw) {
+                    var paletteState = JSON.parse(paletteRaw).state;
+                    if (paletteState && paletteState.paletteId) {
+                      document.documentElement.dataset.palette = paletteState.paletteId;
+                    }
+                  }
+                  var themeRaw = localStorage.getItem("gdarko-hud-theme");
+                  if (themeRaw) {
+                    var themeState = JSON.parse(themeRaw).state;
+                    var theme = themeState && themeState.theme ? themeState.theme : "dark";
+                    var dark = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+                    document.documentElement.classList.toggle("dark", dark);
+                    return;
+                  }
+                  document.documentElement.classList.add("dark");
+                } catch (_) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className="min-h-dvh w-dvw overflow-x-hidden">{children}</body>
     </html>
   );

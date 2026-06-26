@@ -9,23 +9,15 @@ const FORMSPREE_ENDPOINT = "https://formspree.io/f/xlevgjee";
 
 type FormStatus = "idle" | "sending" | "success" | "error";
 
-const fieldLabelClass =
-  "pointer-events-none absolute left-0 top-0 px-5 py-5 text-base uppercase tracking-wider text-muted-foreground transition-all duration-300 md:text-lg " +
-  "peer-focus:-translate-y-2 peer-focus:translate-x-5 peer-focus:bg-card peer-focus:px-2.5 peer-focus:text-sm peer-focus:text-hud-cyan " +
-  "peer-focus:border-l peer-focus:border-r peer-focus:border-hud-cyan " +
-  "peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-5 peer-[:not(:placeholder-shown)]:bg-card peer-[:not(:placeholder-shown)]:px-2.5 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:text-hud-cyan " +
-  "peer-[:not(:placeholder-shown)]:border-l peer-[:not(:placeholder-shown)]:border-r peer-[:not(:placeholder-shown)]:border-hud-cyan";
-
-const fieldInputClass =
-  "peer w-full rounded-[10px] border-2 border-border bg-card px-5 py-5 text-base text-foreground outline-none transition-all duration-300 " +
-  "focus:border-hud-cyan md:text-lg " +
-  "not-placeholder-shown:border-hud-cyan";
-
 export default function ContactWindow() {
   const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<FormStatus>("idle");
+
+  const resetStatus = () => {
+    if (status === "success" || status === "error") setStatus("idle");
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,68 +47,90 @@ export default function ContactWindow() {
   };
 
   return (
-    <div className="contact-form flex flex-col items-center gap-6 md:gap-8">
-      <p className="max-w-md text-center text-base leading-relaxed text-muted-foreground md:text-lg">
-        {t.contact.desc}
-      </p>
+    <div className="contact-form space-y-5">
+      <div className="text-center">
+        <p className="font-mono text-xs tracking-[0.25em] text-hud-cyan/80 uppercase md:text-sm">
+          {t.contact.channel}
+        </p>
+        <p className="mt-2 text-base leading-relaxed text-muted-foreground md:text-lg">
+          {t.contact.desc}
+        </p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="w-full pt-2">
-        <div className="relative mb-8 w-full">
-          <input
-            type="email"
-            name="email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              if (status === "success" || status === "error") setStatus("idle");
-            }}
-            required
+      <div className="relative overflow-hidden rounded-xl border border-hud-border/70 bg-hud-cyan/4 p-4 shadow-[0_0_28px_color-mix(in_oklch,var(--hud-cyan)_12%,transparent)] backdrop-blur-sm md:p-5">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.12]"
+          style={{
+            background:
+              "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--hud-cyan) 8%, transparent) 2px, color-mix(in oklch, var(--hud-cyan) 8%, transparent) 4px)",
+          }}
+        />
+
+        <form onSubmit={handleSubmit} className="relative space-y-5">
+          <div className="contact-field">
+            <label htmlFor="contact-email" className="contact-label-static">
+              {t.contact.email}
+            </label>
+            <input
+              id="contact-email"
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                resetStatus();
+              }}
+              required
+              disabled={status === "sending"}
+              className="contact-input"
+              placeholder="your@email.com"
+              autoComplete="email"
+            />
+          </div>
+
+          <div className="contact-field">
+            <label htmlFor="contact-message" className="contact-label-static">
+              {t.contact.message}
+            </label>
+            <textarea
+              id="contact-message"
+              name="message"
+              value={message}
+              onChange={(e) => {
+                setMessage(e.target.value);
+                resetStatus();
+              }}
+              required
+              rows={4}
+              disabled={status === "sending"}
+              className="contact-input"
+              placeholder={t.contact.messagePlaceholder}
+            />
+          </div>
+
+          <motion.button
+            type="submit"
             disabled={status === "sending"}
-            className={fieldInputClass}
-            placeholder=" "
-          />
-          <label className={fieldLabelClass}>{t.contact.email}</label>
-        </div>
+            whileHover={{ scale: status === "sending" ? 1 : 1.01 }}
+            whileTap={{ scale: status === "sending" ? 1 : 0.99 }}
+            className="contact-submit flex w-full items-center justify-center gap-2 disabled:cursor-wait disabled:opacity-70"
+          >
+            <Send size={17} className="translate-x-0.5 translate-y-0.5" />
+            {status === "sending" ? t.contact.sending : t.contact.send}
+          </motion.button>
 
-        <div className="relative mb-8 w-full">
-          <textarea
-            name="message"
-            value={message}
-            onChange={(e) => {
-              setMessage(e.target.value);
-              if (status === "success" || status === "error") setStatus("idle");
-            }}
-            required
-            rows={5}
-            disabled={status === "sending"}
-            className={`${fieldInputClass} resize-none`}
-            placeholder=" "
-          />
-          <label className={fieldLabelClass}>{t.contact.message}</label>
-        </div>
-
-        <motion.button
-          type="submit"
-          disabled={status === "sending"}
-          whileHover={{ scale: status === "sending" ? 1 : 1.01 }}
-          whileTap={{ scale: status === "sending" ? 1 : 0.99 }}
-          className="flex w-full items-center justify-center gap-2 rounded-[10px] bg-foreground py-3.5 text-base font-semibold uppercase tracking-[0.3em] text-background transition-colors hover:bg-linear-to-r hover:from-hud-cyan hover:to-hud-blue disabled:cursor-wait disabled:opacity-70 md:text-lg"
-        >
-          <Send size={18} className="translate-x-1 translate-y-0.5" />
-          {status === "sending" ? t.contact.sending : t.contact.send}
-        </motion.button>
-
-        {status === "success" && (
-          <p className="mt-4 text-center text-sm font-medium text-hud-green md:text-base">
-            {t.contact.success}
-          </p>
-        )}
-        {status === "error" && (
-          <p className="mt-4 text-center text-sm font-medium text-hud-red md:text-base">
-            {t.contact.error}
-          </p>
-        )}
-      </form>
+          {status === "success" && (
+            <p className="text-center text-sm font-medium text-hud-green md:text-base">
+              {t.contact.success}
+            </p>
+          )}
+          {status === "error" && (
+            <p className="text-center text-sm font-medium text-hud-red md:text-base">
+              {t.contact.error}
+            </p>
+          )}
+        </form>
+      </div>
     </div>
   );
 }

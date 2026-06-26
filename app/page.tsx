@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useHUDStore } from "@/lib/store/useHUDStore";
 import BootupSequence from "@/components/hud/BootupSequence";
 import HUDShell from "@/components/hud/HUDShell";
+import HudThemeProvider from "@/components/HudThemeProvider";
 import EasterEggManager from "@/components/hud/EasterEggManager";
 
 export default function Home() {
@@ -21,7 +22,7 @@ export default function Home() {
   const showHUD = sessionActive || bootupDone;
 
   return (
-    <>
+    <HudThemeProvider>
       <EasterEggManager />
       {!hydrated ? (
         <div className="fixed inset-0 bg-background" />
@@ -30,6 +31,6 @@ export default function Home() {
       ) : (
         <BootupSequence key={bootEpoch} />
       )}
-    </>
+    </HudThemeProvider>
   );
 }

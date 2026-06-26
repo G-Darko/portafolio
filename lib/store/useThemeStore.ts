@@ -31,7 +31,7 @@ function applyThemeClass(resolved: "dark" | "light") {
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set, get) => ({
-      theme: "system",
+      theme: "dark",
       resolved: "dark",
       setTheme: (t) => {
         const resolved = typeof window !== "undefined" ? resolveTheme(t) : "dark";

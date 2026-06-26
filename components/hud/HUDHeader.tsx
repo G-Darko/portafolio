@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Sun, Moon, Globe, RotateCw } from "lucide-react";
+import { Globe, RotateCw } from "lucide-react";
 import { useThemeStore } from "@/lib/store/useThemeStore";
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
+import ThemePalettePicker from "./ThemePalettePicker";
 import { useLocaleStore } from "@/lib/store/useLocaleStore";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useProgressStore } from "@/lib/store/useProgressStore";
@@ -32,7 +34,7 @@ export default function HUDHeader({
   totalPercent,
 }: HUDHeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { resolved, toggleTheme } = useThemeStore();
+  const { resolved, setTheme } = useThemeStore();
   const { locale, toggleLocale } = useLocaleStore();
   const { t } = useTranslation();
   const { secretsFound } = useProgressStore();
@@ -68,7 +70,7 @@ export default function HUDHeader({
             <h1 className="font-mono text-sm font-bold tracking-widest text-foreground md:text-base">
               {t.header.title}
             </h1>
-            <p className="font-mono text-sm text-muted-foreground md:text-base">{t.header.subtitle}</p>
+            {/* <p className="font-mono text-sm text-muted-foreground md:text-base">{t.header.subtitle}</p> */}
           </div>
 
           <div className="ml-3 hidden items-center gap-0.5 md:flex">
@@ -118,16 +120,16 @@ export default function HUDHeader({
             <RotateCw size={14} />
           </button>
 
-          <button
-            onClick={() => {
-              playHUDClick();
-              toggleTheme();
-            }}
+          <ThemePalettePicker />
+
+          <AnimatedThemeToggler
+            variant="hexagon"
+            duration={450}
+            theme={resolved}
+            onThemeChange={(next) => setTheme(next)}
             className="flex h-7 w-7 items-center justify-center rounded text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-            title={resolved === "dark" ? "Light mode" : "Dark mode"}
-          >
-            {resolved === "dark" ? <Sun size={14} /> : <Moon size={14} />}
-          </button>
+            title={resolved === "dark" ? t.theme.light : t.theme.dark}
+          />
 
           <button
             onClick={() => {
