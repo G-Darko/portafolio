@@ -76,11 +76,11 @@ export default function HologramPanel({
         <div className="flex min-w-0 items-center gap-2">
           <div className="h-2 w-2 shrink-0 rounded-full bg-hud-cyan shadow-[0_0_8px_var(--hud-cyan)]" />
           <div className="min-w-0">
-            <span className="block truncate text-[11px] font-bold tracking-[0.12em] text-hud-cyan">
+            <span className="block truncate text-sm font-bold tracking-[0.12em] text-hud-cyan md:text-base">
               {title}
             </span>
             {subtitle && (
-              <span className="block truncate font-mono text-[9px] text-muted-foreground">
+              <span className="block truncate font-mono text-sm text-muted-foreground md:text-base">
                 {"// "}
                 {subtitle}
               </span>
@@ -96,7 +96,7 @@ export default function HologramPanel({
         </button>
       </div>
 
-      <div className="scrollbar-thin relative z-10 flex-1 overflow-auto p-4">{children}</div>
+      <div className="scrollbar-thin relative z-10 flex-1 overflow-auto p-4 md:p-5">{children}</div>
     </motion.div>
   );
 }

@@ -39,11 +39,13 @@ const TECHS = [
 
 interface TechNodesProps {
   mode: "idle" | "active";
+  highlightIds: string[];
 }
 
-function TechNodes({ mode }: TechNodesProps) {
+function TechNodes({ mode, highlightIds }: TechNodesProps) {
   const groupRef = useRef<THREE.Group>(null);
   const coreRef = useRef<THREE.Mesh>(null);
+  const hasHighlight = highlightIds.length > 0;
 
   const positions = useMemo(() => {
     const pts: THREE.Vector3[] = [];
@@ -58,16 +60,17 @@ function TechNodes({ mode }: TechNodesProps) {
     return pts;
   }, []);
 
-  const rotSpeed = mode === "idle" ? 0.008 : 0.014;
-  const rotSpeedX = mode === "idle" ? 0.003 : 0.006;
+  const rotSpeed = mode === "idle" && !hasHighlight ? 0.008 : 0.014;
+  const rotSpeedX = mode === "idle" && !hasHighlight ? 0.003 : 0.006;
 
   useFrame((state) => {
     if (groupRef.current) {
       groupRef.current.rotation.y += rotSpeed;
       groupRef.current.rotation.x += rotSpeedX;
     }
-    if (coreRef.current && mode === "idle") {
-      const pulse = 0.35 + Math.sin(state.clock.elapsedTime * 2) * 0.15;
+    if (coreRef.current) {
+      const base = hasHighlight ? 0.55 : mode === "idle" ? 0.4 : 0.55;
+      const pulse = base + (mode === "idle" || hasHighlight ? Math.sin(state.clock.elapsedTime * 2) * 0.12 : 0);
       (coreRef.current.material as THREE.MeshBasicMaterial).opacity = pulse;
     }
   });
@@ -76,31 +79,35 @@ function TechNodes({ mode }: TechNodesProps) {
     <group ref={groupRef}>
       <mesh ref={coreRef}>
         <sphereGeometry args={[0.25, 32, 32]} />
-        <meshBasicMaterial color="#0df8f9" transparent opacity={mode === "idle" ? 0.4 : 0.55} />
+        <meshBasicMaterial color="#0df8f9" transparent opacity={0.4} />
       </mesh>
       <mesh>
         <sphereGeometry args={[2, 32, 32]} />
-        <meshBasicMaterial color="#66ccff" transparent opacity={mode === "idle" ? 0.05 : 0.03} wireframe />
+        <meshBasicMaterial color="#66ccff" transparent opacity={hasHighlight ? 0.06 : 0.04} wireframe />
       </mesh>
 
       {TECHS.map((tech, i) => {
         const pos = positions[i];
+        const highlighted = !hasHighlight || highlightIds.includes(tech.id);
+        const scale = highlighted && hasHighlight ? 1.35 : 1;
+        const opacity = highlighted ? (hasHighlight ? 0.85 : 0.5) : 0.12;
         return (
-          <group key={tech.id} position={pos}>
+          <group key={tech.id} position={pos} scale={scale}>
             <mesh>
               <sphereGeometry args={[0.12, 12, 12]} />
-              <meshBasicMaterial color={tech.color} transparent opacity={0.5} />
+              <meshBasicMaterial color={tech.color} transparent opacity={opacity} />
             </mesh>
             <Html center distanceFactor={8}>
               <div
-                className="flex items-center justify-center rounded-full border backdrop-blur-sm"
+                className="flex items-center justify-center rounded-full border backdrop-blur-sm transition-opacity"
                 style={{
                   width: "28px",
                   height: "28px",
                   borderColor: tech.color,
-                  backgroundColor: `${tech.color}22`,
+                  backgroundColor: `${tech.color}${highlighted ? "44" : "11"}`,
                   color: tech.color,
-                  boxShadow: `0 0 10px ${tech.color}55`,
+                  boxShadow: highlighted ? `0 0 ${hasHighlight ? 16 : 10}px ${tech.color}88` : "none",
+                  opacity: highlighted ? 1 : 0.25,
                 }}
               >
                 <svg width="16" height="16" style={{ color: "inherit", fill: "currentColor" }}>
@@ -117,21 +124,23 @@ function TechNodes({ mode }: TechNodesProps) {
 
 interface TechSphereProps {
   mode?: "idle" | "active";
+  highlightIds?: string[];
 }
 
-export default function TechSphere({ mode = "idle" }: TechSphereProps) {
+export default function TechSphere({ mode = "idle", highlightIds = [] }: TechSphereProps) {
+  const hasHighlight = highlightIds.length > 0;
   return (
     <div className="h-full w-full">
       <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
-        <ambientLight intensity={mode === "idle" ? 0.5 : 0.35} />
-        <pointLight position={[10, 10, 10]} intensity={mode === "idle" ? 1.2 : 0.9} />
-        <pointLight position={[-5, -5, 5]} color="#0df8f9" intensity={mode === "idle" ? 0.6 : 0.3} />
-        <TechNodes mode={mode} />
+        <ambientLight intensity={mode === "idle" && !hasHighlight ? 0.5 : 0.4} />
+        <pointLight position={[10, 10, 10]} intensity={hasHighlight ? 1.4 : mode === "idle" ? 1.2 : 0.9} />
+        <pointLight position={[-5, -5, 5]} color="#0df8f9" intensity={hasHighlight ? 0.9 : 0.5} />
+        <TechNodes mode={mode} highlightIds={highlightIds} />
         <OrbitControls
           enableZoom={false}
           enablePan={false}
           autoRotate
-          autoRotateSpeed={mode === "idle" ? 0.8 : 1.2}
+          autoRotateSpeed={hasHighlight ? 1.4 : mode === "idle" ? 0.8 : 1.2}
         />
       </Canvas>
     </div>

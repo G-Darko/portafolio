@@ -1,133 +1,139 @@
+export type MissionId = "black-sheep" | "freelance" | "academia";
+
+export interface MissionPeriod {
+  start: string;
+  end: string;
+}
+
 export interface SubMission {
   id: string;
-  title: string;
-  tagline: string;
+  i18nKey: string;
   techStack: string[];
   repoUrl?: string;
   liveUrl?: string;
-  description: string;
+  images?: string[];
+  video?: string;
+  contextTagKey?: string;
+  period?: MissionPeriod;
+  isMockup?: boolean;
 }
 
 export interface Mission {
-  id: "black-sheep" | "freelance" | "academia";
-  title: string;
-  codename: string;
-  icon: string;
-  description: string;
-  org: string;
+  id: MissionId;
+  i18nKey: string;
+  icon: "Rocket" | "Briefcase" | "GraduationCap";
   rank: "S" | "A" | "B" | "C";
+  orgKey: string;
+  roleKey?: string;
+  period?: MissionPeriod;
   subMissions: SubMission[];
 }
 
 export const missions: Mission[] = [
   {
     id: "black-sheep",
-    title: "Black Sheep Lab",
-    codename: "OPERATION: SAAS",
+    i18nKey: "blackSheep",
     icon: "Rocket",
-    org: "Black Sheep Lab — SaaS e Innovación",
     rank: "S",
-    description:
-      "Innovación en tecnología educativa, comunidad empresarial y aplicaciones móviles con IA y gamificación.",
+    orgKey: "blackSheepOrg",
+    period: { start: "2024", end: "Presente" },
     subMissions: [
       {
         id: "lms-skool",
-        title: "LMS Skool",
-        tagline: "Plataforma educativa SaaS",
-        description:
-          "Plataforma LMS desarrollada en Next.js con integraciones visuales e interactivas. Permite la gestión de cursos, estudiantes y contenido multimedia en tiempo real.",
+        i18nKey: "lmsSkool",
         techStack: ["Next.js", "React", "Tailwind CSS", "PostgreSQL"],
         liveUrl: "https://skool.com.mx/",
         repoUrl: "https://github.com/Black-Sheep-Lab/Cursos",
+        isMockup: true,
       },
       {
         id: "duplica-app",
-        title: "Duplica App",
-        tagline: "App móvil con IA y gamificación",
-        description:
-          "Mobile App en Expo/React Native con IA para generación de promociones, gamificación de diamantes y experiencia, retos diarios y comunidad. Publicada en Play Store.",
+        i18nKey: "duplicaApp",
         techStack: ["Expo", "React Native", "TypeScript", "Node.js", "AI"],
         liveUrl: "https://duplicamlm.app/landing",
         repoUrl: "https://github.com/Black-Sheep-Lab/UF",
+        isMockup: true,
       },
       {
         id: "rnme-hub",
-        title: "RNME Hub",
-        tagline: "Comunidad empresarial",
-        description:
-          "Landing page y comunidad tipo Facebook para empresarios con Rich Text Editor para blogs. Desarrollada en Next.js con sistema de publicaciones y perfiles.",
-        techStack: ["Next.js", "React", "Tailwind", "Tiptap", "PostgreSQL"],
+        i18nKey: "rnmeHub",
+        techStack: ["Next.js", "React", "Tailwind", "PostgreSQL"],
         liveUrl: "https://www.redmexicoemprende.mx/",
         repoUrl: "https://github.com/Black-Sheep-Lab/RNME",
+        isMockup: true,
       },
     ],
   },
   {
     id: "freelance",
-    title: "Freelance",
-    codename: "OPERATION: CONTRACT",
+    i18nKey: "freelance",
     icon: "Briefcase",
-    org: "Indie — Soluciones a Medida",
     rank: "A",
-    description:
-      "Desarrollo de soluciones web corporativas con enfoque en rendimiento y diseño adaptado a cada cliente.",
+    orgKey: "freelanceOrg",
+    roleKey: "freelanceRole",
+    period: { start: "Jul 2025", end: "Ago 2025" },
     subMissions: [
       {
         id: "leamsi",
-        title: "Página Corporativa LEAMSI",
-        tagline: "Web corporativa para contaduría",
-        description:
-          "Desarrollo de una página web corporativa para una contaduría utilizando Astro y Tailwind CSS. Responsable de la arquitectura front-end y la optimización de rendimiento.",
+        i18nKey: "leamsi",
         techStack: ["Astro", "Tailwind CSS", "JavaScript"],
         liveUrl: "https://leamsisolucionescontables.com.mx/",
         repoUrl: "https://github.com/G-Darko/leamsi-astro",
+        period: { start: "Jul 2025", end: "Ago 2025" },
       },
     ],
   },
   {
     id: "academia",
-    title: "Academia / Estadías",
-    codename: "OPERATION: BOOTCAMP",
+    i18nKey: "academia",
     icon: "GraduationCap",
-    org: "UPVM / CECyTEM Tultitlán",
     rank: "B",
-    description:
-      "Proyectos de desarrollo durante la educación dual y estancias profesionales. De la universidad a producción real.",
+    orgKey: "academiaOrg",
+    period: { start: "2021", end: "2025" },
     subMissions: [
       {
         id: "aerial-depot",
-        title: "Sistema de Inventarios | AERIAL DEPOT",
-        tagline: "Visualización 3D del almacén",
-        description:
-          "Aplicación web desarrollada con Laravel, Vue.js y MySQL, incluye visualización 3D del almacén mediante Three.js para facilitar la localización de productos.",
+        i18nKey: "aerialDepot",
         techStack: ["Vue", "Laravel", "Three.js", "MySQL", "Tailwind"],
+        contextTagKey: "dualEducation",
+        images: [
+          "img/aerial/2.webp",
+          "img/aerial/1.webp",
+          "img/aerial/3.webp",
+          "img/aerial/4.webp",
+          "img/aerial/5.webp",
+          "img/aerial/6.webp",
+        ],
+        video: "https://www.youtube.com/embed/pmJ6ysc6ByY",
       },
       {
         id: "tienko",
-        title: "Gestor de Ventas | Tienko",
-        tagline: "Sistema de ventas con Java",
-        description:
-          "Sistema completo con registro de productos, ventas y reportes, desarrollado en Java con base de datos MySQL.",
+        i18nKey: "tienko",
         techStack: ["Java", "MySQL"],
         repoUrl: "https://github.com/G-Darko/Tienko",
+        images: [
+          "img/tienko/3.webp",
+          "img/tienko/1.webp",
+          "img/tienko/2.webp",
+          "img/tienko/4.webp",
+          "img/tienko/5.webp",
+        ],
       },
       {
         id: "postgrados-upvm",
-        title: "Página de Postgrados | UPVM",
-        tagline: "Sitio web institucional",
-        description:
-          "Sitio web informativo para los aspirantes y estudiantes de postgrados de la UPVM, desarrollada con HTML, CSS, JS, PHP y MySQL.",
+        i18nKey: "postgradosUpvm",
         techStack: ["HTML", "CSS", "JS", "PHP", "MySQL"],
+        contextTagKey: "internshipI",
         repoUrl: "https://github.com/G-Darko/Postgrados_UPVM",
+        images: ["img/postg/1.webp", "img/postg/2.webp", "img/postg/3.webp"],
       },
       {
         id: "yiza",
-        title: "YIZA | CECyTEM Tultitlán",
-        tagline: "E-Commerce educativo",
-        description:
-          "E-Commerce simulado con propia base de datos, manual de usuario y panel de control. Desarrollado con HTML, PHP, JavaScript y CSS puro.",
+        i18nKey: "yiza",
         techStack: ["HTML", "CSS", "JS", "PHP", "MySQL"],
+        contextTagKey: "dualEducation",
         repoUrl: "https://github.com/G-Darko/YIZA",
+        images: ["img/yiza/1.webp", "img/yiza/2.webp", "img/yiza/3.webp"],
       },
     ],
   },
@@ -138,30 +144,47 @@ export const totalSubmissions = missions.reduce(
   0
 );
 
-export const techStack = [
-  { name: "Next.js", category: "frontend" as const },
-  { name: "React", category: "frontend" as const },
-  { name: "Vue.js", category: "frontend" as const },
-  { name: "Astro", category: "frontend" as const },
-  { name: "HTML5", category: "frontend" as const },
-  { name: "CSS3", category: "frontend" as const },
-  { name: "Tailwind CSS", category: "frontend" as const },
-  { name: "JavaScript", category: "frontend" as const },
-  { name: "TypeScript", category: "frontend" as const },
-  { name: "Expo", category: "mobile" as const },
-  { name: "React Native", category: "mobile" as const },
-  { name: "Laravel", category: "backend" as const },
-  { name: "PHP", category: "backend" as const },
-  { name: "Java", category: "backend" as const },
-  { name: "Node.js", category: "backend" as const },
-  { name: "Python", category: "backend" as const },
-  { name: "MySQL", category: "database" as const },
-  { name: "PostgreSQL", category: "database" as const },
-  { name: "MongoDB", category: "database" as const },
-  { name: "Three.js", category: "graphics" as const },
-  { name: "Web Audio", category: "graphics" as const },
-  { name: "Git", category: "tools" as const },
-  { name: "Linux", category: "tools" as const },
-  { name: "Vercel", category: "tools" as const },
-  { name: "Godot", category: "game" as const },
+export type TechCategory =
+  | "frontend"
+  | "backend"
+  | "mobile"
+  | "database"
+  | "graphics"
+  | "tools"
+  | "game";
+
+export const techStackCatalog: { name: string; category: TechCategory; iconId: string }[] = [
+  { name: "Next.js", category: "frontend", iconId: "nextjs" },
+  { name: "React", category: "frontend", iconId: "react" },
+  { name: "Vue.js", category: "frontend", iconId: "vue" },
+  { name: "Astro", category: "frontend", iconId: "astro" },
+  { name: "HTML5", category: "frontend", iconId: "html" },
+  { name: "CSS3", category: "frontend", iconId: "css" },
+  { name: "Tailwind CSS", category: "frontend", iconId: "tail" },
+  { name: "JavaScript", category: "frontend", iconId: "js" },
+  { name: "TypeScript", category: "frontend", iconId: "ts" },
+  { name: "Expo", category: "mobile", iconId: "react" },
+  { name: "React Native", category: "mobile", iconId: "react" },
+  { name: "Laravel", category: "backend", iconId: "laravel" },
+  { name: "PHP", category: "backend", iconId: "php" },
+  { name: "Java", category: "backend", iconId: "java" },
+  { name: "Node.js", category: "backend", iconId: "node" },
+  { name: "Python", category: "backend", iconId: "py" },
+  { name: "MySQL", category: "database", iconId: "mysql" },
+  { name: "PostgreSQL", category: "database", iconId: "postsql" },
+  { name: "MongoDB", category: "database", iconId: "mongo" },
+  { name: "Three.js", category: "graphics", iconId: "three" },
+  { name: "Git", category: "tools", iconId: "git" },
+  { name: "Linux", category: "tools", iconId: "linux" },
+  { name: "Vercel", category: "tools", iconId: "vercel" },
+  { name: "Docker", category: "tools", iconId: "docker" },
 ];
+
+export function getMissionById(id: string): Mission | undefined {
+  return missions.find((m) => m.id === id);
+}
+
+export function getSubMission(missionId: string, subId: string): SubMission | undefined {
+  const mission = getMissionById(missionId);
+  return mission?.subMissions.find((s) => s.id === subId);
+}

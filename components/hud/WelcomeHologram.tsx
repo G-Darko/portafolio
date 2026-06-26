@@ -1,10 +1,33 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 
 export default function WelcomeHologram() {
   const { t } = useTranslation();
+  const roles = t.bootup.typewriterRoles;
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [displayed, setDisplayed] = useState("");
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const full = roles[roleIndex];
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (!deleting && displayed.length < full.length) {
+      timeout = setTimeout(() => setDisplayed(full.slice(0, displayed.length + 1)), 45);
+    } else if (!deleting && displayed.length === full.length) {
+      timeout = setTimeout(() => setDeleting(true), 2200);
+    } else if (deleting && displayed.length > 0) {
+      timeout = setTimeout(() => setDisplayed(full.slice(0, displayed.length - 1)), 28);
+    } else {
+      setDeleting(false);
+      setRoleIndex((i) => (i + 1) % roles.length);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayed, deleting, roleIndex, roles]);
 
   return (
     <motion.div
@@ -32,7 +55,7 @@ export default function WelcomeHologram() {
         <div className="relative z-10 space-y-4">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 animate-pulse rounded-full bg-hud-green shadow-[0_0_8px_var(--hud-green)]" />
-            <span className="font-mono text-[10px] tracking-[0.25em] text-hud-green uppercase">
+            <span className="font-mono text-sm tracking-[0.25em] text-hud-green uppercase">
               {t.bootup.granted}
             </span>
           </div>
@@ -41,34 +64,24 @@ export default function WelcomeHologram() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className="font-mono text-lg font-bold tracking-wide text-hud-cyan md:text-xl"
+            className="font-mono text-xl font-bold tracking-wide text-hud-cyan md:text-2xl"
           >
             {t.bootup.welcomeTitle}
           </motion.h2>
+
+          <p className="min-h-5 font-mono text-sm text-hud-cyan/90 md:text-base">
+            {displayed}
+            <span className="ml-0.5 inline-block h-3 w-0.5 animate-pulse bg-hud-cyan align-middle" />
+          </p>
 
           <motion.p
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="font-mono text-xs leading-relaxed text-muted-foreground md:text-sm"
+            className="font-mono text-sm leading-relaxed text-muted-foreground md:text-base"
           >
             {t.bootup.welcomeHint}
           </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="flex gap-1 pt-2"
-          >
-            {[0, 1, 2].map((i) => (
-              <span
-                key={i}
-                className="h-1 w-8 rounded-full bg-hud-cyan/20"
-                style={{ animationDelay: `${i * 200}ms` }}
-              />
-            ))}
-          </motion.div>
         </div>
       </div>
     </motion.div>

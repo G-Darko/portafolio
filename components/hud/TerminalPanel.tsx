@@ -5,6 +5,9 @@ import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useProgressStore } from "@/lib/store/useProgressStore";
 import { useHUDStore } from "@/lib/store/useHUDStore";
 import { playHUDClick } from "@/lib/audio/audio";
+import { missions, getMissionById, type MissionId } from "@/lib/data/missions";
+import { getMissionCopy } from "@/lib/i18n/missionContent";
+import { useLocaleStore } from "@/lib/store/useLocaleStore";
 
 export default function TerminalPanel() {
   const { t } = useTranslation();
@@ -17,7 +20,9 @@ export default function TerminalPanel() {
   const [history, setHistory] = useState<string[]>([]);
   const [histIndex, setHistIndex] = useState(-1);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { soundEnabled, endSession } = useHUDStore();
+  const { soundEnabled, endSession, openMissionPanel, selectSubMission, openPanel } =
+    useHUDStore();
+  const locale = useLocaleStore((s) => s.locale);
   const { totalPercent, unlockSecret } = useProgressStore();
 
   useEffect(() => {
@@ -87,6 +92,52 @@ export default function TerminalPanel() {
       return;
     }
 
+    if (cmd === "missions") {
+      missions.forEach((m) => {
+        const copy = getMissionCopy(locale, m);
+        push(`[${m.rank}] ${m.id} — ${copy.codename}`, "out");
+      });
+      return;
+    }
+
+    if (cmd.startsWith("mission ")) {
+      const id = cmd.replace("mission ", "").trim() as MissionId;
+      const mission = getMissionById(id);
+      if (!mission) {
+        push(`Misión no encontrada: ${id}`, "error");
+        return;
+      }
+      openMissionPanel(id);
+      push(`Abriendo ${getMissionCopy(locale, mission).codename}...`, "out");
+      return;
+    }
+
+    if (cmd.startsWith("brief ")) {
+      const subId = cmd.replace("brief ", "").trim();
+      let found = false;
+      for (const m of missions) {
+        const sm = m.subMissions.find(
+          (s) => s.id === subId || s.id.replace(/-/g, "") === subId.replace(/-/g, "")
+        );
+        if (sm) {
+          openMissionPanel(m.id);
+          selectSubMission(sm.id);
+          push(`Briefing: ${sm.id}`, "out");
+          found = true;
+          break;
+        }
+      }
+      if (!found) push(`Sub-misión no encontrada: ${subId}`, "error");
+      return;
+    }
+
+    if (cmd === "knights") {
+      push("Iniciando Knight's Slash...", "out");
+      unlockSecret("knights-slash");
+      openPanel("minigame");
+      return;
+    }
+
     push(t.terminal.notFound.replace("{cmd}", raw), "error");
   };
 
@@ -128,7 +179,7 @@ export default function TerminalPanel() {
   return (
     <div className="flex h-full flex-col rounded-lg border border-hud-border bg-hud-bg/70 p-3 backdrop-blur-xl"
     >
-      <div ref={scrollRef} className="scrollbar-thin mb-2 flex-1 overflow-y-auto font-mono text-xs">
+      <div ref={scrollRef} className="scrollbar-thin mb-2 flex-1 overflow-y-auto font-mono text-sm md:text-base">
         {lines.map((line, i) => (
           <div key={i} className={`leading-relaxed ${lineColor(line.type)}`}>
             {line.type === "link" ? (
@@ -142,7 +193,7 @@ export default function TerminalPanel() {
         ))}
       </div>
 
-      <div className="flex items-center gap-2 border-t border-hud-border pt-2 font-mono text-xs">
+      <div className="flex items-center gap-2 border-t border-hud-border pt-2 font-mono text-sm md:text-base">
         <span className="text-hud-green">→</span>
         <input
           value={input}

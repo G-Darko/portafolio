@@ -5,64 +5,118 @@ import { motion } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { Send } from "lucide-react";
 
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xlevgjee";
+
+type FormStatus = "idle" | "sending" | "success" | "error";
+
+const fieldLabelClass =
+  "pointer-events-none absolute left-0 top-0 px-5 py-5 text-base uppercase tracking-wider text-muted-foreground transition-all duration-300 md:text-lg " +
+  "peer-focus:-translate-y-2 peer-focus:translate-x-5 peer-focus:bg-card peer-focus:px-2.5 peer-focus:text-sm peer-focus:text-hud-cyan " +
+  "peer-focus:border-l peer-focus:border-r peer-focus:border-hud-cyan " +
+  "peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-5 peer-[:not(:placeholder-shown)]:bg-card peer-[:not(:placeholder-shown)]:px-2.5 peer-[:not(:placeholder-shown)]:text-sm peer-[:not(:placeholder-shown)]:text-hud-cyan " +
+  "peer-[:not(:placeholder-shown)]:border-l peer-[:not(:placeholder-shown)]:border-r peer-[:not(:placeholder-shown)]:border-hud-cyan";
+
+const fieldInputClass =
+  "peer w-full rounded-[10px] border-2 border-border bg-card px-5 py-5 text-base text-foreground outline-none transition-all duration-300 " +
+  "focus:border-hud-cyan md:text-lg " +
+  "not-placeholder-shown:border-hud-cyan";
+
 export default function ContactWindow() {
   const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<FormStatus>("idle");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    window.location.href = `mailto:uribemelgar19@gmail.com?subject=Portafolio Contacto&body=${encodeURIComponent(`De: ${email}\n\n${message}`)}`;
-    setSent(true);
-    setTimeout(() => setSent(false), 3000);
+    setStatus("sending");
+
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ email, message }),
+      });
+
+      if (res.ok) {
+        setStatus("success");
+        setEmail("");
+        setMessage("");
+        setTimeout(() => setStatus("idle"), 4000);
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
-    <div className="space-y-3">
-      <p className="text-xs text-muted-foreground">{t.contact.desc}</p>
+    <div className="contact-form flex flex-col items-center gap-6 md:gap-8">
+      <p className="max-w-md text-center text-base leading-relaxed text-muted-foreground md:text-lg">
+        {t.contact.desc}
+      </p>
 
-      <form onSubmit={handleSubmit} className="space-y-2">
-        <div>
-          <label className="text-[10px] font-bold tracking-widest text-foreground">{t.contact.email}</label>
+      <form onSubmit={handleSubmit} className="w-full pt-2">
+        <div className="relative mb-8 w-full">
           <input
             type="email"
+            name="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (status === "success" || status === "error") setStatus("idle");
+            }}
             required
-            className="mt-1 w-full rounded border border-hud-border bg-transparent px-2 py-1.5 text-xs text-foreground outline-none focus:border-hud-cyan"
-            placeholder="your@email.com"
+            disabled={status === "sending"}
+            className={fieldInputClass}
+            placeholder=" "
           />
+          <label className={fieldLabelClass}>{t.contact.email}</label>
         </div>
-        <div>
-          <label className="text-[10px] font-bold tracking-widest text-foreground">{t.contact.message}</label>
-          <textarea
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            required
-            rows={3}
-            className="mt-1 w-full resize-none rounded border border-hud-border bg-transparent px-2 py-1.5 text-xs text-foreground outline-none focus:border-hud-cyan"
-          />
-        </div>
-        <button
-          type="submit"
-          className="flex w-full items-center justify-center gap-1 rounded border border-hud-border py-2 text-[10px] font-bold tracking-widest text-hud-cyan transition-colors hover:bg-hud-cyan/10"
-        >
-          <Send size={10} />
-          {sent ? "✓" : t.contact.send}
-        </button>
-      </form>
 
-      <div className="mt-2 space-y-1 border-t border-hud-border pt-2">
-        <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
-          <span>📞</span>
-          <span>+52 55 5617 1692</span>
+        <div className="relative mb-8 w-full">
+          <textarea
+            name="message"
+            value={message}
+            onChange={(e) => {
+              setMessage(e.target.value);
+              if (status === "success" || status === "error") setStatus("idle");
+            }}
+            required
+            rows={5}
+            disabled={status === "sending"}
+            className={`${fieldInputClass} resize-none`}
+            placeholder=" "
+          />
+          <label className={fieldLabelClass}>{t.contact.message}</label>
         </div>
-        <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
-          <span>✉</span>
-          <span>uribemelgar19@gmail.com</span>
-        </div>
-      </div>
+
+        <motion.button
+          type="submit"
+          disabled={status === "sending"}
+          whileHover={{ scale: status === "sending" ? 1 : 1.01 }}
+          whileTap={{ scale: status === "sending" ? 1 : 0.99 }}
+          className="flex w-full items-center justify-center gap-2 rounded-[10px] bg-foreground py-3.5 text-base font-semibold uppercase tracking-[0.3em] text-background transition-colors hover:bg-linear-to-r hover:from-hud-cyan hover:to-hud-blue disabled:cursor-wait disabled:opacity-70 md:text-lg"
+        >
+          <Send size={18} className="translate-x-1 translate-y-0.5" />
+          {status === "sending" ? t.contact.sending : t.contact.send}
+        </motion.button>
+
+        {status === "success" && (
+          <p className="mt-4 text-center text-sm font-medium text-hud-green md:text-base">
+            {t.contact.success}
+          </p>
+        )}
+        {status === "error" && (
+          <p className="mt-4 text-center text-sm font-medium text-hud-red md:text-base">
+            {t.contact.error}
+          </p>
+        )}
+      </form>
     </div>
   );
 }

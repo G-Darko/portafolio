@@ -24,7 +24,7 @@ export const useLocaleStore = create<LocaleState>()(
         set({ locale: get().locale === "es" ? "en" : "es" }),
     }),
     {
-      name: "stark-hud-locale",
+      name: "gdarko-hud-locale",
       onRehydrateStorage: () => (state) => {
         if (!state) return;
         const detected = detectLocale();

@@ -32,6 +32,6 @@ export const useGameStore = create<GameState>()(
       },
       resetGame: () => set({ slashCount: 0, perfectStreak: 0 }),
     }),
-    { name: "stark-hud-game" }
+    { name: "gdarko-hud-game" }
   )
 );

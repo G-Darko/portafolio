@@ -15,14 +15,14 @@ export default function ProfileWindow() {
         <img src="img/DARKO.png" alt="Gael Uribe" className="h-full w-full object-cover" />
       </div>
 
-      <h2 className="shrink-0 text-center font-mono text-base font-bold text-hud-cyan">
+      <h2 className="shrink-0 text-center font-mono text-lg font-bold text-hud-cyan md:text-xl">
         {t.profile.name}
       </h2>
-      <p className="text-center text-xs text-muted-foreground">
+      <p className="text-center text-sm text-muted-foreground md:text-base">
         {t.profile.role}
       </p>
 
-      <div className="mt-2 w-full rounded border border-hud-border bg-hud-cyan/5 p-3 text-xs leading-relaxed text-foreground"
+      <div className="mt-2 w-full rounded border border-hud-border bg-hud-cyan/5 p-4 text-sm leading-relaxed text-foreground md:text-base"
       >
         {t.profile.about}
       </div>
@@ -30,7 +30,7 @@ export default function ProfileWindow() {
       <div className="mt-1 flex w-full gap-2">
         <a
           href="cv"
-          className="flex flex-1 items-center justify-center gap-1 rounded border border-hud-border py-2 text-[10px] font-bold tracking-widest text-hud-cyan transition-colors hover:bg-hud-cyan/10"
+          className="flex flex-1 items-center justify-center gap-1 rounded border border-hud-border py-2.5 text-sm font-bold tracking-widest text-hud-cyan transition-colors hover:bg-hud-cyan/10"
         >
           {t.profile.viewCv}
         </a>

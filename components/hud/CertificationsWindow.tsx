@@ -52,24 +52,24 @@ export default function CertificationsWindow() {
         >
           <div className="flex items-start gap-3">
             <div
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-hud-border bg-card font-mono text-xs font-bold"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-hud-border bg-card font-mono text-sm font-bold"
               style={{ color: cert.iconColor }}
             >
               {cert.icon}
             </div>
             <div className="flex-1">
-              <h4 className="text-xs font-bold text-foreground">{cert.title}</h4>
-              <p className="text-[10px] text-muted-foreground">{cert.org} • {cert.date}</p>
+              <h4 className="text-sm font-bold text-foreground md:text-base">{cert.title}</h4>
+              <p className="text-sm text-muted-foreground">{cert.org} • {cert.date}</p>
               {cert.folio && (
-                <p className="mt-1 text-[9px] font-mono text-muted-foreground opacity-50">{cert.folio}</p>
+                <p className="mt-1 font-mono text-xs text-muted-foreground opacity-50 md:text-sm">{cert.folio}</p>
               )}
               <a
                 href={cert.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-2 inline-flex items-center gap-1 text-[10px] text-hud-cyan transition-colors hover:opacity-80"
+                className="mt-2 inline-flex items-center gap-1 text-sm text-hud-cyan transition-colors hover:opacity-80"
               >
-                <ExternalLink size={10} />
+                <ExternalLink size={12} />
                 {cert.linkText}
               </a>
             </div>

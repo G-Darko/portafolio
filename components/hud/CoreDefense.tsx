@@ -27,7 +27,7 @@ interface Particle {
   maxLife: number;
 }
 
-export default function JarvisDefense() {
+export default function CoreDefense() {
   const { t } = useTranslation();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [gameState, setGameState] = useState<"menu" | "playing" | "gameover" | "victory">("menu");
@@ -37,7 +37,6 @@ export default function JarvisDefense() {
   const { soundEnabled } = useHUDStore();
   const { unlockSecret } = useProgressStore();
 
-  // Game refs
   const dronesRef = useRef<Drone[]>([]);
   const particlesRef = useRef<Particle[]>([]);
   const scoreRef = useRef(0);
@@ -81,12 +80,25 @@ export default function JarvisDefense() {
 
     const spawnDrone = () => {
       const side = Math.floor(Math.random() * 4);
-      let x = 0, y = 0;
+      let x = 0;
+      let y = 0;
       switch (side) {
-        case 0: x = Math.random() * rect.width; y = -20; break;
-        case 1: x = rect.width + 20; y = Math.random() * rect.height; break;
-        case 2: x = Math.random() * rect.width; y = rect.height + 20; break;
-        case 3: x = -20; y = Math.random() * rect.height; break;
+        case 0:
+          x = Math.random() * rect.width;
+          y = -20;
+          break;
+        case 1:
+          x = rect.width + 20;
+          y = Math.random() * rect.height;
+          break;
+        case 2:
+          x = Math.random() * rect.width;
+          y = rect.height + 20;
+          break;
+        case 3:
+          x = -20;
+          y = Math.random() * rect.height;
+          break;
       }
       const dx = cx - x;
       const dy = cy - y;
@@ -103,7 +115,7 @@ export default function JarvisDefense() {
       });
     };
 
-    const createExplosion = (x: number, y: number, color: string) => {
+    const createExplosion = (x: number, y: number) => {
       for (let i = 0; i < 8; i++) {
         const angle = (Math.PI * 2 * i) / 8 + Math.random() * 0.5;
         particlesRef.current.push({
@@ -118,14 +130,12 @@ export default function JarvisDefense() {
     };
 
     const drawReactor = () => {
-      // Outer ring
       ctx.beginPath();
       ctx.arc(cx, cy, reactorRadius + 8, 0, Math.PI * 2);
       ctx.strokeStyle = "rgba(102, 204, 255, 0.3)";
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Core
       ctx.beginPath();
       ctx.arc(cx, cy, reactorRadius, 0, Math.PI * 2);
       const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, reactorRadius);
@@ -138,7 +148,6 @@ export default function JarvisDefense() {
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      // Pulse
       const pulse = Math.sin(Date.now() / 200) * 4;
       ctx.beginPath();
       ctx.arc(cx, cy, reactorRadius + 8 + pulse, 0, Math.PI * 2);
@@ -151,8 +160,6 @@ export default function JarvisDefense() {
       ctx.save();
       ctx.translate(drone.x, drone.y);
       ctx.rotate(drone.angle);
-
-      // Body
       ctx.beginPath();
       ctx.moveTo(drone.size * 1.5, 0);
       ctx.lineTo(-drone.size, -drone.size * 0.6);
@@ -164,13 +171,10 @@ export default function JarvisDefense() {
       ctx.strokeStyle = "rgba(255, 82, 82, 1)";
       ctx.lineWidth = 1;
       ctx.stroke();
-
-      // Glow
       ctx.beginPath();
       ctx.arc(0, 0, drone.size * 2, 0, Math.PI * 2);
       ctx.fillStyle = "rgba(255, 82, 82, 0.1)";
       ctx.fill();
-
       ctx.restore();
     };
 
@@ -203,18 +207,15 @@ export default function JarvisDefense() {
       if (!runningRef.current) return;
 
       ctx.clearRect(0, 0, rect.width, rect.height);
-
       drawReactor();
       drawCrosshair();
 
-      // Spawn drones
       const spawnRate = Math.max(800, 2500 - levelRef.current * 200);
       if (time - lastSpawnRef.current > spawnRate) {
         spawnDrone();
         lastSpawnRef.current = time;
       }
 
-      // Update drones
       dronesRef.current = dronesRef.current.filter((drone) => {
         drone.x += drone.vx;
         drone.y += drone.vy;
@@ -224,10 +225,9 @@ export default function JarvisDefense() {
         const distToReactor = Math.sqrt(dx * dx + dy * dy);
 
         if (distToReactor < reactorRadius + drone.size) {
-          // Hit reactor
           livesRef.current--;
           setLives(livesRef.current);
-          createExplosion(drone.x, drone.y, "#ff5252");
+          createExplosion(drone.x, drone.y);
           if (soundEnabled) playQTEMiss();
 
           if (livesRef.current <= 0) {
@@ -237,7 +237,6 @@ export default function JarvisDefense() {
           return false;
         }
 
-        // Check click hit
         const mx = mouseRef.current.x;
         const my = mouseRef.current.y;
         const dClick = Math.sqrt((drone.x - mx) ** 2 + (drone.y - my) ** 2);
@@ -246,20 +245,18 @@ export default function JarvisDefense() {
           if (drone.hp <= 0) {
             scoreRef.current += 10 * levelRef.current;
             setScore(scoreRef.current);
-            createExplosion(drone.x, drone.y, "#0df8f9");
+            createExplosion(drone.x, drone.y);
             if (soundEnabled) playQTESuccess();
 
-            // Level up
             if (scoreRef.current > 0 && scoreRef.current % 100 === 0) {
               levelRef.current++;
               setLevel(levelRef.current);
             }
 
-            // Victory at score 200
             if (scoreRef.current >= 200) {
               runningRef.current = false;
               setGameState("victory");
-              unlockSecret("jarvis-defense");
+              unlockSecret("core-defense");
             }
             return false;
           }
@@ -269,7 +266,6 @@ export default function JarvisDefense() {
         return true;
       });
 
-      // Update particles
       particlesRef.current = particlesRef.current.filter((p) => {
         p.x += p.vx;
         p.y += p.vy;
@@ -306,29 +302,26 @@ export default function JarvisDefense() {
       canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("click", handleClick);
     };
-  }, [gameState, soundEnabled, unlockSecret, t]);
+  }, [gameState, soundEnabled, unlockSecret]);
 
   return (
     <div className="flex flex-col items-center gap-3">
       <div className="w-full">
         {gameState === "menu" && (
-          <div className="flex flex-col items-center gap-3 py-8">
+          <div className="flex flex-col items-center gap-4 py-8">
             <div className="text-center">
-              <Shield size={40} className="mx-auto mb-2" style={{ color: "var(--c1)" }} />
-              <h3 className="font-mono text-sm font-bold" style={{ color: "var(--c1)" }}>
+              <Shield size={44} className="mx-auto mb-2 text-hud-cyan" />
+              <h3 className="font-mono text-base font-bold text-hud-cyan md:text-lg">
                 {t.minigame.title}
               </h3>
-              <p className="mt-1 text-[10px] opacity-60" style={{ color: "var(--accent)" }}>
-                {t.minigame.subtitle}
-              </p>
+              <p className="mt-1 text-sm text-muted-foreground">{t.minigame.subtitle}</p>
             </div>
-            <p className="max-w-[200px] text-center text-[10px] opacity-60" style={{ color: "var(--accent)" }}>
+            <p className="max-w-xs text-center text-sm leading-relaxed text-muted-foreground">
               {t.minigame.instructions}
             </p>
             <button
               onClick={startGame}
-              className="rounded border px-6 py-2 font-mono text-xs font-bold tracking-widest transition-colors hover:bg-accent/10"
-              style={{ borderColor: "var(--c1)", color: "var(--c1)" }}
+              className="rounded border border-hud-cyan px-6 py-2.5 font-mono text-sm font-bold tracking-widest text-hud-cyan transition-colors hover:bg-hud-cyan/10"
             >
               {t.minigame.start}
             </button>
@@ -337,25 +330,18 @@ export default function JarvisDefense() {
 
         {gameState === "playing" && (
           <>
-            <div className="mb-2 flex items-center justify-between text-[10px] font-mono">
-              <span style={{ color: "var(--hud-red)" }}>
-                ❤ {lives}
-              </span>
-              <span style={{ color: "var(--c1)" }}>
+            <div className="mb-2 flex items-center justify-between font-mono text-sm">
+              <span className="text-hud-red">❤ {lives}</span>
+              <span className="text-hud-cyan">
                 {t.minigame.score}: {score}
               </span>
-              <span style={{ color: "var(--accent)" }}>
+              <span className="text-muted-foreground">
                 {t.minigame.level} {level}
               </span>
             </div>
             <canvas
               ref={canvasRef}
-              className="w-full cursor-crosshair rounded-lg border"
-              style={{
-                height: 280,
-                borderColor: "var(--glass-border)",
-                background: "rgba(8,12,18,0.6)",
-              }}
+              className="h-[280px] w-full cursor-crosshair rounded-lg border border-hud-border bg-hud-bg/60"
             />
           </>
         )}
@@ -366,18 +352,15 @@ export default function JarvisDefense() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center gap-2 py-4"
+              className="flex flex-col items-center gap-3 py-4"
             >
-              <h3 className="font-mono text-sm font-bold" style={{ color: "var(--hud-red)" }}>
-                {t.minigame.gameOver}
-              </h3>
-              <p className="text-[10px]" style={{ color: "var(--accent)" }}>
+              <h3 className="font-mono text-base font-bold text-hud-red">{t.minigame.gameOver}</h3>
+              <p className="text-sm text-muted-foreground">
                 {t.minigame.score}: {score}
               </p>
               <button
                 onClick={startGame}
-                className="rounded border px-4 py-1.5 text-[10px] font-bold tracking-widest transition-colors hover:bg-accent/10"
-                style={{ borderColor: "var(--c1)", color: "var(--c1)" }}
+                className="rounded border border-hud-cyan px-4 py-2 text-sm font-bold tracking-widest text-hud-cyan transition-colors hover:bg-hud-cyan/10"
               >
                 {t.minigame.retry}
               </button>
@@ -391,25 +374,15 @@ export default function JarvisDefense() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center gap-2 py-4"
+              className="flex flex-col items-center gap-3 py-4"
             >
-              <h3 className="font-mono text-sm font-bold" style={{ color: "var(--hud-green)" }}>
-                {t.minigame.victory}
-              </h3>
-              <div
-                className="rounded border px-3 py-1 text-[10px] font-bold tracking-widest"
-                style={{
-                  color: "var(--hud-green)",
-                  borderColor: "rgba(0,255,113,0.2)",
-                  background: "rgba(0,255,113,0.05)",
-                }}
-              >
+              <h3 className="font-mono text-base font-bold text-hud-green">{t.minigame.victory}</h3>
+              <div className="rounded border border-hud-green/30 bg-hud-green/5 px-3 py-1.5 text-sm font-bold tracking-widest text-hud-green">
                 LOGRO DESBLOQUEADO
               </div>
               <button
                 onClick={startGame}
-                className="rounded border px-4 py-1.5 text-[10px] font-bold tracking-widest transition-colors hover:bg-accent/10"
-                style={{ borderColor: "var(--c1)", color: "var(--c1)" }}
+                className="rounded border border-hud-cyan px-4 py-2 text-sm font-bold tracking-widest text-hud-cyan transition-colors hover:bg-hud-cyan/10"
               >
                 {t.minigame.retry}
               </button>

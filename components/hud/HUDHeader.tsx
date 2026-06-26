@@ -18,8 +18,8 @@ interface HUDHeaderProps {
 
 const WINDOW_BUTTONS: { id: PanelId; labelKey: string; icon: string }[] = [
   { id: "profile", labelKey: "profile", icon: "&#9673;" },
-  { id: "experience", labelKey: "experience", icon: "&#9642;" },
-  { id: "projects", labelKey: "projects", icon: "&#9646;" },
+  { id: "missions", labelKey: "missions", icon: "&#9733;" },
+  { id: "skills", labelKey: "skills", icon: "&#9670;" },
   { id: "certifications", labelKey: "certifications", icon: "&#9671;" },
   { id: "terminal", labelKey: "terminal", icon: "&#9654;" },
   { id: "minigame", labelKey: "minigame", icon: "&#9889;" },
@@ -60,15 +60,15 @@ export default function HUDHeader({
         <div className="flex items-center gap-2">
           <div
             data-hud-logo
-            className="flex h-7 w-7 cursor-pointer select-none items-center justify-center rounded border border-hud-border bg-card font-mono text-xs font-bold text-hud-cyan"
+            className="flex h-8 w-8 cursor-pointer select-none items-center justify-center rounded border border-hud-border bg-card font-mono text-sm font-bold text-hud-cyan"
           >
             G
           </div>
           <div className="hidden sm:block">
-            <h1 className="font-mono text-xs font-bold tracking-widest text-foreground">
+            <h1 className="font-mono text-sm font-bold tracking-widest text-foreground md:text-base">
               {t.header.title}
             </h1>
-            <p className="font-mono text-[10px] text-muted-foreground">{t.header.subtitle}</p>
+            <p className="font-mono text-sm text-muted-foreground md:text-base">{t.header.subtitle}</p>
           </div>
 
           <div className="ml-3 hidden items-center gap-0.5 md:flex">
@@ -78,7 +78,7 @@ export default function HUDHeader({
                 <button
                   key={id}
                   onClick={() => handleToggle(id)}
-                  className={`flex items-center gap-1 rounded px-2 py-1 text-[10px] font-mono transition-colors ${
+                  className={`flex items-center gap-1.5 rounded px-2.5 py-1.5 text-sm font-mono transition-colors md:text-base ${
                     isActive
                       ? "bg-hud-cyan/15 text-hud-cyan shadow-[0_0_12px_oklch(0.65_0.18_255/0.15)]"
                       : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -97,14 +97,14 @@ export default function HUDHeader({
 
         <div className="flex items-center gap-2">
           <div className="hidden items-center gap-2 sm:flex">
-            <span className="font-mono text-[10px] text-hud-cyan">{totalPercent}%</span>
+            <span className="font-mono text-sm text-hud-cyan md:text-base">{totalPercent}%</span>
             <div className="h-1 w-16 overflow-hidden rounded-full bg-muted">
               <div
                 className="h-full rounded-full bg-linear-to-r from-hud-cyan to-hud-blue transition-all duration-700"
                 style={{ width: `${totalPercent}%` }}
               />
             </div>
-            <span className="font-mono text-[10px] text-muted-foreground">
+            <span className="font-mono text-sm text-muted-foreground md:text-base">
               {secretsFound.length}/{t.header.secrets}
             </span>
           </div>
@@ -134,7 +134,7 @@ export default function HUDHeader({
               playHUDClick();
               toggleLocale();
             }}
-            className="flex h-7 items-center justify-center rounded px-1.5 font-mono text-[10px] text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            className="flex h-7 items-center justify-center rounded px-1.5 font-mono text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground md:text-base"
             title="Toggle language"
           >
             <Globe size={12} className="mr-1" />
@@ -174,7 +174,7 @@ export default function HUDHeader({
                   <button
                     key={id}
                     onClick={() => handleToggle(id)}
-                    className={`flex flex-col items-center gap-1 rounded border px-2 py-3 text-[10px] font-mono transition-colors ${
+                    className={`flex flex-col items-center gap-1 rounded border px-2 py-3 text-sm font-mono transition-colors md:text-base ${
                       isActive
                         ? "border-hud-cyan/50 bg-hud-cyan/10 text-hud-cyan"
                         : "border-hud-border text-muted-foreground hover:bg-accent hover:text-accent-foreground"

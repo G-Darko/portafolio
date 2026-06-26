@@ -1,56 +1,95 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
+import { techStackCatalog } from "@/lib/data/missions";
 
-const SKILLS = [
-  { id: "html", name: "HTML5", color: "#E34F26" },
-  { id: "css", name: "CSS3", color: "#1572B6" },
-  { id: "js", name: "JavaScript", color: "#F7DF1E" },
-  { id: "ts", name: "TypeScript", color: "#3178C6" },
-  { id: "php", name: "PHP", color: "#777BB4" },
-  { id: "py", name: "Python", color: "#3776AB" },
-  { id: "java", name: "Java", color: "#007396" },
-  { id: "node", name: "Node.js", color: "#339933" },
-  { id: "react", name: "React", color: "#61DAFB" },
-  { id: "nextjs", name: "Next.js", color: "#cccccc" },
-  { id: "vue", name: "Vue.js", color: "#4FC08D" },
-  { id: "astro", name: "Astro", color: "#BC52EE" },
-  { id: "laravel", name: "Laravel", color: "#FF2D20" },
-  { id: "tail", name: "Tailwind", color: "#06B6D4" },
-  { id: "sass", name: "Sass", color: "#CC6699" },
-  { id: "git", name: "Git", color: "#F05032" },
-  { id: "mysql", name: "MySQL", color: "#4479A1" },
-  { id: "postsql", name: "PostgreSQL", color: "#336791" },
-  { id: "mongo", name: "MongoDB", color: "#47A248" },
-  { id: "docker", name: "Docker", color: "#2496ED" },
-  { id: "vite", name: "Vite", color: "#646CFF" },
-  { id: "linux", name: "Linux", color: "#FCC624" },
-  { id: "postman", name: "Postman", color: "#FF6C37" },
-  { id: "vercel", name: "Vercel", color: "#dddddd" },
-  { id: "heroku", name: "Heroku", color: "#430098" },
-  { id: "three", name: "Three.js", color: "#88ccff" },
-  { id: "github", name: "GitHub", color: "#cccccc" },
-];
+const CATEGORY_KEYS = [
+  "frontend",
+  "backend",
+  "mobile",
+  "database",
+  "graphics",
+  "tools",
+] as const;
 
 export default function SkillsWindow() {
+  const { t } = useTranslation();
+  const [catIndex, setCatIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setCatIndex((i) => (i + 1) % CATEGORY_KEYS.length), 3200);
+    return () => clearInterval(id);
+  }, []);
+
+  const categoryLabel = (cat: (typeof CATEGORY_KEYS)[number]) => {
+    if (cat === "database") return t.skills.databases;
+    if (cat === "tools") return t.skills.environment;
+    if (cat === "mobile") return t.skills.mobile;
+    if (cat === "graphics") return t.skills.graphics;
+    return t.skills[cat as "frontend" | "backend"];
+  };
+
   return (
-    <div className="grid grid-cols-1 gap-1.5">
-      {SKILLS.map((s) => (
-        <div
-          key={s.id}
-          className="flex items-center gap-2 rounded border px-2.5 py-1.5 text-xs font-medium backdrop-blur-sm"
-          style={{
-            borderColor: `${s.color}44`,
-            backgroundColor: `${s.color}15`,
-            color: s.color,
-          }}
-        >
-          <svg width="16" height="16" style={{ color: s.color, fill: "currentColor", flexShrink: 0 }}>
-            <use href={`#${s.id}`} />
-          </svg>
-          <span className="truncate">{s.name}</span>
-        </div>
-      ))}
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h3 className="font-mono text-sm font-bold tracking-widest text-hud-cyan uppercase md:text-base">
+          {t.skills.title}
+        </h3>
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={CATEGORY_KEYS[catIndex]}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            className="-rotate-12 font-mono text-sm font-bold tracking-widest text-hud-cyan/70 uppercase"
+          >
+            {categoryLabel(CATEGORY_KEYS[catIndex])}
+          </motion.span>
+        </AnimatePresence>
+      </div>
+
+      {CATEGORY_KEYS.map((cat) => {
+        const labelKey =
+          cat === "database"
+            ? "databases"
+            : cat === "tools"
+              ? "environment"
+              : cat === "mobile"
+                ? "mobile"
+                : cat === "graphics"
+                  ? "graphics"
+                  : cat;
+        const items = techStackCatalog.filter((item) => item.category === cat);
+        if (items.length === 0) return null;
+        return (
+          <motion.div
+            key={cat}
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="space-y-2"
+          >
+            <p className="font-mono text-sm tracking-widest text-muted-foreground uppercase">
+              {t.skills[labelKey as keyof typeof t.skills]}
+            </p>
+            <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
+              {items.map((item) => (
+                <div
+                  key={item.name}
+                  className="flex items-center gap-2 rounded border border-hud-border/60 bg-hud-bg/30 px-2 py-1.5 transition-colors hover:border-hud-cyan/30"
+                >
+                  <svg width="14" height="14" className="shrink-0 text-hud-cyan" fill="currentColor">
+                    <use href={`#${item.iconId}`} />
+                  </svg>
+                  <span className="truncate font-mono text-sm text-foreground">{item.name}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        );
+      })}
     </div>
   );
 }

@@ -5,43 +5,62 @@ import { AnimatePresence, motion } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useProgressStore } from "@/lib/store/useProgressStore";
 import { useHUDStore, type PanelId } from "@/lib/store/useHUDStore";
+import { getMissionById, getSubMission } from "@/lib/data/missions";
+import { aggregateMissionTechIds, techStackToIds } from "@/lib/data/techMap";
 import HUDHeader from "./HUDHeader";
 import DesktopBackground from "./DesktopBackground";
 import HologramPanel from "./HologramPanel";
 import WelcomeHologram from "./WelcomeHologram";
+import MissionNavigator from "./MissionNavigator";
 import TechIconsSprite from "@/components/TechIconsSprite";
 import dynamic from "next/dynamic";
 
 const TechSphere = dynamic(() => import("@/components/three/TechSphere"), { ssr: false });
 
-const JarvisDefense = dynamic(() => import("./JarvisDefense"), { ssr: false });
+const CoreDefense = dynamic(() => import("./CoreDefense"), { ssr: false });
 const TerminalPanel = dynamic(() => import("./TerminalPanel"), { ssr: false });
 const ProfileWindow = dynamic(() => import("./ProfileWindow"), { ssr: false });
-const ExperienceWindow = dynamic(() => import("./ExperienceWindow"), { ssr: false });
-const ProjectsWindow = dynamic(() => import("./ProjectsWindow"), { ssr: false });
+const MissionsWindow = dynamic(() => import("./MissionsWindow"), { ssr: false });
+const SkillsWindow = dynamic(() => import("./SkillsWindow"), { ssr: false });
 const CertificationsWindow = dynamic(() => import("./CertificationsWindow"), { ssr: false });
 const ContactWindow = dynamic(() => import("./ContactWindow"), { ssr: false });
 
 export default function HUDShell() {
   const { t } = useTranslation();
   const { totalPercent } = useProgressStore();
-  const { activePanel, togglePanel, closePanel } = useHUDStore();
+  const { activePanel, activeMissionId, activeSubMissionId, togglePanel, closePanel } =
+    useHUDStore();
   const isIdle = activePanel === null;
+
+  const highlightTechIds = useMemo(() => {
+    if (activePanel !== "missions") return [];
+    if (activeSubMissionId && activeMissionId) {
+      const sm = getSubMission(activeMissionId, activeSubMissionId);
+      return sm ? techStackToIds(sm.techStack) : [];
+    }
+    if (activeMissionId) {
+      const mission = getMissionById(activeMissionId);
+      return mission ? aggregateMissionTechIds(mission.subMissions) : [];
+    }
+    return [];
+  }, [activePanel, activeMissionId, activeSubMissionId]);
+
+  const orbMode = isIdle && highlightTechIds.length === 0 ? "idle" : "active";
 
   const renderContent = (id: PanelId) => {
     switch (id) {
       case "profile":
         return <ProfileWindow />;
-      case "experience":
-        return <ExperienceWindow />;
-      case "projects":
-        return <ProjectsWindow />;
+      case "missions":
+        return <MissionsWindow />;
+      case "skills":
+        return <SkillsWindow />;
       case "certifications":
         return <CertificationsWindow />;
       case "terminal":
         return <TerminalPanel />;
       case "minigame":
-        return <JarvisDefense />;
+        return <CoreDefense />;
       case "contact":
         return <ContactWindow />;
       default:
@@ -53,18 +72,18 @@ export default function HUDShell() {
     () =>
       ({
         profile: { title: t.header.profile, subtitle: "Identity" },
-        experience: { title: t.header.experience, subtitle: "Career" },
-        projects: { title: t.header.projects, subtitle: "Missions" },
+        missions: { title: t.header.missions, subtitle: "Operations" },
+        skills: { title: t.header.skills, subtitle: "Stack" },
         certifications: { title: t.header.certifications, subtitle: "Certs" },
         terminal: { title: t.header.terminal, subtitle: "CLI" },
         minigame: { title: t.header.minigame, subtitle: "Security" },
-        contact: { title: t.header.contact, subtitle: "Comm" },
+        contact: { title: t.header.contact, subtitle: "Gael Uribe" },
       }) as Record<PanelId, { title: string; subtitle: string }>,
     [t]
   );
 
   return (
-    <div className="fixed inset-0 overflow-hidden bg-background text-foreground">
+    <div className="hud-shell fixed inset-0 overflow-hidden bg-background text-foreground">
       <TechIconsSprite />
       <DesktopBackground />
       <HUDHeader
@@ -72,6 +91,8 @@ export default function HUDShell() {
         onTogglePanel={togglePanel}
         totalPercent={totalPercent}
       />
+
+      {activePanel === "missions" && <MissionNavigator />}
 
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 overflow-y-auto px-3 pt-14 pb-4 md:gap-6 md:px-6 lg:flex-row lg:items-center lg:justify-center lg:gap-10 lg:overflow-hidden lg:pt-12">
         <AnimatePresence mode="popLayout">
@@ -89,7 +110,7 @@ export default function HUDShell() {
             isIdle ? "order-1 lg:order-2" : "order-1 lg:order-0"
           }`}
         >
-          <span className="mb-1.5 text-[9px] font-bold tracking-[0.2em] text-hud-cyan/70 uppercase">
+          <span className="mb-1.5 text-xs font-bold tracking-[0.2em] text-hud-cyan/70 uppercase md:text-sm">
             Stack Orb
           </span>
           <motion.div
@@ -106,12 +127,15 @@ export default function HUDShell() {
             className="overflow-hidden rounded-full border bg-hud-bg/20 backdrop-blur-md"
             style={{
               borderColor: "oklch(0.65 0.18 255 / 0.2)",
-              boxShadow: isIdle
-                ? "0 0 60px oklch(0.65 0.18 255 / 0.12), inset 0 0 40px oklch(0.65 0.18 255 / 0.05)"
-                : "0 0 40px oklch(0.65 0.18 255 / 0.08), inset 0 0 30px oklch(0.65 0.18 255 / 0.03)",
+              boxShadow:
+                highlightTechIds.length > 0
+                  ? "0 0 70px oklch(0.65 0.18 255 / 0.18), inset 0 0 40px oklch(0.65 0.18 255 / 0.08)"
+                  : isIdle
+                    ? "0 0 60px oklch(0.65 0.18 255 / 0.12), inset 0 0 40px oklch(0.65 0.18 255 / 0.05)"
+                    : "0 0 40px oklch(0.65 0.18 255 / 0.08), inset 0 0 30px oklch(0.65 0.18 255 / 0.03)",
             }}
           >
-            <TechSphere mode={isIdle ? "idle" : "active"} />
+            <TechSphere mode={orbMode} highlightIds={highlightTechIds} />
           </motion.div>
         </motion.div>
 

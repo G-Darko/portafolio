@@ -95,7 +95,7 @@ export default function BootupSequence() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="rounded-lg border border-hud-border bg-hud-bg p-5 font-mono text-xs backdrop-blur-xl"
+              className="rounded-lg border border-hud-border bg-hud-bg p-5 font-mono text-sm backdrop-blur-xl md:text-base"
             >
               {lines.slice(0, visibleLines).map((line, i) => (
                 <motion.div

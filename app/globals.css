@@ -63,7 +63,7 @@ button {
   --input: oklch(0.85 0 0);
   --ring: oklch(0.6 0 0);
 
-  /* Stark HUD palette — light */
+  /* G-Darko HUD palette — light */
   --hud-cyan: oklch(0.75 0.18 195);
   --hud-blue: oklch(0.55 0.18 255);
   --hud-green: oklch(0.7 0.2 145);
@@ -95,7 +95,7 @@ button {
   --input: oklch(0.25 0 0);
   --ring: oklch(0.5 0 0);
 
-  /* Stark HUD palette — dark */
+  /* G-Darko HUD palette — dark */
   --hud-cyan: oklch(0.8 0.18 195);
   --hud-blue: oklch(0.65 0.18 255);
   --hud-green: oklch(0.75 0.2 145);
@@ -112,6 +112,12 @@ button {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .hud-shell {
+    @apply text-base leading-relaxed;
   }
 }
 

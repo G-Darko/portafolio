@@ -6,14 +6,11 @@ interface ProgressState {
   readSubmissions: string[];
   completedMissions: string[];
   secretsFound: string[];
-
-  // Computed
   realPercent: number;
   secretPercent: number;
   totalPercent: number;
-
-  // Actions
   markRead: (id: string) => void;
+  completeMission: (missionId: string) => void;
   unlockSecret: (id: string) => void;
   resetProgress: () => void;
 }
@@ -23,11 +20,11 @@ function computePercentages(
   secrets: string[]
 ): { real: number; secret: number; total: number } {
   const real = Math.min(100, (read.length / totalSubmissions) * 100);
-  const secret = (secrets.length / 4) * 12;
+  const secret = (secrets.length / 5) * 10;
   return {
     real: Math.round(real),
     secret: Math.round(secret),
-    total: Math.round(real + secret),
+    total: Math.round(Math.min(100, real + secret)),
   };
 }
 
@@ -45,10 +42,7 @@ export const useProgressStore = create<ProgressState>()(
         const current = get().readSubmissions;
         if (current.includes(id)) return;
         const next = [...current, id];
-        const { real, secret, total } = computePercentages(
-          next,
-          get().secretsFound
-        );
+        const { real, secret, total } = computePercentages(next, get().secretsFound);
         set({
           readSubmissions: next,
           realPercent: real,
@@ -57,14 +51,17 @@ export const useProgressStore = create<ProgressState>()(
         });
       },
 
+      completeMission: (missionId: string) => {
+        const current = get().completedMissions;
+        if (current.includes(missionId)) return;
+        set({ completedMissions: [...current, missionId] });
+      },
+
       unlockSecret: (id: string) => {
         const current = get().secretsFound;
         if (current.includes(id)) return;
         const next = [...current, id];
-        const { real, secret, total } = computePercentages(
-          get().readSubmissions,
-          next
-        );
+        const { real, secret, total } = computePercentages(get().readSubmissions, next);
         set({
           secretsFound: next,
           realPercent: real,
@@ -83,6 +80,6 @@ export const useProgressStore = create<ProgressState>()(
           totalPercent: 0,
         }),
     }),
-    { name: "stark-hud-progress" }
+    { name: "gdarko-hud-progress" }
   )
 );

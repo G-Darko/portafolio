@@ -46,7 +46,7 @@ export const useThemeStore = create<ThemeState>()(
       },
     }),
     {
-      name: "stark-hud-theme",
+      name: "gdarko-hud-theme",
       onRehydrateStorage: () => (state) => {
         if (state && typeof window !== "undefined") {
           const resolved = resolveTheme(state.theme);
