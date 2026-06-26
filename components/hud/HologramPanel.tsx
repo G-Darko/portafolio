@@ -9,6 +9,7 @@ interface HologramPanelProps {
   children: ReactNode;
   onClose: () => void;
   className?: string;
+  contentClassName?: string;
 }
 
 export default function HologramPanel({
@@ -17,6 +18,7 @@ export default function HologramPanel({
   children,
   onClose,
   className = "",
+  contentClassName = "",
 }: HologramPanelProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [rotateX, setRotateX] = useState(0);
@@ -48,7 +50,7 @@ export default function HologramPanel({
       style={{
         transform: `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
       }}
-      className={`relative z-60 flex w-full max-w-2xl flex-1 flex-col overflow-hidden rounded-lg border border-hud-border/80 bg-hud-bg/60 shadow-[0_0_30px_oklch(0.65_0.18_255/0.12),0_0_60px_oklch(0.65_0.18_255/0.06),inset_0_1px_0_oklch(1_0_0/0.05)] backdrop-blur-xl lg:max-h-[calc(100vh-5rem)] lg:min-h-[420px] ${className}`}
+      className={`relative z-60 flex w-full max-w-2xl flex-col overflow-hidden rounded-lg border border-hud-border/80 bg-hud-bg/60 shadow-[0_0_30px_oklch(0.65_0.18_255/0.12),0_0_60px_oklch(0.65_0.18_255/0.06),inset_0_1px_0_oklch(1_0_0/0.05)] backdrop-blur-xl lg:max-h-[calc(100vh-5rem)] ${className}`}
     >
       <div
         className="pointer-events-none absolute inset-0"
@@ -96,7 +98,11 @@ export default function HologramPanel({
         </button>
       </div>
 
-      <div className="scrollbar-thin relative z-10 flex-1 overflow-auto p-4 md:p-5">{children}</div>
+      <div
+        className={`relative z-10 min-h-0 flex-1 p-4 md:p-5 ${contentClassName || "scrollbar-thin overflow-auto"}`}
+      >
+        {children}
+      </div>
     </motion.div>
   );
 }

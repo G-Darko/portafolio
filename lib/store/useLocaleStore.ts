@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type Locale = "es" | "en";
+export type Locale = "es" | "en";
 
 interface LocaleState {
   locale: Locale;

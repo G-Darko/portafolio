@@ -75,7 +75,7 @@ export default function HUDShell() {
         missions: { title: t.header.missions, subtitle: "Operations" },
         skills: { title: t.header.skills, subtitle: "Stack" },
         certifications: { title: t.header.certifications, subtitle: "Certs" },
-        terminal: { title: t.header.terminal, subtitle: "CLI" },
+        terminal: { title: t.header.terminal, subtitle: "shell" },
         minigame: { title: t.header.minigame, subtitle: "Security" },
         contact: { title: t.header.contact, subtitle: "Gael Uribe" },
       }) as Record<PanelId, { title: string; subtitle: string }>,
@@ -146,7 +146,16 @@ export default function HUDShell() {
               title={panelMeta[activePanel].title}
               subtitle={panelMeta[activePanel].subtitle}
               onClose={closePanel}
-              className="order-3 max-h-[calc(100vh-18rem)] lg:max-h-[calc(100vh-5rem)] lg:flex-none"
+              className={
+                activePanel === "terminal"
+                  ? "order-3 h-[min(28rem,calc(100vh-18rem))] min-h-0 w-full max-w-2xl flex-none lg:h-[min(36rem,calc(100vh-5rem))]"
+                  : "order-3 max-h-[calc(100vh-18rem)] lg:max-h-[calc(100vh-5rem)] lg:min-h-[420px] lg:flex-none"
+              }
+              contentClassName={
+                activePanel === "terminal"
+                  ? "flex min-h-0 flex-col overflow-hidden p-3 md:p-4"
+                  : undefined
+              }
             >
               {renderContent(activePanel)}
             </HologramPanel>
