@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState, useImperativeHandle, useEffect, forwardRef, type MutableRefObject } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Html, OrbitControls } from "@react-three/drei";
+import { Html } from "@react-three/drei";
 import * as THREE from "three";
 
 const TECHS = [
@@ -35,17 +35,76 @@ const TECHS = [
   { id: "sass", name: "Sass", color: "#CC6699" },
   { id: "postman", name: "Postman", color: "#FF6C37" },
   { id: "vsc", name: "VS Code", color: "#007ACC" },
-];
+] as const;
+
+interface RotationState {
+  y: number;
+  x: number;
+}
 
 interface TechNodesProps {
   mode: "idle" | "active";
   highlightIds: string[];
+  dimAll: boolean;
+  externalFocusId: string | null;
+  expanded: boolean;
+  isDragging: boolean;
+  hoveredTechId: string | null;
+  rotationRef: MutableRefObject<RotationState>;
+  onHoverTech: (id: string | null) => void;
+  onOrbPointerDown: (e: React.PointerEvent) => void;
 }
 
-function TechNodes({ mode, highlightIds }: TechNodesProps) {
+function getTechVisual(
+  techId: string,
+  highlightIds: string[],
+  dimAll: boolean,
+  externalFocusId: string | null,
+  hoveredTechId: string | null
+) {
+  const missionMode = highlightIds.length > 0;
+  const missionLit = missionMode && highlightIds.includes(techId);
+  const skillLit = dimAll && externalFocusId === techId;
+  const orbLit = hoveredTechId === techId;
+
+  if (missionMode) {
+    if (missionLit) {
+      return { opacity: 0.95, scale: 1.35, glow: true, showLabel: orbLit };
+    }
+    return { opacity: 0.1, scale: 0.88, glow: false, showLabel: false };
+  }
+
+  if (dimAll) {
+    if (skillLit || orbLit) {
+      return { opacity: 1, scale: 1.42, glow: true, showLabel: true };
+    }
+    return { opacity: 0.07, scale: 0.82, glow: false, showLabel: false };
+  }
+
+  if (orbLit) {
+    return { opacity: 1, scale: 1.28, glow: true, showLabel: true };
+  }
+
+  return { opacity: 0.52, scale: 1, glow: false, showLabel: false };
+}
+
+function TechNodes({
+  mode,
+  highlightIds,
+  dimAll,
+  externalFocusId,
+  expanded,
+  isDragging,
+  hoveredTechId,
+  rotationRef,
+  onHoverTech,
+  onOrbPointerDown,
+}: TechNodesProps) {
   const groupRef = useRef<THREE.Group>(null);
   const coreRef = useRef<THREE.Mesh>(null);
-  const hasHighlight = highlightIds.length > 0;
+  const timerRef = useRef(new THREE.Timer());
+  const missionMode = highlightIds.length > 0;
+  const anyLit = missionMode || dimAll || hoveredTechId !== null || externalFocusId !== null;
 
   const positions = useMemo(() => {
     const pts: THREE.Vector3[] = [];
@@ -60,17 +119,26 @@ function TechNodes({ mode, highlightIds }: TechNodesProps) {
     return pts;
   }, []);
 
-  const rotSpeed = mode === "idle" && !hasHighlight ? 0.008 : 0.014;
-  const rotSpeedX = mode === "idle" && !hasHighlight ? 0.003 : 0.006;
+  const isPaused = expanded || hoveredTechId !== null || externalFocusId !== null || isDragging;
+  const rotSpeed = isPaused ? 0 : mode === "idle" && !anyLit ? 0.01 : 0.016;
 
-  useFrame((state) => {
+  useFrame(() => {
+    timerRef.current.update();
+    const elapsed = timerRef.current.getElapsed();
+
     if (groupRef.current) {
-      groupRef.current.rotation.y += rotSpeed;
-      groupRef.current.rotation.x += rotSpeedX;
+      if (!isPaused) {
+        rotationRef.current.y += rotSpeed;
+        rotationRef.current.x = Math.sin(elapsed * 0.45) * 0.22;
+      }
+
+      groupRef.current.rotation.y = rotationRef.current.y;
+      groupRef.current.rotation.x = rotationRef.current.x;
     }
+
     if (coreRef.current) {
-      const base = hasHighlight ? 0.55 : mode === "idle" ? 0.4 : 0.55;
-      const pulse = base + (mode === "idle" || hasHighlight ? Math.sin(state.clock.elapsedTime * 2) * 0.12 : 0);
+      const base = anyLit ? 0.58 : mode === "idle" ? 0.38 : 0.52;
+      const pulse = base + (mode === "idle" || anyLit ? Math.sin(elapsed * 2) * 0.12 : 0);
       (coreRef.current.material as THREE.MeshBasicMaterial).opacity = pulse;
     }
   });
@@ -83,36 +151,70 @@ function TechNodes({ mode, highlightIds }: TechNodesProps) {
       </mesh>
       <mesh>
         <sphereGeometry args={[2, 32, 32]} />
-        <meshBasicMaterial color="#66ccff" transparent opacity={hasHighlight ? 0.06 : 0.04} wireframe />
+        <meshBasicMaterial
+          color="#66ccff"
+          transparent
+          opacity={dimAll ? 0.025 : anyLit ? 0.06 : 0.04}
+          wireframe
+        />
       </mesh>
 
       {TECHS.map((tech, i) => {
         const pos = positions[i];
-        const highlighted = !hasHighlight || highlightIds.includes(tech.id);
-        const scale = highlighted && hasHighlight ? 1.35 : 1;
-        const opacity = highlighted ? (hasHighlight ? 0.85 : 0.5) : 0.12;
+        const visual = getTechVisual(
+          tech.id,
+          highlightIds,
+          dimAll,
+          externalFocusId,
+          hoveredTechId
+        );
+
         return (
-          <group key={tech.id} position={pos} scale={scale}>
+          <group key={tech.id} position={pos} scale={visual.scale}>
             <mesh>
               <sphereGeometry args={[0.12, 12, 12]} />
-              <meshBasicMaterial color={tech.color} transparent opacity={opacity} />
+              <meshBasicMaterial color={tech.color} transparent opacity={visual.opacity * 0.65} />
             </mesh>
-            <Html center distanceFactor={8}>
+            <Html center distanceFactor={8} zIndexRange={[80, 0]}>
               <div
-                className="flex items-center justify-center rounded-full border backdrop-blur-sm transition-opacity"
-                style={{
-                  width: "28px",
-                  height: "28px",
-                  borderColor: tech.color,
-                  backgroundColor: `${tech.color}${highlighted ? "44" : "11"}`,
-                  color: tech.color,
-                  boxShadow: highlighted ? `0 0 ${hasHighlight ? 16 : 10}px ${tech.color}88` : "none",
-                  opacity: highlighted ? 1 : 0.25,
+                className="pointer-events-auto relative z-80 flex select-none flex-col items-center"
+                onPointerDown={(e) => {
+                  e.stopPropagation();
+                  onOrbPointerDown(e);
+                }}
+                onPointerEnter={(e) => {
+                  e.stopPropagation();
+                  onHoverTech(tech.id);
+                }}
+                onPointerLeave={(e) => {
+                  e.stopPropagation();
+                  onHoverTech(null);
                 }}
               >
-                <svg width="16" height="16" style={{ color: "inherit", fill: "currentColor" }}>
-                  <use href={`#${tech.id}`} />
-                </svg>
+                {visual.showLabel && (
+                  <span
+                    className="mb-1 whitespace-nowrap rounded border border-hud-border/70 bg-hud-bg/95 px-2 py-0.5 font-mono text-[10px] font-bold tracking-wide text-hud-cyan shadow-[0_0_12px_color-mix(in_oklch,var(--hud-cyan)_35%,transparent)] select-none md:text-xs"
+                    style={{ color: tech.color }}
+                  >
+                    {tech.name}
+                  </span>
+                )}
+                <div
+                  className="flex items-center justify-center rounded-full border backdrop-blur-sm"
+                  style={{
+                    width: visual.glow ? "32px" : "28px",
+                    height: visual.glow ? "32px" : "28px",
+                    borderColor: tech.color,
+                    backgroundColor: `${tech.color}${visual.glow ? "55" : "22"}`,
+                    color: tech.color,
+                    boxShadow: visual.glow ? `0 0 ${dimAll ? 22 : 16}px ${tech.color}` : "none",
+                    opacity: visual.opacity,
+                  }}
+                >
+                  <svg width="16" height="16" style={{ color: "inherit", fill: "currentColor" }}>
+                    <use href={`#${tech.id}`} />
+                  </svg>
+                </div>
               </div>
             </Html>
           </group>
@@ -125,24 +227,83 @@ function TechNodes({ mode, highlightIds }: TechNodesProps) {
 interface TechSphereProps {
   mode?: "idle" | "active";
   highlightIds?: string[];
+  dimAll?: boolean;
+  externalFocusId?: string | null;
+  expanded?: boolean;
+  isDragging?: boolean;
+  onTechHoverActive?: (active: boolean) => void;
+  onOrbPointerDown?: (e: React.PointerEvent) => void;
+  onRotateReady?: (api: TechSphereHandle) => void;
 }
 
-export default function TechSphere({ mode = "idle", highlightIds = [] }: TechSphereProps) {
-  const hasHighlight = highlightIds.length > 0;
+export type TechSphereHandle = {
+  rotateBy: (dx: number, dy: number) => void;
+};
+
+const TechSphere = forwardRef<TechSphereHandle, TechSphereProps>(function TechSphere(
+  {
+    mode = "idle",
+    highlightIds = [],
+    dimAll = false,
+    externalFocusId = null,
+    expanded = false,
+    isDragging = false,
+    onTechHoverActive,
+    onOrbPointerDown,
+    onRotateReady,
+  },
+  ref
+) {
+  const [hoveredTechId, setHoveredTechId] = useState<string | null>(null);
+  const rotationRef = useRef<RotationState>({ y: 0, x: 0 });
+  const missionMode = highlightIds.length > 0;
+  const anyLit = missionMode || dimAll || hoveredTechId !== null || externalFocusId !== null;
+
+  const rotateBy = (dx: number, dy: number) => {
+    rotationRef.current.y += dx * 0.012;
+    rotationRef.current.x = THREE.MathUtils.clamp(
+      rotationRef.current.x + dy * 0.012,
+      -Math.PI / 2,
+      Math.PI / 2
+    );
+  };
+
+  useImperativeHandle(ref, () => ({ rotateBy }));
+
+  useEffect(() => {
+    onRotateReady?.({ rotateBy });
+  }, [onRotateReady]);
+
+  const handleHoverTech = (id: string | null) => {
+    setHoveredTechId(id);
+    onTechHoverActive?.(id !== null);
+  };
+
+  const handleOrbPointerDown = (e: React.PointerEvent) => {
+    onOrbPointerDown?.(e);
+  };
+
   return (
-    <div className="h-full w-full">
-      <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
-        <ambientLight intensity={mode === "idle" && !hasHighlight ? 0.5 : 0.4} />
-        <pointLight position={[10, 10, 10]} intensity={hasHighlight ? 1.4 : mode === "idle" ? 1.2 : 0.9} />
-        <pointLight position={[-5, -5, 5]} color="#0df8f9" intensity={hasHighlight ? 0.9 : 0.5} />
-        <TechNodes mode={mode} highlightIds={highlightIds} />
-        <OrbitControls
-          enableZoom={false}
-          enablePan={false}
-          autoRotate
-          autoRotateSpeed={hasHighlight ? 1.4 : mode === "idle" ? 0.8 : 1.2}
+    <div className="relative h-full w-full">
+      <Canvas className="pointer-events-none" camera={{ position: [0, 0, 6], fov: 50 }}>
+        <ambientLight intensity={mode === "idle" && !anyLit ? 0.5 : 0.35} />
+        <pointLight position={[10, 10, 10]} intensity={anyLit ? 1.5 : mode === "idle" ? 1.2 : 0.9} />
+        <pointLight position={[-5, -5, 5]} color="#0df8f9" intensity={anyLit ? 1 : 0.5} />
+        <TechNodes
+          mode={mode}
+          highlightIds={highlightIds}
+          dimAll={dimAll}
+          externalFocusId={externalFocusId}
+          expanded={expanded}
+          isDragging={isDragging}
+          hoveredTechId={hoveredTechId}
+          rotationRef={rotationRef}
+          onHoverTech={handleHoverTech}
+          onOrbPointerDown={handleOrbPointerDown}
         />
       </Canvas>
     </div>
   );
-}
+});
+
+export default TechSphere;

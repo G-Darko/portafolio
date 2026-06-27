@@ -14,7 +14,11 @@ const CATEGORY_KEYS = [
   "tools",
 ] as const;
 
-export default function SkillsWindow() {
+interface SkillsWindowProps {
+  onHoverSkill?: (iconId: string | null) => void;
+}
+
+export default function SkillsWindow({ onHoverSkill }: SkillsWindowProps) {
   const { t } = useTranslation();
   const [catIndex, setCatIndex] = useState(0);
 
@@ -78,7 +82,11 @@ export default function SkillsWindow() {
               {items.map((item) => (
                 <div
                   key={item.name}
-                  className="flex items-center gap-2 rounded border border-hud-border/60 bg-hud-bg/30 px-2 py-1.5 transition-colors hover:border-hud-cyan/30"
+                  onMouseEnter={() => onHoverSkill?.(item.iconId)}
+                  onMouseLeave={() => onHoverSkill?.(null)}
+                  onFocus={() => onHoverSkill?.(item.iconId)}
+                  onBlur={() => onHoverSkill?.(null)}
+                  className="flex items-center gap-2 rounded border border-hud-border/60 bg-hud-bg/30 px-2 py-1.5 transition-all duration-200 hover:border-hud-cyan/50 hover:bg-hud-cyan/10 hover:shadow-[0_0_14px_color-mix(in_oklch,var(--hud-cyan)_18%,transparent)]"
                 >
                   <svg width="14" height="14" className="shrink-0 text-hud-cyan" fill="currentColor">
                     <use href={`#${item.iconId}`} />
