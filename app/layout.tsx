@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 
@@ -7,6 +7,16 @@ const poppins = Poppins({
   subsets: ["latin"],
   weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0f0f0f" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f7f7" },
+  ],
+};
 
 export const metadata: Metadata = {
   title: "Gael Uribe | Portafolio",

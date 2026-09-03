@@ -86,25 +86,16 @@ export const useHUDStore = create<HUDState>()(
     }),
     {
       name: "gdarko-hud-session",
-      partialize: (state) => {
-        const panel = state.activePanel as string | null;
-        return {
-          sessionActive: state.sessionActive,
-          activePanel:
-            panel === "experience" || panel === "projects" ? "missions" : state.activePanel,
-          activeMissionId: state.activeMissionId,
-        };
-      },
+      // Panel/mission live in the URL; only persist session so return visits skip boot.
+      partialize: (state) => ({
+        sessionActive: state.sessionActive,
+      }),
       onRehydrateStorage: () => (state) => {
         if (!state) return;
-        const panel = state.activePanel as string | null;
-        if (panel === "experience" || panel === "projects") {
-          state.activePanel = "missions";
-        }
-        if (state.activePanel !== "missions") {
-          state.activeMissionId = null;
-          state.activeSubMissionId = null;
-        }
+        // Clear legacy persisted panel keys from older builds
+        state.activePanel = null;
+        state.activeMissionId = null;
+        state.activeSubMissionId = null;
       },
     }
   )

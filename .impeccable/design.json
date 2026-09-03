@@ -1,0 +1,310 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-03T22:45:00.000Z",
+  "title": "Design System: G-Darko Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "holo-cyan": {
+        "role": "primary",
+        "displayName": "Holo Cyan",
+        "canonical": "oklch(0.8 0.18 195)",
+        "tonalRamp": [
+          "oklch(0.2 0.08 195)",
+          "oklch(0.3 0.1 195)",
+          "oklch(0.42 0.13 195)",
+          "oklch(0.55 0.16 195)",
+          "oklch(0.68 0.17 195)",
+          "oklch(0.8 0.18 195)",
+          "oklch(0.88 0.12 195)",
+          "oklch(0.95 0.04 195)"
+        ]
+      },
+      "ops-blue": {
+        "role": "primary",
+        "displayName": "Ops Blue",
+        "canonical": "oklch(0.65 0.18 255)",
+        "tonalRamp": [
+          "oklch(0.18 0.08 255)",
+          "oklch(0.28 0.1 255)",
+          "oklch(0.4 0.14 255)",
+          "oklch(0.52 0.16 255)",
+          "oklch(0.65 0.18 255)",
+          "oklch(0.75 0.14 255)",
+          "oklch(0.86 0.08 255)",
+          "oklch(0.94 0.03 255)"
+        ]
+      },
+      "status-green": {
+        "role": "secondary",
+        "displayName": "Status Green",
+        "canonical": "oklch(0.75 0.2 145)",
+        "tonalRamp": [
+          "oklch(0.2 0.08 145)",
+          "oklch(0.32 0.12 145)",
+          "oklch(0.45 0.16 145)",
+          "oklch(0.58 0.18 145)",
+          "oklch(0.7 0.2 145)",
+          "oklch(0.78 0.16 145)",
+          "oklch(0.88 0.1 145)",
+          "oklch(0.95 0.04 145)"
+        ]
+      },
+      "alert-red": {
+        "role": "secondary",
+        "displayName": "Alert Red",
+        "canonical": "oklch(0.65 0.22 25)",
+        "tonalRamp": [
+          "oklch(0.22 0.1 25)",
+          "oklch(0.35 0.14 25)",
+          "oklch(0.48 0.18 25)",
+          "oklch(0.58 0.2 25)",
+          "oklch(0.65 0.22 25)",
+          "oklch(0.75 0.16 25)",
+          "oklch(0.86 0.1 25)",
+          "oklch(0.95 0.04 25)"
+        ]
+      },
+      "amber-signal": {
+        "role": "secondary",
+        "displayName": "Amber Signal",
+        "canonical": "oklch(0.85 0.18 80)",
+        "tonalRamp": [
+          "oklch(0.25 0.08 80)",
+          "oklch(0.38 0.12 80)",
+          "oklch(0.5 0.14 80)",
+          "oklch(0.62 0.16 80)",
+          "oklch(0.75 0.17 80)",
+          "oklch(0.85 0.18 80)",
+          "oklch(0.92 0.1 80)",
+          "oklch(0.97 0.04 80)"
+        ]
+      },
+      "near-black-console": {
+        "role": "neutral",
+        "displayName": "Near-Black Console",
+        "canonical": "oklch(0.12 0 0)",
+        "tonalRamp": [
+          "oklch(0.08 0 0)",
+          "oklch(0.12 0 0)",
+          "oklch(0.18 0 0)",
+          "oklch(0.25 0 0)",
+          "oklch(0.4 0 0)",
+          "oklch(0.55 0 0)",
+          "oklch(0.75 0 0)",
+          "oklch(0.95 0 0)"
+        ]
+      },
+      "soft-readout": {
+        "role": "neutral",
+        "displayName": "Soft Readout",
+        "canonical": "oklch(0.95 0 0)",
+        "tonalRamp": [
+          "oklch(0.2 0 0)",
+          "oklch(0.35 0 0)",
+          "oklch(0.5 0 0)",
+          "oklch(0.65 0 0)",
+          "oklch(0.78 0 0)",
+          "oklch(0.88 0 0)",
+          "oklch(0.95 0 0)",
+          "oklch(0.99 0 0)"
+        ]
+      },
+      "muted-readout": {
+        "role": "neutral",
+        "displayName": "Muted Readout",
+        "canonical": "oklch(0.65 0 0)",
+        "tonalRamp": [
+          "oklch(0.25 0 0)",
+          "oklch(0.35 0 0)",
+          "oklch(0.45 0 0)",
+          "oklch(0.55 0 0)",
+          "oklch(0.65 0 0)",
+          "oklch(0.75 0 0)",
+          "oklch(0.85 0 0)",
+          "oklch(0.94 0 0)"
+        ]
+      },
+      "frosted-panel": {
+        "role": "neutral",
+        "displayName": "Frosted Panel",
+        "canonical": "oklch(0.08 0.02 240 / 0.85)",
+        "tonalRamp": [
+          "oklch(0.06 0.02 240 / 0.95)",
+          "oklch(0.08 0.02 240 / 0.85)",
+          "oklch(0.12 0.02 240 / 0.8)",
+          "oklch(0.18 0.02 240 / 0.75)",
+          "oklch(0.35 0.02 240 / 0.7)",
+          "oklch(0.55 0.015 240 / 0.75)",
+          "oklch(0.85 0.01 240 / 0.85)",
+          "oklch(0.95 0.01 240 / 0.9)"
+        ]
+      },
+      "hud-border": {
+        "role": "neutral",
+        "displayName": "HUD Border",
+        "canonical": "oklch(0.65 0.18 255 / 0.25)",
+        "tonalRamp": [
+          "oklch(0.35 0.12 255 / 0.2)",
+          "oklch(0.45 0.14 255 / 0.22)",
+          "oklch(0.55 0.16 255 / 0.24)",
+          "oklch(0.65 0.18 255 / 0.25)",
+          "oklch(0.72 0.14 255 / 0.3)",
+          "oklch(0.8 0.1 255 / 0.35)",
+          "oklch(0.88 0.06 255 / 0.4)",
+          "oklch(0.94 0.03 255 / 0.45)"
+        ]
+      },
+      "light-console": {
+        "role": "neutral",
+        "displayName": "Light Console",
+        "canonical": "oklch(0.97 0 0)",
+        "tonalRamp": [
+          "oklch(0.7 0 0)",
+          "oklch(0.8 0 0)",
+          "oklch(0.88 0 0)",
+          "oklch(0.92 0 0)",
+          "oklch(0.95 0 0)",
+          "oklch(0.97 0 0)",
+          "oklch(0.98 0 0)",
+          "oklch(0.99 0 0)"
+        ]
+      },
+      "light-ink": {
+        "role": "neutral",
+        "displayName": "Light Ink",
+        "canonical": "oklch(0.15 0 0)",
+        "tonalRamp": [
+          "oklch(0.1 0 0)",
+          "oklch(0.15 0 0)",
+          "oklch(0.25 0 0)",
+          "oklch(0.4 0 0)",
+          "oklch(0.55 0 0)",
+          "oklch(0.7 0 0)",
+          "oklch(0.85 0 0)",
+          "oklch(0.95 0 0)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Brand moments: boot mark, profile name emphasis." },
+      "headline": { "displayName": "Headline", "purpose": "Panel titles and mission names (mono)." },
+      "title": { "displayName": "Title", "purpose": "Channel stamps and section labels." },
+      "body": { "displayName": "Body", "purpose": "About text, briefs, contact description (Poppins)." },
+      "label": { "displayName": "Label", "purpose": "Form labels, nav chips, HUD chrome." }
+    },
+    "shadows": [
+      {
+        "name": "hud-ambient",
+        "value": "0 0 15px oklch(0.65 0.18 255 / 0.2), 0 0 30px oklch(0.65 0.18 255 / 0.08)",
+        "purpose": "Default panel presence glow."
+      },
+      {
+        "name": "panel-soft",
+        "value": "0 0 30px oklch(0.65 0.18 255 / 0.12), 0 0 60px oklch(0.65 0.18 255 / 0.06), inset 0 1px 0 oklch(1 0 0 / 0.05)",
+        "purpose": "HologramPanel shell."
+      },
+      {
+        "name": "focus-whisper",
+        "value": "0 0 0 1px color-mix(in oklch, oklch(0.8 0.18 195) 25%, transparent), 0 0 18px color-mix(in oklch, oklch(0.8 0.18 195) 12%, transparent)",
+        "purpose": "Input and control focus."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-panel",
+        "value": "300ms ease",
+        "purpose": "Border, glow, and color state transitions on HUD controls."
+      },
+      {
+        "name": "scanline",
+        "value": "scanline keyframes translating Y across viewport",
+        "purpose": "Optional hologram atmosphere; respect prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Submit",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Contact submit — uppercase tracked, quiet fill, cyan glow on hover.",
+      "html": "<button class=\"ds-btn-primary\" type=\"button\">ENVIAR</button>",
+      "css": ".ds-btn-primary{border:1px solid color-mix(in oklch,oklch(0.8 0.18 195) 35%,transparent);background:oklch(0.95 0 0);color:oklch(0.12 0 0);border-radius:10px;padding:0.875rem 1.25rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:1rem;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;transition:all 300ms ease;cursor:pointer}.ds-btn-primary:hover{background:linear-gradient(135deg,color-mix(in oklch,oklch(0.8 0.18 195) 88%,white),color-mix(in oklch,oklch(0.65 0.18 255) 88%,white));color:oklch(0.12 0 0);border-color:transparent;box-shadow:0 0 24px color-mix(in oklch,oklch(0.8 0.18 195) 35%,transparent)}.ds-btn-primary:focus-visible{outline:2px solid oklch(0.8 0.18 195);outline-offset:2px}"
+    },
+    {
+      "name": "Ghost HUD Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary HUD action with cyan stroke.",
+      "html": "<button class=\"ds-btn-ghost\" type=\"button\">VER CV</button>",
+      "css": ".ds-btn-ghost{background:transparent;color:oklch(0.8 0.18 195);border:1px solid oklch(0.65 0.18 255 / 0.25);border-radius:0.25rem;padding:0.625rem 1rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:0.875rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:background 300ms ease,color 300ms ease}.ds-btn-ghost:hover{background:oklch(0.8 0.18 195 / 0.1)}.ds-btn-ghost:focus-visible{outline:2px solid oklch(0.8 0.18 195);outline-offset:2px}"
+    },
+    {
+      "name": "HUD Input",
+      "kind": "input",
+      "refersTo": "input-hud",
+      "description": "Frosted field with cyan caret and focus whisper.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-label\">EMAIL</span><input class=\"ds-input\" type=\"email\" placeholder=\"you@company.com\" /></label>",
+      "css": ".ds-field{display:flex;flex-direction:column;gap:0.5rem;width:100%}.ds-label{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:0.75rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:oklch(0.8 0.18 195 / 0.85)}.ds-input{width:100%;border-radius:10px;border:2px solid oklch(0.65 0.18 255 / 0.6);padding:1rem 1.25rem;font-size:1rem;background:color-mix(in oklch,oklch(0.18 0 0) 92%,oklch(0.12 0 0));color:oklch(0.95 0 0);caret-color:oklch(0.8 0.18 195);outline:none;transition:border-color 300ms ease,box-shadow 300ms ease}.ds-input:focus{border-color:color-mix(in oklch,oklch(0.8 0.18 195) 70%,transparent);box-shadow:0 0 0 1px color-mix(in oklch,oklch(0.8 0.18 195) 25%,transparent),0 0 18px color-mix(in oklch,oklch(0.8 0.18 195) 12%,transparent)}.ds-input:focus-visible{outline:none}"
+    },
+    {
+      "name": "Nav Item Active",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "Header module chip in active state.",
+      "html": "<nav class=\"ds-nav\"><button class=\"ds-nav-item\" type=\"button\">Perfil</button><button class=\"ds-nav-item ds-nav-item-active\" type=\"button\">Misiones</button><button class=\"ds-nav-item\" type=\"button\">Contacto</button></nav>",
+      "css": ".ds-nav{display:flex;gap:0.35rem;padding:0.5rem;background:oklch(0.12 0 0 / 0.9);backdrop-filter:blur(12px);border:1px solid oklch(0.25 0 0)}.ds-nav-item{border:0;background:transparent;color:oklch(0.65 0 0);border-radius:0.25rem;padding:0.375rem 0.625rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:0.875rem;cursor:pointer;transition:background 200ms ease,color 200ms ease}.ds-nav-item:hover{color:oklch(0.8 0.18 195);background:oklch(0.8 0.18 195 / 0.08)}.ds-nav-item-active{background:oklch(0.8 0.18 195 / 0.15);color:oklch(0.8 0.18 195);box-shadow:0 0 12px oklch(0.65 0.18 255 / 0.15)}.ds-nav-item:focus-visible{outline:2px solid oklch(0.8 0.18 195);outline-offset:2px}"
+    },
+    {
+      "name": "Hologram Panel",
+      "kind": "card",
+      "refersTo": "hologram-panel",
+      "description": "Signature workshop window — frosted glass, cyan title, quiet ambient glow.",
+      "html": "<section class=\"ds-panel\"><header class=\"ds-panel-head\"><span class=\"ds-dot\"></span><div><strong class=\"ds-panel-title\">MISIONES</strong><span class=\"ds-panel-sub\">operaciones</span></div></header><p class=\"ds-panel-body\">Selecciona una misión para ver el brief y la evidencia.</p></section>",
+      "css": ".ds-panel{max-width:32rem;border-radius:0.5rem;border:1px solid oklch(0.65 0.18 255 / 0.8);background:oklch(0.08 0.02 240 / 0.85);backdrop-filter:blur(24px);box-shadow:0 0 30px oklch(0.65 0.18 255 / 0.12),0 0 60px oklch(0.65 0.18 255 / 0.06),inset 0 1px 0 oklch(1 0 0 / 0.05);padding:1rem;color:oklch(0.95 0 0)}.ds-panel-head{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem}.ds-dot{width:0.5rem;height:0.5rem;border-radius:9999px;background:oklch(0.8 0.18 195);box-shadow:0 0 8px oklch(0.8 0.18 195)}.ds-panel-title{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:0.875rem;font-weight:700;letter-spacing:0.12em;color:oklch(0.8 0.18 195)}.ds-panel-sub{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:0.75rem;color:oklch(0.65 0 0)}.ds-panel-body{margin:0;font-family:Poppins,sans-serif;font-size:1rem;line-height:1.625;color:oklch(0.65 0 0)}"
+    },
+    {
+      "name": "Skill Chip",
+      "kind": "chip",
+      "refersTo": "button-ghost",
+      "description": "Mono meta chip for skills / tags.",
+      "html": "<span class=\"ds-chip\">Next.js</span>",
+      "css": ".ds-chip{display:inline-flex;align-items:center;border:1px solid oklch(0.65 0.18 255 / 0.25);border-radius:0.25rem;padding:0.25rem 0.5rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:0.75rem;color:oklch(0.8 0.18 195);background:oklch(0.8 0.18 195 / 0.05)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Hologram Workshop",
+    "overview": "This is a personal portfolio dressed as a builder’s workshop rendered in hologram glass: precise, technical, and playfully controlled. The HUD is atmosphere and personality — not a competing product. Identity, work proof, and contact must remain readable before chrome, meters, or optional systems theater.\n\nDepth comes from glow + border and frosted glass panels (backdrop blur, translucent hud-bg, inset highlights). Default dark console is the home key; light mode and alternate palettes exist but signature remains G-Darko Holo Cyan / Ops Blue. Anti-references: saturated cyberpunk neon stacks, generic SaaS dashboards, and purple-on-white AI-template looks.",
+    "keyCharacteristics": [
+      "Hologram Workshop mood: craft first, OS costume second",
+      "Precision panels: glow on focus, quiet at rest",
+      "Poppins body + monospace system voice (labels, headers, terminal)",
+      "Glass + cyan/blue glow elevation, not heavy drop shadows",
+      "Bilingual ES/EN surfaces share the same visual grammar"
+    ],
+    "rules": [
+      { "name": "The One Voice Rule", "body": "Holo Cyan is the speaking accent. Use it for hierarchy and focus — not as a full-bleed wash. Rarity keeps the workshop precise.", "section": "colors" },
+      { "name": "The Signature Palette Rule", "body": "G-Darko (default) is the brand home. Extra palettes are optional visitor toys; new surfaces should design against default dark first.", "section": "colors" },
+      { "name": "The Two Voices Rule", "body": "Mono speaks for the system; Poppins speaks for the person. Don’t set long biographical paragraphs in all-caps mono.", "section": "typography" },
+      { "name": "The Quiet Rest Rule", "body": "Glow intensifies for focus, active, or success — not for every static rectangle.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do design new surfaces against default dark G-Darko (Holo Cyan + Ops Blue) first.",
+      "Do keep glow reserved for focus, active, and confirmation states.",
+      "Do use mono for system voice and Poppins for human narrative.",
+      "Do preserve bilingual parity in visible chrome and primary CTAs.",
+      "Do let work evidence and contact lead; HUD personality supports them."
+    ],
+    "donts": [
+      "Don't lead with unskippable boot theater or unexplained completion meters.",
+      "Don't treat all seven modules as equal peers on the hire path.",
+      "Don't flood the viewport with equal-weight glow on every panel.",
+      "Don't invent screenshots, metrics, or case claims where mockups are still placeholders.",
+      "Don't restyle the CV into a disconnected generic résumé world if it remains linked from the HUD — keep workshop grammar or use a clear external PDF affordance."
+    ]
+  }
+}

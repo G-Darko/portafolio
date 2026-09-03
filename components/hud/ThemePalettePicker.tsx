@@ -42,7 +42,7 @@ export default function ThemePalettePicker() {
           playHUDClick();
           setOpen((v) => !v);
         }}
-        className="flex h-7 w-7 items-center justify-center rounded text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+        className="flex h-11 w-11 items-center justify-center rounded text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
         title={t.theme.palette}
         aria-label={t.theme.palette}
         aria-expanded={open}

@@ -342,6 +342,14 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
   }
 }
 
+@media (pointer: coarse) {
+  .hud-shell button,
+  .hud-shell a,
+  .hud-shell [role="menuitem"] {
+    min-height: 2.75rem;
+  }
+}
+
 @layer components {
   .hud-shell {
     @apply text-base leading-relaxed;
@@ -387,7 +395,7 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
   }
 
   .contact-submit {
-    @apply rounded-[10px] border border-hud-cyan/35 bg-foreground py-3.5 text-base font-semibold uppercase tracking-[0.28em] text-background transition-all duration-300 md:text-lg;
+    @apply min-h-12 rounded-[10px] border border-hud-cyan/35 bg-foreground py-3.5 text-base font-semibold uppercase tracking-[0.28em] text-background transition-all duration-300 md:text-lg;
   }
 
   .contact-submit:hover:not(:disabled) {

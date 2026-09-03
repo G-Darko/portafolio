@@ -2,6 +2,7 @@
 
 import { useRef, useState, type ReactNode } from "react";
 import { motion } from "motion/react";
+import { useTranslation } from "@/lib/i18n/useTranslation";
 
 interface HologramPanelProps {
   title: string;
@@ -20,11 +21,15 @@ export default function HologramPanel({
   className = "",
   contentClassName = "",
 }: HologramPanelProps) {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
 
   const handleMouseMove = (e: React.MouseEvent) => {
+    if (typeof window !== "undefined" && window.matchMedia("(hover: none)").matches) {
+      return;
+    }
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
@@ -41,16 +46,16 @@ export default function HologramPanel({
   return (
     <motion.div
       ref={containerRef}
-      initial={{ opacity: 0, scale: 0.92, filter: "blur(6px)" }}
-      animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-      exit={{ opacity: 0, scale: 0.95, filter: "blur(4px)" }}
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 8 }}
+      transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      className={`relative z-60 flex w-full min-w-0 flex-col overflow-hidden rounded-lg border border-hud-border/80 bg-hud-bg/60 shadow-[0_0_30px_oklch(0.65_0.18_255/0.12),0_0_60px_oklch(0.65_0.18_255/0.06),inset_0_1px_0_oklch(1_0_0/0.05)] backdrop-blur-xl lg:max-h-[calc(100vh-5rem)] ${className}`}
       style={{
         transform: `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
       }}
-      className={`relative z-60 flex w-full max-w-2xl flex-col overflow-hidden rounded-lg border border-hud-border/80 bg-hud-bg/60 shadow-[0_0_30px_oklch(0.65_0.18_255/0.12),0_0_60px_oklch(0.65_0.18_255/0.06),inset_0_1px_0_oklch(1_0_0/0.05)] backdrop-blur-xl lg:max-h-[calc(100vh-5rem)] ${className}`}
     >
       <div
         className="pointer-events-none absolute inset-0"
@@ -90,9 +95,10 @@ export default function HologramPanel({
           </div>
         </div>
         <button
+          type="button"
           onClick={onClose}
-          className="flex h-6 w-6 items-center justify-center rounded font-mono text-xs text-muted-foreground transition-colors hover:bg-hud-cyan/10 hover:text-hud-red"
-          aria-label="Close panel"
+          className="flex h-10 w-10 items-center justify-center rounded font-mono text-sm text-muted-foreground transition-colors hover:bg-hud-cyan/10 hover:text-hud-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hud-cyan"
+          aria-label={t.header.closePanel}
         >
           ✕
         </button>

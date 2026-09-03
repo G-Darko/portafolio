@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "live": "node scripts/impeccable-live.mjs",
+    "live:stop": "node scripts/impeccable-live.mjs --stop"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

@@ -13,18 +13,68 @@ import MissionMediaViewer from "@/components/missions/MissionMediaViewer";
 
 type View = "map" | "brief" | "detail";
 
-function MockupPlaceholder({ title, tags, label }: { title: string; tags: string[]; label: string }) {
+function MockupPlaceholder({
+  title,
+  tags,
+  label,
+  hint,
+  liveUrl,
+  repoUrl,
+  liveLabel,
+  repoLabel,
+}: {
+  title: string;
+  tags: string[];
+  label: string;
+  hint: string;
+  liveUrl?: string;
+  repoUrl?: string;
+  liveLabel: string;
+  repoLabel: string;
+}) {
   return (
-    <div className="flex h-32 w-full flex-col items-center justify-center gap-2 rounded border border-dashed border-hud-border bg-hud-cyan/5">
-      <div className="text-sm font-mono font-bold tracking-widest text-hud-cyan md:text-base">{title}</div>
+    <div className="flex w-full flex-col items-center gap-3 rounded-lg border border-dashed border-hud-border/80 bg-hud-cyan/5 px-4 py-6 text-center">
+      <div className="font-mono text-sm font-bold tracking-widest text-hud-cyan md:text-base">
+        {label}
+      </div>
+      <p className="max-w-prose text-sm leading-relaxed text-muted-foreground">{hint}</p>
+      <p className="text-sm font-medium text-foreground">{title}</p>
       <div className="flex flex-wrap justify-center gap-1">
         {tags.map((tag) => (
-          <span key={tag} className="rounded border border-hud-border px-1 py-0 text-sm text-muted-foreground">
+          <span
+            key={tag}
+            className="rounded border border-hud-border px-1.5 py-0.5 text-sm text-muted-foreground"
+          >
             {tag}
           </span>
         ))}
       </div>
-      <span className="text-sm text-muted-foreground opacity-40">[{label}]</span>
+      {(liveUrl || repoUrl) && (
+        <div className="mt-1 flex flex-wrap justify-center gap-2">
+          {repoUrl && (
+            <a
+              href={repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-10 items-center gap-1 rounded border border-hud-border px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-hud-cyan/10 hover:text-hud-cyan"
+            >
+              <GitBranch size={12} />
+              {repoLabel}
+            </a>
+          )}
+          {liveUrl && (
+            <a
+              href={liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-10 items-center gap-1 rounded border border-hud-border px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-hud-cyan/10 hover:text-hud-cyan"
+            >
+              <ExternalLink size={12} />
+              {liveLabel}
+            </a>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -51,6 +101,7 @@ export default function MissionsWindow() {
 
   useEffect(() => {
     if (activeMissionId && !activeSubMissionId) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setView("brief");
     } else if (activeMissionId && activeSubMissionId) {
       setView("detail");
@@ -105,7 +156,7 @@ export default function MissionsWindow() {
   };
 
   return (
-    <div className="relative min-h-[320px] space-y-3">
+    <div className="relative min-h-80 space-y-3">
       <AnimatePresence mode="wait">
         {view === "map" && (
           <motion.div
@@ -118,7 +169,7 @@ export default function MissionsWindow() {
             <p className="font-mono text-sm tracking-widest text-muted-foreground uppercase">
               {ui.mapTitle}
             </p>
-            <div className="grid gap-3 sm:grid-cols-3">
+            <div className="grid gap-3 md:grid-cols-2">
               {missions.map((m, i) => {
                 const copy = getMissionCopy(locale, m);
                 const prog = missionProgress(m);
@@ -311,6 +362,11 @@ export default function MissionsWindow() {
                       title={smCopy.title}
                       tags={subMission.techStack}
                       label={ui.mockup}
+                      hint={ui.mockupHint}
+                      liveUrl={subMission.liveUrl}
+                      repoUrl={subMission.repoUrl}
+                      liveLabel={ui.live}
+                      repoLabel={ui.repo}
                     />
                   ) : (
                     <MissionMediaViewer

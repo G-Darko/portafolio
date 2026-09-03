@@ -37,19 +37,28 @@ export default function CVPage() {
       `}</style>
 
       <div className="cv-body min-h-screen bg-bg text-text">
-        <div className="cv-ignore-print mx-auto flex max-w-[210mm] justify-between px-4 py-4 md:px-8">
+        <div className="cv-ignore-print mx-auto flex max-w-[210mm] flex-wrap items-center justify-between gap-3 border-b border-hud-border/40 bg-background/80 px-4 py-4 backdrop-blur-md md:px-8">
           <Link
             href="/"
-            className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white hover:brightness-110"
+            className="inline-flex min-h-11 items-center rounded border border-hud-cyan/40 px-4 py-2 font-mono text-sm font-bold tracking-widest text-hud-cyan transition-colors hover:bg-hud-cyan/10"
           >
-            ← Volver al Portafolio
+            ← Portafolio
           </Link>
-          <button
-            onClick={() => window.print()}
-            className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white hover:brightness-110"
-          >
-            Descargar CV
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <a
+              href="mailto:gdarko.uribe@gmail.com"
+              className="inline-flex min-h-11 items-center break-all rounded border border-hud-border px-3 py-2 font-mono text-sm text-muted-foreground transition-colors hover:text-hud-cyan"
+            >
+              gdarko.uribe@gmail.com
+            </a>
+            <button
+              type="button"
+              onClick={() => window.print()}
+              className="inline-flex min-h-11 items-center rounded border border-hud-border bg-foreground px-4 py-2 font-mono text-sm font-semibold tracking-widest text-background transition-opacity hover:opacity-90"
+            >
+              Descargar CV
+            </button>
+          </div>
         </div>
 
         <header className="cv-header border-b-2 border-accent bg-header py-8 text-center">
@@ -57,7 +66,7 @@ export default function CVPage() {
           <p className="text-lg opacity-90">Desarrollador de Software y Web</p>
         </header>
 
-        <div className="cv-container mx-auto grid max-w-[1200px] grid-cols-1 gap-8 px-4 py-8 md:grid-cols-[1fr_2fr] md:px-8">
+        <div className="cv-container mx-auto grid max-w-300 grid-cols-1 gap-8 px-4 py-8 md:grid-cols-[1fr_2fr] md:px-8">
           <aside className="flex flex-col gap-6">
             <section className="rounded-lg bg-section p-6 shadow-md">
               <h2 className="mb-4 border-b-4 border-accent/40 pb-2 text-2xl font-bold text-accent">
