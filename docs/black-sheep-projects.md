@@ -144,14 +144,18 @@ Storefront B2C (catálogo, carrito, checkout) — **no** es el ERP KRKN. Dominio
 
 ## Capturas autenticadas
 
-1. Credenciales en `.env.captures.local` (formato `email=` / `password=`).
-2. Dependencias Playwright en `C:\_dev\_tmp-capture` (o `pnpm add -D playwright sharp` cuando el lock de `next` lo permita).
-3. Skool:
+1. Credenciales en `.env.captures.local` (bloques `# url` + `email=` / `password=`).
+2. Dependencias Playwright en `C:\_dev\_tmp-capture` (playwright + sharp + `npx playwright install ffmpeg`).
+3. Tour multi-proyecto (login + soft-nav + video):
 
-```bash
+```powershell
 $env:PORTAFOLIO_ROOT="c:\_dev\portafolio"
-# desde _tmp-capture con playwright+sharp+ffmpeg:
-node capture-skool-authed.mjs
+node c:\_dev\_tmp-capture\capture-authed-tours.mjs
+# subset:
+node c:\_dev\_tmp-capture\capture-authed-tours.mjs duplica,creser
 ```
 
+Fuente: `scripts/capture-authed-tours.mjs` (Duplica/Creser usan login por API + token en `localStorage` porque Expo Web no reacciona bien a `fill`).
+
 4. Landings públicas: `scripts/capture-missions.mjs`.
+5. Skool solo: `scripts/capture-skool-authed.mjs` (legacy; preferir el tour unificado).
