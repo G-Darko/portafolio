@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { asset } from "@/lib/asset";
 
 interface MissionMediaViewerProps {
   images: string[];
@@ -10,14 +11,26 @@ interface MissionMediaViewerProps {
   title: string;
 }
 
+function resolveSrc(src: string): string {
+  if (/^(https?:)?\/\//.test(src) || src.startsWith("data:")) return src;
+  return asset(src);
+}
+
 export default function MissionMediaViewer({
   images,
   video,
   title,
 }: MissionMediaViewerProps) {
-  const slides = video
-    ? [{ type: "video" as const, src: video }, ...images.map((src) => ({ type: "image" as const, src }))]
-    : images.map((src) => ({ type: "image" as const, src }));
+  const slides = useMemo(
+    () =>
+      video
+        ? [
+            { type: "video" as const, src: video },
+            ...images.map((src) => ({ type: "image" as const, src: resolveSrc(src) })),
+          ]
+        : images.map((src) => ({ type: "image" as const, src: resolveSrc(src) })),
+    [images, video]
+  );
 
   const [index, setIndex] = useState(0);
   const count = slides.length;
@@ -45,7 +58,7 @@ export default function MissionMediaViewer({
             allowFullScreen
           />
         ) : (
-          <Image src={current.src} alt={title} fill className="object-cover" />
+          <Image src={current.src} alt={title} fill className="object-cover" unoptimized />
         )}
 
         {count > 1 && (
@@ -104,7 +117,7 @@ export default function MissionMediaViewer({
                   VIDEO
                 </div>
               ) : (
-                <Image src={slide.src} alt="" fill className="object-cover" />
+                <Image src={slide.src} alt="" fill className="object-cover" unoptimized />
               )}
             </button>
           ))}

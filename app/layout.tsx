@@ -8,6 +8,11 @@ const poppins = Poppins({
   weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
+/** Matches next.config basePath (GitHub Pages project site). */
+const BASE_PATH = process.env.NODE_ENV === "production" ? "/portafolio" : "";
+const SITE_URL = "https://g-darko.github.io/portafolio";
+const ICON_PATH = `${BASE_PATH}/img/DARKO.png`;
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -19,6 +24,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Gael Uribe | Portafolio",
   description:
     "Portafolio de Gael Uribe (G-Darko), desarrollador web e Ingeniero en Tecnologías de la Información.",
@@ -36,16 +42,16 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Gael Uribe" }],
   icons: {
-    icon: "/img/DARKO.png",
-    shortcut: "/img/DARKO.png",
-    apple: "/img/DARKO.png",
+    icon: [{ url: ICON_PATH, type: "image/png" }],
+    shortcut: ICON_PATH,
+    apple: ICON_PATH,
   },
   openGraph: {
     title: "Portafolio | G-Darko",
     description:
       "Mira el portafolio de Gael Uribe, desarrollador web con experiencia en Vue, Laravel y más.",
-    images: "https://G-Darko.github.io/portafolio/img/DARKO.png",
-    url: "https://G-Darko.github.io/portafolio/",
+    images: [`${SITE_URL}/img/DARKO.png`],
+    url: SITE_URL,
     type: "website",
   },
 };
