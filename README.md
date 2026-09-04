@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# G-Darko · Portafolio
 
-## Getting Started
+Portafolio personal de **Gael Uribe (G-Darko)** — desarrollador de software y web.
 
-First, run the development server:
+Sitio interactivo con metáfora HUD (“Hologram Workshop”), misiones/proyectos reales, skills 3D, contacto y un **CV** descargable en PDF. Bilingüe **ES / EN**.
+
+**Live:** [g-darko.github.io/portafolio](https://g-darko.github.io/portafolio/)
+
+---
+
+## Qué incluye
+
+| Ruta / módulo | Descripción |
+| --- | --- |
+| `/` | Shell HUD: perfil, misiones, skills, certificaciones, contacto, terminal y extras |
+| `/missions/...` | Casos de trabajo (Black Sheep Lab, freelance, academia) con media y stack |
+| `/skills` | Catálogo de tecnologías + orbe 3D enlazado al stack de cada misión |
+| `/cv` | CV curado (destacados) + descarga PDF client-side |
+| Temas | Paletas HUD, modo claro/oscuro, locale ES/EN |
+
+### Experiencia destacada (contenido)
+
+- **Black Sheep Lab** — ownership end-to-end: LMS multi-tenant (Skool), apps Expo (Duplica / CRESER white-label), integraciones WhatsApp/ERP (OmniSIP, KRKN), WMS/etiquetas (Firebird, ZPL/TSPL).
+- Freelance y formación aplicada (Astro, Aerial Depot, estancias UPVM) como soporte secundario.
+
+---
+
+## Stack
+
+- **Next.js 16** (App Router) · **React 19** · **TypeScript**
+- **Tailwind CSS 4** · **Motion** · **Zustand**
+- **Three.js** / React Three Fiber (orbe de skills)
+- **@react-pdf/renderer** (export PDF del CV)
+- Deploy estático a **GitHub Pages** (`output: "export"`, `basePath` en producción)
+
+La carpeta `_LEGACY/` conserva el sitio HTML anterior; **no forma parte del build**.
+
+---
+
+## Desarrollo local
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build   # export estático → dist/
+npm run lint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Deploy
 
-To learn more about Next.js, take a look at the following resources:
+CI en `.github/workflows/deploy.yml`: build Next y publicación a GitHub Pages.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+El `basePath` `/portafolio` se aplica solo en producción para coincidir con la URL del project site.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Contacto
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Email: [gdarko.uribe@gmail.com](mailto:gdarko.uribe@gmail.com)
+- GitHub: [G-Darko](https://github.com/G-Darko)
+- CV en el sitio: [/cv](https://g-darko.github.io/portafolio/cv/)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Licencia / uso
+
+Proyecto personal. El código del portafolio es de Gael Uribe; assets de proyectos de clientes siguen siendo de sus respectivos dueños.

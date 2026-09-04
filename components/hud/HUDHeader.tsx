@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronDown, Globe, RotateCw } from "lucide-react";
 import { useThemeStore } from "@/lib/store/useThemeStore";
@@ -12,6 +13,8 @@ import { useHUDStore, type PanelId } from "@/lib/store/useHUDStore";
 import { playHUDClick, playWindowOpen } from "@/lib/audio/audio";
 import HudConfirmDialog from "./HudConfirmDialog";
 import { MORE_PANELS, PRIMARY_PANELS } from "@/lib/hud/navConfig";
+import { CV_PATH } from "@/lib/data/profile";
+import { toBrowserHref } from "@/lib/hud/routes";
 
 interface HUDHeaderProps {
   activePanel: PanelId | null;
@@ -191,6 +194,17 @@ export default function HUDHeader({
                         </button>
                       );
                     })}
+                    <Link
+                      href={toBrowserHref(CV_PATH)}
+                      role="menuitem"
+                      onClick={() => {
+                        playHUDClick();
+                        setMoreOpen(false);
+                      }}
+                      className="flex w-full min-h-11 items-center rounded px-2.5 py-2 text-left font-mono text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+                    >
+                      {t.header.cv}
+                    </Link>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -300,6 +314,17 @@ export default function HUDHeader({
                       </button>
                     );
                   })}
+                  <Link
+                    href={toBrowserHref(CV_PATH)}
+                    role="menuitem"
+                    onClick={() => {
+                      playHUDClick();
+                      setMobileMoreOpen(false);
+                    }}
+                    className="flex w-full min-h-12 items-center rounded-lg px-3 py-2.5 text-left font-mono text-sm text-muted-foreground transition-colors active:bg-accent active:text-accent-foreground"
+                  >
+                    {t.header.cv}
+                  </Link>
                 </motion.div>
               )}
             </AnimatePresence>

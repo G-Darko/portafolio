@@ -11,6 +11,7 @@
     "live:stop": "node scripts/impeccable-live.mjs --stop"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.9.0",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
     "cuelume": "^0.2.2",

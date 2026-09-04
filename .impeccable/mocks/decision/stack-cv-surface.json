@@ -1,0 +1,110 @@
+{
+  "title": "CV surface composition",
+  "question": "El roll asignó la columna única densificada. Elige composición del CV (mundo Hologram Workshop fijo). Stack queda en 1A sin torneo visual.",
+  "options": [
+    {
+      "id": "single-column-brief",
+      "label": "Columna única densificada",
+      "kicker": "THE ROLL",
+      "lineage": "one-page densified CV brief",
+      "thesis": "Un solo flujo vertical: identidad, prueba y descarga sin columnas que peleen en móvil o PDF.",
+      "palette": [
+        "#0f0f0f",
+        "#f2f2f2",
+        "#4de6e6",
+        "#4d6bff"
+      ],
+      "materials": [
+        "frosted glass panels",
+        "cyan HUD borders",
+        "mono system stamps"
+      ],
+      "viewport": "Barra fija ← Portafolio + Descargar PDF; debajo un único documento: nombre, rol, perfil corto, experiencia destacada, skills condensadas, formación, certs, contacto.",
+      "risk": "Puede sentirse largo en desktop si no se densifica a una página imprimible.",
+      "comp": ".impeccable/mocks/decision/cv-single-column-brief.webp",
+      "wireframe": {
+        "cols": 12,
+        "rows": 12,
+        "regions": [
+          { "label": "chrome: back + download", "x": 0, "y": 0, "w": 12, "h": 1, "accent": true },
+          { "label": "name + role", "x": 1, "y": 1, "w": 10, "h": 2 },
+          { "label": "profile blurb", "x": 1, "y": 3, "w": 10, "h": 1 },
+          { "label": "featured experience", "x": 1, "y": 4, "w": 10, "h": 3, "accent": true },
+          { "label": "skills strip", "x": 1, "y": 7, "w": 10, "h": 1 },
+          { "label": "education + certs", "x": 1, "y": 8, "w": 10, "h": 2 },
+          { "label": "contact", "x": 1, "y": 10, "w": 10, "h": 1 }
+        ]
+      }
+    },
+    {
+      "id": "masthead-ledger",
+      "label": "Mástil + ledger de evidencia",
+      "lineage": "identity masthead + evidence ledger",
+      "thesis": "El nombre domina; la prueba se escanea como filas fecha | org | rol | stack.",
+      "palette": [
+        "#0f0f0f",
+        "#f2f2f2",
+        "#4de6e6",
+        "#4d6bff"
+      ],
+      "materials": [
+        "frosted glass",
+        "tabular mono rows",
+        "chip rails"
+      ],
+      "viewport": "Mástil full-bleed con nombre legal + rol + CTA Descargar; debajo ledger de experiencia destacada y una franja de skills/formación.",
+      "risk": "El ledger puede leerse frío o tipo ATS si falta voz humana en el perfil.",
+      "comp": ".impeccable/mocks/decision/cv-masthead-ledger.webp",
+      "wireframe": {
+        "cols": 12,
+        "rows": 12,
+        "regions": [
+          { "label": "chrome export", "x": 0, "y": 0, "w": 12, "h": 1, "accent": true },
+          { "label": "masthead name/role", "x": 0, "y": 1, "w": 12, "h": 3, "accent": true },
+          { "label": "ledger rows", "x": 0, "y": 4, "w": 12, "h": 5 },
+          { "label": "skills + education", "x": 0, "y": 9, "w": 8, "h": 2 },
+          { "label": "contact", "x": 8, "y": 9, "w": 4, "h": 2 }
+        ]
+      }
+    },
+    {
+      "id": "classic-two-col",
+      "label": "Dossier dos columnas",
+      "lineage": "classic recruiter CV dossier",
+      "thesis": "La estructura que reclutadores ya saben leer, vestida con gramática Hologram Workshop.",
+      "palette": [
+        "#0f0f0f",
+        "#f2f2f2",
+        "#4de6e6",
+        "#4d6bff"
+      ],
+      "materials": [
+        "frosted side panel",
+        "main evidence column",
+        "HUD section stamps"
+      ],
+      "viewport": "Chrome de export; izquierda perfil/skills/idiomas/contacto; derecha proyectos destacados, formación, certificaciones — PDF espeja esta hoja.",
+      "risk": "Es el default de categoría; si no se densifica lo destacado, vuelve al CV genérico.",
+      "comp": ".impeccable/mocks/decision/cv-classic-two-col.webp",
+      "wireframe": {
+        "cols": 12,
+        "rows": 12,
+        "regions": [
+          { "label": "chrome export", "x": 0, "y": 0, "w": 12, "h": 1, "accent": true },
+          { "label": "name header", "x": 0, "y": 1, "w": 12, "h": 2 },
+          { "label": "left: profile skills contact", "x": 0, "y": 3, "w": 4, "h": 8 },
+          { "label": "right: experience education certs", "x": 4, "y": 3, "w": 8, "h": 8, "accent": true }
+        ]
+      }
+    }
+  ],
+  "reroll": {
+    "registers": ["safer", "bolder"]
+  },
+  "steer": true,
+  "canon": false,
+  "buildPath": {
+    "value": "comp",
+    "toggle": true
+  }
+}

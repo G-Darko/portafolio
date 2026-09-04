@@ -1,4 +1,17 @@
-/** Maps mission techStack labels to TechIconsSprite / TechSphere node ids */
+/** Canonical display name for mission/CV tech labels (aliases → catalog name). */
+export const TECH_ALIASES: Record<string, string> = {
+  HTML: "HTML5",
+  CSS: "CSS3",
+  JS: "JavaScript",
+  Vue: "Vue.js",
+  Tailwind: "Tailwind CSS",
+};
+
+/**
+ * Maps mission techStack labels to TechIconsSprite / TechSphere node ids.
+ * Do not map non-language tools onto language icons (e.g. Capacitor → js).
+ * Unknown / unmapped labels are omitted from orb highlights.
+ */
 export const TECH_NAME_TO_ID: Record<string, string> = {
   HTML: "html",
   HTML5: "html",
@@ -38,22 +51,22 @@ export const TECH_NAME_TO_ID: Record<string, string> = {
   "React Native": "react",
   AI: "py",
   IA: "py",
-  Capacitor: "js",
   "Socket.IO": "node",
   Firebird: "mysql",
   FastAPI: "py",
-  GeoJSON: "js",
   NextAuth: "nextjs",
   "respond.io": "node",
-  "Rich Text": "js",
-  Comunidad: "js",
-  Tiptap: "js",
 };
+
+export function canonicalizeTechName(name: string): string {
+  return TECH_ALIASES[name] ?? name;
+}
 
 export function techStackToIds(stack: string[]): string[] {
   const ids = new Set<string>();
   for (const name of stack) {
-    const id = TECH_NAME_TO_ID[name];
+    const canonical = canonicalizeTechName(name);
+    const id = TECH_NAME_TO_ID[canonical] ?? TECH_NAME_TO_ID[name];
     if (id) ids.add(id);
   }
   return [...ids];

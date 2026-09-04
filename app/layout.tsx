@@ -66,6 +66,7 @@ export default function RootLayout({
       lang="es"
       className={`${poppins.variable} antialiased dark`}
       data-palette="default"
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <head>

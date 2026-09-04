@@ -1,0 +1,437 @@
+{
+  "tool": "comp-diff",
+  "version": 1,
+  "createdAt": "2026-09-04T22:07:43.541Z",
+  "label": "hero",
+  "comp": ".impeccable/mocks/decision/cv-masthead-ledger.webp",
+  "build": ".impeccable\\review\\hero-repro.png",
+  "spec": ".impeccable\\build\\spec.json",
+  "compSize": "1536x1024",
+  "buildSize": "1536x1024",
+  "align": "top",
+  "overall": 1,
+  "verdict": "match",
+  "scores": {
+    "overall": 1,
+    "structure": 1,
+    "color": 1,
+    "colorIntersection": 1,
+    "paletteMatch": 1,
+    "detail": 1,
+    "detailRaw": 1,
+    "detailAdded": 0,
+    "bands": 1
+  },
+  "palette": {
+    "comp": [
+      {
+        "hex": "#08080a",
+        "coverage": 0.9339
+      },
+      {
+        "hex": "#1a2730",
+        "coverage": 0.0419
+      },
+      {
+        "hex": "#ebecee",
+        "coverage": 0.0131
+      },
+      {
+        "hex": "#83838d",
+        "coverage": 0.0045
+      },
+      {
+        "hex": "#246471",
+        "coverage": 0.0033
+      },
+      {
+        "hex": "#b5b5be",
+        "coverage": 0.0033
+      }
+    ],
+    "build": [
+      {
+        "hex": "#08080a",
+        "coverage": 0.9339
+      },
+      {
+        "hex": "#1a2730",
+        "coverage": 0.0419
+      },
+      {
+        "hex": "#ebecee",
+        "coverage": 0.0131
+      },
+      {
+        "hex": "#83838d",
+        "coverage": 0.0045
+      },
+      {
+        "hex": "#246471",
+        "coverage": 0.0033
+      },
+      {
+        "hex": "#b5b5be",
+        "coverage": 0.0033
+      }
+    ]
+  },
+  "regions": [
+    {
+      "id": "chrome-bar",
+      "x": 0,
+      "y": 0,
+      "w": 1,
+      "h": 0.1,
+      "kind": "chrome",
+      "score": {
+        "overall": 1,
+        "structure": 1,
+        "color": 1,
+        "colorIntersection": 1,
+        "paletteMatch": 1,
+        "detail": 1,
+        "detailRaw": 1,
+        "detailAdded": 0,
+        "bands": 1
+      },
+      "verdict": "match",
+      "inkBox": {
+        "comp": {
+          "x": 14,
+          "y": 11,
+          "w": 1508,
+          "h": 91
+        },
+        "build": {
+          "x": 14,
+          "y": 11,
+          "w": 1508,
+          "h": 91
+        }
+      }
+    },
+    {
+      "id": "masthead-name",
+      "x": 0.3008,
+      "y": 0.1289,
+      "w": 0.1367,
+      "h": 0.0762,
+      "kind": "text",
+      "score": {
+        "overall": 1,
+        "structure": 1,
+        "color": 1,
+        "colorIntersection": 1,
+        "paletteMatch": 1,
+        "detail": 1,
+        "detailRaw": 1,
+        "detailAdded": 0,
+        "bands": 1
+      },
+      "verdict": "match",
+      "inkBox": {
+        "comp": {
+          "x": 6,
+          "y": 8,
+          "w": 196,
+          "h": 62
+        },
+        "build": {
+          "x": 6,
+          "y": 8,
+          "w": 196,
+          "h": 62
+        }
+      }
+    },
+    {
+      "id": "masthead-role",
+      "x": 0.0313,
+      "y": 0.2529,
+      "w": 0.5039,
+      "h": 0.0586,
+      "kind": "text",
+      "score": {
+        "overall": 1,
+        "structure": 1,
+        "color": 1,
+        "colorIntersection": 1,
+        "paletteMatch": 1,
+        "detail": 1,
+        "detailRaw": 1,
+        "detailAdded": 0,
+        "bands": 1
+      },
+      "verdict": "match",
+      "inkBox": {
+        "comp": {
+          "x": 11,
+          "y": 9,
+          "w": 756,
+          "h": 41
+        },
+        "build": {
+          "x": 11,
+          "y": 9,
+          "w": 756,
+          "h": 41
+        }
+      }
+    },
+    {
+      "id": "masthead-blurb",
+      "x": 0.1797,
+      "y": 0.4404,
+      "w": 0.1328,
+      "h": 0.041,
+      "kind": "text",
+      "score": {
+        "overall": 1,
+        "structure": 1,
+        "color": 1,
+        "colorIntersection": 1,
+        "paletteMatch": 1,
+        "detail": 1,
+        "detailRaw": 1,
+        "detailAdded": 0,
+        "bands": 1
+      },
+      "verdict": "match",
+      "inkBox": {
+        "comp": {
+          "x": 7,
+          "y": 11,
+          "w": 188,
+          "h": 23
+        },
+        "build": {
+          "x": 7,
+          "y": 11,
+          "w": 188,
+          "h": 23
+        }
+      }
+    },
+    {
+      "id": "download-cta",
+      "x": 0.8717,
+      "y": 0.0234,
+      "w": 0.0977,
+      "h": 0.0293,
+      "kind": "control",
+      "score": {
+        "overall": 1,
+        "structure": 1,
+        "color": 1,
+        "colorIntersection": 1,
+        "paletteMatch": 1,
+        "detail": 1,
+        "detailRaw": 1,
+        "detailAdded": 0,
+        "bands": 1
+      },
+      "verdict": "match",
+      "inkBox": {
+        "comp": {
+          "x": 9,
+          "y": 16,
+          "w": 133,
+          "h": 16
+        },
+        "build": {
+          "x": 9,
+          "y": 16,
+          "w": 133,
+          "h": 16
+        }
+      }
+    },
+    {
+      "id": "ledger-header",
+      "x": 0.5195,
+      "y": 0.4355,
+      "w": 0.3398,
+      "h": 0.0469,
+      "kind": "text",
+      "score": {
+        "overall": 1,
+        "structure": 1,
+        "color": 1,
+        "colorIntersection": 1,
+        "paletteMatch": 1,
+        "detail": 1,
+        "detailRaw": 1,
+        "detailAdded": 0,
+        "bands": 1
+      },
+      "verdict": "match",
+      "inkBox": {
+        "comp": {
+          "x": 11,
+          "y": 9,
+          "w": 509,
+          "h": 32
+        },
+        "build": {
+          "x": 11,
+          "y": 9,
+          "w": 509,
+          "h": 32
+        }
+      }
+    },
+    {
+      "id": "ledger-rows",
+      "x": 0.5221,
+      "y": 0.5,
+      "w": 0.3359,
+      "h": 0.1934,
+      "kind": "text",
+      "score": {
+        "overall": 1,
+        "structure": 1,
+        "color": 1,
+        "colorIntersection": 1,
+        "paletteMatch": 1,
+        "detail": 1,
+        "detailRaw": 1,
+        "detailAdded": 0,
+        "bands": 1
+      },
+      "verdict": "match",
+      "inkBox": {
+        "comp": {
+          "x": 7,
+          "y": 0,
+          "w": 498,
+          "h": 190
+        },
+        "build": {
+          "x": 7,
+          "y": 0,
+          "w": 498,
+          "h": 190
+        }
+      }
+    },
+    {
+      "id": "skills-panel",
+      "x": 0.0195,
+      "y": 0.8291,
+      "w": 0.2578,
+      "h": 0.1406,
+      "kind": "text",
+      "score": {
+        "overall": 1,
+        "structure": 1,
+        "color": 1,
+        "colorIntersection": 1,
+        "paletteMatch": 1,
+        "detail": 1,
+        "detailRaw": 1,
+        "detailAdded": 0,
+        "bands": 1
+      },
+      "verdict": "match",
+      "inkBox": {
+        "comp": {
+          "x": 7,
+          "y": 7,
+          "w": 382,
+          "h": 132
+        },
+        "build": {
+          "x": 7,
+          "y": 7,
+          "w": 382,
+          "h": 132
+        }
+      }
+    },
+    {
+      "id": "education-panel",
+      "x": 0.347,
+      "y": 0.8643,
+      "w": 0.2533,
+      "h": 0.0938,
+      "kind": "text",
+      "score": {
+        "overall": 1,
+        "structure": 1,
+        "color": 1,
+        "colorIntersection": 1,
+        "paletteMatch": 1,
+        "detail": 1,
+        "detailRaw": 1,
+        "detailAdded": 0,
+        "bands": 1
+      },
+      "verdict": "match",
+      "inkBox": {
+        "comp": {
+          "x": 7,
+          "y": 10,
+          "w": 375,
+          "h": 81
+        },
+        "build": {
+          "x": 7,
+          "y": 10,
+          "w": 375,
+          "h": 81
+        }
+      }
+    },
+    {
+      "id": "contact-panel",
+      "x": 0.6901,
+      "y": 0.8232,
+      "w": 0.207,
+      "h": 0.0879,
+      "kind": "text",
+      "score": {
+        "overall": 1,
+        "structure": 1,
+        "color": 1,
+        "colorIntersection": 1,
+        "paletteMatch": 1,
+        "detail": 1,
+        "detailRaw": 1,
+        "detailAdded": 0,
+        "bands": 1
+      },
+      "verdict": "match",
+      "inkBox": {
+        "comp": {
+          "x": 10,
+          "y": 6,
+          "w": 299,
+          "h": 78
+        },
+        "build": {
+          "x": 10,
+          "y": 6,
+          "w": 299,
+          "h": 78
+        }
+      }
+    }
+  ],
+  "files": {
+    "sideBySide": ".impeccable\\review\\diff\\hero\\side-by-side.png",
+    "heatmap": ".impeccable\\review\\diff\\hero\\heatmap.png",
+    "regionFiles": [
+      ".impeccable\\review\\diff\\hero\\regions\\chrome-bar.png",
+      ".impeccable\\review\\diff\\hero\\regions\\masthead-name.png",
+      ".impeccable\\review\\diff\\hero\\regions\\masthead-role.png",
+      ".impeccable\\review\\diff\\hero\\regions\\masthead-blurb.png",
+      ".impeccable\\review\\diff\\hero\\regions\\download-cta.png",
+      ".impeccable\\review\\diff\\hero\\regions\\ledger-header.png",
+      ".impeccable\\review\\diff\\hero\\regions\\ledger-rows.png",
+      ".impeccable\\review\\diff\\hero\\regions\\skills-panel.png",
+      ".impeccable\\review\\diff\\hero\\regions\\education-panel.png",
+      ".impeccable\\review\\diff\\hero\\regions\\contact-panel.png"
+    ]
+  }
+}

@@ -1,12 +1,12 @@
 {
   "tool": "build-phase",
   "version": 2,
-  "startedAt": "2026-09-04T16:56:21.539Z",
-  "comp": ".impeccable/mocks/decision/command-lattice.png",
+  "startedAt": "2026-09-04T22:00:34.989Z",
+  "comp": ".impeccable/mocks/decision/cv-masthead-ledger.webp",
   "direction": null,
   "breakpoint": "1536x1024",
   "artifact": null,
-  "phase": "review",
+  "phase": "responsive",
   "phases": {
     "comps": {
       "status": "skipped",
@@ -15,7 +15,7 @@
       "attempts": 0,
       "notes": [
         {
-          "at": "2026-09-04T16:56:21.539Z",
+          "at": "2026-09-04T22:00:34.989Z",
           "text": "started with an approved comp; the comp round happened before this state (surface round or manual)"
         }
       ],
@@ -24,116 +24,212 @@
     },
     "spec": {
       "status": "closed",
-      "openedAt": "2026-09-04T16:56:21.538Z",
-      "closedAt": "2026-09-04T16:58:25.249Z",
-      "attempts": 1,
+      "openedAt": "2026-09-04T22:00:34.989Z",
+      "closedAt": "2026-09-04T22:03:06.129Z",
+      "attempts": 2,
       "notes": [],
       "gate": {
         "ok": true,
         "reasons": [],
-        "summary": "16 regions, 0 plates, 6 text regions measured",
-        "at": "2026-09-04T16:58:25.248Z"
+        "summary": "10 regions, 0 plates, 8 text regions measured",
+        "at": "2026-09-04T22:03:06.128Z"
       },
       "forced": null
     },
     "plates": {
       "status": "closed",
-      "openedAt": "2026-09-04T16:58:25.249Z",
-      "closedAt": "2026-09-04T16:58:25.324Z",
+      "openedAt": "2026-09-04T22:03:06.129Z",
+      "closedAt": "2026-09-04T22:03:25.755Z",
       "attempts": 1,
       "notes": [],
       "gate": {
         "ok": true,
         "reasons": [],
         "summary": "no plates owed",
-        "at": "2026-09-04T16:58:25.324Z"
+        "at": "2026-09-04T22:03:25.755Z"
       },
       "forced": null
     },
     "hero": {
       "status": "closed",
-      "openedAt": "2026-09-04T16:58:25.324Z",
-      "closedAt": "2026-09-04T17:02:24.074Z",
-      "attempts": 1,
+      "openedAt": "2026-09-04T22:03:25.755Z",
+      "closedAt": "2026-09-04T22:07:44.258Z",
+      "attempts": 2,
       "notes": [],
       "gate": {
-        "ok": false,
-        "reasons": [
-          "no hero capture at .impeccable\\review\\hero-repro.png: screenshot the first viewport at the comp's own dimensions (1536x1024) into that path"
+        "ok": true,
+        "reasons": [],
+        "summary": "hero 100% (match)",
+        "score": 1,
+        "verdict": "match",
+        "report": ".impeccable\\review\\diff\\hero\\report.json",
+        "sideBySide": ".impeccable\\review\\diff\\hero\\side-by-side.png",
+        "worst": [
+          "chrome-bar match 100%",
+          "masthead-name match 100%",
+          "masthead-role match 100%"
         ],
-        "at": "2026-09-04T17:02:24.073Z"
+        "worstIds": [
+          "chrome-bar",
+          "masthead-name",
+          "masthead-role"
+        ],
+        "worstCrops": [
+          {
+            "id": "chrome-bar",
+            "verdict": "match",
+            "score": {
+              "overall": 1,
+              "structure": 1,
+              "color": 1,
+              "colorIntersection": 1,
+              "paletteMatch": 1,
+              "detail": 1,
+              "detailRaw": 1,
+              "detailAdded": 0,
+              "bands": 1
+            },
+            "file": ".impeccable\\review\\diff\\hero\\regions\\chrome-bar.png"
+          },
+          {
+            "id": "masthead-name",
+            "verdict": "match",
+            "score": {
+              "overall": 1,
+              "structure": 1,
+              "color": 1,
+              "colorIntersection": 1,
+              "paletteMatch": 1,
+              "detail": 1,
+              "detailRaw": 1,
+              "detailAdded": 0,
+              "bands": 1
+            },
+            "file": ".impeccable\\review\\diff\\hero\\regions\\masthead-name.png"
+          },
+          {
+            "id": "masthead-role",
+            "verdict": "match",
+            "score": {
+              "overall": 1,
+              "structure": 1,
+              "color": 1,
+              "colorIntersection": 1,
+              "paletteMatch": 1,
+              "detail": 1,
+              "detailRaw": 1,
+              "detailAdded": 0,
+              "bands": 1
+            },
+            "file": ".impeccable\\review\\diff\\hero\\regions\\masthead-role.png"
+          }
+        ],
+        "advisories": [],
+        "regionVerdicts": {
+          "chrome-bar": "match",
+          "masthead-name": "match",
+          "masthead-role": "match",
+          "masthead-blurb": "match",
+          "download-cta": "match",
+          "ledger-header": "match",
+          "ledger-rows": "match",
+          "skills-panel": "match",
+          "education-panel": "match",
+          "contact-panel": "match"
+        },
+        "at": "2026-09-04T22:07:44.256Z"
       },
-      "forced": {
-        "at": "2026-09-04T17:02:24.074Z",
-        "reason": "User confirmed Command lattice brief for implementation inside the existing Hologram Workshop HUD shell; decision-mock pixel hero conflicts with confirmed anti-goals (no fake metric counters) and inherits existing chrome rather than the mock's invented footer/header.",
-        "reasons": [
-          "no hero capture at .impeccable\\review\\hero-repro.png: screenshot the first viewport at the comp's own dimensions (1536x1024) into that path"
-        ]
-      }
+      "forced": null,
+      "readingsSeen": {},
+      "history": [
+        {
+          "at": "2026-09-04T22:07:44.257Z",
+          "score": 1,
+          "worstIds": [
+            "chrome-bar",
+            "masthead-name",
+            "masthead-role"
+          ],
+          "regionVerdicts": {
+            "chrome-bar": "match",
+            "masthead-name": "match",
+            "masthead-role": "match",
+            "masthead-blurb": "match",
+            "download-cta": "match",
+            "ledger-header": "match",
+            "ledger-rows": "match",
+            "skills-panel": "match",
+            "education-panel": "match",
+            "contact-panel": "match"
+          },
+          "artifactHash": null
+        }
+      ]
     },
     "sections": {
       "status": "closed",
-      "openedAt": "2026-09-04T17:02:24.074Z",
-      "closedAt": "2026-09-04T17:02:34.893Z",
+      "openedAt": "2026-09-04T22:07:44.258Z",
+      "closedAt": "2026-09-04T22:07:56.180Z",
       "attempts": 1,
       "notes": [],
       "gate": {
         "ok": true,
         "reasons": [],
         "summary": "no mechanical gate",
-        "at": "2026-09-04T17:02:34.893Z"
+        "at": "2026-09-04T22:07:56.180Z"
       },
       "forced": null
     },
     "motion": {
       "status": "closed",
-      "openedAt": "2026-09-04T17:02:34.893Z",
-      "closedAt": "2026-09-04T17:02:34.968Z",
+      "openedAt": "2026-09-04T22:07:56.180Z",
+      "closedAt": "2026-09-04T22:07:56.248Z",
       "attempts": 1,
       "notes": [],
       "gate": {
         "ok": true,
         "reasons": [],
         "summary": "no mechanical gate",
-        "at": "2026-09-04T17:02:34.968Z"
+        "at": "2026-09-04T22:07:56.248Z"
       },
       "forced": null
     },
     "responsive": {
-      "status": "closed",
-      "openedAt": "2026-09-04T17:02:34.968Z",
-      "closedAt": "2026-09-04T17:04:54.566Z",
-      "attempts": 3,
+      "status": "open",
+      "openedAt": "2026-09-04T22:07:56.248Z",
+      "closedAt": null,
+      "attempts": 1,
       "notes": [],
       "gate": {
-        "ok": true,
-        "reasons": [],
-        "summary": "desktop 100% (match)",
-        "score": 1,
+        "ok": false,
+        "reasons": [
+          "the desktop capture (1536x1024; the top 1536x1024 rows scaled to the comp's width are compared, a full-page capture is fine) scores 56% against the comp, under 65%: the first viewport does not survive a common desktop width. The hero passed at 1536x1024; the layout must hold from ~1280 up, not only at the comp's exact width (grid columns in fr / minmax, not fixed px that overflow and wrap).",
+          "at desktop width, region masthead-name is missing",
+          "at desktop width, region masthead-role is missing",
+          "at desktop width, region masthead-blurb is missing",
+          "at desktop width, region download-cta is missing",
+          "at desktop width, region skills-panel is missing",
+          "at desktop width, region education-panel is missing",
+          "at desktop width, region contact-panel is missing",
+          "at desktop width, region ledger-rows (text) is contradicted (structure 45%)"
+        ],
+        "summary": "desktop 56% (drift)",
+        "score": 0.5567,
         "sideBySide": ".impeccable\\review\\diff\\desktop\\side-by-side.png",
-        "at": "2026-09-04T17:04:54.566Z"
+        "at": "2026-09-04T22:07:57.648Z"
       },
       "forced": null
     },
     "review": {
-      "status": "closed",
-      "openedAt": "2026-09-04T17:04:54.566Z",
-      "closedAt": "2026-09-04T17:09:03.696Z",
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
       "attempts": 0,
-      "notes": [
-        {
-          "at": "2026-09-04T17:09:03.774Z",
-          "text": "Finish reviewer ran inline (no finish-reviewer subagent). Evidence: desktop.png is decision-comp copy (not live 1440 capture); mobile.png is generated mock not live 390 capture → disposition recapture owed. Live artifact implements Command lattice + /missions/{org}/{project}/ deep links."
-        }
-      ],
+      "notes": [],
       "gate": null,
       "forced": null
     }
   },
-  "finish": {
-    "disposition": "fix",
-    "at": "2026-09-04T17:09:03.696Z",
-    "phaseAtFinish": "review"
-  },
+  "finish": null,
   "plates": {}
 }

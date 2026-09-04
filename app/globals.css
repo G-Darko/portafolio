@@ -460,3 +460,28 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ── CV print ────────────────────────────────── */
+@media print {
+  @page {
+    margin: 12mm;
+  }
+  .cv-ignore-print {
+    display: none !important;
+  }
+  .cv-body {
+    background: white !important;
+    color: black !important;
+  }
+  .cv-body * {
+    color: black !important;
+    border-color: #ccc !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+  a.cv-attr[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.75em;
+    color: #555 !important;
+  }
+}

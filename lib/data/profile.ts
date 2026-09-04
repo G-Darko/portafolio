@@ -8,7 +8,13 @@ export const FORMSPREE_ENDPOINT = "https://formspree.io/f/xlevgjee";
 export const CV_PATH = "/cv";
 export const SITE_URL = "https://g-darko.github.io/portafolio/";
 export const SITE_LABEL = "g-darko.github.io/portafolio";
-export const PHONE = "7202948727";
+export const PHONE = "+52 720 294 8727";
+
+/** Digits-only E.164-ish value for `tel:` links. */
+export function telHref(phone: string = PHONE): string {
+  const normalized = phone.replace(/[^\d+]/g, "");
+  return `tel:${normalized}`;
+}
 
 export function mailtoHref(opts?: { subject?: string; body?: string }): string {
   const params = new URLSearchParams();

@@ -1,11 +1,15 @@
-import type { SVGProps } from "react";
+type IconProps = {
+  size?: number;
+  className?: string;
+  "aria-hidden"?: boolean | "true" | "false";
+};
 
 /** at-icons:sheep — used for Black Sheep Lab mission mark */
 export default function SheepIcon({
   size = 24,
   className,
   ...props
-}: SVGProps<SVGSVGElement> & { size?: number }) {
+}: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -13,7 +17,7 @@ export default function SheepIcon({
       height={size}
       viewBox="0 0 16 16"
       className={className}
-      aria-hidden
+      aria-hidden={props["aria-hidden"] ?? true}
       {...props}
     >
       <g fill="currentColor">
