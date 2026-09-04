@@ -4,7 +4,6 @@ import { useTranslation } from "@/lib/i18n/useTranslation";
 import { GitBranch } from "lucide-react";
 import { asset } from "@/lib/asset";
 import { CV_PATH, GITHUB_URL } from "@/lib/data/profile";
-import { toBrowserHref } from "@/lib/hud/routes";
 import Image from "next/image";
 import HudOutlineLink from "./HudOutlineLink";
 
@@ -36,7 +35,7 @@ export default function ProfileWindow() {
 
       <div className="mt-1 flex w-full gap-2">
         <HudOutlineLink
-          href={toBrowserHref(CV_PATH)}
+          href={CV_PATH}
           className="flex-1 font-bold tracking-widest"
           tone="cyan"
         >

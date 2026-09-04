@@ -12,7 +12,6 @@ import {
   GITHUB_URL,
   mailtoHref,
 } from "@/lib/data/profile";
-import { toBrowserHref } from "@/lib/hud/routes";
 import HudOutlineLink from "./HudOutlineLink";
 import HudScanlines from "./HudScanlines";
 
@@ -95,7 +94,7 @@ export default function ContactWindow() {
             <GitBranch size={14} />
             GitHub
           </HudOutlineLink>
-          <HudOutlineLink href={toBrowserHref(CV_PATH)} tone="cyan">
+          <HudOutlineLink href={CV_PATH} tone="cyan">
             {t.profile.viewCv}
           </HudOutlineLink>
         </div>

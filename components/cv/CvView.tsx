@@ -8,7 +8,6 @@ import { getCvContent } from "@/lib/data/cv";
 import { telHref } from "@/lib/data/profile";
 import { CvPdfDocument } from "@/components/cv/CvPdfDocument";
 import { useLocaleStore } from "@/lib/store/useLocaleStore";
-import { toBrowserHref } from "@/lib/hud/routes";
 import GithubIcon from "../icons/GithubIcon";
 
 export function CvView() {
@@ -41,7 +40,7 @@ export function CvView() {
       <div className="cv-ignore-print sticky top-0 z-20 border-b border-hud-border/50 bg-background/90 backdrop-blur-lg">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 md:px-8">
           <Link
-            href={toBrowserHref("/")}
+            href="/"
             className="inline-flex min-h-11 items-center rounded border border-hud-cyan/40 px-4 py-2 font-mono text-sm font-bold tracking-widest text-hud-cyan transition-colors hover:bg-hud-cyan/10"
           >
             {content.backLabel}

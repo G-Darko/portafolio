@@ -14,7 +14,6 @@ import { playHUDClick, playWindowOpen } from "@/lib/audio/audio";
 import HudConfirmDialog from "./HudConfirmDialog";
 import { MORE_PANELS, PRIMARY_PANELS } from "@/lib/hud/navConfig";
 import { CV_PATH } from "@/lib/data/profile";
-import { toBrowserHref } from "@/lib/hud/routes";
 
 interface HUDHeaderProps {
   activePanel: PanelId | null;
@@ -195,7 +194,7 @@ export default function HUDHeader({
                       );
                     })}
                     <Link
-                      href={toBrowserHref(CV_PATH)}
+                      href={CV_PATH}
                       role="menuitem"
                       onClick={() => {
                         playHUDClick();
@@ -315,7 +314,7 @@ export default function HUDHeader({
                     );
                   })}
                   <Link
-                    href={toBrowserHref(CV_PATH)}
+                    href={CV_PATH}
                     role="menuitem"
                     onClick={() => {
                       playHUDClick();

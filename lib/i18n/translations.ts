@@ -52,6 +52,13 @@ export const translations = {
       logoutConfirmAction: "Reiniciar",
       logoutCancel: "Cancelar",
     },
+    notFound: {
+      code: "404",
+      title: "Señal perdida",
+      body: "Esta ruta no existe en el HUD. Vuelve al portafolio o abre el CV.",
+      home: "← Portafolio",
+      cv: "Ver CV",
+    },
     profile: {
       name: "Gael Uribe",
       role: "Desarrollador de Software y Web",
@@ -389,6 +396,13 @@ export const translations = {
       logoutConfirmTitle: "Restart system",
       logoutConfirmAction: "Restart",
       logoutCancel: "Cancel",
+    },
+    notFound: {
+      code: "404",
+      title: "Signal lost",
+      body: "This route is not on the HUD. Return to the portfolio or open the CV.",
+      home: "← Portfolio",
+      cv: "View CV",
     },
     profile: {
       name: "Gael Uribe",

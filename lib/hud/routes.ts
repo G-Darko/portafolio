@@ -51,7 +51,8 @@ export function pathFromLocation(pathname: string): string {
   return normalizePath(path);
 }
 
-/** Browser URL for history API (includes basePath + trailing slash). */
+/** Browser URL for window.open / location / history (includes basePath + trailing slash).
+ *  Do NOT pass this to next/link — Link already prefixes basePath. Use `/cv` etc. there. */
 export function toBrowserHref(href: string): string {
   const base = getHudBasePath();
   const normalized = normalizePath(href);

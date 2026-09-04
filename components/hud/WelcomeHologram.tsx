@@ -7,7 +7,6 @@ import { useHUDStore, type PanelId } from "@/lib/store/useHUDStore";
 import { playWindowOpen } from "@/lib/audio/audio";
 import Link from "next/link";
 import { CV_PATH } from "@/lib/data/profile";
-import { toBrowserHref } from "@/lib/hud/routes";
 import { PRIMARY_PANELS } from "@/lib/hud/navConfig";
 import HudCyanButton from "./HudCyanButton";
 import HudStatusDot from "./HudStatusDot";
@@ -127,7 +126,7 @@ export default function WelcomeHologram() {
 
           <div className="space-y-2 pt-1">
             <Link
-              href={toBrowserHref(CV_PATH)}
+              href={CV_PATH}
               className="inline-flex min-h-10 items-center font-mono text-sm tracking-widest text-muted-foreground underline-offset-4 transition-colors hover:text-hud-cyan hover:underline md:text-base"
             >
               {t.profile.viewCv}
