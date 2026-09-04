@@ -58,7 +58,7 @@ export default function MissionMediaViewer({
             allowFullScreen
           />
         ) : (
-          <Image src={current.src} alt={title} fill className="object-cover" unoptimized />
+          <Image src={current.src} alt={title} fill className="object-contain bg-hud-bg/40" unoptimized />
         )}
 
         {count > 1 && (

@@ -1,15 +1,16 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Rocket, Briefcase, GraduationCap } from "lucide-react";
+import { Briefcase, GraduationCap } from "lucide-react";
 import { useProgressStore } from "@/lib/store/useProgressStore";
 import { useHUDStore } from "@/lib/store/useHUDStore";
 import { missions, type MissionId } from "@/lib/data/missions";
 import { playHUDClick } from "@/lib/audio/audio";
 import { useTranslation } from "@/lib/i18n/useTranslation";
+import SheepIcon from "@/components/icons/SheepIcon";
 
 const iconMap = {
-  Rocket,
+  Sheep: SheepIcon,
   Briefcase,
   GraduationCap,
 };

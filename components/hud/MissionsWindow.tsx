@@ -8,7 +8,6 @@ import {
   ExternalLink,
   GitBranch,
   CheckCircle2,
-  Rocket,
   Briefcase,
   GraduationCap,
 } from "lucide-react";
@@ -24,11 +23,12 @@ import { useProgressStore } from "@/lib/store/useProgressStore";
 import { getMissionCopy, getSubMissionCopy, getMissionsUI } from "@/lib/i18n/missionContent";
 import { playHUDClick } from "@/lib/audio/audio";
 import MissionMediaViewer from "@/components/missions/MissionMediaViewer";
+import SheepIcon from "@/components/icons/SheepIcon";
 import HudOutlineLink from "./HudOutlineLink";
 import HudCyanButton from "./HudCyanButton";
 
 const iconMap = {
-  Rocket,
+  Sheep: SheepIcon,
   Briefcase,
   GraduationCap,
 };
@@ -70,19 +70,31 @@ function SegmentCells({ total, lit, label }: { total: number; lit: number; label
 function MissionExternalLinks({
   liveUrl,
   repoUrl,
+  playStoreUrl,
+  appStoreUrl,
+  tenantUrl,
   liveLabel,
   repoLabel,
+  playLabel,
+  appLabel,
+  tenantLabel,
   size = "sm",
   className,
 }: {
   liveUrl?: string;
   repoUrl?: string;
+  playStoreUrl?: string;
+  appStoreUrl?: string;
+  tenantUrl?: string;
   liveLabel: string;
   repoLabel: string;
+  playLabel: string;
+  appLabel: string;
+  tenantLabel: string;
   size?: "sm" | "md";
   className?: string;
 }) {
-  if (!liveUrl && !repoUrl) return null;
+  if (!liveUrl && !repoUrl && !playStoreUrl && !appStoreUrl && !tenantUrl) return null;
   return (
     <div className={className ?? "flex flex-wrap gap-2"}>
       {repoUrl && (
@@ -95,6 +107,24 @@ function MissionExternalLinks({
         <HudOutlineLink href={liveUrl} external size={size}>
           <ExternalLink size={12} />
           {liveLabel}
+        </HudOutlineLink>
+      )}
+      {tenantUrl && (
+        <HudOutlineLink href={tenantUrl} external size={size}>
+          <ExternalLink size={12} />
+          {tenantLabel}
+        </HudOutlineLink>
+      )}
+      {playStoreUrl && (
+        <HudOutlineLink href={playStoreUrl} external size={size}>
+          <ExternalLink size={12} />
+          {playLabel}
+        </HudOutlineLink>
+      )}
+      {appStoreUrl && (
+        <HudOutlineLink href={appStoreUrl} external size={size}>
+          <ExternalLink size={12} />
+          {appLabel}
         </HudOutlineLink>
       )}
     </div>
@@ -119,19 +149,11 @@ function MockupPlaceholder({
   tags,
   label,
   hint,
-  liveUrl,
-  repoUrl,
-  liveLabel,
-  repoLabel,
 }: {
   title: string;
   tags: string[];
   label: string;
   hint: string;
-  liveUrl?: string;
-  repoUrl?: string;
-  liveLabel: string;
-  repoLabel: string;
 }) {
   return (
     <div className="flex w-full flex-col items-center gap-3 rounded-lg border border-dashed border-hud-border/80 bg-hud-cyan/5 px-4 py-6 text-center">
@@ -150,13 +172,6 @@ function MockupPlaceholder({
           </span>
         ))}
       </div>
-      <MissionExternalLinks
-        liveUrl={liveUrl}
-        repoUrl={repoUrl}
-        liveLabel={liveLabel}
-        repoLabel={repoLabel}
-        className="mt-1 flex flex-wrap justify-center gap-2"
-      />
     </div>
   );
 }
@@ -532,10 +547,6 @@ export default function MissionsWindow() {
                       tags={subMission.techStack}
                       label={ui.mockup}
                       hint={ui.mockupHint}
-                      liveUrl={subMission.liveUrl}
-                      repoUrl={subMission.repoUrl}
-                      liveLabel={ui.live}
-                      repoLabel={ui.repo}
                     />
                   ) : (
                     <MissionMediaViewer
@@ -549,14 +560,18 @@ export default function MissionsWindow() {
                     {smCopy.description}
                   </p>
 
-                  {!(subMission.isMockup || !subMission.images?.length) && (
-                    <MissionExternalLinks
-                      liveUrl={subMission.liveUrl}
-                      repoUrl={subMission.repoUrl}
-                      liveLabel={ui.live}
-                      repoLabel={ui.repo}
-                    />
-                  )}
+                  <MissionExternalLinks
+                    liveUrl={subMission.liveUrl}
+                    repoUrl={subMission.repoUrl}
+                    playStoreUrl={subMission.playStoreUrl}
+                    appStoreUrl={subMission.appStoreUrl}
+                    tenantUrl={subMission.tenantUrl}
+                    liveLabel={ui.live}
+                    repoLabel={ui.repo}
+                    playLabel={ui.playStore}
+                    appLabel={ui.appStore}
+                    tenantLabel={ui.tenant}
+                  />
 
                   {!isRead && (
                     <HudCyanButton

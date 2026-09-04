@@ -196,6 +196,9 @@ export const translations = {
       rank: "RANK",
       repo: "Repositorio",
       live: "Ver en vivo",
+      playStore: "Play Store",
+      appStore: "App Store",
+      tenant: "Tenant Fyttsa",
       mockup: "Vista previa pendiente",
       mockupHint: "Aún no hay capturas aquí. Usa el repo o el live si están disponibles.",
       completed: "Completado",
@@ -217,13 +220,18 @@ export const translations = {
       contextTags: {
         dualEducation: "Educación Dual",
         internshipI: "Estancia I",
+        fullOwnership: "Ownership end-to-end",
+        whiteLabel: "White-label",
+        keyModules: "Módulos clave",
+        microservice: "Microservicio",
+        landingPage: "Landing",
       },
       missions: {
         blackSheep: {
           title: "Black Sheep Lab",
           codename: "OPERACIÓN: SAAS",
           description:
-            "Innovación en tecnología educativa, comunidad empresarial y aplicaciones móviles con IA y gamificación.",
+            "Desde octubre 2025 trabajo en productos reales del lab: LMS, apps white-label, comunidad y puentes hacia Microsip/WhatsApp.",
         },
         freelance: {
           title: "Freelance",
@@ -240,28 +248,52 @@ export const translations = {
       },
       subMissions: {
         lmsSkool: {
-          title: "LMS Skool",
-          tagline: "Plataforma educativa SaaS",
+          title: "Skool",
+          tagline: "El LMS multi-empresa del lab",
           description:
-            "Plataforma LMS desarrollada en Next.js con integraciones visuales e interactivas. Permite la gestión de cursos, estudiantes y contenido multimedia en tiempo real.",
+            "Skool es la plataforma de cursos que usan varias empresas a la vez (cada una con su dominio). Me tocó armar casi todo el producto: login y roles, cursos/programas, certificados, SCORM y video, puntos, reportes, planes y el wrapper Capacitor. Marketing en skool.com.mx; un tenant en producción es Universidad Fyttsa.",
         },
         duplicaApp: {
-          title: "Duplica App",
-          tagline: "App móvil con IA y gamificación",
+          title: "Duplica",
+          tagline: "Membresías, comunidad y app móvil",
           description:
-            "Mobile App en Expo/React Native con IA para generación de promociones, gamificación de diamantes y experiencia, retos diarios y comunidad. Publicada en Play Store.",
+            "Duplica es el monorepo grande (API Next, app Expo y paquete shared). Ahí armé el día a día del producto: aula, chat/comunidad, DupliBot, diamantes/XP, pagos y el admin multi-tenant. También los builds white-label para sacar clientes sin forkear todo.",
+        },
+        creser: {
+          title: "CRESER",
+          tagline: "Duplica con cara de CRESER",
+          description:
+            "No es otro codebase: es el mismo Duplica, pero como producto propio (creser.app). Configuré tenant, branding, stores y el empaquetado para que se sienta aparte sin duplicar lógica.",
         },
         rnmeHub: {
-          title: "RNME Hub",
-          tagline: "Comunidad empresarial",
+          title: "Red México Emprende",
+          tagline: "Comunidad, eventos y membresías",
           description:
-            "Landing page y comunidad tipo Facebook para empresarios con Rich Text Editor para blogs. Desarrollada en Next.js con sistema de publicaciones y perfiles.",
+            "En RNME no armé el sistema entero; sí módulos que duelen si fallan: comunidad, eventos con boletos, membresías, cursos/certificados y la parte de revista/en vivo. Stack Next + Postgres + sockets, en redmexicoemprende.mx.",
+        },
+        krkn: {
+          title: "KRKN / FYTTSA",
+          tagline: "Croquis y layout del almacén",
+          description:
+            "FYTTSA es el ERP interno sobre Microsip. Mi pedazo fuerte fue Layout/Croquis: dibujar el piso, acomodar, rutas de picking y sync con el backend (PHP/Firebird + un poco de FastAPI). Menos pantalla bonita, más herramienta de piso.",
+        },
+        cpmx: {
+          title: "CPMX",
+          tagline: "API de colonias y códigos postales",
+          description:
+            "Servicio chico pero completo: estados, municipios, colonias y CP con catálogo SEPOMEX + GeoJSON. Dashboard con tokens, rate limit, auth y docs para que otros productos consulten direcciones sin reinventar el catálogo.",
+        },
+        omnisip: {
+          title: "OmniSIP",
+          tagline: "WhatsApp/IA hablando con Microsip",
+          description:
+            "OmniSIP es el puente entre respond.io (WhatsApp + agente) y Microsip (Firebird). Por empresa: catálogo, stock, clientes, carrito y pedidos. Lo armé de cero como SaaS multi-tenant porque el ERP no tenía esa puerta.",
         },
         leamsi: {
-          title: "Página Corporativa LEAMSI",
-          tagline: "Web corporativa para contaduría",
+          title: "LEAMSI",
+          tagline: "Sitio para un despacho contable",
           description:
-            "Desarrollo de una página web corporativa para una contaduría utilizando Astro y Tailwind CSS. Responsable de la arquitectura front-end y la optimización de rendimiento.",
+            "Encargo freelance: sitio corporativo en Astro + Tailwind para LEAMSI. Me encargué del front, la estructura de secciones y que cargara ligero. Demo en Vercel; el dominio del cliente ya no está activo.",
         },
         aerialDepot: {
           title: "Sistema de Inventarios | AERIAL DEPOT",
@@ -293,7 +325,7 @@ export const translations = {
       blackSheep: {
         title: "Black Sheep Lab",
         codename: "OPERACIÓN: SAAS",
-        desc: "Innovación en tecnología educativa, comunidad empresarial y aplicaciones móviles con IA y gamificación.",
+        desc: "Desde octubre 2025 trabajo en productos reales del lab: LMS, apps white-label, comunidad y puentes hacia Microsip/WhatsApp.",
       },
       freelance: {
         title: "Freelance",
@@ -502,6 +534,9 @@ export const translations = {
       rank: "RANK",
       repo: "Repository",
       live: "View live",
+      playStore: "Play Store",
+      appStore: "App Store",
+      tenant: "Fyttsa tenant",
       mockup: "Preview pending",
       mockupHint: "No screenshots here yet. Use the repo or live link when available.",
       completed: "Completed",
@@ -523,13 +558,18 @@ export const translations = {
       contextTags: {
         dualEducation: "Dual Education",
         internshipI: "Internship I",
+        fullOwnership: "End-to-end ownership",
+        whiteLabel: "White-label",
+        keyModules: "Key modules",
+        microservice: "Microservice",
+        landingPage: "Landing",
       },
       missions: {
         blackSheep: {
           title: "Black Sheep Lab",
           codename: "OPERATION: SAAS",
           description:
-            "Innovation in educational technology, business community and mobile applications with AI and gamification.",
+            "Since October 2025 I've been shipping real lab products: LMS, white-label apps, community, and bridges into Microsip/WhatsApp.",
         },
         freelance: {
           title: "Freelance",
@@ -546,28 +586,52 @@ export const translations = {
       },
       subMissions: {
         lmsSkool: {
-          title: "LMS Skool",
-          tagline: "SaaS educational platform",
+          title: "Skool",
+          tagline: "The lab's multi-company LMS",
           description:
-            "LMS platform built with Next.js and visual interactive integrations. Manages courses, students and multimedia content in real time.",
+            "Skool is the course platform several companies share (each on its own domain). I owned most of the product: auth/roles, courses/programs, certificates, SCORM and video, points, reports, plans, and the Capacitor wrapper. Marketing at skool.com.mx; one live tenant is Universidad Fyttsa.",
         },
         duplicaApp: {
-          title: "Duplica App",
-          tagline: "Mobile app with AI and gamification",
+          title: "Duplica",
+          tagline: "Memberships, community, and mobile",
           description:
-            "Expo/React Native mobile app with AI for promotions, diamond/experience gamification, daily challenges and community. Published on Play Store.",
+            "Duplica is the big monorepo (Next API, Expo app, shared package). I built the day-to-day product: classroom, community/chat, DupliBot, diamonds/XP, payments, and multi-tenant admin — plus white-label builds so new clients don't need a full fork.",
+        },
+        creser: {
+          title: "CRESER",
+          tagline: "Duplica wearing a CRESER face",
+          description:
+            "Not a separate codebase: same Duplica, shipped as its own product (creser.app). I wired tenant config, branding, store builds, and packaging so it feels independent without cloning the logic.",
         },
         rnmeHub: {
-          title: "RNME Hub",
-          tagline: "Business community",
+          title: "Red México Emprende",
+          tagline: "Community, events, memberships",
           description:
-            "Landing page and Facebook-style community for entrepreneurs with Rich Text Editor for blogs. Built with Next.js.",
+            "I didn't own all of RNME — I owned modules that hurt when they break: community, ticketed events, memberships, courses/certificates, and the magazine/live side. Next + Postgres + sockets, at redmexicoemprende.mx.",
+        },
+        krkn: {
+          title: "KRKN / FYTTSA",
+          tagline: "Warehouse layout & croquis",
+          description:
+            "FYTTSA is the internal ERP on Microsip. My heavy piece was Layout/Croquis: draw the floor, place stock, picking paths, and sync with PHP/Firebird (+ a bit of FastAPI). Less pretty UI, more floor-tool.",
+        },
+        cpmx: {
+          title: "CPMX",
+          tagline: "Neighborhoods & postal-code API",
+          description:
+            "Small but complete service: states, municipalities, neighborhoods, and ZIPs from SEPOMEX + GeoJSON. Token dashboard, rate limits, auth, and docs so other products can query addresses without reinventing the catalog.",
+        },
+        omnisip: {
+          title: "OmniSIP",
+          tagline: "WhatsApp/AI talking to Microsip",
+          description:
+            "OmniSIP bridges respond.io (WhatsApp + agent) to Microsip (Firebird). Per company: catalog, stock, clients, cart, and orders. Built from scratch as multi-tenant SaaS because the ERP had no door for that.",
         },
         leamsi: {
-          title: "LEAMSI Corporate Website",
-          tagline: "Corporate website for accounting firm",
+          title: "LEAMSI",
+          tagline: "Site for an accounting firm",
           description:
-            "Corporate website for an accounting firm using Astro and Tailwind CSS. Responsible for front-end architecture and performance optimization.",
+            "Freelance job: corporate site in Astro + Tailwind for LEAMSI. I handled the front, section structure, and keeping it light. Demo on Vercel; the client's custom domain is no longer active.",
         },
         aerialDepot: {
           title: "Inventory System | AERIAL DEPOT",
@@ -599,7 +663,7 @@ export const translations = {
       blackSheep: {
         title: "Black Sheep Lab",
         codename: "OPERATION: SAAS",
-        desc: "Innovation in educational technology, business community and mobile applications with AI and gamification.",
+        desc: "Since October 2025 I've been shipping real lab products: LMS, white-label apps, community, and bridges into Microsip/WhatsApp.",
       },
       freelance: {
         title: "Freelance",

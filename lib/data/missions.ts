@@ -13,6 +13,10 @@ export interface SubMission {
   techStack: string[];
   repoUrl?: string;
   liveUrl?: string;
+  playStoreUrl?: string;
+  appStoreUrl?: string;
+  /** Extra demo/tenant URL (e.g. Skool @ Fyttsa) */
+  tenantUrl?: string;
   images?: string[];
   video?: string;
   contextTagKey?: string;
@@ -23,7 +27,7 @@ export interface SubMission {
 export interface Mission {
   id: MissionId;
   i18nKey: string;
-  icon: "Rocket" | "Briefcase" | "GraduationCap";
+  icon: "Sheep" | "Briefcase" | "GraduationCap";
   rank: "S" | "A" | "B" | "C";
   orgKey: string;
   roleKey?: string;
@@ -35,37 +39,104 @@ export const missions: Mission[] = [
   {
     id: "black-sheep",
     i18nKey: "blackSheep",
-    icon: "Rocket",
+    icon: "Sheep",
     rank: "S",
     orgKey: "blackSheepOrg",
-    period: { start: "2024", end: "Presente" },
+    period: { start: "Oct 2025", end: "Presente" },
     subMissions: [
       {
         id: "lms-skool",
         slug: "skool",
         i18nKey: "lmsSkool",
-        techStack: ["Next.js", "React", "Tailwind CSS", "PostgreSQL"],
+        techStack: ["Next.js", "React", "Tailwind CSS", "PostgreSQL", "Capacitor"],
         liveUrl: "https://skool.com.mx/",
-        repoUrl: "https://github.com/Black-Sheep-Lab/Cursos",
-        isMockup: true,
+        tenantUrl: "https://universidadfyttsa.com/login",
+        contextTagKey: "fullOwnership",
+        period: { start: "Dic 2025", end: "Abr 2026" },
+        images: ["/img/skool/1.webp", "/img/skool/2.webp"],
       },
       {
         id: "duplica-app",
         slug: "duplica",
         i18nKey: "duplicaApp",
-        techStack: ["Expo", "React Native", "TypeScript", "Node.js", "AI"],
-        liveUrl: "https://duplicamlm.app/landing",
-        repoUrl: "https://github.com/Black-Sheep-Lab/UF",
-        isMockup: true,
+        techStack: ["Next.js", "Expo", "React Native", "TypeScript", "PostgreSQL", "AI"],
+        liveUrl: "https://duplicamlm.app/",
+        playStoreUrl: "https://play.google.com/store/apps/details?id=com.blacksheep.duplica",
+        appStoreUrl: "https://apps.apple.com/mx/app/duplica/id6763321394",
+        contextTagKey: "fullOwnership",
+        period: { start: "Feb 2026", end: "Presente" },
+        images: [
+          "/img/duplica/1.webp",
+          "/img/duplica/play.webp",
+          "/img/duplica/appstore.webp",
+        ],
+      },
+      {
+        id: "creser",
+        slug: "creser",
+        i18nKey: "creser",
+        techStack: ["Next.js", "Expo", "React Native", "TypeScript", "PostgreSQL"],
+        liveUrl: "https://creser.app/",
+        playStoreUrl: "https://play.google.com/store/apps/details?id=com.blacksheep.creser",
+        appStoreUrl: "https://apps.apple.com/mx/app/creser/id6798448568",
+        contextTagKey: "whiteLabel",
+        period: { start: "Ago 2026", end: "Presente" },
+        images: [
+          "/img/creser/1.webp",
+          "/img/creser/play.webp",
+          "/img/creser/appstore.webp",
+        ],
       },
       {
         id: "rnme-hub",
         slug: "rnme",
         i18nKey: "rnmeHub",
-        techStack: ["Next.js", "React", "Tailwind", "PostgreSQL"],
+        techStack: ["Next.js", "React", "Tailwind CSS", "PostgreSQL", "Socket.IO"],
         liveUrl: "https://www.redmexicoemprende.mx/",
-        repoUrl: "https://github.com/Black-Sheep-Lab/RNME",
-        isMockup: true,
+        contextTagKey: "keyModules",
+        period: { start: "Oct 2025", end: "Abr 2026" },
+        images: [
+          "/img/rnme/1.webp",
+          "/img/rnme/2.webp",
+          "/img/rnme/3.webp",
+          "/img/rnme/4.webp",
+        ],
+      },
+      {
+        id: "krkn",
+        slug: "krkn",
+        i18nKey: "krkn",
+        techStack: ["Next.js", "PHP", "Firebird", "Python", "FastAPI"],
+        liveUrl: "https://krkn.mx/",
+        tenantUrl: "https://fyttsa.krkn.mx/",
+        contextTagKey: "keyModules",
+        period: { start: "Feb 2026", end: "Jul 2026" },
+        images: [
+          "/img/krkn/1.webp",
+          "/img/krkn/2.webp",
+          "/img/krkn/3.webp",
+          "/img/krkn/fyttsa.webp",
+        ],
+      },
+      {
+        id: "cpmx",
+        slug: "cpmx",
+        i18nKey: "cpmx",
+        techStack: ["Next.js", "PostgreSQL", "GeoJSON", "NextAuth"],
+        contextTagKey: "microservice",
+        period: { start: "Jun 2026", end: "Jun 2026" },
+        liveUrl: "https://cpmx.blck-sheep.com/",
+        images: ["/img/cpmx/1.webp"],
+      },
+      {
+        id: "omnisip",
+        slug: "omnisip",
+        i18nKey: "omnisip",
+        techStack: ["Next.js", "PostgreSQL", "Firebird", "respond.io"],
+        liveUrl: "https://omnisip.blck-sheep.com/",
+        contextTagKey: "microservice",
+        period: { start: "Ago 2026", end: "Presente" },
+        images: ["/img/omnisip/1.webp"],
       },
     ],
   },
@@ -83,9 +154,10 @@ export const missions: Mission[] = [
         slug: "leamsi",
         i18nKey: "leamsi",
         techStack: ["Astro", "Tailwind CSS", "JavaScript"],
-        liveUrl: "https://leamsisolucionescontables.com.mx/",
-        repoUrl: "https://github.com/G-Darko/leamsi-astro",
+        liveUrl: "https://leamsi.vercel.app/",
+        contextTagKey: "landingPage",
         period: { start: "Jul 2025", end: "Ago 2025" },
+        images: ["/img/leamsi/1.webp"],
       },
     ],
   },
