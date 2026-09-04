@@ -16,6 +16,14 @@ function resolveSrc(src: string): string {
   return asset(src);
 }
 
+function isEmbedVideo(src: string): boolean {
+  return /youtube\.com|youtu\.be|vimeo\.com|player\./i.test(src);
+}
+
+function isFileVideo(src: string): boolean {
+  return /\.(webm|mp4|ogg)(\?|$)/i.test(src) || src.startsWith("/video/");
+}
+
 export default function MissionMediaViewer({
   images,
   video,
@@ -25,10 +33,22 @@ export default function MissionMediaViewer({
     () =>
       video
         ? [
-            { type: "video" as const, src: video },
-            ...images.map((src) => ({ type: "image" as const, src: resolveSrc(src) })),
+            {
+              type: "video" as const,
+              src: isFileVideo(video) ? resolveSrc(video) : video,
+              embed: isEmbedVideo(video),
+            },
+            ...images.map((src) => ({
+              type: "image" as const,
+              src: resolveSrc(src),
+              embed: false,
+            })),
           ]
-        : images.map((src) => ({ type: "image" as const, src: resolveSrc(src) })),
+        : images.map((src) => ({
+            type: "image" as const,
+            src: resolveSrc(src),
+            embed: false,
+          })),
     [images, video]
   );
 
@@ -51,12 +71,23 @@ export default function MissionMediaViewer({
     <div className="space-y-2">
       <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-hud-border bg-card">
         {current.type === "video" ? (
-          <iframe
-            src={current.src}
-            title={`${title} demo`}
-            className="h-full w-full"
-            allowFullScreen
-          />
+          current.embed ? (
+            <iframe
+              src={current.src}
+              title={`${title} demo`}
+              className="h-full w-full"
+              allowFullScreen
+            />
+          ) : (
+            <video
+              src={current.src}
+              title={`${title} demo`}
+              className="h-full w-full object-contain bg-hud-bg/40"
+              controls
+              playsInline
+              preload="metadata"
+            />
+          )
         ) : (
           <Image src={current.src} alt={title} fill className="object-contain bg-hud-bg/40" unoptimized />
         )}
