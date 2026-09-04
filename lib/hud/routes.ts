@@ -1,5 +1,9 @@
 import type { PanelId } from "@/lib/store/useHUDStore";
-import type { MissionId } from "@/lib/data/missions";
+import {
+  getSubMission,
+  getSubMissionBySlug,
+  type MissionId,
+} from "@/lib/data/missions";
 import { getBasePath } from "@/lib/asset";
 
 export const PANEL_PATHS: Record<PanelId, string> = {
@@ -25,6 +29,10 @@ export function getHudBasePath(): string {
 
 export function isMissionId(value: string): value is MissionId {
   return (MISSION_IDS as string[]).includes(value);
+}
+
+export function isMissionProjectSlug(missionId: MissionId, slug: string): boolean {
+  return Boolean(getSubMissionBySlug(missionId, slug));
 }
 
 /** Strip trailing slashes except root — matches Next trailingSlash URLs. */
@@ -53,42 +61,82 @@ export function toBrowserHref(href: string): string {
 
 export function panelToHref(
   panel: PanelId | null,
-  missionId?: MissionId | null
+  missionId?: MissionId | null,
+  projectSlug?: string | null
 ): string {
   if (!panel) return "/";
   const segment = `/${PANEL_PATHS[panel]}`;
   // trailingSlash: true in next.config — keep hrefs consistent to avoid redirect loops
+  if (panel === "missions" && missionId && projectSlug) {
+    return `${segment}/${missionId}/${projectSlug}/`;
+  }
   if (panel === "missions" && missionId) return `${segment}/${missionId}/`;
   return `${segment}/`;
+}
+
+export function projectSlugFromStore(
+  missionId: MissionId | null,
+  subMissionId: string | null
+): string | null {
+  if (!missionId || !subMissionId) return null;
+  const sm = getSubMission(missionId, subMissionId);
+  return sm?.slug ?? null;
 }
 
 export function parseHudPath(pathname: string): {
   panel: PanelId | null;
   missionId: MissionId | null;
+  projectSlug: string | null;
   valid: boolean;
 } {
   const clean = normalizePath(pathname);
   if (clean === "/") {
-    return { panel: null, missionId: null, valid: true };
+    return { panel: null, missionId: null, projectSlug: null, valid: true };
   }
 
   const parts = clean.split("/").filter(Boolean);
   if (parts[0] === "cv") {
-    return { panel: null, missionId: null, valid: true };
+    return { panel: null, missionId: null, projectSlug: null, valid: true };
   }
 
   const panel = PATH_TO_PANEL[parts[0]];
   if (!panel) {
-    return { panel: null, missionId: null, valid: false };
+    return { panel: null, missionId: null, projectSlug: null, valid: false };
   }
 
   if (parts.length === 1) {
-    return { panel, missionId: null, valid: true };
+    return { panel, missionId: null, projectSlug: null, valid: true };
   }
 
   if (panel === "missions" && parts.length === 2 && isMissionId(parts[1])) {
-    return { panel, missionId: parts[1], valid: true };
+    return { panel, missionId: parts[1], projectSlug: null, valid: true };
   }
 
-  return { panel: null, missionId: null, valid: false };
+  if (
+    panel === "missions" &&
+    parts.length === 3 &&
+    isMissionId(parts[1]) &&
+    isMissionProjectSlug(parts[1], parts[2])
+  ) {
+    return {
+      panel,
+      missionId: parts[1],
+      projectSlug: parts[2],
+      valid: true,
+    };
+  }
+
+  // Guard: known mission with unknown project → invalid
+  if (panel === "missions" && parts.length >= 2 && !isMissionId(parts[1])) {
+    return { panel: null, missionId: null, projectSlug: null, valid: false };
+  }
+
+  return { panel: null, missionId: null, projectSlug: null, valid: false };
+}
+
+export function resolveProjectId(
+  missionId: MissionId,
+  projectSlug: string
+): string | null {
+  return getSubMissionBySlug(missionId, projectSlug)?.id ?? null;
 }

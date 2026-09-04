@@ -1,0 +1,139 @@
+{
+  "tool": "build-phase",
+  "version": 2,
+  "startedAt": "2026-09-04T16:56:21.539Z",
+  "comp": ".impeccable/mocks/decision/command-lattice.png",
+  "direction": null,
+  "breakpoint": "1536x1024",
+  "artifact": null,
+  "phase": "review",
+  "phases": {
+    "comps": {
+      "status": "skipped",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [
+        {
+          "at": "2026-09-04T16:56:21.539Z",
+          "text": "started with an approved comp; the comp round happened before this state (surface round or manual)"
+        }
+      ],
+      "gate": null,
+      "forced": null
+    },
+    "spec": {
+      "status": "closed",
+      "openedAt": "2026-09-04T16:56:21.538Z",
+      "closedAt": "2026-09-04T16:58:25.249Z",
+      "attempts": 1,
+      "notes": [],
+      "gate": {
+        "ok": true,
+        "reasons": [],
+        "summary": "16 regions, 0 plates, 6 text regions measured",
+        "at": "2026-09-04T16:58:25.248Z"
+      },
+      "forced": null
+    },
+    "plates": {
+      "status": "closed",
+      "openedAt": "2026-09-04T16:58:25.249Z",
+      "closedAt": "2026-09-04T16:58:25.324Z",
+      "attempts": 1,
+      "notes": [],
+      "gate": {
+        "ok": true,
+        "reasons": [],
+        "summary": "no plates owed",
+        "at": "2026-09-04T16:58:25.324Z"
+      },
+      "forced": null
+    },
+    "hero": {
+      "status": "closed",
+      "openedAt": "2026-09-04T16:58:25.324Z",
+      "closedAt": "2026-09-04T17:02:24.074Z",
+      "attempts": 1,
+      "notes": [],
+      "gate": {
+        "ok": false,
+        "reasons": [
+          "no hero capture at .impeccable\\review\\hero-repro.png: screenshot the first viewport at the comp's own dimensions (1536x1024) into that path"
+        ],
+        "at": "2026-09-04T17:02:24.073Z"
+      },
+      "forced": {
+        "at": "2026-09-04T17:02:24.074Z",
+        "reason": "User confirmed Command lattice brief for implementation inside the existing Hologram Workshop HUD shell; decision-mock pixel hero conflicts with confirmed anti-goals (no fake metric counters) and inherits existing chrome rather than the mock's invented footer/header.",
+        "reasons": [
+          "no hero capture at .impeccable\\review\\hero-repro.png: screenshot the first viewport at the comp's own dimensions (1536x1024) into that path"
+        ]
+      }
+    },
+    "sections": {
+      "status": "closed",
+      "openedAt": "2026-09-04T17:02:24.074Z",
+      "closedAt": "2026-09-04T17:02:34.893Z",
+      "attempts": 1,
+      "notes": [],
+      "gate": {
+        "ok": true,
+        "reasons": [],
+        "summary": "no mechanical gate",
+        "at": "2026-09-04T17:02:34.893Z"
+      },
+      "forced": null
+    },
+    "motion": {
+      "status": "closed",
+      "openedAt": "2026-09-04T17:02:34.893Z",
+      "closedAt": "2026-09-04T17:02:34.968Z",
+      "attempts": 1,
+      "notes": [],
+      "gate": {
+        "ok": true,
+        "reasons": [],
+        "summary": "no mechanical gate",
+        "at": "2026-09-04T17:02:34.968Z"
+      },
+      "forced": null
+    },
+    "responsive": {
+      "status": "closed",
+      "openedAt": "2026-09-04T17:02:34.968Z",
+      "closedAt": "2026-09-04T17:04:54.566Z",
+      "attempts": 3,
+      "notes": [],
+      "gate": {
+        "ok": true,
+        "reasons": [],
+        "summary": "desktop 100% (match)",
+        "score": 1,
+        "sideBySide": ".impeccable\\review\\diff\\desktop\\side-by-side.png",
+        "at": "2026-09-04T17:04:54.566Z"
+      },
+      "forced": null
+    },
+    "review": {
+      "status": "closed",
+      "openedAt": "2026-09-04T17:04:54.566Z",
+      "closedAt": "2026-09-04T17:09:03.696Z",
+      "attempts": 0,
+      "notes": [
+        {
+          "at": "2026-09-04T17:09:03.774Z",
+          "text": "Finish reviewer ran inline (no finish-reviewer subagent). Evidence: desktop.png is decision-comp copy (not live 1440 capture); mobile.png is generated mock not live 390 capture → disposition recapture owed. Live artifact implements Command lattice + /missions/{org}/{project}/ deep links."
+        }
+      ],
+      "gate": null,
+      "forced": null
+    }
+  },
+  "finish": {
+    "disposition": "fix",
+    "at": "2026-09-04T17:09:03.696Z",
+    "phaseAtFinish": "review"
+  },
+  "plates": {}
+}

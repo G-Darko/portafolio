@@ -1,0 +1,100 @@
+{
+  "regions": [
+    {
+      "id": "header-chrome",
+      "kind": "chrome",
+      "grid": "A0:J0",
+      "note": "G-DARKO top nav bar with Profile Missions Contact More and utility icons"
+    },
+    {
+      "id": "panel-title",
+      "kind": "text",
+      "grid": "B1:E1",
+      "note": "Missions // Operations panel title"
+    },
+    {
+      "id": "map-label",
+      "kind": "text",
+      "grid": "B2:D2",
+      "note": "OPERATIONS MAP section stamp"
+    },
+    {
+      "id": "node-black-sheep",
+      "kind": "control",
+      "grid": "B3:D4",
+      "note": "Black Sheep Lab org node with icon ring title blurb and segment status"
+    },
+    {
+      "id": "node-freelance",
+      "kind": "control",
+      "grid": "D4:F5",
+      "note": "Freelance org node with briefcase icon ring title blurb and segment status"
+    },
+    {
+      "id": "node-academia",
+      "kind": "control",
+      "grid": "B5:D7",
+      "note": "Academia org node selected with corner brackets glow graduation icon and lit segments"
+    },
+    {
+      "id": "map-hint",
+      "kind": "text",
+      "grid": "B8:E8",
+      "note": "Select a node to view details hint"
+    },
+    {
+      "id": "brief-header",
+      "kind": "text",
+      "grid": "F2:I3",
+      "note": "Side brief Academia header with icon title and description"
+    },
+    {
+      "id": "projects-label",
+      "kind": "text",
+      "grid": "F4:G4",
+      "note": "PROJECTS label"
+    },
+    {
+      "id": "project-aerial",
+      "kind": "control",
+      "grid": "F5:I5",
+      "note": "Aerial Depot project chip row with icon title tagline segments and chevron"
+    },
+    {
+      "id": "project-tienko",
+      "kind": "control",
+      "grid": "F6:I6",
+      "note": "Tienko project chip row"
+    },
+    {
+      "id": "project-postgrados",
+      "kind": "control",
+      "grid": "F7:I7",
+      "note": "Postgrados project chip row"
+    },
+    {
+      "id": "project-yiza",
+      "kind": "control",
+      "grid": "F8:I8",
+      "note": "YIZA project chip row"
+    },
+    {
+      "id": "mission-rail",
+      "kind": "chrome",
+      "grid": "J3:J7",
+      "note": "Right mission navigator rail icons"
+    },
+    {
+      "id": "footer-brand",
+      "kind": "text",
+      "grid": "A9:D9",
+      "note": "G-DARKO HOLOGRAM WORKSHOP footer mark"
+    },
+    {
+      "id": "footer-status",
+      "kind": "chrome",
+      "grid": "H9:J9",
+      "note": "SYSTEM ONLINE status with dots"
+    }
+  ]
+}

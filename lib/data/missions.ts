@@ -7,6 +7,8 @@ export interface MissionPeriod {
 
 export interface SubMission {
   id: string;
+  /** URL segment under `/missions/{org}/{slug}/` */
+  slug: string;
   i18nKey: string;
   techStack: string[];
   repoUrl?: string;
@@ -40,6 +42,7 @@ export const missions: Mission[] = [
     subMissions: [
       {
         id: "lms-skool",
+        slug: "skool",
         i18nKey: "lmsSkool",
         techStack: ["Next.js", "React", "Tailwind CSS", "PostgreSQL"],
         liveUrl: "https://skool.com.mx/",
@@ -48,6 +51,7 @@ export const missions: Mission[] = [
       },
       {
         id: "duplica-app",
+        slug: "duplica",
         i18nKey: "duplicaApp",
         techStack: ["Expo", "React Native", "TypeScript", "Node.js", "AI"],
         liveUrl: "https://duplicamlm.app/landing",
@@ -56,6 +60,7 @@ export const missions: Mission[] = [
       },
       {
         id: "rnme-hub",
+        slug: "rnme",
         i18nKey: "rnmeHub",
         techStack: ["Next.js", "React", "Tailwind", "PostgreSQL"],
         liveUrl: "https://www.redmexicoemprende.mx/",
@@ -75,6 +80,7 @@ export const missions: Mission[] = [
     subMissions: [
       {
         id: "leamsi",
+        slug: "leamsi",
         i18nKey: "leamsi",
         techStack: ["Astro", "Tailwind CSS", "JavaScript"],
         liveUrl: "https://leamsisolucionescontables.com.mx/",
@@ -93,6 +99,7 @@ export const missions: Mission[] = [
     subMissions: [
       {
         id: "aerial-depot",
+        slug: "aerial-depot",
         i18nKey: "aerialDepot",
         techStack: ["Vue", "Laravel", "Three.js", "MySQL", "Tailwind"],
         contextTagKey: "dualEducation",
@@ -108,6 +115,7 @@ export const missions: Mission[] = [
       },
       {
         id: "tienko",
+        slug: "tienko",
         i18nKey: "tienko",
         techStack: ["Java", "MySQL"],
         repoUrl: "https://github.com/G-Darko/Tienko",
@@ -121,6 +129,7 @@ export const missions: Mission[] = [
       },
       {
         id: "postgrados-upvm",
+        slug: "postgrados",
         i18nKey: "postgradosUpvm",
         techStack: ["HTML", "CSS", "JS", "PHP", "MySQL"],
         contextTagKey: "internshipI",
@@ -129,6 +138,7 @@ export const missions: Mission[] = [
       },
       {
         id: "yiza",
+        slug: "yiza",
         i18nKey: "yiza",
         techStack: ["HTML", "CSS", "JS", "PHP", "MySQL"],
         contextTagKey: "dualEducation",
@@ -187,4 +197,22 @@ export function getMissionById(id: string): Mission | undefined {
 export function getSubMission(missionId: string, subId: string): SubMission | undefined {
   const mission = getMissionById(missionId);
   return mission?.subMissions.find((s) => s.id === subId);
+}
+
+export function getSubMissionBySlug(
+  missionId: string,
+  slug: string
+): SubMission | undefined {
+  const mission = getMissionById(missionId);
+  return mission?.subMissions.find((s) => s.slug === slug || s.id === slug);
+}
+
+export function getProjectSlug(sm: SubMission): string {
+  return sm.slug;
+}
+
+export function listMissionProjectParams(): { missionId: string; projectId: string }[] {
+  return missions.flatMap((m) =>
+    m.subMissions.map((sm) => ({ missionId: m.id, projectId: sm.slug }))
+  );
 }

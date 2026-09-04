@@ -1,0 +1,78 @@
+{
+  "title": "Choose the Missions composition",
+  "question": "Three structures for the Missions surface (Hologram Workshop world stays fixed). Lock one, steer, or re-roll.",
+  "options": [
+    {
+      "id": "command-lattice",
+      "label": "Command lattice",
+      "kicker": "THE ROLL",
+      "thesis": "Orgs are nodes on an ops lattice; select one to open a side brief of deep-linkable project chips into a media case.",
+      "palette": [
+        "oklch(0.12 0 0)",
+        "oklch(0.8 0.18 195)",
+        "oklch(0.65 0.18 255)",
+        "oklch(0.95 0 0)"
+      ],
+      "materials": [
+        "frosted glass panels",
+        "cyan/blue HUD glow on focus",
+        "monospace system voice"
+      ],
+      "viewport": "Map as a quiet node lattice of Black Sheep / Freelance / Academia; selecting Academia opens a side brief with Aerial Depot and peers as chips; chip opens /missions/academia/aerial-depot/ with media hero.",
+      "risk": "Density can hurt mobile scan if nodes compete with the project list.",
+      "raised": [
+        {
+          "from": "seven-segment readout",
+          "raise": "Org and project status use deliberate lit/unlit cells — progress is a fixed mask of segments, not a vague meter wash."
+        }
+      ],
+      "comp": ".impeccable/mocks/decision/command-lattice.png"
+    },
+    {
+      "id": "timeline-ops-log",
+      "label": "Timeline ops log",
+      "thesis": "Experience reads as a chronological ops log: orgs as period markers, projects as entries you open for proof.",
+      "palette": [
+        "oklch(0.12 0 0)",
+        "oklch(0.8 0.18 195)",
+        "oklch(0.65 0.18 255)",
+        "oklch(0.95 0 0)"
+      ],
+      "materials": [
+        "frosted glass panels",
+        "cyan/blue HUD glow on focus",
+        "monospace system voice"
+      ],
+      "viewport": "A vertical time ribbon (2021–Presente) with org stamps; selecting a stamp lists projects as log rows with thumb + link affordance into the case view.",
+      "risk": "Chronology may bury the strongest current work (Black Sheep) below older academia entries unless featured rows pin to top.",
+      "comp": ".impeccable/mocks/decision/timeline-ops-log.png"
+    },
+    {
+      "id": "theater-of-proof",
+      "label": "Theater of proof",
+      "thesis": "Three org pillars on the map each peek a featured project plate; drill-in opens a media-hero project stage.",
+      "palette": [
+        "oklch(0.12 0 0)",
+        "oklch(0.8 0.18 195)",
+        "oklch(0.65 0.18 255)",
+        "oklch(0.95 0 0)"
+      ],
+      "materials": [
+        "frosted glass panels",
+        "cyan/blue HUD glow on focus",
+        "monospace system voice"
+      ],
+      "viewport": "Map shows three pillars with one featured media peek each (e.g. Skool, Leamsi, Aerial); open org → project list; open project → large media stage + live/repo.",
+      "risk": "Featured peeks need real media; mockup projects must not invent screenshots.",
+      "comp": ".impeccable/mocks/decision/theater-of-proof.png"
+    }
+  ],
+  "reroll": {
+    "registers": ["safer", "bolder"]
+  },
+  "steer": true,
+  "buildPath": {
+    "value": "comp",
+    "toggle": true
+  }
+}

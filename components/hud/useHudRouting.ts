@@ -3,29 +3,43 @@
 import { useCallback, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useHUDStore, type PanelId } from "@/lib/store/useHUDStore";
-import { normalizePath, panelToHref, parseHudPath } from "@/lib/hud/routes";
+import {
+  normalizePath,
+  panelToHref,
+  parseHudPath,
+  projectSlugFromStore,
+  resolveProjectId,
+} from "@/lib/hud/routes";
 
 function applyPathToStore(path: string) {
-  const { panel, missionId, valid } = parseHudPath(path);
+  const { panel, missionId, projectSlug, valid } = parseHudPath(path);
   if (!valid) return;
 
-  const desired = normalizePath(panelToHref(panel, missionId));
+  const store = useHUDStore.getState();
+  const currentSlug = projectSlugFromStore(store.activeMissionId, store.activeSubMissionId);
+  const desired = normalizePath(panelToHref(panel, missionId, projectSlug));
   const current = normalizePath(
-    panelToHref(
-      useHUDStore.getState().activePanel,
-      useHUDStore.getState().activeMissionId
-    )
+    panelToHref(store.activePanel, store.activeMissionId, currentSlug)
   );
   if (desired === current) return;
 
   if (panel === null) {
-    useHUDStore.getState().closePanel();
-  } else if (panel === "missions" && missionId) {
-    useHUDStore.getState().openMissionPanel(missionId);
-  } else {
-    useHUDStore.getState().openPanel(panel);
-    if (panel === "missions") useHUDStore.getState().selectMission(null);
+    store.closePanel();
+    return;
   }
+
+  if (panel === "missions" && missionId) {
+    const subId = projectSlug ? resolveProjectId(missionId, projectSlug) : null;
+    useHUDStore.setState({
+      activePanel: "missions",
+      activeMissionId: missionId,
+      activeSubMissionId: subId,
+    });
+    return;
+  }
+
+  store.openPanel(panel);
+  if (panel === "missions") store.selectMission(null);
 }
 
 /**
@@ -39,6 +53,7 @@ export function useHudRouting() {
   const path = normalizePath(pathname);
   const activePanel = useHUDStore((s) => s.activePanel);
   const activeMissionId = useHUDStore((s) => s.activeMissionId);
+  const activeSubMissionId = useHUDStore((s) => s.activeSubMissionId);
   const togglePanel = useHUDStore((s) => s.togglePanel);
   const closePanel = useHUDStore((s) => s.closePanel);
   const sessionActive = useHUDStore((s) => s.sessionActive);
@@ -71,7 +86,8 @@ export function useHudRouting() {
     if (!sessionActive && !bootupDone) return;
     if (syncingFromUrl.current) return;
 
-    const href = panelToHref(activePanel, activeMissionId);
+    const projectSlug = projectSlugFromStore(activeMissionId, activeSubMissionId);
+    const href = panelToHref(activePanel, activeMissionId, projectSlug);
     const normalized = normalizePath(href);
     if (normalized === lastHref.current || normalized === path) {
       lastHref.current = normalized;
@@ -80,7 +96,15 @@ export function useHudRouting() {
 
     lastHref.current = normalized;
     router.push(href, { scroll: false });
-  }, [activePanel, activeMissionId, path, router, sessionActive, bootupDone]);
+  }, [
+    activePanel,
+    activeMissionId,
+    activeSubMissionId,
+    path,
+    router,
+    sessionActive,
+    bootupDone,
+  ]);
 
   const togglePanelNav = useCallback(
     (id: PanelId) => {

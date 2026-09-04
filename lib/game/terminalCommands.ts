@@ -230,7 +230,11 @@ export function runTerminalCommand(
     const subId = parts.slice(1).join(" ");
     for (const m of missions) {
       const sm = m.subMissions.find(
-        (s) => s.id === subId || s.id.replace(/-/g, "") === subId.replace(/-/g, "")
+        (s) =>
+          s.id === subId ||
+          s.slug === subId ||
+          s.id.replace(/-/g, "") === subId.replace(/-/g, "") ||
+          s.slug.replace(/-/g, "") === subId.replace(/-/g, "")
       );
       if (sm) {
         ctx.actions.openMissionPanel(m.id);
