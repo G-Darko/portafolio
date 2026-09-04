@@ -3,6 +3,9 @@ import { getMissionCopy } from "@/lib/i18n/missionContent";
 import { HUD_PALETTES, type HudPaletteId } from "@/lib/theme/hud-color-presets";
 import type { PanelId } from "@/lib/store/useHUDStore";
 import type { Locale } from "@/lib/store/useLocaleStore";
+import { CV_PATH } from "@/lib/data/profile";
+import { toBrowserHref } from "@/lib/hud/routes";
+import { OPENABLE_PANELS } from "@/lib/hud/navConfig";
 
 export type TerminalLineType =
   | "system"
@@ -74,16 +77,6 @@ export interface TerminalContext {
   t: TerminalStrings;
   actions: TerminalActions;
 }
-
-const OPEN_PANELS: PanelId[] = [
-  "profile",
-  "missions",
-  "skills",
-  "certifications",
-  "contact",
-  "minigame",
-  "terminal",
-];
 
 const COMMAND_NAMES = [
   "help",
@@ -158,7 +151,7 @@ export function runTerminalCommand(
   }
 
   if (head === "cv") {
-    setTimeout(() => window.open("/cv", "_blank"), 300);
+    setTimeout(() => window.open(toBrowserHref(CV_PATH), "_blank"), 300);
     return { lines: [{ text: ctx.t.cv, type: "success" }] };
   }
 
@@ -273,7 +266,7 @@ export function runTerminalCommand(
 
   if (head === "open") {
     const target = parts[1] as PanelId | undefined;
-    if (!target || !OPEN_PANELS.includes(target)) {
+    if (!target || !OPENABLE_PANELS.includes(target)) {
       return { lines: [{ text: ctx.t.openUsage, type: "warn" }] };
     }
     ctx.actions.openPanel(target);

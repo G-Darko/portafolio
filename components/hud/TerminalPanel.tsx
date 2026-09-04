@@ -15,10 +15,11 @@ import {
   type TerminalLineType,
 } from "@/lib/game/terminalCommands";
 import Link from "next/link";
+import HudScanlines from "./HudScanlines";
+import { SECRETS_TOTAL } from "@/lib/game/secrets";
 
 const BOOT_DELAY_MS = 420;
 const ASYNC_LINE_DELAY_MS = 180;
-const SECRETS_TOTAL = 5;
 
 function lineClass(type: TerminalLineType): string {
   switch (type) {
@@ -52,7 +53,7 @@ export default function TerminalPanel() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { soundEnabled, endSession, openMissionPanel, selectSubMission, openPanel } =
+  const { endSession, openMissionPanel, selectSubMission, openPanel } =
     useHUDStore();
   const { totalPercent, secretsFound, unlockSecret } = useProgressStore();
   const setLocale = useLocaleStore((s) => s.setLocale);
@@ -183,7 +184,7 @@ export default function TerminalPanel() {
     if (e.key === "Enter") {
       handleCmd(input);
       setInput("");
-      if (soundEnabled) playHUDClick();
+      playHUDClick();
       return;
     }
 
@@ -245,13 +246,7 @@ export default function TerminalPanel() {
         className="scrollbar-thin relative min-h-0 flex-1 overflow-y-auto px-3 py-3 font-mono text-sm leading-relaxed md:text-[0.925rem]"
         onClick={() => inputRef.current?.focus()}
       >
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.07]"
-          style={{
-            background:
-              "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--hud-cyan) 15%, transparent) 2px, color-mix(in oklch, var(--hud-cyan) 15%, transparent) 4px)",
-          }}
-        />
+        <HudScanlines opacity={0.07} variant="token" />
         <div className="relative space-y-0.5">
           {lines.map((line, i) => (
             <motion.div

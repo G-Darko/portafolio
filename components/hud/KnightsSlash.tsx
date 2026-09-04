@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { useProgressStore } from "@/lib/store/useProgressStore";
-import { useHUDStore } from "@/lib/store/useHUDStore";
 import { playQTESuccess, playQTEMiss } from "@/lib/audio/audio";
 
 /**
@@ -14,7 +13,6 @@ export default function KnightsSlash() {
   const [message, setMessage] = useState("CLICK >> when cursor is inside the red zone");
   const [success, setSuccess] = useState<boolean | null>(null);
   const [gameOver, setGameOver] = useState(false);
-  const { soundEnabled } = useHUDStore();
   const { unlockSecret } = useProgressStore();
 
   // Game state refs (mutable across rAF without re-render)
@@ -104,12 +102,12 @@ export default function KnightsSlash() {
     if (inside) {
       setSuccess(true);
       setMessage("PERFECT SLASH! Secret unlocked.");
-      if (soundEnabled) playQTESuccess();
+      playQTESuccess();
       unlockSecret("knights-slash");
     } else {
       setSuccess(false);
       setMessage("Missed... Try again.");
-      if (soundEnabled) playQTEMiss();
+      playQTEMiss();
       setTimeout(() => {
         cursor.current = 0;
         dir.current = 1;

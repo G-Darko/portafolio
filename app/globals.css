@@ -355,6 +355,10 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
     @apply text-base leading-relaxed;
   }
 
+  .hud-focus-ring {
+    @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hud-cyan;
+  }
+
   /* Contact — HUD labels + legacy rounded inputs */
   .contact-field {
     @apply w-full;

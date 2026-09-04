@@ -4,7 +4,6 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useProgressStore } from "@/lib/store/useProgressStore";
-import { useHUDStore } from "@/lib/store/useHUDStore";
 import { playQTESuccess, playQTEMiss, playWindowOpen } from "@/lib/audio/audio";
 import { Shield } from "lucide-react";
 
@@ -34,7 +33,6 @@ export default function CoreDefense() {
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
   const [level, setLevel] = useState(1);
-  const { soundEnabled } = useHUDStore();
   const { unlockSecret } = useProgressStore();
 
   const dronesRef = useRef<Drone[]>([]);
@@ -59,8 +57,8 @@ export default function CoreDefense() {
     setGameState("playing");
     runningRef.current = true;
     lastSpawnRef.current = 0;
-    if (soundEnabled) playWindowOpen();
-  }, [soundEnabled]);
+    playWindowOpen();
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -228,7 +226,7 @@ export default function CoreDefense() {
           livesRef.current--;
           setLives(livesRef.current);
           createExplosion(drone.x, drone.y);
-          if (soundEnabled) playQTEMiss();
+          playQTEMiss();
 
           if (livesRef.current <= 0) {
             runningRef.current = false;
@@ -246,7 +244,7 @@ export default function CoreDefense() {
             scoreRef.current += 10 * levelRef.current;
             setScore(scoreRef.current);
             createExplosion(drone.x, drone.y);
-            if (soundEnabled) playQTESuccess();
+            playQTESuccess();
 
             if (scoreRef.current > 0 && scoreRef.current % 100 === 0) {
               levelRef.current++;
@@ -302,7 +300,7 @@ export default function CoreDefense() {
       canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("click", handleClick);
     };
-  }, [gameState, soundEnabled, unlockSecret]);
+  }, [gameState, unlockSecret]);
 
   return (
     <div className="flex flex-col items-center gap-3">
@@ -341,7 +339,7 @@ export default function CoreDefense() {
             </div>
             <canvas
               ref={canvasRef}
-              className="h-[280px] w-full cursor-crosshair rounded-lg border border-hud-border bg-hud-bg/60"
+              className="h-70 w-full cursor-crosshair rounded-lg border border-hud-border bg-hud-bg/60"
             />
           </>
         )}

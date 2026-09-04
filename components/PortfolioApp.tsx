@@ -8,6 +8,7 @@ import HUDShell from "@/components/hud/HUDShell";
 import HudThemeProvider from "@/components/HudThemeProvider";
 import EasterEggManager from "@/components/hud/EasterEggManager";
 import { parseHudPath } from "@/lib/hud/routes";
+import { initHudAudio, syncHudAudioEnabled } from "@/lib/audio/audio";
 
 export default function PortfolioApp() {
   const pathname = usePathname();
@@ -15,6 +16,7 @@ export default function PortfolioApp() {
   const bootupDone = useHUDStore((s) => s.bootupDone);
   const bootEpoch = useHUDStore((s) => s.bootEpoch);
   const completeBoot = useHUDStore((s) => s.completeBoot);
+  const soundEnabled = useHUDStore((s) => s.soundEnabled);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
@@ -22,6 +24,16 @@ export default function PortfolioApp() {
     if (useHUDStore.persist.hasHydrated()) setHydrated(true);
     return unsub;
   }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    initHudAudio(useHUDStore.getState().soundEnabled);
+  }, [hydrated]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    syncHudAudioEnabled(soundEnabled);
+  }, [hydrated, soundEnabled]);
 
   // Deep links skip the boot gate so shared URLs open the panel directly
   useEffect(() => {

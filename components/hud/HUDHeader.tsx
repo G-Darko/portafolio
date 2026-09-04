@@ -11,28 +11,13 @@ import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useHUDStore, type PanelId } from "@/lib/store/useHUDStore";
 import { playHUDClick, playWindowOpen } from "@/lib/audio/audio";
 import HudConfirmDialog from "./HudConfirmDialog";
+import { MORE_PANELS, PRIMARY_PANELS } from "@/lib/hud/navConfig";
 
 interface HUDHeaderProps {
   activePanel: PanelId | null;
   onTogglePanel: (id: PanelId) => void;
   onGoHome: () => void;
 }
-
-const PRIMARY_BUTTONS: { id: PanelId; labelKey: "profile" | "missions" | "contact" }[] = [
-  { id: "profile", labelKey: "profile" },
-  { id: "missions", labelKey: "missions" },
-  { id: "contact", labelKey: "contact" },
-];
-
-const MORE_BUTTONS: {
-  id: PanelId;
-  labelKey: "skills" | "certifications" | "terminal" | "minigame";
-}[] = [
-  { id: "skills", labelKey: "skills" },
-  { id: "certifications", labelKey: "certifications" },
-  { id: "terminal", labelKey: "terminal" },
-  { id: "minigame", labelKey: "minigame" },
-];
 
 export default function HUDHeader({
   activePanel,
@@ -49,7 +34,7 @@ export default function HUDHeader({
   const { t } = useTranslation();
   const { endSession } = useHUDStore();
 
-  const moreActive = MORE_BUTTONS.some(({ id }) => id === activePanel);
+  const moreActive = MORE_PANELS.some(({ id }) => id === activePanel);
 
   useEffect(() => {
     if (!moreOpen && !mobileMoreOpen) return;
@@ -122,7 +107,7 @@ export default function HUDHeader({
               playHUDClick();
               onGoHome();
             }}
-            className="flex h-10 w-10 shrink-0 select-none items-center justify-center rounded border border-hud-border bg-card font-mono text-sm font-bold text-hud-cyan transition-colors hover:bg-hud-cyan/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hud-cyan"
+            className="flex h-10 w-10 shrink-0 select-none items-center justify-center rounded border border-hud-border bg-card font-mono text-sm font-bold text-hud-cyan transition-colors hover:bg-hud-cyan/10 hud-focus-ring"
             aria-label={t.header.title}
             title={t.header.title}
           >
@@ -134,7 +119,7 @@ export default function HUDHeader({
               playHUDClick();
               onGoHome();
             }}
-            className="min-w-0 rounded px-1 py-1 text-left transition-colors hover:bg-accent/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hud-cyan"
+            className="min-w-0 rounded px-1 py-1 text-left transition-colors hover:bg-accent/60 hud-focus-ring"
             aria-label={t.header.title}
           >
             <h1 className="truncate font-mono text-sm font-bold tracking-widest text-foreground md:text-base">
@@ -143,7 +128,7 @@ export default function HUDHeader({
           </button>
 
           <nav className="ml-2 hidden items-center gap-0.5 md:flex" aria-label="Primary">
-            {PRIMARY_BUTTONS.map(({ id, labelKey }) => {
+            {PRIMARY_PANELS.map(({ id, labelKey }) => {
               const isActive = activePanel === id;
               return (
                 <button
@@ -188,7 +173,7 @@ export default function HUDHeader({
                     <p className="px-2.5 py-1.5 font-mono text-xs tracking-[0.18em] text-hud-cyan/70 uppercase">
                       {t.header.workshopTools}
                     </p>
-                    {MORE_BUTTONS.map(({ id, labelKey }) => {
+                    {MORE_PANELS.map(({ id, labelKey }) => {
                       const isActive = activePanel === id;
                       return (
                         <button
@@ -257,7 +242,7 @@ export default function HUDHeader({
         aria-label="Primary"
       >
         <div className="mx-auto flex max-w-lg items-stretch gap-1">
-          {PRIMARY_BUTTONS.map(({ id, labelKey }) => {
+          {PRIMARY_PANELS.map(({ id, labelKey }) => {
             const isActive = activePanel === id;
             return (
               <button
@@ -297,7 +282,7 @@ export default function HUDHeader({
                   <p className="px-2.5 py-1.5 font-mono text-xs tracking-[0.18em] text-hud-cyan/70 uppercase">
                     {t.header.workshopTools}
                   </p>
-                  {MORE_BUTTONS.map(({ id, labelKey }) => {
+                  {MORE_PANELS.map(({ id, labelKey }) => {
                     const isActive = activePanel === id;
                     return (
                       <button

@@ -60,8 +60,7 @@ export default function BootupSequence() {
     setVisibleLines(0);
     setPhase("typing");
 
-    const { soundEnabled } = useHUDStore.getState();
-    if (soundEnabled) playBootupChime();
+    playBootupChime();
 
     let i = 0;
     intervalRef.current = setInterval(() => {
@@ -97,7 +96,7 @@ export default function BootupSequence() {
       <button
         type="button"
         onClick={enterNow}
-        className="absolute right-4 top-4 z-10 min-h-10 rounded px-3 font-mono text-sm tracking-widest text-muted-foreground transition-colors hover:text-hud-cyan focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hud-cyan"
+        className="absolute right-4 top-4 z-10 min-h-10 rounded px-3 font-mono text-sm tracking-widest text-muted-foreground transition-colors hover:text-hud-cyan hud-focus-ring"
       >
         {t.bootup.skip}
       </button>
@@ -131,14 +130,14 @@ export default function BootupSequence() {
                 <button
                   type="button"
                   onClick={enterNow}
-                  className="min-h-12 w-full rounded border border-hud-cyan/50 bg-hud-cyan/10 px-4 py-3 font-mono text-sm font-bold tracking-[0.2em] text-hud-cyan uppercase transition-colors hover:bg-hud-cyan/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hud-cyan md:text-base"
+                  className="min-h-12 w-full rounded border border-hud-cyan/50 bg-hud-cyan/10 px-4 py-3 font-mono text-sm font-bold tracking-[0.2em] text-hud-cyan uppercase transition-colors hover:bg-hud-cyan/20 hud-focus-ring md:text-base"
                 >
                   {t.bootup.enter}
                 </button>
                 <button
                   type="button"
                   onClick={startIntro}
-                  className="min-h-11 w-full rounded px-4 py-2.5 font-mono text-sm tracking-widest text-muted-foreground transition-colors hover:text-hud-cyan focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hud-cyan"
+                  className="min-h-11 w-full rounded px-4 py-2.5 font-mono text-sm tracking-widest text-muted-foreground transition-colors hover:text-hud-cyan hud-focus-ring"
                 >
                   {t.bootup.watchIntro}
                 </button>

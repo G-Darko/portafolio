@@ -19,12 +19,12 @@ function MissionButtons({
 }: {
   layout: "rail" | "dock";
 }) {
-  const { activeMissionId, openMissionPanel, soundEnabled } = useHUDStore();
+  const { activeMissionId, openMissionPanel } = useHUDStore();
   const { readSubmissions } = useProgressStore();
   const { t } = useTranslation();
 
   const handleOpen = (id: MissionId) => {
-    if (soundEnabled) playHUDClick();
+    playHUDClick();
     openMissionPanel(id);
   };
 

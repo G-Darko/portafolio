@@ -3,6 +3,8 @@
 import { useRef, useState, type ReactNode } from "react";
 import { motion } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
+import HudScanlines from "./HudScanlines";
+import HudStatusDot from "./HudStatusDot";
 
 interface HologramPanelProps {
   title: string;
@@ -71,17 +73,11 @@ export default function HologramPanel({
           backgroundPosition: "0 0, 100% 0, 0 100%, 100% 100%",
         }}
       />
-      <div
-        className="pointer-events-none absolute inset-0 opacity-20"
-        style={{
-          background:
-            "repeating-linear-gradient(0deg, transparent, transparent 2px, oklch(0.65 0.18 255 / 0.03) 2px, oklch(0.65 0.18 255 / 0.03) 4px)",
-        }}
-      />
+      <HudScanlines opacity={0.2} />
 
       <div className="relative flex items-center justify-between border-b border-hud-border/60 px-4 py-2.5">
         <div className="flex min-w-0 items-center gap-2">
-          <div className="h-2 w-2 shrink-0 rounded-full bg-hud-cyan shadow-[0_0_8px_var(--hud-cyan)]" />
+          <HudStatusDot color="cyan" />
           <div className="min-w-0">
             <span className="block truncate text-sm font-bold tracking-[0.12em] text-hud-cyan md:text-base">
               {title}
@@ -97,7 +93,7 @@ export default function HologramPanel({
         <button
           type="button"
           onClick={onClose}
-          className="flex h-10 w-10 items-center justify-center rounded font-mono text-sm text-muted-foreground transition-colors hover:bg-hud-cyan/10 hover:text-hud-red focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hud-cyan"
+          className="hud-focus-ring flex h-10 w-10 items-center justify-center rounded font-mono text-sm text-muted-foreground transition-colors hover:bg-hud-cyan/10 hover:text-hud-red"
           aria-label={t.header.closePanel}
         >
           ✕

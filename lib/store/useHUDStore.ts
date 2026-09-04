@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { MissionId } from "@/lib/data/missions";
+import { setEnabled } from "@/lib/audio/audio";
 
 export type PanelId =
   | "profile"
@@ -81,7 +82,12 @@ export const useHUDStore = create<HUDState>()(
       selectSubMission: (id) => set({ activeSubMissionId: id }),
       openMissionPanel: (id) =>
         set({ activePanel: "missions", activeMissionId: id, activeSubMissionId: null }),
-      toggleSound: () => set((s) => ({ soundEnabled: !s.soundEnabled })),
+      toggleSound: () =>
+        set((s) => {
+          const soundEnabled = !s.soundEnabled;
+          setEnabled(soundEnabled);
+          return { soundEnabled };
+        }),
       setKonamiActive: (v) => set({ konamiActive: v }),
     }),
     {

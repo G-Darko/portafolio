@@ -6,13 +6,11 @@ import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useHUDStore, type PanelId } from "@/lib/store/useHUDStore";
 import { playWindowOpen } from "@/lib/audio/audio";
 import Link from "next/link";
-import { getHudBasePath } from "@/lib/hud/routes";
-
-const PRIMARY_ACTIONS: { id: PanelId; labelKey: "profile" | "missions" | "contact" }[] = [
-  { id: "profile", labelKey: "profile" },
-  { id: "missions", labelKey: "missions" },
-  { id: "contact", labelKey: "contact" },
-];
+import { CV_PATH } from "@/lib/data/profile";
+import { toBrowserHref } from "@/lib/hud/routes";
+import { PRIMARY_PANELS } from "@/lib/hud/navConfig";
+import HudCyanButton from "./HudCyanButton";
+import HudStatusDot from "./HudStatusDot";
 
 export default function WelcomeHologram() {
   const { t } = useTranslation();
@@ -22,7 +20,6 @@ export default function WelcomeHologram() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
   const [deleting, setDeleting] = useState(false);
-  const base = getHudBasePath();
 
   useEffect(() => {
     const full = roles[roleIndex];
@@ -65,7 +62,7 @@ export default function WelcomeHologram() {
       >
         <div className="relative z-10 space-y-4 md:space-y-5">
           <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-hud-green shadow-[0_0_8px_var(--hud-green)]" />
+            <HudStatusDot color="green" />
             <span className="font-mono text-xs tracking-[0.2em] text-hud-green uppercase md:text-sm">
               {t.bootup.granted}
             </span>
@@ -102,15 +99,10 @@ export default function WelcomeHologram() {
             transition={{ delay: 0.28 }}
             className="flex flex-wrap gap-2 pt-2"
           >
-            {PRIMARY_ACTIONS.map(({ id, labelKey }) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => handleOpen(id)}
-                className="min-h-11 rounded border border-hud-cyan/40 px-4 py-2.5 font-mono text-sm font-bold tracking-[0.14em] text-hud-cyan uppercase transition-colors hover:bg-hud-cyan/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hud-cyan md:text-base"
-              >
+            {PRIMARY_PANELS.map(({ id, labelKey }) => (
+              <HudCyanButton key={id} onClick={() => handleOpen(id)}>
                 {t.header[labelKey]}
-              </button>
+              </HudCyanButton>
             ))}
           </motion.div>
 
@@ -123,7 +115,7 @@ export default function WelcomeHologram() {
               playWindowOpen();
               openMissionPanel("black-sheep");
             }}
-            className="w-full rounded-lg border border-hud-border/70 bg-hud-cyan/5 px-4 py-3 text-left transition-colors hover:border-hud-cyan/40 hover:bg-hud-cyan/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hud-cyan"
+            className="hud-focus-ring w-full rounded-lg border border-hud-border/70 bg-hud-cyan/5 px-4 py-3 text-left transition-colors hover:border-hud-cyan/40 hover:bg-hud-cyan/10"
           >
             <span className="font-mono text-xs tracking-[0.18em] text-hud-cyan/80 uppercase">
               {t.bootup.featuredLabel}
@@ -135,7 +127,7 @@ export default function WelcomeHologram() {
 
           <div className="space-y-2 pt-1">
             <Link
-              href={`${base}/cv/`}
+              href={toBrowserHref(CV_PATH)}
               className="inline-flex min-h-10 items-center font-mono text-sm tracking-widest text-muted-foreground underline-offset-4 transition-colors hover:text-hud-cyan hover:underline md:text-base"
             >
               {t.profile.viewCv}

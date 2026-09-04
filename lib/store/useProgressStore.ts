@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { totalSubmissions } from "@/lib/data/missions";
+import { SECRETS_TOTAL } from "@/lib/game/secrets";
 
 interface ProgressState {
   readSubmissions: string[];
@@ -20,7 +21,7 @@ function computePercentages(
   secrets: string[]
 ): { real: number; secret: number; total: number } {
   const real = Math.min(100, (read.length / totalSubmissions) * 100);
-  const secret = (secrets.length / 5) * 10;
+  const secret = (secrets.length / SECRETS_TOTAL) * 10;
   return {
     real: Math.round(real),
     secret: Math.round(secret),

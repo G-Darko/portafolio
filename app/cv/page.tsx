@@ -1,6 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import {
+  CONTACT_EMAIL,
+  GITHUB_LABEL,
+  GITHUB_URL,
+  mailtoHref,
+  PHONE,
+  SITE_LABEL,
+  SITE_URL,
+} from "@/lib/data/profile";
 
 export default function CVPage() {
   return (
@@ -46,10 +55,10 @@ export default function CVPage() {
           </Link>
           <div className="flex flex-wrap items-center gap-2">
             <Link
-              href="mailto:gdarko.uribe@gmail.com"
+              href={mailtoHref()}
               className="inline-flex min-h-11 items-center break-all rounded border border-hud-border px-3 py-2 font-mono text-sm text-muted-foreground transition-colors hover:text-hud-cyan"
             >
-              gdarko.uribe@gmail.com
+              {CONTACT_EMAIL}
             </Link>
             <button
               type="button"
@@ -126,12 +135,12 @@ export default function CVPage() {
                 <li className="mb-3 flex items-start gap-2">
                   <strong>🌐 Portafolio:</strong>
                   <Link
-                    href="https://g-darko.github.io/portafolio/"
+                    href={SITE_URL}
                     target="_blank"
                     rel="noreferrer"
                     className="break-all text-accent transition-opacity hover:opacity-80"
                   >
-                    g-darko.github.io/portafolio
+                    {SITE_LABEL}
                   </Link>
                 </li>
                 <li className="mb-3 flex items-start gap-2">
@@ -142,25 +151,25 @@ export default function CVPage() {
                   </span>
                   <strong>GitHub:</strong>
                   <Link
-                    href="https://github.com/G-Darko"
+                    href={GITHUB_URL}
                     target="_blank"
                     rel="noreferrer"
                     className="break-all text-accent transition-opacity hover:opacity-80"
                   >
-                    github.com/G-Darko
+                    {GITHUB_LABEL}
                   </Link>
                 </li>
                 <li className="cv-show-print mb-3 hidden items-start gap-2">
                   <strong>📞 Teléfono:</strong>
-                  7202948727
+                  {PHONE}
                 </li>
                 <li className="cv-show-print mb-3 hidden items-start gap-2">
                   <strong>📧 Correo:</strong>
                   <Link
-                    href="mailto:gdarko.uribe@gmail.com"
+                    href={mailtoHref()}
                     className="break-all text-accent transition-opacity hover:opacity-80"
                   >
-                    gdarko.uribe@gmail.com
+                    {CONTACT_EMAIL}
                   </Link>
                 </li>
               </ul>

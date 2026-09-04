@@ -1,3 +1,5 @@
+import { GITHUB_LABEL, GITHUB_URL } from "@/lib/data/profile";
+
 export const translations = {
   es: {
     bootup: {
@@ -57,39 +59,6 @@ export const translations = {
         "Ingeniero en Tecnologías de la Información. Apasionado por el desarrollo web y de software. Me encanta aprender nuevas tecnologías y mejorar mis habilidades en programación. Me considero una persona analítica y siempre dispuesta a enfrentar nuevos desafíos. Destaco por mi capacidad de adaptación, aprendizaje rápido y enfoque en la eficiencia.",
       viewCv: "Ver CV",
       contact: "Contacto",
-    },
-    experience: {
-      title: "Experiencia",
-      leamsiTitle: "Desarrollador Freelance — LEAMSI",
-      leamsiDate: "Julio 2025 - Agosto 2025",
-      leamsiDesc:
-        "Desarrollo de una página web corporativa para una contaduría utilizando Astro y Tailwind CSS. Responsable de la arquitectura front-end y la optimización de rendimiento.",
-    },
-    projects: {
-      title: "Proyectos",
-      aerial: {
-        title: "Sistema de Inventarios | AERIAL DEPOT",
-        tag: "Educación Dual",
-        desc: "Aplicación web desarrollada con Laravel, Vue.js y MySQL, incluye visualización 3D del almacén mediante Three.js para facilitar la localización de productos.",
-      },
-      tienko: {
-        title: "Gestor de Ventas | Tienko",
-        tag: "",
-        desc: "Sistema completo con registro de productos, ventas y reportes, desarrollado en Java con base de datos MySQL.",
-      },
-      postgrados: {
-        title: "Página de Postgrados | UPVM",
-        tag: "Estancia I",
-        desc: "Sitio web informativo para los aspirantes y estudiantes de postgrados de la UPVM, desarrollada con HTML, CSS, JS, PHP y MySQL.",
-      },
-      yiza: {
-        title: "YIZA | CECyTEM Tultitlán",
-        tag: "Educación Dual",
-        desc: "E-Commerce simulado con propia base de datos, manual de usuario y panel de control. Desarrollado con HTML, PHP, JavaScript y CSS puro.",
-      },
-      viewMore: "Ver más",
-      repo: "Repositorio",
-      live: "Ver en vivo",
     },
     skills: {
       title: "Habilidades",
@@ -165,8 +134,8 @@ export const translations = {
       stack:
         "Next.js, React Native, Expo, Astro, Vue, Laravel, Tailwind, Three.js, PostgreSQL, MySQL, Firebird, Linux, Docker.",
       cv: "Abriendo CV en nueva pestaña…",
-      github: "https://github.com/G-Darko",
-      githubLabel: "→ github.com/G-Darko",
+      github: GITHUB_URL,
+      githubLabel: `→ ${GITHUB_LABEL}`,
       progress: "Progreso del sistema",
       hack: "Acceso concedido. Subsistema secreto habilitado.",
       hackProgress: [
@@ -394,39 +363,6 @@ export const translations = {
       viewCv: "View CV",
       contact: "Contact",
     },
-    experience: {
-      title: "Experience",
-      leamsiTitle: "Freelance Developer — LEAMSI",
-      leamsiDate: "July 2025 - August 2025",
-      leamsiDesc:
-        "Development of a corporate website for an accounting firm using Astro and Tailwind CSS. Responsible for front-end architecture and performance optimization.",
-    },
-    projects: {
-      title: "Projects",
-      aerial: {
-        title: "Inventory System | AERIAL DEPOT",
-        tag: "Dual Education",
-        desc: "Web application developed with Laravel, Vue.js and MySQL, includes 3D warehouse visualization using Three.js to facilitate product location.",
-      },
-      tienko: {
-        title: "Sales Manager | Tienko",
-        tag: "",
-        desc: "Complete system with product registration, sales and reports, developed in Java with MySQL database.",
-      },
-      postgrados: {
-        title: "Postgraduates Page | UPVM",
-        tag: "Internship I",
-        desc: "Informational website for UPVM postgraduate applicants and students, developed with HTML, CSS, JS, PHP and MySQL.",
-      },
-      yiza: {
-        title: "YIZA | CECyTEM Tultitlán",
-        tag: "Dual Education",
-        desc: "Simulated E-Commerce with its own database, user manual and control panel. Developed with HTML, PHP, JavaScript and pure CSS.",
-      },
-      viewMore: "View more",
-      repo: "Repository",
-      live: "View live",
-    },
     skills: {
       title: "Skills",
       frontend: "Frontend",
@@ -501,8 +437,8 @@ export const translations = {
       stack:
         "Next.js, React Native, Expo, Astro, Vue, Laravel, Tailwind, Three.js, PostgreSQL, MySQL, Firebird, Linux, Docker.",
       cv: "Opening CV in new tab…",
-      github: "https://github.com/G-Darko",
-      githubLabel: "→ github.com/G-Darko",
+      github: GITHUB_URL,
+      githubLabel: `→ ${GITHUB_LABEL}`,
       progress: "System progress",
       hack: "Access granted. Secret subsystem enabled.",
       hackProgress: [

@@ -10,9 +10,95 @@ import { useProgressStore } from "@/lib/store/useProgressStore";
 import { getMissionCopy, getSubMissionCopy, getMissionsUI } from "@/lib/i18n/missionContent";
 import { playHUDClick } from "@/lib/audio/audio";
 import MissionMediaViewer from "@/components/missions/MissionMediaViewer";
-import Link from "next/link";
+import HudOutlineLink from "./HudOutlineLink";
+import HudStatusDot from "./HudStatusDot";
+import HudCyanButton from "./HudCyanButton";
 
 type View = "map" | "brief" | "detail";
+
+function MissionExternalLinks({
+  liveUrl,
+  repoUrl,
+  liveLabel,
+  repoLabel,
+  size = "sm",
+  className,
+}: {
+  liveUrl?: string;
+  repoUrl?: string;
+  liveLabel: string;
+  repoLabel: string;
+  size?: "sm" | "md";
+  className?: string;
+}) {
+  if (!liveUrl && !repoUrl) return null;
+  return (
+    <div className={className ?? "flex flex-wrap gap-2"}>
+      {repoUrl && (
+        <HudOutlineLink href={repoUrl} external size={size}>
+          <GitBranch size={12} />
+          {repoLabel}
+        </HudOutlineLink>
+      )}
+      {liveUrl && (
+        <HudOutlineLink href={liveUrl} external size={size}>
+          <ExternalLink size={12} />
+          {liveLabel}
+        </HudOutlineLink>
+      )}
+    </div>
+  );
+}
+
+function MissionProgressBar({
+  pct,
+  read,
+  total,
+  label,
+}: {
+  pct: number;
+  read?: number;
+  total?: number;
+  label?: string;
+}) {
+  return (
+    <div className="mt-3">
+      {label != null && read != null && total != null && (
+        <div className="mb-1 flex justify-between font-mono text-sm text-muted-foreground">
+          <span>{label}</span>
+          <span>
+            {read}/{total}
+          </span>
+        </div>
+      )}
+      <div className="h-1 overflow-hidden rounded-full bg-muted">
+        <div
+          className="h-full rounded-full bg-linear-to-r from-hud-cyan to-hud-blue transition-all"
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function MissionBackButton({
+  label,
+  onClick,
+}: {
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="inline-flex items-center gap-1 font-mono text-sm text-hud-cyan hover:underline"
+    >
+      <ArrowLeft size={12} />
+      {label}
+    </button>
+  );
+}
 
 function MockupPlaceholder({
   title,
@@ -50,32 +136,13 @@ function MockupPlaceholder({
           </span>
         ))}
       </div>
-      {(liveUrl || repoUrl) && (
-        <div className="mt-1 flex flex-wrap justify-center gap-2">
-          {repoUrl && (
-            <Link
-              href={repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex min-h-10 items-center gap-1 rounded border border-hud-border px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-hud-cyan/10 hover:text-hud-cyan"
-            >
-              <GitBranch size={12} />
-              {repoLabel}
-            </Link>
-          )}
-          {liveUrl && (
-            <Link
-              href={liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex min-h-10 items-center gap-1 rounded border border-hud-border px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-hud-cyan/10 hover:text-hud-cyan"
-            >
-              <ExternalLink size={12} />
-              {liveLabel}
-            </Link>
-          )}
-        </div>
-      )}
+      <MissionExternalLinks
+        liveUrl={liveUrl}
+        repoUrl={repoUrl}
+        liveLabel={liveLabel}
+        repoLabel={repoLabel}
+        className="mt-1 flex flex-wrap justify-center gap-2"
+      />
     </div>
   );
 }
@@ -83,8 +150,7 @@ function MockupPlaceholder({
 export default function MissionsWindow() {
   const locale = useLocaleStore((s) => s.locale);
   const ui = getMissionsUI(locale);
-  const { activeMissionId, activeSubMissionId, selectMission, selectSubMission, soundEnabled } =
-    useHUDStore();
+  const { activeMissionId, activeSubMissionId, selectMission, selectSubMission } = useHUDStore();
   const { readSubmissions, markRead, completedMissions, completeMission } = useProgressStore();
 
   const [view, setView] = useState<View>("map");
@@ -112,37 +178,37 @@ export default function MissionsWindow() {
   }, [activeMissionId, activeSubMissionId]);
 
   const openMission = (id: MissionId) => {
-    if (soundEnabled) playHUDClick();
+    playHUDClick();
     selectMission(id);
     selectSubMission(null);
     setView("brief");
   };
 
   const openSubMission = (sm: SubMission) => {
-    if (soundEnabled) playHUDClick();
+    playHUDClick();
     selectSubMission(sm.id);
     setView("detail");
   };
 
   const backToBrief = () => {
-    if (soundEnabled) playHUDClick();
+    playHUDClick();
     selectSubMission(null);
     setView("brief");
   };
 
   const backToMap = () => {
-    if (soundEnabled) playHUDClick();
+    playHUDClick();
     selectMission(null);
     selectSubMission(null);
     setView("map");
   };
 
   const handleCompleteBrief = (sm: SubMission, missionId: MissionId) => {
-    if (soundEnabled) playHUDClick();
+    playHUDClick();
     markRead(sm.id);
     const m = missions.find((x) => x.id === missionId)!;
-    const allRead = m.subMissions.every((s) =>
-      readSubmissions.includes(s.id) || s.id === sm.id
+    const allRead = m.subMissions.every(
+      (s) => readSubmissions.includes(s.id) || s.id === sm.id
     );
     if (allRead && !completedMissions.includes(missionId)) {
       completeMission(missionId);
@@ -197,20 +263,12 @@ export default function MissionsWindow() {
                     <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
                       {copy.description}
                     </p>
-                    <div className="mt-3">
-                      <div className="mb-1 flex justify-between font-mono text-sm text-muted-foreground">
-                        <span>{ui.progress}</span>
-                        <span>
-                          {prog.read}/{prog.total}
-                        </span>
-                      </div>
-                      <div className="h-1 overflow-hidden rounded-full bg-muted">
-                        <div
-                          className="h-full rounded-full bg-linear-to-r from-hud-cyan to-hud-blue transition-all"
-                          style={{ width: `${prog.pct}%` }}
-                        />
-                      </div>
-                    </div>
+                    <MissionProgressBar
+                      pct={prog.pct}
+                      read={prog.read}
+                      total={prog.total}
+                      label={ui.progress}
+                    />
                   </motion.button>
                 );
               })}
@@ -227,14 +285,7 @@ export default function MissionsWindow() {
             exit={{ opacity: 0, x: -12 }}
             className="space-y-4"
           >
-            <button
-              type="button"
-              onClick={backToMap}
-              className="inline-flex items-center gap-1 font-mono text-sm text-hud-cyan hover:underline"
-            >
-              <ArrowLeft size={12} />
-              {ui.backToMap}
-            </button>
+            <MissionBackButton label={ui.backToMap} onClick={backToMap} />
 
             {(() => {
               const copy = getMissionCopy(locale, mission);
@@ -259,12 +310,7 @@ export default function MissionsWindow() {
                       </p>
                     )}
                     <p className="mt-2 text-sm leading-relaxed text-foreground">{copy.description}</p>
-                    <div className="mt-3 h-1 overflow-hidden rounded-full bg-muted">
-                      <div
-                        className="h-full rounded-full bg-linear-to-r from-hud-cyan to-hud-blue"
-                        style={{ width: `${prog.pct}%` }}
-                      />
-                    </div>
+                    <MissionProgressBar pct={prog.pct} />
                   </div>
 
                   <p className="font-mono text-sm tracking-widest text-muted-foreground uppercase">
@@ -286,14 +332,15 @@ export default function MissionsWindow() {
                           className="group w-full rounded-lg border border-hud-border p-3 text-left transition-colors hover:border-hud-cyan/40 hover:bg-hud-cyan/5"
                         >
                           <div className="flex items-start gap-2">
-                            <div
-                              className={`mt-1 h-2 w-2 shrink-0 rounded-full ${
-                                isRead ? "bg-hud-green shadow-[0_0_6px_var(--hud-green)]" : "bg-hud-cyan/50"
-                              }`}
+                            <HudStatusDot
+                              color={isRead ? "green" : "cyan"}
+                              className={isRead ? "mt-1" : "mt-1 opacity-50 shadow-none"}
                             />
                             <div className="min-w-0 flex-1">
                               <div className="flex flex-wrap items-center gap-2">
-                                <h4 className="text-sm font-bold text-hud-cyan md:text-base">{smCopy.title}</h4>
+                                <h4 className="text-sm font-bold text-hud-cyan md:text-base">
+                                  {smCopy.title}
+                                </h4>
                                 {smCopy.contextTag && (
                                   <span className="rounded border border-hud-border px-1 text-sm text-muted-foreground">
                                     {smCopy.contextTag}
@@ -334,14 +381,7 @@ export default function MissionsWindow() {
             exit={{ opacity: 0, x: -12 }}
             className="space-y-3"
           >
-            <button
-              type="button"
-              onClick={backToBrief}
-              className="inline-flex items-center gap-1 font-mono text-sm text-hud-cyan hover:underline"
-            >
-              <ArrowLeft size={12} />
-              {ui.back}
-            </button>
+            <MissionBackButton label={ui.back} onClick={backToBrief} />
 
             {(() => {
               const smCopy = getSubMissionCopy(locale, subMission);
@@ -379,39 +419,22 @@ export default function MissionsWindow() {
 
                   <p className="text-sm leading-relaxed text-foreground">{smCopy.description}</p>
 
-                  <div className="flex flex-wrap gap-2">
-                    {subMission.repoUrl && (
-                      <Link
-                        href={subMission.repoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 rounded border border-hud-border px-2 py-1 text-sm text-muted-foreground transition-colors hover:bg-hud-cyan/10"
-                      >
-                        <GitBranch size={12} />
-                        {ui.repo}
-                      </Link>
-                    )}
-                    {subMission.liveUrl && (
-                      <Link
-                        href={subMission.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 rounded border border-hud-border px-2 py-1 text-sm text-muted-foreground transition-colors hover:bg-hud-cyan/10"
-                      >
-                        <ExternalLink size={12} />
-                        {ui.live}
-                      </Link>
-                    )}
-                  </div>
+                  {!(subMission.isMockup || !subMission.images?.length) && (
+                    <MissionExternalLinks
+                      liveUrl={subMission.liveUrl}
+                      repoUrl={subMission.repoUrl}
+                      liveLabel={ui.live}
+                      repoLabel={ui.repo}
+                    />
+                  )}
 
                   {!isRead && (
-                    <button
-                      type="button"
+                    <HudCyanButton
+                      className="w-full border-hud-cyan/40 bg-hud-cyan/10 hover:bg-hud-cyan/20"
                       onClick={() => handleCompleteBrief(subMission, mission.id)}
-                      className="w-full rounded border border-hud-cyan/40 bg-hud-cyan/10 py-2 font-mono text-sm font-bold tracking-widest text-hud-cyan transition-colors hover:bg-hud-cyan/20"
                     >
                       {ui.completeBrief}
-                    </button>
+                    </HudCyanButton>
                   )}
                   {isRead && (
                     <p className="flex items-center gap-1 font-mono text-sm text-hud-green">

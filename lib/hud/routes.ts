@@ -1,5 +1,6 @@
 import type { PanelId } from "@/lib/store/useHUDStore";
 import type { MissionId } from "@/lib/data/missions";
+import { getBasePath } from "@/lib/asset";
 
 export const PANEL_PATHS: Record<PanelId, string> = {
   profile: "profile",
@@ -17,9 +18,9 @@ const PATH_TO_PANEL = Object.fromEntries(
 
 const MISSION_IDS: MissionId[] = ["black-sheep", "freelance", "academia"];
 
-/** Mirrors next.config basePath (production GitHub Pages only). */
+/** Alias of getBasePath — keep HUD routing imports stable. */
 export function getHudBasePath(): string {
-  return process.env.NODE_ENV === "production" ? "/portafolio" : "";
+  return getBasePath();
 }
 
 export function isMissionId(value: string): value is MissionId {

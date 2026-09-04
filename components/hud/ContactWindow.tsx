@@ -5,11 +5,17 @@ import { motion } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { GitBranch, Mail, Send } from "lucide-react";
 import Link from "next/link";
-import { getHudBasePath } from "@/lib/hud/routes";
+import {
+  CONTACT_EMAIL,
+  CV_PATH,
+  FORMSPREE_ENDPOINT,
+  GITHUB_URL,
+  mailtoHref,
+} from "@/lib/data/profile";
+import { toBrowserHref } from "@/lib/hud/routes";
+import HudOutlineLink from "./HudOutlineLink";
+import HudScanlines from "./HudScanlines";
 
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/xlevgjee";
-const CONTACT_EMAIL = "gdarko.uribe@gmail.com";
-const GITHUB_URL = "https://github.com/G-Darko";
 const MESSAGE_MAX = 2000;
 
 type FormStatus = "idle" | "sending" | "success" | "error";
@@ -20,7 +26,6 @@ export default function ContactWindow() {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<FormStatus>("idle");
   const abortRef = useRef<AbortController | null>(null);
-  const base = getHudBasePath();
 
   useEffect(() => {
     return () => {
@@ -66,9 +71,6 @@ export default function ContactWindow() {
     }
   };
 
-  const channelClass =
-    "inline-flex min-h-11 items-center justify-center gap-1.5 rounded border border-hud-border px-3 py-2 font-mono text-sm text-hud-cyan transition-colors hover:bg-hud-cyan/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-hud-cyan";
-
   return (
     <div className="contact-form space-y-5">
       <div className="text-center">
@@ -85,33 +87,22 @@ export default function ContactWindow() {
           {t.contact.channels}
         </p>
         <div className="flex flex-wrap gap-2">
-          <Link href={`mailto:${CONTACT_EMAIL}`} className={channelClass}>
+          <HudOutlineLink href={mailtoHref()} tone="cyan">
             <Mail size={14} />
             {CONTACT_EMAIL}
-          </Link>
-          <Link
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={channelClass}
-          >
+          </HudOutlineLink>
+          <HudOutlineLink href={GITHUB_URL} external tone="cyan">
             <GitBranch size={14} />
             GitHub
-          </Link>
-          <Link href={`${base}/cv/`} className={channelClass}>
+          </HudOutlineLink>
+          <HudOutlineLink href={toBrowserHref(CV_PATH)} tone="cyan">
             {t.profile.viewCv}
-          </Link>
+          </HudOutlineLink>
         </div>
       </div>
 
       <div className="relative overflow-hidden rounded-xl border border-hud-border/70 bg-hud-cyan/4 p-4 shadow-[0_0_28px_color-mix(in_oklch,var(--hud-cyan)_12%,transparent)] backdrop-blur-sm md:p-5">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.12]"
-          style={{
-            background:
-              "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--hud-cyan) 8%, transparent) 2px, color-mix(in oklch, var(--hud-cyan) 8%, transparent) 4px)",
-          }}
-        />
+        <HudScanlines opacity={0.12} variant="token" />
 
         <form onSubmit={handleSubmit} className="relative space-y-5" noValidate>
           <div className="contact-field">
@@ -190,7 +181,10 @@ export default function ContactWindow() {
                     {t.contact.retry}
                   </button>
                   <Link
-                    href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Portfolio contact")}&body=${encodeURIComponent(message)}`}
+                    href={mailtoHref({
+                      subject: "Portfolio contact",
+                      body: message,
+                    })}
                     className="inline-flex min-h-10 items-center gap-1.5 rounded border border-hud-cyan/40 px-3 font-mono text-sm text-hud-cyan transition-colors hover:bg-hud-cyan/10"
                   >
                     <Mail size={14} />
