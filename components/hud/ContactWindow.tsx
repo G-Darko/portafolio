@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { GitBranch, Mail, Send } from "lucide-react";
+import Link from "next/link";
+import { getHudBasePath } from "@/lib/hud/routes";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xlevgjee";
 const CONTACT_EMAIL = "gdarko.uribe@gmail.com";
@@ -18,6 +20,7 @@ export default function ContactWindow() {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<FormStatus>("idle");
   const abortRef = useRef<AbortController | null>(null);
+  const base = getHudBasePath();
 
   useEffect(() => {
     return () => {
@@ -82,11 +85,11 @@ export default function ContactWindow() {
           {t.contact.channels}
         </p>
         <div className="flex flex-wrap gap-2">
-          <a href={`mailto:${CONTACT_EMAIL}`} className={channelClass}>
+          <Link href={`mailto:${CONTACT_EMAIL}`} className={channelClass}>
             <Mail size={14} />
             {CONTACT_EMAIL}
-          </a>
-          <a
+          </Link>
+          <Link
             href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
@@ -94,10 +97,10 @@ export default function ContactWindow() {
           >
             <GitBranch size={14} />
             GitHub
-          </a>
-          <a href="/cv" className={channelClass}>
+          </Link>
+          <Link href={`${base}/cv/`} className={channelClass}>
             {t.profile.viewCv}
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -186,13 +189,13 @@ export default function ContactWindow() {
                   >
                     {t.contact.retry}
                   </button>
-                  <a
+                  <Link
                     href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Portfolio contact")}&body=${encodeURIComponent(message)}`}
                     className="inline-flex min-h-10 items-center gap-1.5 rounded border border-hud-cyan/40 px-3 font-mono text-sm text-hud-cyan transition-colors hover:bg-hud-cyan/10"
                   >
                     <Mail size={14} />
                     {t.contact.mailtoFallback}
-                  </a>
+                  </Link>
                 </div>
               </div>
             )}

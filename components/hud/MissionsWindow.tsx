@@ -10,6 +10,7 @@ import { useProgressStore } from "@/lib/store/useProgressStore";
 import { getMissionCopy, getSubMissionCopy, getMissionsUI } from "@/lib/i18n/missionContent";
 import { playHUDClick } from "@/lib/audio/audio";
 import MissionMediaViewer from "@/components/missions/MissionMediaViewer";
+import Link from "next/link";
 
 type View = "map" | "brief" | "detail";
 
@@ -52,7 +53,7 @@ function MockupPlaceholder({
       {(liveUrl || repoUrl) && (
         <div className="mt-1 flex flex-wrap justify-center gap-2">
           {repoUrl && (
-            <a
+            <Link
               href={repoUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -60,10 +61,10 @@ function MockupPlaceholder({
             >
               <GitBranch size={12} />
               {repoLabel}
-            </a>
+            </Link>
           )}
           {liveUrl && (
-            <a
+            <Link
               href={liveUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -71,7 +72,7 @@ function MockupPlaceholder({
             >
               <ExternalLink size={12} />
               {liveLabel}
-            </a>
+            </Link>
           )}
         </div>
       )}
@@ -380,7 +381,7 @@ export default function MissionsWindow() {
 
                   <div className="flex flex-wrap gap-2">
                     {subMission.repoUrl && (
-                      <a
+                      <Link
                         href={subMission.repoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -388,10 +389,10 @@ export default function MissionsWindow() {
                       >
                         <GitBranch size={12} />
                         {ui.repo}
-                      </a>
+                      </Link>
                     )}
                     {subMission.liveUrl && (
-                      <a
+                      <Link
                         href={subMission.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -399,7 +400,7 @@ export default function MissionsWindow() {
                       >
                         <ExternalLink size={12} />
                         {ui.live}
-                      </a>
+                      </Link>
                     )}
                   </div>
 

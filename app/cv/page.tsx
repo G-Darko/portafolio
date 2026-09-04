@@ -45,12 +45,12 @@ export default function CVPage() {
             ← Portafolio
           </Link>
           <div className="flex flex-wrap items-center gap-2">
-            <a
+            <Link
               href="mailto:gdarko.uribe@gmail.com"
               className="inline-flex min-h-11 items-center break-all rounded border border-hud-border px-3 py-2 font-mono text-sm text-muted-foreground transition-colors hover:text-hud-cyan"
             >
               gdarko.uribe@gmail.com
-            </a>
+            </Link>
             <button
               type="button"
               onClick={() => window.print()}
@@ -125,14 +125,14 @@ export default function CVPage() {
               <ul className="list-none">
                 <li className="mb-3 flex items-start gap-2">
                   <strong>🌐 Portafolio:</strong>
-                  <a
+                  <Link
                     href="https://g-darko.github.io/portafolio/"
                     target="_blank"
                     rel="noreferrer"
                     className="break-all text-accent transition-opacity hover:opacity-80"
                   >
                     g-darko.github.io/portafolio
-                  </a>
+                  </Link>
                 </li>
                 <li className="mb-3 flex items-start gap-2">
                   <span className="shrink-0">
@@ -141,14 +141,14 @@ export default function CVPage() {
                     </svg>
                   </span>
                   <strong>GitHub:</strong>
-                  <a
+                  <Link
                     href="https://github.com/G-Darko"
                     target="_blank"
                     rel="noreferrer"
                     className="break-all text-accent transition-opacity hover:opacity-80"
                   >
                     github.com/G-Darko
-                  </a>
+                  </Link>
                 </li>
                 <li className="cv-show-print mb-3 hidden items-start gap-2">
                   <strong>📞 Teléfono:</strong>
@@ -156,12 +156,12 @@ export default function CVPage() {
                 </li>
                 <li className="cv-show-print mb-3 hidden items-start gap-2">
                   <strong>📧 Correo:</strong>
-                  <a
+                  <Link
                     href="mailto:gdarko.uribe@gmail.com"
                     className="break-all text-accent transition-opacity hover:opacity-80"
                   >
                     gdarko.uribe@gmail.com
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </section>
@@ -236,26 +236,26 @@ export default function CVPage() {
                 Folio: (D-00)<strong>16955622</strong>
               </p>
               <p className="mb-3">
-                <a
+                <Link
                   className="cv-attr text-accent transition-opacity hover:opacity-80"
                   href="https://conocer.gob.mx/RENAP/certificaciones"
                   target="_blank"
                   rel="noreferrer"
                 >
                   Verificación en RENAP
-                </a>
+                </Link>
               </p>
 
               <p className="mb-1">
                 <strong>Perfil de Credly (Netacad)</strong><br />
-                <a
+                <Link
                   href="https://www.credly.com/users/g-darko"
                   target="_blank"
                   rel="noreferrer"
                   className="text-accent transition-opacity hover:opacity-80"
                 >
                   credly.com/users/g-darko
-                </a>
+                </Link>
               </p>
             </section>
           </main>

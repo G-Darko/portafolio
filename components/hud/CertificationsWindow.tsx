@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { ExternalLink } from "lucide-react";
+import Link from "next/link";
 
 interface CertData {
   icon: string;
@@ -63,7 +64,7 @@ export default function CertificationsWindow() {
               {cert.folio && (
                 <p className="mt-1 font-mono text-xs text-muted-foreground opacity-50 md:text-sm">{cert.folio}</p>
               )}
-              <a
+              <Link
                 href={cert.link}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -71,7 +72,7 @@ export default function CertificationsWindow() {
               >
                 <ExternalLink size={12} />
                 {cert.linkText}
-              </a>
+              </Link>
             </div>
           </div>
         </motion.div>

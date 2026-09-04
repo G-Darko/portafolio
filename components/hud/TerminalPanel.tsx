@@ -14,6 +14,7 @@ import {
   type TerminalLine,
   type TerminalLineType,
 } from "@/lib/game/terminalCommands";
+import Link from "next/link";
 
 const BOOT_DELAY_MS = 420;
 const ASYNC_LINE_DELAY_MS = 180;
@@ -269,9 +270,9 @@ export default function TerminalPanel() {
                   {line.text}
                 </span>
               ) : line.href ? (
-                <a href={line.href} target="_blank" rel="noopener noreferrer">
+                <Link href={line.href} target="_blank" rel="noopener noreferrer">
                   {line.text}
-                </a>
+                </Link>
               ) : (
                 line.text || "\u00A0"
               )}

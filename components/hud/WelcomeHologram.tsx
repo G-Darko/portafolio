@@ -5,6 +5,8 @@ import { motion } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useHUDStore, type PanelId } from "@/lib/store/useHUDStore";
 import { playWindowOpen } from "@/lib/audio/audio";
+import Link from "next/link";
+import { getHudBasePath } from "@/lib/hud/routes";
 
 const PRIMARY_ACTIONS: { id: PanelId; labelKey: "profile" | "missions" | "contact" }[] = [
   { id: "profile", labelKey: "profile" },
@@ -20,6 +22,7 @@ export default function WelcomeHologram() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
   const [deleting, setDeleting] = useState(false);
+  const base = getHudBasePath();
 
   useEffect(() => {
     const full = roles[roleIndex];
@@ -32,6 +35,7 @@ export default function WelcomeHologram() {
     } else if (deleting && displayed.length > 0) {
       timeout = setTimeout(() => setDisplayed(full.slice(0, displayed.length - 1)), 28);
     } else {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setDeleting(false);
       setRoleIndex((i) => (i + 1) % roles.length);
     }
@@ -130,12 +134,12 @@ export default function WelcomeHologram() {
           </motion.button>
 
           <div className="space-y-2 pt-1">
-            <a
-              href="/cv"
+            <Link
+              href={`${base}/cv/`}
               className="inline-flex min-h-10 items-center font-mono text-sm tracking-widest text-muted-foreground underline-offset-4 transition-colors hover:text-hud-cyan hover:underline md:text-base"
             >
               {t.profile.viewCv}
-            </a>
+            </Link>
 
             <p className="font-mono text-xs leading-relaxed text-muted-foreground/80 md:text-sm">
               {t.bootup.welcomeHint}
