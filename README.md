@@ -20,7 +20,7 @@ Sitio interactivo con metáfora HUD (“Hologram Workshop”), misiones/proyecto
 
 ### Experiencia destacada (contenido)
 
-- **Black Sheep Lab** — ownership end-to-end: LMS multi-tenant (Skool), apps Expo (Duplica / CRESER white-label), integraciones WhatsApp/ERP (OmniSIP, KRKN), WMS/etiquetas (Firebird, ZPL/TSPL).
+- **Black Sheep Lab** — ownership end-to-end: LMS multi-tenant (Skool), apps Expo (Duplica / CRESER white-label), integraciones WhatsApp/ERP (Black Sync, KRKN), WMS/etiquetas (Firebird, ZPL/TSPL).
 - Freelance y formación aplicada (Astro, Aerial Depot, estancias UPVM) como soporte secundario.
 
 ---

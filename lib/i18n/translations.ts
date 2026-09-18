@@ -290,11 +290,11 @@ export const translations = {
           description:
             "Servicio chico pero completo: estados, municipios, colonias y CP con catálogo SEPOMEX + GeoJSON. Dashboard con tokens, rate limit, auth y docs para que otros productos consulten direcciones sin reinventar el catálogo.",
         },
-        omnisip: {
-          title: "OmniSIP",
+        "black-sync": {
+          title: "Black Sync",
           tagline: "WhatsApp/IA hablando con Microsip",
           description:
-            "OmniSIP es el puente entre respond.io (WhatsApp + agente) y Microsip (Firebird). Por empresa: catálogo, stock, clientes, carrito y pedidos. Lo armé de cero como SaaS multi-tenant porque el ERP no tenía esa puerta.",
+            "Puente entre respond.io (WhatsApp + agente) y Microsip (Firebird). Por empresa: catálogo, stock, clientes, carrito y pedidos. Lo armé de cero como SaaS multi-tenant porque el ERP no tenía esa puerta.",
         },
         leamsi: {
           title: "LEAMSI",
@@ -635,11 +635,11 @@ export const translations = {
           description:
             "Small but complete service: states, municipalities, neighborhoods, and ZIPs from SEPOMEX + GeoJSON. Token dashboard, rate limits, auth, and docs so other products can query addresses without reinventing the catalog.",
         },
-        omnisip: {
-          title: "OmniSIP",
+        "black-sync": {
+          title: "Black Sync",
           tagline: "WhatsApp/AI talking to Microsip",
           description:
-            "OmniSIP bridges respond.io (WhatsApp + agent) to Microsip (Firebird). Per company: catalog, stock, clients, cart, and orders. Built from scratch as multi-tenant SaaS because the ERP had no door for that.",
+            "Bridges respond.io (WhatsApp + agent) to Microsip (Firebird). Per company: catalog, stock, clients, cart, and orders. Built from scratch as multi-tenant SaaS because the ERP had no door for that.",
         },
         leamsi: {
           title: "LEAMSI",

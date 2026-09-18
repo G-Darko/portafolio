@@ -123,8 +123,8 @@ const cvByLocale: Record<Locale, CvContent> = {
           text: "Duplica es la app móvil/web más grande que he construido (Expo/React Native, publicada en Play Store). CRESER v1.0.0 es su white-label: mismo núcleo de producto, branding y despliegue por cliente.",
         },
         {
-          label: "OmniSIP",
-          text: "Integración Respond.io API + Microsip ERP para flujos de WhatsApp y sincronización con sistemas empresariales legacy.",
+          label: "Black Sync",
+          text: "Ownership end-to-end del puente multi-tenant respond.io (WhatsApp + agente) ↔ Microsip (Firebird): catálogo, stock, clientes, carrito y pedidos por empresa.",
         },
         {
           label: "KRKN - WMS",
@@ -261,11 +261,11 @@ const cvByLocale: Record<Locale, CvContent> = {
           text: "Duplica is the largest product I’ve built (Expo/React Native mobile + web, published on the Play Store). CRESER v1.0.0 is its white-label: same product core, client branding and deployment.",
         },
         {
-          label: "KRKN / OmniSIP",
-          text: "Respond.io API + Microsip ERP integration for WhatsApp workflows and sync with legacy enterprise systems.",
+          label: "Black Sync",
+          text: "End-to-end ownership of the multi-tenant respond.io (WhatsApp + agent) ↔ Microsip (Firebird) bridge: per-company catalog, stock, clients, cart, and orders.",
         },
         {
-          label: "WMS / labels (KRKN)",
+          label: "KRKN - WMS",
           text: "Warehouse layouts on Firebird and ZPL/TSPL label printing for floor operations.",
         },
       ],
@@ -336,7 +336,7 @@ const cvByLocale: Record<Locale, CvContent> = {
       {
         title: "B.S. Information Technology Engineering",
         org: "Universidad Politécnica del Valle de México (UPVM)",
-        period: "2023 – Present",
+        period: "2023 – 2026",
       },
       {
         title: "Programming Technician",

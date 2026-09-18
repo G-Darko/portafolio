@@ -420,9 +420,9 @@ const tours = [
     ],
   },
   {
-    id: "omnisip",
-    match: "omnisip",
-    base: "https://omnisip.blck-sheep.com",
+    id: "black-sync",
+    match: "black-sync",
+    base: "https://black-sync.com",
     loginPath: "/admin/login",
     userSel: "#email",
     passSel: "#password",
