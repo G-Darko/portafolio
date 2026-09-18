@@ -10,7 +10,7 @@ Referencia local para el portafolio y capturas. Credenciales de demo viven solo 
 | `Cursos/` | Duplica (+ base de Creser) | Monorepo membresías / comunidad / app |
 | `CRESER/` | Creser (white-label) | Checkout del monorepo Duplica |
 | `KRKN/` | KRKN / FYTTSA ERP | Frontend Next + backend PHP/Firebird |
-| `omnisip/` | OmniSIP | Bridge respond.io ↔ Microsip |
+| `black-sync/` | Black Sync | Bridge respond.io ↔ Microsip |
 | `cpmx/` | CPMX | API CP / colonias México |
 | `RNME/` | La Red (RNME) | Comunidad / eventos / membresías |
 | `FyttsaGo/` | (no en Missions aún) | E-commerce B2C FYTTSA |
@@ -86,12 +86,12 @@ El pedazo “Layout/Croquis” del portafolio vive en este stack (piso de almac�
 
 ---
 
-## `omnisip/`
+## `black-sync/`
 
 SaaS: WhatsApp/agente (respond.io) → pedidos/catálogo/stock en Microsip (Firebird) por empresa.
 
 ```
-omnisip/
+black-sync/
 ├── app/admin/     # panel
 ├── app/api/       # webhooks respond, bots, …
 ├── lib/
@@ -99,7 +99,7 @@ omnisip/
 └── docs/
 ```
 
-Live: [omnisip.blck-sheep.com](https://omnisip.blck-sheep.com/) · dev ~`:3333` · PM2 prod ~`:3359`.
+Live: [black-sync.com](https://black-sync.com/) · dev ~`:3333` · PM2 prod ~`:3359`.
 
 ---
 
