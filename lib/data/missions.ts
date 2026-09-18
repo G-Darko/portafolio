@@ -186,6 +186,7 @@ export const missions: Mission[] = [
           "/img/black-sync/app-admin.webp",
           "/img/black-sync/app-integracion.webp",
           "/img/black-sync/app-conversaciones.webp",
+          "/img/black-sync/app-empresas.webp",
         ],
         video: "/video/black-sync/tour.webm",
       },
