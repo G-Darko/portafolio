@@ -4,7 +4,7 @@ Portafolio personal de **Gael Uribe (G-Darko)** — desarrollador de software y 
 
 Sitio interactivo con metáfora HUD (“Hologram Workshop”), misiones/proyectos reales, skills 3D, contacto y un **CV** descargable en PDF. Bilingüe **ES / EN**.
 
-**Live:** [g-darko.github.io/portafolio](https://g-darko.github.io/portafolio/)
+**Live:** [g-darko.dev](https://g-darko.dev/)
 
 ---
 
@@ -31,7 +31,7 @@ Sitio interactivo con metáfora HUD (“Hologram Workshop”), misiones/proyecto
 - **Tailwind CSS 4** · **Motion** · **Zustand**
 - **Three.js** / React Three Fiber (orbe de skills)
 - **@react-pdf/renderer** (export PDF del CV)
-- Deploy estático a **GitHub Pages** (`output: "export"`, `basePath` en producción)
+- Deploy estático a **GitHub Pages** (`output: "export"`) servido en la raíz de `g-darko.dev`
 
 La carpeta `_LEGACY/` conserva el sitio HTML anterior; **no forma parte del build**.
 
@@ -57,7 +57,7 @@ npm run lint
 
 CI en `.github/workflows/deploy.yml`: build Next y publicación a GitHub Pages.
 
-El `basePath` `/portafolio` se aplica solo en producción para coincidir con la URL del project site.
+El sitio se sirve desde la raíz del dominio `https://g-darko.dev`, sin `basePath`.
 
 ---
 
@@ -65,7 +65,7 @@ El `basePath` `/portafolio` se aplica solo en producción para coincidir con la 
 
 - Email: [gdarko.uribe@gmail.com](mailto:gdarko.uribe@gmail.com)
 - GitHub: [G-Darko](https://github.com/G-Darko)
-- CV en el sitio: [/cv](https://g-darko.github.io/portafolio/cv/)
+- CV en el sitio: [/cv](https://g-darko.dev/cv/)
 
 ---
 

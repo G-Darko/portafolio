@@ -6,8 +6,8 @@ export const GITHUB_URL = `https://github.com/${GITHUB_HANDLE}`;
 export const GITHUB_LABEL = `github.com/${GITHUB_HANDLE}`;
 export const FORMSPREE_ENDPOINT = "https://formspree.io/f/xlevgjee";
 export const CV_PATH = "/cv";
-export const SITE_URL = "https://g-darko.github.io/portafolio/";
-export const SITE_LABEL = "g-darko.github.io/portafolio";
+export const SITE_URL = "https://g-darko.dev/";
+export const SITE_LABEL = "g-darko.dev";
 export const PHONE = "+52 720 294 8727";
 
 /** Digits-only E.164-ish value for `tel:` links. */

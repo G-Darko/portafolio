@@ -8,10 +8,8 @@ const poppins = Poppins({
   weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-/** Matches next.config basePath (GitHub Pages project site). */
-const BASE_PATH = process.env.NODE_ENV === "production" ? "/portafolio" : "";
-const SITE_URL = "https://g-darko.github.io/portafolio";
-const ICON_PATH = `${BASE_PATH}/img/DARKO.png`;
+const SITE_URL = "https://g-darko.dev";
+const ICON_PATH = "/img/DARKO.png";
 
 export const viewport: Viewport = {
   width: "device-width",

@@ -1,10 +1,10 @@
 /**
- * Helpers for resolving base-path-safe asset paths in Next.js static export.
- * Keep in sync with next.config.ts `basePath`.
+ * Helpers for resolving asset paths in the Next.js static export.
+ * The site is served from the domain root, so there is no base path.
  */
 
 export function getBasePath(): string {
-  return process.env.NODE_ENV === "production" ? "/portafolio" : "";
+  return "";
 }
 
 export function asset(path: string): string {
