@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
-import { techStackCatalog } from "@/lib/data/missions";
+import type { Skill } from "@/lib/data/skills";
+import { useSkills } from "@/lib/data/useSkills";
 
 const CATEGORY_KEYS = [
   "frontend",
@@ -15,11 +16,40 @@ const CATEGORY_KEYS = [
 ] as const;
 
 interface SkillsWindowProps {
-  onHoverSkill?: (iconId: string | null) => void;
+  onHoverSkill?: (sphereId: string | null) => void;
+}
+
+function SkillIcon({ skill }: { skill: Skill }) {
+  const [failed, setFailed] = useState(false);
+
+  if (skill.icon && !failed) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element -- remote SVG from the skills API in a static export
+      <img
+        src={skill.icon}
+        alt=""
+        width={18}
+        height={18}
+        loading="lazy"
+        decoding="async"
+        onError={() => setFailed(true)}
+        className="size-[18px] shrink-0 rounded-sm"
+      />
+    );
+  }
+
+  if (!skill.sphereId) return <span aria-hidden className="size-[18px] shrink-0" />;
+
+  return (
+    <svg width="14" height="14" className="mx-0.5 shrink-0 text-hud-cyan" fill="currentColor">
+      <use href={`#${skill.sphereId}`} />
+    </svg>
+  );
 }
 
 export default function SkillsWindow({ onHoverSkill }: SkillsWindowProps) {
   const { t } = useTranslation();
+  const skills = useSkills();
   const [catIndex, setCatIndex] = useState(0);
 
   useEffect(() => {
@@ -65,7 +95,7 @@ export default function SkillsWindow({ onHoverSkill }: SkillsWindowProps) {
                 : cat === "graphics"
                   ? "graphics"
                   : cat;
-        const items = techStackCatalog.filter((item) => item.category === cat);
+        const items = skills.filter((item) => item.category === cat);
         if (items.length === 0) return null;
         return (
           <motion.div
@@ -81,16 +111,14 @@ export default function SkillsWindow({ onHoverSkill }: SkillsWindowProps) {
             <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
               {items.map((item) => (
                 <div
-                  key={item.name}
-                  onMouseEnter={() => onHoverSkill?.(item.iconId)}
+                  key={item.id}
+                  onMouseEnter={() => onHoverSkill?.(item.sphereId ?? null)}
                   onMouseLeave={() => onHoverSkill?.(null)}
-                  onFocus={() => onHoverSkill?.(item.iconId)}
+                  onFocus={() => onHoverSkill?.(item.sphereId ?? null)}
                   onBlur={() => onHoverSkill?.(null)}
                   className="flex items-center gap-2 rounded border border-hud-border/60 bg-hud-bg/30 px-2 py-1.5 transition-all duration-200 hover:border-hud-cyan/50 hover:bg-hud-cyan/10 hover:shadow-[0_0_14px_color-mix(in_oklch,var(--hud-cyan)_18%,transparent)]"
                 >
-                  <svg width="14" height="14" className="shrink-0 text-hud-cyan" fill="currentColor">
-                    <use href={`#${item.iconId}`} />
-                  </svg>
+                  <SkillIcon skill={item} />
                   <span className="truncate font-mono text-sm text-foreground">{item.name}</span>
                 </div>
               ))}
