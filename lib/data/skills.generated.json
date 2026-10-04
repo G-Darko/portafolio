@@ -1,0 +1,269 @@
+{
+  "source": "https://api.g-darko.dev/api/skills",
+  "skills": [
+    {
+      "id": "typescript",
+      "title": "TypeScript",
+      "url": "https://www.typescriptlang.org",
+      "color": "#3178c6",
+      "icon": "https://api.g-darko.dev/icon/typescript.svg",
+      "category": "lenguajes"
+    },
+    {
+      "id": "javascript",
+      "title": "JavaScript",
+      "url": "https://developer.mozilla.org/docs/Web/JavaScript",
+      "color": "#f7df1e",
+      "icon": "https://api.g-darko.dev/icon/javascript.svg",
+      "category": "lenguajes"
+    },
+    {
+      "id": "php",
+      "title": "PHP",
+      "url": "https://www.php.net",
+      "color": "#777bb4",
+      "icon": "https://api.g-darko.dev/icon/php.svg",
+      "category": "lenguajes"
+    },
+    {
+      "id": "java",
+      "title": "Java",
+      "url": "https://www.java.com",
+      "color": "#5382a1",
+      "icon": "https://api.g-darko.dev/icon/java.svg",
+      "category": "lenguajes"
+    },
+    {
+      "id": "python",
+      "title": "Python",
+      "url": "https://www.python.org",
+      "color": "#387eb8",
+      "icon": "https://api.g-darko.dev/icon/python.svg",
+      "category": "lenguajes"
+    },
+    {
+      "id": "html",
+      "title": "HTML5",
+      "url": "https://developer.mozilla.org/docs/Web/HTML",
+      "color": "#e44d26",
+      "icon": "https://api.g-darko.dev/icon/html.svg",
+      "category": "lenguajes"
+    },
+    {
+      "id": "css",
+      "title": "CSS3",
+      "url": "https://developer.mozilla.org/docs/Web/CSS",
+      "color": "#264de4",
+      "icon": "https://api.g-darko.dev/icon/css.svg",
+      "category": "lenguajes"
+    },
+    {
+      "id": "nextjs",
+      "title": "Next.js",
+      "url": "https://nextjs.org",
+      "color": "#000000",
+      "icon": "https://api.g-darko.dev/icon/nextjs.svg",
+      "category": "frontend"
+    },
+    {
+      "id": "react",
+      "title": "React",
+      "url": "https://react.dev",
+      "color": "#00d8ff",
+      "icon": "https://api.g-darko.dev/icon/react.svg",
+      "category": "frontend"
+    },
+    {
+      "id": "vue",
+      "title": "Vue.js",
+      "url": "https://vuejs.org",
+      "color": "#41b883",
+      "icon": "https://api.g-darko.dev/icon/vue.svg",
+      "category": "frontend"
+    },
+    {
+      "id": "astro",
+      "title": "Astro",
+      "url": "https://astro.build",
+      "color": "#bc52ee",
+      "icon": "https://api.g-darko.dev/icon/astro.svg",
+      "category": "frontend"
+    },
+    {
+      "id": "tailwind",
+      "title": "Tailwind CSS",
+      "url": "https://tailwindcss.com",
+      "color": "#2298bd",
+      "icon": "https://api.g-darko.dev/icon/tailwind.svg",
+      "category": "frontend"
+    },
+    {
+      "id": "vite",
+      "title": "Vite",
+      "url": "https://vite.dev",
+      "color": "#41d1ff",
+      "icon": "https://api.g-darko.dev/icon/vite.svg",
+      "category": "frontend"
+    },
+    {
+      "id": "threejs",
+      "title": "Three.js",
+      "url": "https://threejs.org",
+      "color": "#6366f1",
+      "icon": "https://api.g-darko.dev/icon/threejs.svg",
+      "category": "frontend"
+    },
+    {
+      "id": "expo",
+      "title": "Expo",
+      "url": "https://expo.dev",
+      "color": "#1c2024",
+      "icon": "https://api.g-darko.dev/icon/expo.svg",
+      "category": "movil"
+    },
+    {
+      "id": "reactnative",
+      "title": "React Native",
+      "url": "https://reactnative.dev",
+      "color": "#00d8ff",
+      "icon": "https://api.g-darko.dev/icon/reactnative.svg",
+      "category": "movil"
+    },
+    {
+      "id": "capacitor",
+      "title": "Capacitor",
+      "url": "https://capacitorjs.com",
+      "color": "#53b9ff",
+      "icon": "https://api.g-darko.dev/icon/capacitor.svg",
+      "category": "movil"
+    },
+    {
+      "id": "node",
+      "title": "Node.js",
+      "url": "https://nodejs.org",
+      "color": "#539e43",
+      "icon": "https://api.g-darko.dev/icon/node.svg",
+      "category": "backend"
+    },
+    {
+      "id": "hono",
+      "title": "Hono",
+      "url": "https://hono.dev",
+      "color": "#ff5b11",
+      "icon": "https://api.g-darko.dev/icon/hono.svg",
+      "category": "backend"
+    },
+    {
+      "id": "laravel",
+      "title": "Laravel",
+      "url": "https://laravel.com",
+      "color": "#ff2d20",
+      "icon": "https://api.g-darko.dev/icon/laravel.svg",
+      "category": "backend"
+    },
+    {
+      "id": "fastapi",
+      "title": "FastAPI",
+      "url": "https://fastapi.tiangolo.com",
+      "color": "#009688",
+      "icon": "https://api.g-darko.dev/icon/fastapi.svg",
+      "category": "backend"
+    },
+    {
+      "id": "socketio",
+      "title": "Socket.IO",
+      "url": "https://socket.io",
+      "color": "#010101",
+      "icon": "https://api.g-darko.dev/icon/socketio.svg",
+      "category": "backend"
+    },
+    {
+      "id": "postgresql",
+      "title": "PostgreSQL",
+      "url": "https://www.postgresql.org",
+      "color": "#336791",
+      "icon": "https://api.g-darko.dev/icon/postgresql.svg",
+      "category": "datos"
+    },
+    {
+      "id": "mysql",
+      "title": "MySQL",
+      "url": "https://www.mysql.com",
+      "color": "#5b9bd5",
+      "icon": "https://api.g-darko.dev/icon/mysql.svg",
+      "category": "datos"
+    },
+    {
+      "id": "mongodb",
+      "title": "MongoDB",
+      "url": "https://www.mongodb.com",
+      "color": "#01ec64",
+      "icon": "https://api.g-darko.dev/icon/mongodb.svg",
+      "category": "datos"
+    },
+    {
+      "id": "prisma",
+      "title": "Prisma",
+      "url": "https://www.prisma.io",
+      "color": "#2d3748",
+      "icon": "https://api.g-darko.dev/icon/prisma.svg",
+      "category": "datos"
+    },
+    {
+      "id": "docker",
+      "title": "Docker",
+      "url": "https://www.docker.com",
+      "color": "#2396ed",
+      "icon": "https://api.g-darko.dev/icon/docker.svg",
+      "category": "devops"
+    },
+    {
+      "id": "linux",
+      "title": "Linux",
+      "url": "https://www.kernel.org",
+      "color": "#ffeed7",
+      "icon": "https://api.g-darko.dev/icon/linux.svg",
+      "category": "devops"
+    },
+    {
+      "id": "cloudflare",
+      "title": "Cloudflare",
+      "url": "https://www.cloudflare.com",
+      "color": "#fbad41",
+      "icon": "https://api.g-darko.dev/icon/cloudflare.svg",
+      "category": "devops"
+    },
+    {
+      "id": "vercel",
+      "title": "Vercel",
+      "url": "https://vercel.com",
+      "color": "#000000",
+      "icon": "https://api.g-darko.dev/icon/vercel.svg",
+      "category": "devops"
+    },
+    {
+      "id": "git",
+      "title": "Git",
+      "url": "https://git-scm.com",
+      "color": "#de4c36",
+      "icon": "https://api.g-darko.dev/icon/git.svg",
+      "category": "herramientas"
+    },
+    {
+      "id": "github",
+      "title": "GitHub",
+      "url": "https://github.com",
+      "color": "#181717",
+      "icon": "https://api.g-darko.dev/icon/github.svg",
+      "category": "herramientas"
+    },
+    {
+      "id": "vscode",
+      "title": "VS Code",
+      "url": "https://code.visualstudio.com",
+      "color": "#0065a9",
+      "icon": "https://api.g-darko.dev/icon/vscode.svg",
+      "category": "herramientas"
+    }
+  ]
+}

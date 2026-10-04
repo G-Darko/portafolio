@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/fetch-skills.mjs && next build",
+    "skills:fetch": "node scripts/fetch-skills.mjs",
     "start": "next start",
     "lint": "eslint",
     "live": "node scripts/impeccable-live.mjs",

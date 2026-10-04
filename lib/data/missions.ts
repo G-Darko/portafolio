@@ -293,6 +293,7 @@ export type TechCategory =
   | "tools"
   | "game";
 
+/** Offline fallback for the Skills window when the API snapshot is empty (see lib/data/skills.ts). */
 export const techStackCatalog: { name: string; category: TechCategory; iconId: string }[] = [
   { name: "Next.js", category: "frontend", iconId: "nextjs" },
   { name: "React", category: "frontend", iconId: "react" },

@@ -47,9 +47,12 @@ npm run dev
 Abre [http://localhost:3000](http://localhost:3000).
 
 ```bash
-npm run build   # export estático → dist/
+npm run build          # snapshot de skills + export estático → dist/
+npm run skills:fetch   # solo refresca lib/data/skills.generated.json
 npm run lint
 ```
+
+Las skills vienen de [api.g-darko.dev](https://api.g-darko.dev/api/skills). El build guarda un snapshot en `lib/data/skills.generated.json` (si la API falla se conserva el anterior, o se usa `techStackCatalog`), y el cliente intenta refrescarlo al abrir Skills. Para desactivar ese refresh: `NEXT_PUBLIC_SKILLS_REFRESH=false`.
 
 ---
 
