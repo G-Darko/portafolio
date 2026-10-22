@@ -77,14 +77,13 @@ interface SkillIconProps {
   className?: string;
 }
 
-/** Skill icon: lucide (`uiIcon`) → remote SVG logo (`icon`) → sprite symbol (`sprite`) → empty slot. */
+/**
+ * Skill icon: brand SVG from the API (`icon`) → sprite symbol (`sprite`) → lucide (`uiIcon`, last fallback)
+ * → empty slot. A failed SVG load falls through to the next option.
+ */
 export default function SkillIcon({ skill, size = 18, className = "" }: SkillIconProps) {
   const [failed, setFailed] = useState(false);
   const Lucide = skill.uiIcon ? LUCIDE_ICONS[skill.uiIcon] : undefined;
-
-  if (Lucide) {
-    return <Lucide aria-hidden size={size} className={`shrink-0 text-hud-cyan ${className}`} />;
-  }
 
   if (skill.icon && !failed) {
     return (
@@ -109,6 +108,10 @@ export default function SkillIcon({ skill, size = 18, className = "" }: SkillIco
         <use href={`#${skill.sprite}`} />
       </svg>
     );
+  }
+
+  if (Lucide) {
+    return <Lucide aria-hidden size={size} className={`shrink-0 text-hud-cyan ${className}`} />;
   }
 
   return <span aria-hidden className={`shrink-0 ${className}`} style={{ width: size, height: size }} />;
