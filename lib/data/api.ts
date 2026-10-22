@@ -107,6 +107,8 @@ export interface ApiCertification {
   issuer: string;
   issuedAt: string;
   url?: string;
+  emblem?: string;
+  color?: string;
 }
 
 export interface ApiProfile {

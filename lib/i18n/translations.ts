@@ -85,19 +85,7 @@ const es = {
     },
     certifications: {
       title: "Certificaciones",
-      jsEssentials: {
-        title: "JavaScript Essentials 1",
-        org: "Cisco - Netacad",
-        date: "Julio 2025",
-        link: "Ver insignia en Credly",
-      },
-      conocer: {
-        title: "Desarrollo de Código de Software",
-        org: "CONOCER - EC0160",
-        date: "Septiembre 2022",
-        folio: "Folio para validar: 16955622",
-        link: "Validar en RENAP",
-      },
+      link: "Ver credencial",
     },
     contact: {
       title: "Contacto",
@@ -211,7 +199,7 @@ const es = {
       live: "Ver en vivo",
       playStore: "Play Store",
       appStore: "App Store",
-      tenant: "Tenant Fyttsa",
+      tenant: "Ver instancia",
       mockup: "Vista previa pendiente",
       mockupHint: "Aún no hay capturas aquí. Usa el repo o el live si están disponibles.",
       completed: "Completado",
@@ -304,19 +292,7 @@ const en: Copy = {
     },
     certifications: {
       title: "Certifications",
-      jsEssentials: {
-        title: "JavaScript Essentials 1",
-        org: "Cisco - Netacad",
-        date: "July 2025",
-        link: "View badge on Credly",
-      },
-      conocer: {
-        title: "Software Code Development",
-        org: "CONOCER - EC0160",
-        date: "September 2022",
-        folio: "Validation folio: 16955622",
-        link: "Validate on RENAP",
-      },
+      link: "View credential",
     },
     contact: {
       title: "Contact",
@@ -430,7 +406,7 @@ const en: Copy = {
       live: "View live",
       playStore: "Play Store",
       appStore: "App Store",
-      tenant: "Fyttsa tenant",
+      tenant: "Live instance",
       mockup: "Preview pending",
       mockupHint: "No screenshots here yet. Use the repo or live link when available.",
       completed: "Completed",

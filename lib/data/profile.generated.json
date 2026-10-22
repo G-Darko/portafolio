@@ -383,7 +383,7 @@
     {
       "id": "linkedin",
       "title": "LinkedIn",
-      "url": "https://www.linkedin.com/in/isaac-gael-uribe-ortiz",
+      "url": "https://www.linkedin.com/in/g-darko",
       "color": "#0a66c2",
       "icon": "https://api.g-darko.dev/icon/linkedin.svg"
     },
@@ -428,7 +428,7 @@
     "email": "contacto@g-darko.dev",
     "github": "https://github.com/G-Darko",
     "site": "https://g-darko.dev",
-    "linkedin": "https://www.linkedin.com/in/isaac-gael-uribe-ortiz"
+    "linkedin": "https://www.linkedin.com/in/g-darko"
   },
   "experience": [
     {
@@ -606,6 +606,46 @@
       ]
     },
     {
+      "id": "krkn",
+      "title": "KRKN WMS",
+      "tagline": "Layout de almacén y etiquetas",
+      "description": "WMS sobre Microsip (Firebird): layout del almacén, rutas de picking e impresión de etiquetas ZPL/TSPL.",
+      "org": "Black Sheep Lab",
+      "orgUrl": "https://blck-sheep.com",
+      "period": {
+        "start": "2026-02",
+        "end": "2026-07"
+      },
+      "url": "https://krkn.mx/",
+      "stack": [
+        {
+          "id": "nextjs",
+          "title": "Next.js",
+          "icon": "https://api.g-darko.dev/icon/nextjs.svg"
+        },
+        {
+          "id": "typescript",
+          "title": "TypeScript",
+          "icon": "https://api.g-darko.dev/icon/typescript.svg"
+        },
+        {
+          "id": "php",
+          "title": "PHP",
+          "icon": "https://api.g-darko.dev/icon/php.svg"
+        },
+        {
+          "id": "python",
+          "title": "Python",
+          "icon": "https://api.g-darko.dev/icon/python.svg"
+        },
+        {
+          "id": "fastapi",
+          "title": "FastAPI",
+          "icon": "https://api.g-darko.dev/icon/fastapi.svg"
+        }
+      ]
+    },
+    {
       "id": "cpmx",
       "title": "CPMX",
       "tagline": "API de colonias y códigos postales",
@@ -638,7 +678,7 @@
       "id": "black-sync",
       "title": "Black Sync",
       "tagline": "WhatsApp/IA hablando con Microsip",
-      "description": "Puente entre WhatsApp/respond.io y el ERP Microsip (Firebird).",
+      "description": "Puente entre WhatsApp y el ERP Microsip (Firebird).",
       "org": "Black Sheep Lab",
       "orgUrl": "https://blck-sheep.com",
       "period": {
@@ -1038,16 +1078,28 @@
           "id": "krkn",
           "slug": "krkn",
           "title": {
-            "es": "KRKN / FYTTSA",
-            "en": "KRKN / FYTTSA"
+            "es": "KRKN WMS",
+            "en": "KRKN WMS"
           },
           "tagline": {
-            "es": "Croquis y layout del almacén",
-            "en": "Warehouse layout & croquis"
+            "es": "Layout de almacén y etiquetas",
+            "en": "Warehouse layout & labels"
+          },
+          "summary": {
+            "es": "WMS sobre Microsip (Firebird): layout del almacén, rutas de picking e impresión de etiquetas ZPL/TSPL.",
+            "en": "WMS on Microsip (Firebird): warehouse layout, picking paths, and ZPL/TSPL label printing."
           },
           "description": {
-            "es": "FYTTSA es el ERP interno sobre Microsip. Mi pedazo fuerte fue Layout/Croquis: dibujar el piso, acomodar, rutas de picking y sync con el backend (PHP/Firebird + un poco de FastAPI). Menos pantalla bonita, más herramienta de piso.",
-            "en": "FYTTSA is the internal ERP on Microsip. My heavy piece was Layout/Croquis: draw the floor, place stock, picking paths, and sync with PHP/Firebird (+ a bit of FastAPI). Less pretty UI, more floor-tool."
+            "es": "Sistema de gestión de almacén sobre el ERP Microsip. Mi pedazo fuerte fue Layout/Croquis: dibujar el piso, acomodar ubicaciones, rutas de picking y sync con el backend (PHP/Firebird + un poco de FastAPI), además de la impresión de etiquetas ZPL/TSPL. Menos pantalla bonita, más herramienta de piso.",
+            "en": "Warehouse management system on the Microsip ERP. My heavy piece was Layout/Croquis: draw the floor, place locations, picking paths, and sync with the PHP/Firebird backend (+ a bit of FastAPI), plus ZPL/TSPL label printing. Less pretty UI, more floor-tool."
+          },
+          "highlights": {
+            "es": [
+              "Construí el módulo de layout del almacén (dibujo del piso, ubicaciones y rutas de picking) sincronizado con el ERP Microsip (Firebird) vía PHP y FastAPI, y la impresión de etiquetas ZPL/TSPL para la operación en piso."
+            ],
+            "en": [
+              "Built the warehouse layout module (floor drawing, locations, and picking paths) synced with the Microsip ERP (Firebird) through PHP and FastAPI, plus ZPL/TSPL label printing for floor operations."
+            ]
           },
           "contextTag": {
             "es": "Módulos clave",
@@ -1058,14 +1110,11 @@
             "end": "2026-07"
           },
           "liveUrl": "https://krkn.mx/",
-          "tenantUrl": "https://fyttsa.krkn.mx/",
-          "featured": false,
           "video": "/video/krkn/tour.webm",
           "images": [
             "/img/krkn/1.webp",
             "/img/krkn/2.webp",
             "/img/krkn/3.webp",
-            "/img/krkn/fyttsa.webp",
             "/img/krkn/app-etiquetado.webp",
             "/img/krkn/app-layout.webp",
             "/img/krkn/app-embarques-mapa.webp",
@@ -1189,8 +1238,8 @@
             "en": "WhatsApp/AI talking to Microsip"
           },
           "summary": {
-            "es": "Puente entre WhatsApp/respond.io y el ERP Microsip (Firebird).",
-            "en": "Bridge between WhatsApp/respond.io and the Microsip ERP (Firebird)."
+            "es": "Puente entre WhatsApp y el ERP Microsip (Firebird).",
+            "en": "Bridge between WhatsApp and the Microsip ERP (Firebird)."
           },
           "description": {
             "es": "Puente entre respond.io (WhatsApp + agente) y Microsip (Firebird). Por empresa: catálogo, stock, clientes, carrito y pedidos. Lo armé de cero como SaaS multi-tenant porque el ERP no tenía esa puerta.",
@@ -1365,7 +1414,7 @@
       "orgName": "UPVM / CECyTEM",
       "period": {
         "start": "2021",
-        "end": "2025"
+        "end": "2026"
       },
       "projects": [
         {
@@ -1401,8 +1450,8 @@
             "en": "Dual Education"
           },
           "period": {
-            "start": "2023",
-            "end": "2025"
+            "start": "2025",
+            "end": "2026"
           },
           "video": "https://www.youtube.com/embed/pmJ6ysc6ByY",
           "images": [
@@ -1462,6 +1511,10 @@
             "en": "Complete system with product registration, sales and reports, developed in Java with MySQL database."
           },
           "repoUrl": "https://github.com/G-Darko/Tienko",
+          "period": {
+            "start": "2024",
+            "end": "2024"
+          },
           "images": [
             "/img/tienko/3.webp",
             "/img/tienko/1.webp",
@@ -1517,7 +1570,7 @@
             "en": "Internship I"
           },
           "period": {
-            "start": "2022",
+            "start": "2024",
             "end": "2024"
           },
           "repoUrl": "https://github.com/G-Darko/Postgrados_UPVM",
@@ -1621,6 +1674,54 @@
     }
   ],
   "certifications": [
+    {
+      "id": "71c8ee70-2d13-423b-8873-961182d252c9",
+      "name": "JavaScript Essentials 1",
+      "issuer": "Cisco",
+      "issuedAt": "2025-07-27",
+      "url": "https://www.credly.com/badges/71c8ee70-2d13-423b-8873-961182d252c9",
+      "imageUrl": "https://images.credly.com/images/b93bf373-3da6-4ada-9879-a0c39d6a11f8/image.png"
+    },
+    {
+      "id": "e75632f9-b889-4464-8f35-b3a61b3ba131",
+      "name": "Python Essentials 1",
+      "issuer": "Cisco",
+      "issuedAt": "2025-07-21",
+      "url": "https://www.credly.com/badges/e75632f9-b889-4464-8f35-b3a61b3ba131",
+      "imageUrl": "https://images.credly.com/images/68c0b94d-f6ac-40b1-a0e0-921439eb092e/image.png"
+    },
+    {
+      "id": "2ec1ab6a-588e-44cf-965b-f984b8b38879",
+      "name": "Linux Essentials",
+      "issuer": "Cisco",
+      "issuedAt": "2025-07-15",
+      "url": "https://www.credly.com/badges/2ec1ab6a-588e-44cf-965b-f984b8b38879",
+      "imageUrl": "https://images.credly.com/images/e8fe3d67-2967-43d0-bc4a-7a268a37f47b/image.png"
+    },
+    {
+      "id": "8f30e379-bbc3-461e-9ddb-d57e89e7189e",
+      "name": "Operating Systems Basics",
+      "issuer": "Cisco",
+      "issuedAt": "2025-07-15",
+      "url": "https://www.credly.com/badges/8f30e379-bbc3-461e-9ddb-d57e89e7189e",
+      "imageUrl": "https://images.credly.com/images/dcdf1a3c-2594-4f4c-a33a-050b4bca58b5/image.png"
+    },
+    {
+      "id": "f0b145eb-a57b-4b7b-a564-230db1b9b8c4",
+      "name": "CCNA: Introduction to Networks",
+      "issuer": "Cisco",
+      "issuedAt": "2024-02-02",
+      "url": "https://www.credly.com/badges/f0b145eb-a57b-4b7b-a564-230db1b9b8c4",
+      "imageUrl": "https://images.credly.com/images/70d71df5-f3dc-4380-9b9d-f22513a70417/CCNAITN__1_.png"
+    },
+    {
+      "id": "ec5258de-d72d-43f3-8319-d200488700c1",
+      "name": "Introduction to IoT",
+      "issuer": "Cisco",
+      "issuedAt": "2023-05-26",
+      "url": "https://www.credly.com/badges/ec5258de-d72d-43f3-8319-d200488700c1",
+      "imageUrl": "https://images.credly.com/images/fce226c2-0f13-4e17-b60c-24fa6ffd88cb/Intro2IoT.png"
+    },
     {
       "id": "conocer-ec0160",
       "name": "Desarrollo de Código de Software (EC0160)",

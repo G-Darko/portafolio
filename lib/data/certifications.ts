@@ -1,25 +1,36 @@
-export type CertificationId = "jsEssentials" | "conocer";
+import type { Locale } from "@/lib/store/useLocaleStore";
+import { formatPeriodPart } from "@/lib/data/api";
+import { profileSnapshot } from "@/lib/data/snapshot";
 
-export interface CertificationMeta {
-  id: CertificationId;
-  icon: string;
-  iconColor: string;
-  url: string;
-  folio?: string;
+/** Certifications come from the API snapshot (Credly badges + manual entries); nothing is hardcoded here. */
+export interface Certification {
+  id: string;
+  name: string;
+  issuer: string;
+  date: string;
+  url?: string;
+  emblem: string;
+  color: string;
 }
 
-export const CERTIFICATIONS: CertificationMeta[] = [
-  {
-    id: "jsEssentials",
-    icon: "JS",
-    iconColor: "#f7df1e",
-    url: "https://www.credly.com/badges/77a5d34a-d824-42e2-a4bf-d0b498542f90/public_url",
-  },
-  {
-    id: "conocer",
-    icon: "EC",
-    iconColor: "var(--hud-cyan)",
-    url: "https://www.renap.edu.mx/EC0160/16955622",
-    folio: "16955622",
-  },
-];
+const initials = (text: string) =>
+  text
+    .split(/[\s-]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0]!.toUpperCase())
+    .join("");
+
+export function getCertifications(locale: Locale): Certification[] {
+  return [...profileSnapshot.certifications]
+    .sort((a, b) => b.issuedAt.localeCompare(a.issuedAt))
+    .map((c) => ({
+      id: c.id,
+      name: c.name,
+      issuer: c.issuer,
+      date: formatPeriodPart(c.issuedAt, locale),
+      url: c.url,
+      emblem: c.emblem ?? initials(c.issuer),
+      color: c.color ?? "var(--hud-cyan)",
+    }));
+}

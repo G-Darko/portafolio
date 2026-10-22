@@ -7,6 +7,7 @@ import type { Locale } from "@/lib/store/useLocaleStore";
 import { formatPeriod, type Localized } from "@/lib/data/api";
 import { missions, type SubMission } from "@/lib/data/missions";
 import { profileSnapshot } from "@/lib/data/snapshot";
+import { getCertifications } from "@/lib/data/certifications";
 import {
   CONTACT_EMAIL,
   GITHUB_LABEL,
@@ -155,7 +156,11 @@ function roles(locale: Locale): CvRole[] {
   return out.sort((a, b) => b.start.localeCompare(a.start)).map((r) => r.role);
 }
 
-const COPY: Record<Locale, Omit<CvContent, "contact" | "roles" | "skillGroups">> = {
+function certs(locale: Locale): CvCertItem[] {
+  return getCertifications(locale).map((c) => ({ title: c.name, org: c.issuer, date: c.date, url: c.url }));
+}
+
+const COPY: Record<Locale, Omit<CvContent, "contact" | "roles" | "skillGroups" | "certs">> = {
   es: {
     legalName: "Isaac Gael Uribe Ortiz",
     headline: "Desarrollador Full-Stack y Mobile | Next.js, React, React Native, Expo, TypeScript, Node.js",
@@ -173,10 +178,6 @@ const COPY: Record<Locale, Omit<CvContent, "contact" | "roles" | "skillGroups">>
     education: [
       { title: "Ingeniería en Tecnologías de la Información", org: "Universidad Politécnica del Valle de México (UPVM)", period: "ene 2023 – abr 2026" },
       { title: "Técnico en Programación", org: "CECyTEM Tultitlán", period: "2019 – 2022" },
-    ],
-    certs: [
-      { title: "Desarrollo de Código de Software (EC0160)", org: "CONOCER", date: "sep 2022", folio: "(D-00)16955622", url: "https://conocer.gob.mx/RENAP/certificaciones" },
-      { title: "JavaScript Essentials 1", org: "Cisco Networking Academy", date: "jul 2025", url: "https://www.credly.com/users/g-darko" },
     ],
     languages: ["Español: nativo", "Inglés: intermedio (B1)"],
     ui: { back: "← Portafolio", download: "Descargar PDF", downloading: "Generando…", brandStamp: "G-DARKO / CV", available: "Disponible para nuevas oportunidades", techLabel: "Tecnologías" },
@@ -199,10 +200,6 @@ const COPY: Record<Locale, Omit<CvContent, "contact" | "roles" | "skillGroups">>
       { title: "B.S. in Information Technology Engineering", org: "Universidad Politécnica del Valle de México (UPVM)", period: "Jan 2023 – Apr 2026" },
       { title: "Programming Technician", org: "CECyTEM Tultitlán", period: "2019 – 2022" },
     ],
-    certs: [
-      { title: "Software Code Development (EC0160)", org: "CONOCER", date: "Sep 2022", folio: "(D-00)16955622", url: "https://conocer.gob.mx/RENAP/certificaciones" },
-      { title: "JavaScript Essentials 1", org: "Cisco Networking Academy", date: "Jul 2025", url: "https://www.credly.com/users/g-darko" },
-    ],
     languages: ["Spanish: native", "English: intermediate (B1)"],
     ui: { back: "← Portfolio", download: "Download PDF", downloading: "Generating…", brandStamp: "G-DARKO / CV", available: "Open to new opportunities", techLabel: "Tech" },
   },
@@ -210,5 +207,5 @@ const COPY: Record<Locale, Omit<CvContent, "contact" | "roles" | "skillGroups">>
 
 export function getCvContent(locale: Locale): CvContent {
   const copy = COPY[locale] ?? COPY.es;
-  return { ...copy, contact: getContactItems(), roles: roles(locale), skillGroups: skillGroups(locale) };
+  return { ...copy, contact: getContactItems(), roles: roles(locale), skillGroups: skillGroups(locale), certs: certs(locale) };
 }
