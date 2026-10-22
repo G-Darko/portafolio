@@ -1,35 +1,41 @@
+/**
+ * CV content (ES/EN). Experience bullets, skills and contact come from the API profile snapshot
+ * (missions → projects with `highlights`, skills by category, public contact); only CV-specific
+ * copy (summary, education, certifications, languages) lives here.
+ */
 import type { Locale } from "@/lib/store/useLocaleStore";
+import { formatPeriod, type Localized } from "@/lib/data/api";
+import { missions, type SubMission } from "@/lib/data/missions";
+import { profileSnapshot } from "@/lib/data/snapshot";
 import {
   CONTACT_EMAIL,
   GITHUB_LABEL,
   GITHUB_URL,
+  LINKEDIN_LABEL,
+  LINKEDIN_URL,
   PHONE,
   SITE_LABEL,
   SITE_URL,
+  telHref,
 } from "@/lib/data/profile";
 
-/** Curated CV highlights — not a live mirror of missions/skills. */
-
 export interface CvBullet {
+  /** Project name, shown bold before the achievement. */
   label: string;
   text: string;
 }
 
-export interface CvPrimaryRole {
+export interface CvRole {
   title: string;
   org: string;
   period: string;
-  summary: string;
   bullets: CvBullet[];
   tech: string[];
 }
 
-export interface CvPriorRole {
-  title: string;
-  org: string;
-  period: string;
-  description: string;
-  tech: string[];
+export interface CvSkillGroup {
+  label: string;
+  items: string[];
 }
 
 export interface CvEducationItem {
@@ -46,334 +52,163 @@ export interface CvCertItem {
   folio?: string;
 }
 
-export interface CvSkillGroup {
+export interface CvContactItem {
+  kind: "email" | "phone" | "site" | "github" | "linkedin";
   label: string;
-  items: string[];
+  href: string;
 }
 
 export interface CvContent {
   legalName: string;
-  role: string;
-  blurb: string;
-  backLabel: string;
-  downloadLabel: string;
-  downloadingLabel: string;
-  brandStamp: string;
-  experienceTitle: string;
-  priorTitle: string;
-  primaryRole: CvPrimaryRole;
-  priorRoles: CvPriorRole[];
-  skillsTitle: string;
+  headline: string;
+  summary: string;
+  location: string;
+  contact: CvContactItem[];
+  titles: { summary: string; experience: string; skills: string; education: string; certs: string; languages: string };
+  roles: CvRole[];
   skillGroups: CvSkillGroup[];
-  educationTitle: string;
   education: CvEducationItem[];
-  certsTitle: string;
   certs: CvCertItem[];
-  contactTitle: string;
-  softSkillsTitle: string;
-  softSkills: string[];
-  languagesTitle: string;
   languages: string[];
-  /** Screen-only availability chip; omitted from PDF. */
-  availableLabel: string;
-  contact: {
-    email: string;
-    phone: string;
-    site: string;
-    siteUrl: string;
-    github: string;
-    githubUrl: string;
-  };
+  ui: { back: string; download: string; downloading: string; brandStamp: string; available: string; techLabel: string };
 }
 
-const sharedContact = {
-  email: CONTACT_EMAIL,
-  phone: PHONE,
-  site: SITE_LABEL,
-  siteUrl: SITE_URL,
-  github: GITHUB_LABEL,
-  githubUrl: GITHUB_URL,
-};
+/** Contact lines shared by the web CV and the PDF (plain text + link, no icons replacing words). */
+export function getContactItems(): CvContactItem[] {
+  const items: CvContactItem[] = [
+    { kind: "email", label: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
+    { kind: "phone", label: PHONE, href: telHref(PHONE) },
+    { kind: "site", label: SITE_LABEL, href: SITE_URL },
+    { kind: "github", label: GITHUB_LABEL, href: GITHUB_URL },
+  ];
+  if (LINKEDIN_URL && LINKEDIN_LABEL) items.push({ kind: "linkedin", label: LINKEDIN_LABEL, href: LINKEDIN_URL });
+  return items;
+}
 
-const cvByLocale: Record<Locale, CvContent> = {
+const SKILL_GROUPS: { category: string; label: Localized; extra?: string[] }[] = [
+  { category: "frontend", label: { es: "Frontend", en: "Frontend" } },
+  { category: "movil", label: { es: "Mobile", en: "Mobile" }, extra: ["Publicación en App Store y Google Play"] },
+  { category: "backend", label: { es: "Backend", en: "Backend" } },
+  { category: "lenguajes", label: { es: "Lenguajes", en: "Languages" } },
+  { category: "datos", label: { es: "Bases de datos", en: "Databases" }, extra: ["Firebird"] },
+  { category: "devops", label: { es: "DevOps y herramientas", en: "DevOps & tools" } },
+  { category: "herramientas", label: { es: "DevOps y herramientas", en: "DevOps & tools" } },
+];
+
+const EXTRA_EN: Record<string, string> = { "Publicación en App Store y Google Play": "App Store & Google Play publishing" };
+
+/** API skills grouped with standard ATS headings; groups sharing a label are merged. */
+function skillGroups(locale: Locale): CvSkillGroup[] {
+  const groups = new Map<string, string[]>();
+  for (const g of SKILL_GROUPS) {
+    const items = profileSnapshot.skills.filter((s) => s.category === g.category).map((s) => s.title);
+    const extra = (g.extra ?? []).map((e) => (locale === "en" ? (EXTRA_EN[e] ?? e) : e));
+    const label = g.label[locale];
+    groups.set(label, [...(groups.get(label) ?? []), ...items, ...extra]);
+  }
+  return [...groups].map(([label, items]) => ({ label, items: [...new Set(items)] }));
+}
+
+const inCv = (p: SubMission) => p.featured !== false && (p.highlights?.es.length ?? 0) > 0;
+
+/** Known tech only (with an API icon), in order of appearance; unknown names stay out of the CV. */
+const techOf = (projects: SubMission[]) =>
+  [...new Set(projects.flatMap((p) => p.stack.filter((s) => s.id).map((s) => s.title)))];
+
+function bulletsOf(projects: SubMission[], locale: Locale): CvBullet[] {
+  // Project name only on its first bullet, so the scan reads "Duplica: … / …".
+  return projects.flatMap((p) => (p.highlights?.[locale] ?? []).map((text, i) => ({ label: i === 0 ? p.title[locale] : "", text })));
+}
+
+/** Experience missions become one role; other missions list each CV project with its own `role` as a role. */
+function roles(locale: Locale): CvRole[] {
+  const out: { start: string; role: CvRole }[] = [];
+  for (const mission of missions) {
+    const projects = mission.subMissions.filter(inCv);
+    if (projects.length === 0) continue;
+    if (mission.experience || !projects.some((p) => p.role)) {
+      out.push({
+        start: mission.period?.start ?? "",
+        role: {
+          title: mission.role?.[locale] ?? mission.title[locale],
+          org: mission.orgName ?? mission.title[locale],
+          period: formatPeriod(mission.period, locale) ?? "",
+          bullets: bulletsOf(projects, locale),
+          tech: techOf(projects),
+        },
+      });
+      continue;
+    }
+    for (const p of projects) {
+      out.push({
+        start: p.period?.start ?? mission.period?.start ?? "",
+        role: {
+          title: p.role?.[locale] ?? p.title[locale],
+          org: p.orgName ?? mission.orgName ?? mission.title[locale],
+          period: formatPeriod(p.period ?? mission.period, locale) ?? "",
+          bullets: (p.highlights?.[locale] ?? []).map((text) => ({ label: "", text })),
+          tech: techOf([p]),
+        },
+      });
+    }
+  }
+  return out.sort((a, b) => b.start.localeCompare(a.start)).map((r) => r.role);
+}
+
+const COPY: Record<Locale, Omit<CvContent, "contact" | "roles" | "skillGroups">> = {
   es: {
     legalName: "Isaac Gael Uribe Ortiz",
-    role: "Desarrollador de Software y Web",
-    blurb:
-      "Ingeniero en Tecnologías de la Información. Construyo productos web y móviles reales — SaaS, white-label y puentes a sistemas legacy — con foco en ownership, stack moderno y entrega clara.",
-    backLabel: "← Portafolio",
-    downloadLabel: "Descargar PDF",
-    downloadingLabel: "Generando…",
-    brandStamp: "G-DARKO / CV",
-    experienceTitle: "Experiencia",
-    priorTitle: "Experiencia previa",
-    primaryRole: {
-      title: "Desarrollador Full-Stack & Mobile",
-      org: "Black Sheep Lab",
-      period: "Oct 2025 – Presente",
-      summary:
-        "Ownership técnico end-to-end en productos del lab: LMS multi-empresa, apps white-label, integraciones WhatsApp/ERP y herramientas de almacén sobre stacks modernos y legacy.",
-      bullets: [
-        {
-          label: "Skool (LMS multi-tenant)",
-          text: "Arquitectura multi-inquilino para múltiples organizaciones, con autenticación, roles y PostgreSQL; ownership full-stack en Next.js y TypeScript.",
-        },
-        {
-          label: "Duplica & CRESER",
-          text: "Duplica es la app móvil/web más grande que he construido (Expo/React Native, publicada en Play Store). CRESER v1.0.0 es su white-label: mismo núcleo de producto, branding y despliegue por cliente.",
-        },
-        {
-          label: "Black Sync",
-          text: "Ownership end-to-end del puente multi-tenant respond.io (WhatsApp + agente) ↔ Microsip (Firebird): catálogo, stock, clientes, carrito y pedidos por empresa.",
-        },
-        {
-          label: "KRKN - WMS",
-          text: "Layouts de almacén sobre Firebird e impresión de etiquetas ZPL/TSPL para operación en piso.",
-        },
-      ],
-      tech: [
-        "TypeScript",
-        "Next.js",
-        "Expo",
-        "PostgreSQL",
-        "Firebird",
-        "Respond.io",
-        "Vercel",
-      ],
+    headline: "Desarrollador Full-Stack y Mobile | Next.js, React, React Native, Expo, TypeScript, Node.js",
+    summary:
+      "Desarrollador full-stack y mobile en Black Sheep Lab. Llevo productos de la idea a producción con Next.js, React Native/Expo, TypeScript y PostgreSQL: publiqué Duplica en App Store y Google Play (más de 1,200 usuarios registrados) y construí plataformas multi-tenant e integraciones con ERP.",
+    location: "México",
+    titles: {
+      summary: "Perfil",
+      experience: "Experiencia",
+      skills: "Habilidades",
+      education: "Educación",
+      certs: "Certificaciones",
+      languages: "Idiomas",
     },
-    priorRoles: [
-      {
-        title: "Desarrollador web",
-        org: "Freelance",
-        period: "Jul 2025 – Ago 2025",
-        description:
-          "Landing y sitio de servicios con Astro, Tailwind CSS y JavaScript, desplegado en Vercel.",
-        tech: ["Astro", "Tailwind CSS", "JavaScript"],
-      },
-      {
-        title: "Educación dual — Aerial Depot",
-        org: "Academia / Dual",
-        period: "2023 – 2025",
-        description:
-          "Sistema de inventarios con visualización 3D del almacén para localizar productos (Laravel, Vue.js, Three.js, MySQL).",
-        tech: ["Laravel", "Vue.js", "Three.js", "MySQL"],
-      },
-      {
-        title: "Estancias UPVM",
-        org: "Universidad Politécnica del Valle de México",
-        period: "2022 – 2024",
-        description:
-          "Sitios y sistemas académicos (Posgrados UPVM, e-commerce dual) con PHP, MySQL, HTML/CSS/JS; también gestor de ventas en Java.",
-        tech: ["PHP", "MySQL", "Java", "HTML5"],
-      },
-    ],
-    skillsTitle: "Habilidades",
-    skillGroups: [
-      {
-        label: "Frontend",
-        items: ["TypeScript", "Next.js", "React", "Vue.js", "Tailwind CSS"],
-      },
-      {
-        label: "Backend",
-        items: ["Node.js", "Laravel", "PHP", "Python", "PostgreSQL", "Firebird"],
-      },
-      {
-        label: "Mobile / 3D",
-        items: ["Expo", "React Native", "Three.js"],
-      },
-      {
-        label: "Herramientas",
-        items: [
-          "Git",
-          "Linux",
-          "Docker",
-          "Vercel",
-          "Cursor",
-          "AI SDKs / LLM APIs",
-        ],
-      },
-    ],
-    educationTitle: "Formación",
     education: [
-      {
-        title: "Ingeniería en Tecnologías de la Información",
-        org: "Universidad Politécnica del Valle de México (UPVM)",
-        period: "2023 – 2026",
-      },
-      {
-        title: "Técnico en Programación",
-        org: "CECyTEM Tultitlán",
-        period: "2019 – 2022",
-      },
+      { title: "Ingeniería en Tecnologías de la Información", org: "Universidad Politécnica del Valle de México (UPVM)", period: "ene 2023 – abr 2026" },
+      { title: "Técnico en Programación", org: "CECyTEM Tultitlán", period: "2019 – 2022" },
     ],
-    certsTitle: "Certificaciones",
     certs: [
-      {
-        title: "Desarrollo de Código de Software (EC0160)",
-        org: "CONOCER",
-        date: "Sep 2022",
-        folio: "(D-00)16955622",
-        url: "https://conocer.gob.mx/RENAP/certificaciones",
-      },
-      {
-        title: "JavaScript Essentials 1",
-        org: "Cisco Netacad / Credly",
-        date: "Jul 2025",
-        url: "https://www.credly.com/users/g-darko",
-      },
+      { title: "Desarrollo de Código de Software (EC0160)", org: "CONOCER", date: "sep 2022", folio: "(D-00)16955622", url: "https://conocer.gob.mx/RENAP/certificaciones" },
+      { title: "JavaScript Essentials 1", org: "Cisco Networking Academy", date: "jul 2025", url: "https://www.credly.com/users/g-darko" },
     ],
-    contactTitle: "Contacto",
-    softSkillsTitle: "Enfoque de producto",
-    softSkills: [
-      "Ownership end-to-end",
-      "Integración de sistemas legacy y modernos",
-      "Autonomía y resolución de problemas complejos",
-    ],
-    languagesTitle: "Idiomas",
-    languages: ["Español — Nativo", "Inglés — Intermedio (B1)"],
-    availableLabel: "Disponible para nuevas oportunidades",
-    contact: sharedContact,
+    languages: ["Español: nativo", "Inglés: intermedio (B1)"],
+    ui: { back: "← Portafolio", download: "Descargar PDF", downloading: "Generando…", brandStamp: "G-DARKO / CV", available: "Disponible para nuevas oportunidades", techLabel: "Tecnologías" },
   },
   en: {
     legalName: "Isaac Gael Uribe Ortiz",
-    role: "Software and Web Developer",
-    blurb:
-      "Information Technology Engineer. I ship real web and mobile products — SaaS, white-label, and bridges to legacy systems — with ownership, a modern stack, and clear delivery.",
-    backLabel: "← Portfolio",
-    downloadLabel: "Download PDF",
-    downloadingLabel: "Generating…",
-    brandStamp: "G-DARKO / CV",
-    experienceTitle: "Experience",
-    priorTitle: "Earlier experience",
-    primaryRole: {
-      title: "Full-Stack & Mobile Developer",
-      org: "Black Sheep Lab",
-      period: "Oct 2025 – Present",
-      summary:
-        "End-to-end technical ownership across lab products: multi-company LMS, white-label apps, WhatsApp/ERP integrations, and warehouse tooling on modern and legacy stacks.",
-      bullets: [
-        {
-          label: "Skool (multi-tenant LMS)",
-          text: "Multi-tenant architecture for multiple organizations with auth, roles, and PostgreSQL; full-stack ownership in Next.js and TypeScript.",
-        },
-        {
-          label: "Duplica & CRESER",
-          text: "Duplica is the largest product I’ve built (Expo/React Native mobile + web, published on the Play Store). CRESER v1.0.0 is its white-label: same product core, client branding and deployment.",
-        },
-        {
-          label: "Black Sync",
-          text: "End-to-end ownership of the multi-tenant respond.io (WhatsApp + agent) ↔ Microsip (Firebird) bridge: per-company catalog, stock, clients, cart, and orders.",
-        },
-        {
-          label: "KRKN - WMS",
-          text: "Warehouse layouts on Firebird and ZPL/TSPL label printing for floor operations.",
-        },
-      ],
-      tech: [
-        "TypeScript",
-        "Next.js",
-        "Expo",
-        "PostgreSQL",
-        "Firebird",
-        "Respond.io",
-        "Vercel",
-      ],
+    headline: "Full-Stack & Mobile Developer | Next.js, React, React Native, Expo, TypeScript, Node.js",
+    summary:
+      "Full-stack and mobile developer at Black Sheep Lab. I take products from idea to production with Next.js, React Native/Expo, TypeScript, and PostgreSQL: shipped Duplica to the App Store and Google Play (1,200+ registered users) and built multi-tenant platforms and ERP integrations.",
+    location: "Mexico",
+    titles: {
+      summary: "Summary",
+      experience: "Experience",
+      skills: "Skills",
+      education: "Education",
+      certs: "Certifications",
+      languages: "Languages",
     },
-    priorRoles: [
-      {
-        title: "Web developer",
-        org: "Freelance",
-        period: "Jul 2025 – Aug 2025",
-        description:
-          "Services landing and site with Astro, Tailwind CSS, and JavaScript, deployed on Vercel.",
-        tech: ["Astro", "Tailwind CSS", "JavaScript"],
-      },
-      {
-        title: "Dual education — Aerial Depot",
-        org: "Academia / Dual",
-        period: "2023 – 2025",
-        description:
-          "Inventory system with 3D warehouse visualization to locate products (Laravel, Vue.js, Three.js, MySQL).",
-        tech: ["Laravel", "Vue.js", "Three.js", "MySQL"],
-      },
-      {
-        title: "UPVM internships",
-        org: "Universidad Politécnica del Valle de México",
-        period: "2022 – 2024",
-        description:
-          "Academic sites and systems (UPVM graduate pages, dual e-commerce) with PHP, MySQL, HTML/CSS/JS; plus a Java sales manager.",
-        tech: ["PHP", "MySQL", "Java", "HTML5"],
-      },
-    ],
-    skillsTitle: "Skills",
-    skillGroups: [
-      {
-        label: "Frontend",
-        items: ["TypeScript", "Next.js", "React", "Vue.js", "Tailwind CSS"],
-      },
-      {
-        label: "Backend",
-        items: ["Node.js", "Laravel", "PHP", "Python", "PostgreSQL", "Firebird"],
-      },
-      {
-        label: "Mobile / 3D",
-        items: ["Expo", "React Native", "Three.js"],
-      },
-      {
-        label: "Tools",
-        items: [
-          "Git",
-          "Linux",
-          "Docker",
-          "Vercel",
-          "Cursor",
-          "AI SDKs / LLM APIs",
-        ],
-      },
-    ],
-    educationTitle: "Education",
     education: [
-      {
-        title: "B.S. Information Technology Engineering",
-        org: "Universidad Politécnica del Valle de México (UPVM)",
-        period: "2023 – 2026",
-      },
-      {
-        title: "Programming Technician",
-        org: "CECyTEM Tultitlán",
-        period: "2019 – 2022",
-      },
+      { title: "B.S. in Information Technology Engineering", org: "Universidad Politécnica del Valle de México (UPVM)", period: "Jan 2023 – Apr 2026" },
+      { title: "Programming Technician", org: "CECyTEM Tultitlán", period: "2019 – 2022" },
     ],
-    certsTitle: "Certifications",
     certs: [
-      {
-        title: "Software Code Development (EC0160)",
-        org: "CONOCER",
-        date: "Sep 2022",
-        folio: "(D-00)16955622",
-        url: "https://conocer.gob.mx/RENAP/certificaciones",
-      },
-      {
-        title: "JavaScript Essentials 1",
-        org: "Cisco Netacad / Credly",
-        date: "Jul 2025",
-        url: "https://www.credly.com/users/g-darko",
-      },
+      { title: "Software Code Development (EC0160)", org: "CONOCER", date: "Sep 2022", folio: "(D-00)16955622", url: "https://conocer.gob.mx/RENAP/certificaciones" },
+      { title: "JavaScript Essentials 1", org: "Cisco Networking Academy", date: "Jul 2025", url: "https://www.credly.com/users/g-darko" },
     ],
-    contactTitle: "Contact",
-    softSkillsTitle: "Product focus",
-    softSkills: [
-      "End-to-end ownership",
-      "Legacy and modern systems integration",
-      "Autonomy and complex problem solving",
-    ],
-    languagesTitle: "Languages",
-    languages: ["Spanish — Native", "English — Intermediate (B1)"],
-    availableLabel: "Open to new opportunities",
-    contact: sharedContact,
+    languages: ["Spanish: native", "English: intermediate (B1)"],
+    ui: { back: "← Portfolio", download: "Download PDF", downloading: "Generating…", brandStamp: "G-DARKO / CV", available: "Open to new opportunities", techLabel: "Tech" },
   },
 };
 
 export function getCvContent(locale: Locale): CvContent {
-  return cvByLocale[locale] ?? cvByLocale.es;
+  const copy = COPY[locale] ?? COPY.es;
+  return { ...copy, contact: getContactItems(), roles: roles(locale), skillGroups: skillGroups(locale) };
 }
