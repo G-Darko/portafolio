@@ -1632,6 +1632,10 @@
             "en": "Dual Education"
           },
           "repoUrl": "https://github.com/G-Darko/YIZA",
+          "period": {
+            "start": "2022",
+            "end": "2022"
+          },
           "images": [
             "/img/yiza/1.webp",
             "/img/yiza/2.webp",
