@@ -53,7 +53,16 @@ export interface CvCertItem {
   url?: string;
   /** Visible text for `url`, e.g. "Ver en Credly". */
   linkLabel?: string;
+  /** Render targets where `url` is shown; omitted = everywhere. */
+  linkTargets?: CvRenderTarget[];
   folio?: string;
+}
+
+export type CvRenderTarget = "web" | "pdf";
+
+/** Whether a cert's link should render on the given target. */
+export function showCertLink(c: CvCertItem, target: CvRenderTarget): boolean {
+  return !!c.url && (!c.linkTargets || c.linkTargets.includes(target));
 }
 
 export interface CvContactItem {
@@ -213,7 +222,7 @@ const ISSUER_LABEL: Record<string, string> = { Cisco: "Cisco Networking Academy"
  * (today Credly): when every cert in the group is a badge on that host, link the profile itself.
  * Other issuer sites (e.g. RENAP for CONOCER) get no link.
  */
-function verifiedLink(urls: (string | undefined)[], locale: Locale): Pick<CvCertItem, "url" | "linkLabel"> {
+function verifiedLink(urls: (string | undefined)[], locale: Locale): Pick<CvCertItem, "url" | "linkLabel" | "linkTargets"> {
   for (const social of profileSnapshot.socials) {
     let host: string;
     try {
@@ -222,7 +231,7 @@ function verifiedLink(urls: (string | undefined)[], locale: Locale): Pick<CvCert
       continue;
     }
     if (urls.length > 0 && urls.every((u) => !!u && URL.canParse(u) && new URL(u).host === host)) {
-      return { url: social.url, linkLabel: locale === "es" ? `Ver en ${social.title}` : `View on ${social.title}` };
+      return { url: social.url, linkLabel: locale === "es" ? `Ver en ${social.title}` : `View on ${social.title}`, linkTargets: ["web"] };
     }
   }
   return {};

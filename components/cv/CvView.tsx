@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Download } from "lucide-react";
-import { getCvContent, type CvRole } from "@/lib/data/cv";
+import { getCvContent, showCertLink, type CvRole } from "@/lib/data/cv";
 import { useLocaleStore } from "@/lib/store/useLocaleStore";
 
 const SECTION_TITLE = "mb-3 border-b border-hud-border/60 pb-1 font-mono text-sm font-bold tracking-[0.2em] text-hud-cyan uppercase";
@@ -182,7 +182,7 @@ export function CvView() {
                 <span className="text-muted-foreground">
                   {c.org} · {c.date}
                 </span>
-                {c.url && (
+                {showCertLink(c, "web") && (
                   <>
                     {" "}
                     <a href={c.url} target="_blank" rel="noreferrer" className="cv-attr text-sm text-hud-cyan underline-offset-2 hover:underline">

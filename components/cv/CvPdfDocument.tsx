@@ -1,5 +1,6 @@
 import { Document, Link, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import type { CvContent, CvRole } from "@/lib/data/cv";
+import { showCertLink } from "@/lib/data/cv";
 
 /**
  * ATS-friendly PDF: one column, standard headings, real selectable text (no icons standing in for words,
@@ -125,7 +126,7 @@ export function CvPdfDocument({ content }: { content: CvContent }) {
             <Text key={c.title} style={styles.item}>
               <Text style={styles.bold}>{c.title}: </Text>
               {c.org} · {c.date}
-              {c.url && c.linkLabel ? (
+              {showCertLink(c, "pdf") && c.linkLabel ? (
                 <>
                   {" · "}
                   <Link src={c.url} style={styles.link}>
