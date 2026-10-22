@@ -136,8 +136,8 @@ const ROLE_SPECS: CvRoleSpec[] = [
         ),
         sub: [
           L(
-            "Construí el aula, la comunidad con chat en tiempo real (servidor WebSocket propio con PostgreSQL LISTEN/NOTIFY) y el asistente con IA; integré Stripe (suscripciones, webhooks y conciliación) y la compresión multimedia.",
-            "Built the classroom, the community with real-time chat (custom WebSocket server with PostgreSQL LISTEN/NOTIFY), and the AI assistant; integrated Stripe (subscriptions, webhooks, and reconciliation) and media compression.",
+            "Construí el aula, la comunidad con chat en tiempo real por WebSockets y el asistente con IA; integré Stripe como pasarela de pago en la versión web y la compresión multimedia.",
+            "Built the classroom, the community with real-time chat over WebSockets, and the AI assistant; integrated Stripe as the payment gateway for the web version, plus media compression.",
           ),
         ],
       },
@@ -254,7 +254,7 @@ function certs(locale: Locale): CvCertItem[] {
 
 const COPY: Record<Locale, Omit<CvContent, "contact" | "roles" | "skillGroups" | "certs">> = {
   es: {
-    legalName: "Gael Uribe",
+    legalName: "Isaac Gael Uribe Ortiz",
     headline: "Desarrollador Full-Stack | Web, mobile e integraciones con ERP",
     summary:
       "Desarrollador full-stack en Black Sheep Lab: construyo y mantengo productos en producción, de la app móvil y la web al backend, con TypeScript, Next.js, React Native y PostgreSQL. Publiqué Duplica en App Store y Google Play y desarrollo integraciones con el ERP Microsip (Firebird).",
@@ -275,7 +275,7 @@ const COPY: Record<Locale, Omit<CvContent, "contact" | "roles" | "skillGroups" |
     ui: { back: "← Portafolio", download: "Descargar PDF", downloading: "Generando…", brandStamp: "G-DARKO / CV", available: "Disponible para nuevas oportunidades", techLabel: "Tecnologías" },
   },
   en: {
-    legalName: "Gael Uribe",
+    legalName: "Isaac Gael Uribe Ortiz",
     headline: "Full-Stack Developer | Web, mobile & ERP integrations",
     summary:
       "Full-stack developer at Black Sheep Lab: I build and maintain products in production, from mobile app and web to backend, with TypeScript, Next.js, React Native, and PostgreSQL. Shipped Duplica to the App Store and Google Play and build integrations with the Microsip ERP (Firebird).",
