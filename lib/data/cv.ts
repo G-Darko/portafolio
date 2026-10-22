@@ -103,7 +103,7 @@ const SKILL_GROUPS: { label: Localized; items: string[] }[] = [
   { label: { es: "Lenguajes", en: "Languages" }, items: ["TypeScript", "JavaScript", "PHP", "Python", "SQL"] },
   { label: { es: "Frontend y mobile", en: "Frontend & mobile" }, items: ["Next.js", "React", "React Native", "Expo", "Vue.js", "Tailwind CSS", "Three.js", "Capacitor"] },
   { label: { es: "Backend", en: "Backend" }, items: ["Node.js", "WebSockets (ws, Socket.IO)", "Hono", "Laravel", "REST APIs", "Stripe"] },
-  { label: { es: "Datos e integraciones", en: "Data & integrations" }, items: ["PostgreSQL", "MySQL", "Firebird (Microsip ERP)", "ORM", "ZPL/TSPL"] },
+  { label: { es: "Datos e integraciones", en: "Data & integrations" }, items: ["PostgreSQL", "MySQL", "Firebird (Microsip ERP)", "node-postgres (pg)", "PDO", "ZPL/TSPL"] },
   { label: { es: "Herramientas", en: "Tools" }, items: ["Git", "GitHub", "Docker", "Linux", "Vercel", "Cloudflare"] },
 ];
 
@@ -131,13 +131,13 @@ const ROLE_SPECS: CvRoleSpec[] = [
       {
         label: L("Duplica", "Duplica"),
         text: L(
-          "Desarrollé y publiqué en App Store y Google Play la app de capacitación para emprendedoras de venta directa, con una sola base de código para web, Android e iOS (Expo, React Native, API en Next.js y PostgreSQL).",
-          "Built and shipped to the App Store and Google Play a training app for direct-sales entrepreneurs, with one codebase for web, Android, and iOS (Expo, React Native, Next.js API, PostgreSQL).",
+          "Desarrollé y publiqué en App Store y Google Play la app de capacitación para emprendedoras de venta directa, con una sola base de código para web, Android e iOS (Expo, React Native, API en Next.js y PostgreSQL); suma más de 1,200 usuarios registrados y 246 suscripciones activas.",
+          "Built and shipped to the App Store and Google Play a training app for direct-sales entrepreneurs, with one codebase for web, Android, and iOS (Expo, React Native, Next.js API, PostgreSQL); it has 1,200+ registered users and 246 active subscriptions.",
         ),
         sub: [
           L(
-            "Construí el aula, la comunidad con chat en tiempo real (servidor WebSocket propio con PostgreSQL LISTEN/NOTIFY) y el asistente con IA; implementé la conciliación de suscripciones con Stripe y la compresión de media para mejorar los tiempos de carga.",
-            "Built the classroom, the community with real-time chat (custom WebSocket server with PostgreSQL LISTEN/NOTIFY), and the AI assistant; implemented Stripe subscription reconciliation and media compression to improve load times.",
+            "Construí el aula, la comunidad con chat en tiempo real (servidor WebSocket propio con PostgreSQL LISTEN/NOTIFY) y el asistente con IA; integré Stripe (suscripciones, webhooks y conciliación) y la compresión multimedia.",
+            "Built the classroom, the community with real-time chat (custom WebSocket server with PostgreSQL LISTEN/NOTIFY), and the AI assistant; integrated Stripe (subscriptions, webhooks, and reconciliation) and media compression.",
           ),
         ],
       },
@@ -257,7 +257,7 @@ const COPY: Record<Locale, Omit<CvContent, "contact" | "roles" | "skillGroups" |
     legalName: "Gael Uribe",
     headline: "Desarrollador Full-Stack | Web, mobile e integraciones con ERP",
     summary:
-      "Desarrollador full-stack en Black Sheep Lab: construyo y mantengo productos en producción, de la app móvil y la web al backend, con TypeScript, Next.js, React Native y PostgreSQL. Publiqué Duplica en App Store y Google Play (más de 1,200 usuarios registrados y 246 suscripciones activas) y desarrollo integraciones con el ERP Microsip (Firebird).",
+      "Desarrollador full-stack en Black Sheep Lab: construyo y mantengo productos en producción, de la app móvil y la web al backend, con TypeScript, Next.js, React Native y PostgreSQL. Publiqué Duplica en App Store y Google Play y desarrollo integraciones con el ERP Microsip (Firebird).",
     location: "México",
     titles: {
       summary: "Perfil",
@@ -278,7 +278,7 @@ const COPY: Record<Locale, Omit<CvContent, "contact" | "roles" | "skillGroups" |
     legalName: "Gael Uribe",
     headline: "Full-Stack Developer | Web, mobile & ERP integrations",
     summary:
-      "Full-stack developer at Black Sheep Lab: I build and maintain products in production, from mobile app and web to backend, with TypeScript, Next.js, React Native, and PostgreSQL. Shipped Duplica to the App Store and Google Play (1,200+ registered users, 246 active subscriptions) and build integrations with the Microsip ERP (Firebird).",
+      "Full-stack developer at Black Sheep Lab: I build and maintain products in production, from mobile app and web to backend, with TypeScript, Next.js, React Native, and PostgreSQL. Shipped Duplica to the App Store and Google Play and build integrations with the Microsip ERP (Firebird).",
     location: "Mexico",
     titles: {
       summary: "Summary",
