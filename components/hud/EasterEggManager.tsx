@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useProgressStore } from "@/lib/store/useProgressStore";
 
 /**
@@ -35,7 +35,7 @@ export default function EasterEggManager() {
 
   useEffect(() => {
     let clicks = 0;
-    let timer: any;
+    let timer: ReturnType<typeof setTimeout> | undefined;
     const handler = () => {
       clicks++;
       if (clicks >= 5) {

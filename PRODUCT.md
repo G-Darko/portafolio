@@ -38,7 +38,7 @@ Visited on desktop and mobile browsers; often as a cold link from a résumé, Gi
 - Name / mark: Gael Uribe · G-Darko (legal/full name Isaac Gael Uribe Ortiz appears on CV).
 - Voice: bilingual; can be technical and playful, but primary paths must stay plain enough for recruiters.
 - Personality: futuristic / systems / product-builder energy should still be readable after changes — without forcing jargon or unskippable theater in front of the work.
-- Assets in play: profile image (`img/DARKO.png`), mission/media content where shipped, GitHub, email on CV (`gdarko.uribe@gmail.com`).
+- Assets in play: profile image (`img/DARKO.png`), mission/media content where shipped, GitHub, email on CV (`contacto@g-darko.dev`).
 
 ## Evidence on Hand
 

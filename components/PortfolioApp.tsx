@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import { useHUDStore } from "@/lib/store/useHUDStore";
 import BootupSequence from "@/components/hud/BootupSequence";
@@ -17,13 +17,11 @@ export default function PortfolioApp() {
   const bootEpoch = useHUDStore((s) => s.bootEpoch);
   const completeBoot = useHUDStore((s) => s.completeBoot);
   const soundEnabled = useHUDStore((s) => s.soundEnabled);
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => {
-    const unsub = useHUDStore.persist.onFinishHydration(() => setHydrated(true));
-    if (useHUDStore.persist.hasHydrated()) setHydrated(true);
-    return unsub;
-  }, []);
+  const hydrated = useSyncExternalStore(
+    (onChange) => useHUDStore.persist.onFinishHydration(onChange),
+    () => useHUDStore.persist.hasHydrated(),
+    () => false
+  );
 
   useEffect(() => {
     if (!hydrated) return;

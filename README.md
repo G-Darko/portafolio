@@ -47,12 +47,12 @@ npm run dev
 Abre [http://localhost:3000](http://localhost:3000).
 
 ```bash
-npm run build          # snapshot de skills + export estático → dist/
-npm run skills:fetch   # solo refresca lib/data/skills.generated.json
+npm run build          # snapshot del perfil + export estático → dist/
+npm run profile:fetch  # solo refresca lib/data/profile.generated.json
 npm run lint
 ```
 
-Las skills vienen de [api.g-darko.dev](https://api.g-darko.dev/api/skills). El build guarda un snapshot en `lib/data/skills.generated.json` (si la API falla se conserva el anterior, o se usa `techStackCatalog`), y el cliente intenta refrescarlo al abrir Skills. Para desactivar ese refresh: `NEXT_PUBLIC_SKILLS_REFRESH=false`.
+Skills (con su icono de lucide, logo y sprite), contacto, redes y proyectos/misiones vienen de [api.g-darko.dev](https://api.g-darko.dev/api/profile) (repo `readme-stats`, fuente única de verdad: `src/data/profile.ts` y `src/data/missions.ts`). El build guarda un snapshot versionado en `lib/data/profile.generated.json`; si la API falla o no trae misiones, se conserva el anterior y el build sigue. `lib/data/api.ts` tipa y valida ese JSON. Para generar el snapshot desde un readme-stats local: `PROFILE_API_URL=http://127.0.0.1:3000/api/profile npm run profile:fetch`. El cliente refresca las skills al abrir Skills; para desactivarlo: `NEXT_PUBLIC_SKILLS_REFRESH=false`.
 
 ---
 
@@ -66,7 +66,7 @@ El sitio se sirve desde la raíz del dominio `https://g-darko.dev`, sin `basePat
 
 ## Contacto
 
-- Email: [gdarko.uribe@gmail.com](mailto:gdarko.uribe@gmail.com)
+- Email: [contacto@g-darko.dev](mailto:contacto@g-darko.dev)
 - GitHub: [G-Darko](https://github.com/G-Darko)
 - CV en el sitio: [/cv](https://g-darko.dev/cv/)
 
