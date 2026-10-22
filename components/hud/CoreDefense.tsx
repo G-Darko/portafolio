@@ -6,6 +6,7 @@ import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useProgressStore } from "@/lib/store/useProgressStore";
 import { playQTESuccess, playQTEMiss, playWindowOpen } from "@/lib/audio/audio";
 import { Shield } from "lucide-react";
+import HudCyanButton from "./HudCyanButton";
 
 interface Drone {
   x: number;
@@ -356,12 +357,9 @@ export default function CoreDefense() {
               <p className="text-sm text-muted-foreground">
                 {t.minigame.score}: {score}
               </p>
-              <button
-                onClick={startGame}
-                className="rounded border border-hud-cyan px-4 py-2 text-sm font-bold tracking-widest text-hud-cyan transition-colors hover:bg-hud-cyan/10"
-              >
+              <HudCyanButton onClick={startGame}>
                 {t.minigame.retry}
-              </button>
+              </HudCyanButton>
             </motion.div>
           )}
         </AnimatePresence>
@@ -378,12 +376,9 @@ export default function CoreDefense() {
               <div className="rounded border border-hud-green/30 bg-hud-green/5 px-3 py-1.5 text-sm font-bold tracking-widest text-hud-green">
                 LOGRO DESBLOQUEADO
               </div>
-              <button
-                onClick={startGame}
-                className="rounded border border-hud-cyan px-4 py-2 text-sm font-bold tracking-widest text-hud-cyan transition-colors hover:bg-hud-cyan/10"
-              >
+              <HudCyanButton onClick={startGame}>
                 {t.minigame.retry}
-              </button>
+              </HudCyanButton>
             </motion.div>
           )}
         </AnimatePresence>

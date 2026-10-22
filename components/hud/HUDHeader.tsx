@@ -172,38 +172,12 @@ export default function HUDHeader({
                     role="menu"
                     className="absolute left-0 top-full z-300 mt-2 min-w-48 rounded-lg border border-hud-border bg-hud-bg/95 p-1.5 shadow-[0_0_24px_color-mix(in_oklch,var(--hud-cyan)_12%,transparent)] backdrop-blur-xl"
                   >
-                    <p className="px-2.5 py-1.5 font-mono text-xs tracking-[0.18em] text-hud-cyan/70 uppercase">
-                      {t.header.workshopTools}
-                    </p>
-                    {MORE_PANELS.map(({ id, labelKey }) => {
-                      const isActive = activePanel === id;
-                      return (
-                        <button
-                          key={id}
-                          type="button"
-                          role="menuitem"
-                          onClick={() => handleToggle(id)}
-                          className={`flex w-full min-h-11 items-center rounded px-2.5 py-2 text-left font-mono text-sm transition-colors ${
-                            isActive
-                              ? "bg-hud-cyan/15 text-hud-cyan"
-                              : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                          }`}
-                        >
-                          {t.header[labelKey]}
-                        </button>
-                      );
-                    })}
-                    <Link
-                      href={CV_PATH}
-                      role="menuitem"
-                      onClick={() => {
-                        playHUDClick();
-                        setMoreOpen(false);
-                      }}
-                      className="flex w-full min-h-11 items-center rounded px-2.5 py-2 text-left font-mono text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-                    >
-                      {t.header.cv}
-                    </Link>
+                    <MoreMenuItems
+                      variant="desktop"
+                      activePanel={activePanel}
+                      onToggle={handleToggle}
+                      onClose={() => setMoreOpen(false)}
+                    />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -292,38 +266,12 @@ export default function HUDHeader({
                   role="menu"
                   className="absolute bottom-full right-0 mb-2 w-56 rounded-xl border border-hud-border bg-hud-bg/95 p-1.5 shadow-[0_0_24px_color-mix(in_oklch,var(--hud-cyan)_12%,transparent)] backdrop-blur-xl"
                 >
-                  <p className="px-2.5 py-1.5 font-mono text-xs tracking-[0.18em] text-hud-cyan/70 uppercase">
-                    {t.header.workshopTools}
-                  </p>
-                  {MORE_PANELS.map(({ id, labelKey }) => {
-                    const isActive = activePanel === id;
-                    return (
-                      <button
-                        key={id}
-                        type="button"
-                        role="menuitem"
-                        onClick={() => handleToggle(id)}
-                        className={`flex w-full min-h-12 items-center rounded-lg px-3 py-2.5 text-left font-mono text-sm transition-colors ${
-                          isActive
-                            ? "bg-hud-cyan/15 text-hud-cyan"
-                            : "text-muted-foreground active:bg-accent active:text-accent-foreground"
-                        }`}
-                      >
-                        {t.header[labelKey]}
-                      </button>
-                    );
-                  })}
-                  <Link
-                    href={CV_PATH}
-                    role="menuitem"
-                    onClick={() => {
-                      playHUDClick();
-                      setMobileMoreOpen(false);
-                    }}
-                    className="flex w-full min-h-12 items-center rounded-lg px-3 py-2.5 text-left font-mono text-sm text-muted-foreground transition-colors active:bg-accent active:text-accent-foreground"
-                  >
-                    {t.header.cv}
-                  </Link>
+                  <MoreMenuItems
+                    variant="mobile"
+                    activePanel={activePanel}
+                    onToggle={handleToggle}
+                    onClose={() => setMobileMoreOpen(false)}
+                  />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -340,6 +288,61 @@ export default function HUDHeader({
         onConfirm={confirmRestart}
         onCancel={() => setRestartOpen(false)}
       />
+    </>
+  );
+}
+
+const MORE_ITEM_CLASS = {
+  desktop: {
+    base: "flex w-full min-h-11 items-center rounded px-2.5 py-2 text-left font-mono text-sm transition-colors",
+    idle: "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+  },
+  mobile: {
+    base: "flex w-full min-h-12 items-center rounded-lg px-3 py-2.5 text-left font-mono text-sm transition-colors",
+    idle: "text-muted-foreground active:bg-accent active:text-accent-foreground",
+  },
+} as const;
+
+function MoreMenuItems({
+  variant,
+  activePanel,
+  onToggle,
+  onClose,
+}: {
+  variant: keyof typeof MORE_ITEM_CLASS;
+  activePanel: PanelId | null;
+  onToggle: (id: PanelId) => void;
+  onClose: () => void;
+}) {
+  const { t } = useTranslation();
+  const cls = MORE_ITEM_CLASS[variant];
+  return (
+    <>
+      <p className="px-2.5 py-1.5 font-mono text-xs tracking-[0.18em] text-hud-cyan/70 uppercase">
+        {t.header.workshopTools}
+      </p>
+      {MORE_PANELS.map(({ id, labelKey }) => (
+        <button
+          key={id}
+          type="button"
+          role="menuitem"
+          onClick={() => onToggle(id)}
+          className={`${cls.base} ${activePanel === id ? "bg-hud-cyan/15 text-hud-cyan" : cls.idle}`}
+        >
+          {t.header[labelKey]}
+        </button>
+      ))}
+      <Link
+        href={CV_PATH}
+        role="menuitem"
+        onClick={() => {
+          playHUDClick();
+          onClose();
+        }}
+        className={`${cls.base} ${cls.idle}`}
+      >
+        {t.header.cv}
+      </Link>
     </>
   );
 }
