@@ -88,8 +88,8 @@ export function getContactItems(): CvContactItem[] {
 const SKILL_GROUPS: { label: Localized; items: string[] }[] = [
   { label: { es: "Lenguajes", en: "Languages" }, items: ["TypeScript", "JavaScript", "PHP", "Python", "SQL"] },
   { label: { es: "Frontend y mobile", en: "Frontend & mobile" }, items: ["Next.js", "React", "React Native", "Expo", "Vue.js", "Tailwind CSS", "Three.js", "Capacitor"] },
-  { label: { es: "Backend", en: "Backend" }, items: ["Node.js", "Laravel", "FastAPI", "Hono", "Socket.IO", "REST APIs", "Stripe"] },
-  { label: { es: "Datos e integraciones", en: "Data & integrations" }, items: ["PostgreSQL", "MySQL", "Firebird (Microsip ERP)", "Prisma", "ZPL/TSPL"] },
+  { label: { es: "Backend", en: "Backend" }, items: ["Node.js", "WebSockets (Socket.IO)", "Hono", "Laravel", "REST APIs", "Stripe"] },
+  { label: { es: "Datos e integraciones", en: "Data & integrations" }, items: ["PostgreSQL", "MySQL", "Firebird (Microsip ERP)", "ORM", "ZPL/TSPL"] },
   { label: { es: "Herramientas", en: "Tools" }, items: ["Git", "GitHub", "Docker", "Linux", "Vercel", "Cloudflare"] },
 ];
 
@@ -123,22 +123,22 @@ const ROLE_SPECS: CvRoleSpec[] = [
       },
       {
         text: L(
-          "Construí el aula, la comunidad y el asistente con IA; implementé la conciliación de suscripciones con Stripe y la compresión de media para mejorar los tiempos de carga.",
-          "Built the classroom, community, and AI assistant; implemented Stripe subscription reconciliation and media compression to improve load times.",
+          "Construí el aula, la comunidad y el asistente con IA, con funciones en tiempo real por WebSockets (Socket.IO); implementé la conciliación de suscripciones con Stripe y la compresión de media para mejorar los tiempos de carga.",
+          "Built the classroom, community, and AI assistant, with real-time features over WebSockets (Socket.IO); implemented Stripe subscription reconciliation and media compression to improve load times.",
         ),
       },
       {
-        label: L("LMS multiempresa", "Multi-tenant LMS"),
+        label: L("Skool", "Skool"),
         text: L(
-          "Implementé módulos en Next.js, TypeScript y PostgreSQL: autenticación y roles por empresa, cursos, certificados, SCORM y video; empaqueté la app móvil con Capacitor.",
-          "Implemented modules in Next.js, TypeScript, and PostgreSQL: per-company auth and roles, courses, certificates, SCORM, and video; packaged the mobile app with Capacitor.",
+          "Implementé módulos de un LMS multiempresa en Next.js, TypeScript y PostgreSQL: autenticación y roles por empresa, cursos, certificados, SCORM y video; empaqueté la app móvil con Capacitor.",
+          "Implemented modules of a multi-tenant LMS in Next.js, TypeScript, and PostgreSQL: per-company auth and roles, courses, certificates, SCORM, and video; packaged the mobile app with Capacitor.",
         ),
       },
       {
         label: L("KRKN WMS", "KRKN WMS"),
         text: L(
-          "Construí el módulo de impresión de etiquetas en ZPL/TSPL para impresoras Zebra y Rongta, con una vista previa fiel a lo impreso, y trabajé en el layout del almacén sincronizado con el ERP Microsip (Firebird).",
-          "Built the ZPL/TSPL label printing module for Zebra and Rongta printers, with a preview that matches the printed output, and worked on the warehouse layout synced with the Microsip ERP (Firebird).",
+          "Construí el módulo de impresión de etiquetas en ZPL/TSPL para impresoras Zebra y Rongta, con una vista previa fiel a lo impreso, y trabajé en el layout del almacén sincronizado con el ERP Microsip (Firebird), con actualizaciones en tiempo real por WebSockets.",
+          "Built the ZPL/TSPL label printing module for Zebra and Rongta printers, with a preview that matches the printed output, and worked on the warehouse layout synced with the Microsip ERP (Firebird), with real-time updates over WebSockets.",
         ),
       },
       {
@@ -151,8 +151,8 @@ const ROLE_SPECS: CvRoleSpec[] = [
       {
         label: L("Otros proyectos", "Other projects"),
         text: L(
-          "módulos de comunidad, eventos con boletos y membresías (Red México Emprende) y una API de códigos postales con datos de SEPOMEX, tokens y documentación (CPMX).",
-          "community, ticketed events, and membership modules (Red México Emprende) and a postal-code API built on SEPOMEX data with tokens and docs (CPMX).",
+          "módulos de comunidad, eventos con boletos y membresías con tiempo real por Socket.IO (Red México Emprende) y una API de códigos postales con datos de SEPOMEX, tokens y documentación (CPMX).",
+          "community, ticketed events, and membership modules with real-time Socket.IO (Red México Emprende) and a postal-code API built on SEPOMEX data with tokens and docs (CPMX).",
         ),
       },
     ],

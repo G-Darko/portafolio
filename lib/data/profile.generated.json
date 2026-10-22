@@ -231,17 +231,6 @@
       "hudCategory": "backend"
     },
     {
-      "id": "fastapi",
-      "title": "FastAPI",
-      "url": "https://fastapi.tiangolo.com",
-      "color": "#009688",
-      "icon": "https://api.g-darko.dev/icon/fastapi.svg",
-      "category": "backend",
-      "uiIcon": "gauge",
-      "sprite": "py",
-      "hudCategory": "backend"
-    },
-    {
       "id": "socketio",
       "title": "Socket.IO",
       "url": "https://socket.io",
@@ -283,16 +272,6 @@
       "category": "datos",
       "uiIcon": "leaf",
       "sprite": "mongo",
-      "hudCategory": "database"
-    },
-    {
-      "id": "prisma",
-      "title": "Prisma",
-      "url": "https://www.prisma.io",
-      "color": "#2d3748",
-      "icon": "https://api.g-darko.dev/icon/prisma.svg",
-      "category": "datos",
-      "uiIcon": "triangle",
       "hudCategory": "database"
     },
     {
@@ -470,6 +449,11 @@
           "icon": "https://api.g-darko.dev/icon/postgresql.svg"
         },
         {
+          "id": "socketio",
+          "title": "Socket.IO",
+          "icon": "https://api.g-darko.dev/icon/socketio.svg"
+        },
+        {
           "id": "openai",
           "title": "OpenAI",
           "icon": "https://api.g-darko.dev/icon/openai.svg"
@@ -634,14 +618,9 @@
           "icon": "https://api.g-darko.dev/icon/php.svg"
         },
         {
-          "id": "python",
-          "title": "Python",
-          "icon": "https://api.g-darko.dev/icon/python.svg"
-        },
-        {
-          "id": "fastapi",
-          "title": "FastAPI",
-          "icon": "https://api.g-darko.dev/icon/fastapi.svg"
+          "id": "socketio",
+          "title": "Socket.IO",
+          "icon": "https://api.g-darko.dev/icon/socketio.svg"
         }
       ]
     },
@@ -819,6 +798,12 @@
               "title": "PostgreSQL",
               "icon": "https://api.g-darko.dev/icon/postgresql.svg",
               "sprite": "postsql"
+            },
+            {
+              "id": "socketio",
+              "title": "Socket.IO",
+              "icon": "https://api.g-darko.dev/icon/socketio.svg",
+              "sprite": "node"
             },
             {
               "id": "openai",
@@ -1090,15 +1075,15 @@
             "en": "WMS on Microsip (Firebird): warehouse layout, picking paths, and ZPL/TSPL label printing."
           },
           "description": {
-            "es": "Sistema de gestión de almacén sobre el ERP Microsip. Mi pedazo fuerte fue Layout/Croquis: dibujar el piso, acomodar ubicaciones, rutas de picking y sync con el backend (PHP/Firebird + un poco de FastAPI), además de la impresión de etiquetas ZPL/TSPL. Menos pantalla bonita, más herramienta de piso.",
-            "en": "Warehouse management system on the Microsip ERP. My heavy piece was Layout/Croquis: draw the floor, place locations, picking paths, and sync with the PHP/Firebird backend (+ a bit of FastAPI), plus ZPL/TSPL label printing. Less pretty UI, more floor-tool."
+            "es": "Sistema de gestión de almacén sobre el ERP Microsip. Mi pedazo fuerte fue Layout/Croquis: dibujar el piso, acomodar ubicaciones, rutas de picking y sync con el backend (PHP/Firebird), además de la impresión de etiquetas ZPL/TSPL. Menos pantalla bonita, más herramienta de piso.",
+            "en": "Warehouse management system on the Microsip ERP. My heavy piece was Layout/Croquis: draw the floor, place locations, picking paths, and sync with the PHP/Firebird backend, plus ZPL/TSPL label printing. Less pretty UI, more floor-tool."
           },
           "highlights": {
             "es": [
-              "Construí el módulo de layout del almacén (dibujo del piso, ubicaciones y rutas de picking) sincronizado con el ERP Microsip (Firebird) vía PHP y FastAPI, y la impresión de etiquetas ZPL/TSPL para la operación en piso."
+              "Construí el módulo de layout del almacén (dibujo del piso, ubicaciones y rutas de picking) sincronizado con el ERP Microsip (Firebird) vía PHP, y la impresión de etiquetas ZPL/TSPL para la operación en piso."
             ],
             "en": [
-              "Built the warehouse layout module (floor drawing, locations, and picking paths) synced with the Microsip ERP (Firebird) through PHP and FastAPI, plus ZPL/TSPL label printing for floor operations."
+              "Built the warehouse layout module (floor drawing, locations, and picking paths) synced with the Microsip ERP (Firebird) through PHP, plus ZPL/TSPL label printing for floor operations."
             ]
           },
           "contextTag": {
@@ -1145,16 +1130,10 @@
               "title": "Firebird"
             },
             {
-              "id": "python",
-              "title": "Python",
-              "icon": "https://api.g-darko.dev/icon/python.svg",
-              "sprite": "py"
-            },
-            {
-              "id": "fastapi",
-              "title": "FastAPI",
-              "icon": "https://api.g-darko.dev/icon/fastapi.svg",
-              "sprite": "py"
+              "id": "socketio",
+              "title": "Socket.IO",
+              "icon": "https://api.g-darko.dev/icon/socketio.svg",
+              "sprite": "node"
             }
           ]
         },
