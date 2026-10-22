@@ -169,9 +169,9 @@ export function CvView() {
           <ul className="space-y-1.5 text-base">
             {content.certs.map((c) => (
               <li key={c.title}>
-                <strong className="text-foreground">{c.title}</strong>
+                <strong className="text-foreground">{c.title}: </strong>
                 <span className="text-muted-foreground">
-                  , {c.org} ({c.date}){c.folio ? `. Folio ${c.folio}` : ""}
+                  {c.org} · {c.date}
                 </span>
                 {c.url && (
                   <>

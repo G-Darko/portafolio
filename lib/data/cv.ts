@@ -1,12 +1,10 @@
 /**
- * CV content (ES/EN). Experience bullets, skills and contact come from the API profile snapshot
- * (missions → projects with `highlights`, skills by category, public contact); only CV-specific
- * copy (summary, education, certifications, languages) lives here.
+ * One-page CV content (ES/EN). Contact, role dates and certifications come from the API profile
+ * snapshot; the role bullets, skill groups and summary are curated here to fit one A4 page.
  */
 import type { Locale } from "@/lib/store/useLocaleStore";
 import { formatPeriod, type Localized } from "@/lib/data/api";
-import { missions, type SubMission } from "@/lib/data/missions";
-import { profileSnapshot } from "@/lib/data/snapshot";
+import { getMissionById } from "@/lib/data/missions";
 import { getCertifications } from "@/lib/data/certifications";
 import {
   CONTACT_EMAIL,
@@ -86,86 +84,146 @@ export function getContactItems(): CvContactItem[] {
   return items;
 }
 
-const SKILL_GROUPS: { category: string; label: Localized; extra?: string[] }[] = [
-  { category: "frontend", label: { es: "Frontend", en: "Frontend" } },
-  { category: "movil", label: { es: "Mobile", en: "Mobile" }, extra: ["Publicación en App Store y Google Play"] },
-  { category: "backend", label: { es: "Backend", en: "Backend" } },
-  { category: "lenguajes", label: { es: "Lenguajes", en: "Languages" } },
-  { category: "datos", label: { es: "Bases de datos", en: "Databases" }, extra: ["Firebird"] },
-  { category: "devops", label: { es: "DevOps y herramientas", en: "DevOps & tools" } },
-  { category: "herramientas", label: { es: "DevOps y herramientas", en: "DevOps & tools" } },
+/** Compact, defendable skill groups for the one-page CV (standard names, no levels). */
+const SKILL_GROUPS: { label: Localized; items: string[] }[] = [
+  { label: { es: "Lenguajes", en: "Languages" }, items: ["TypeScript", "JavaScript", "PHP", "Python", "SQL"] },
+  { label: { es: "Frontend y mobile", en: "Frontend & mobile" }, items: ["Next.js", "React", "React Native", "Expo", "Vue.js", "Tailwind CSS", "Three.js", "Capacitor"] },
+  { label: { es: "Backend", en: "Backend" }, items: ["Node.js", "Laravel", "FastAPI", "Hono", "Socket.IO", "REST APIs", "Stripe"] },
+  { label: { es: "Datos e integraciones", en: "Data & integrations" }, items: ["PostgreSQL", "MySQL", "Firebird (Microsip ERP)", "Prisma", "ZPL/TSPL"] },
+  { label: { es: "Herramientas", en: "Tools" }, items: ["Git", "GitHub", "Docker", "Linux", "Vercel", "Cloudflare"] },
 ];
 
-const EXTRA_EN: Record<string, string> = { "Publicación en App Store y Google Play": "App Store & Google Play publishing" };
-
-/** API skills grouped with standard ATS headings; groups sharing a label are merged. */
 function skillGroups(locale: Locale): CvSkillGroup[] {
-  const groups = new Map<string, string[]>();
-  for (const g of SKILL_GROUPS) {
-    const items = profileSnapshot.skills.filter((s) => s.category === g.category).map((s) => s.title);
-    const extra = (g.extra ?? []).map((e) => (locale === "en" ? (EXTRA_EN[e] ?? e) : e));
-    const label = g.label[locale];
-    groups.set(label, [...(groups.get(label) ?? []), ...items, ...extra]);
-  }
-  return [...groups].map(([label, items]) => ({ label, items: [...new Set(items)] }));
+  return SKILL_GROUPS.map((g) => ({ label: g.label[locale], items: g.items }));
 }
 
-const inCv = (p: SubMission) => p.featured !== false && (p.highlights?.es.length ?? 0) > 0;
-
-/** Known tech only (with an API icon), in order of appearance; unknown names stay out of the CV. */
-const techOf = (projects: SubMission[]) =>
-  [...new Set(projects.flatMap((p) => p.stack.filter((s) => s.id).map((s) => s.title)))];
-
-function bulletsOf(projects: SubMission[], locale: Locale): CvBullet[] {
-  // Project name only on its first bullet, so the scan reads "Duplica: … / …".
-  return projects.flatMap((p) => (p.highlights?.[locale] ?? []).map((text, i) => ({ label: i === 0 ? p.title[locale] : "", text })));
+type Period = { mission: string; project?: string };
+/** CV role copy is curated for one A4 page; dates always come from the API missions. */
+interface CvRoleSpec {
+  title: Localized;
+  org: Localized;
+  period: Period;
+  bullets: { label?: Localized; text: Localized }[];
 }
 
-/** Experience missions become one role; other missions list each CV project with its own `role` as a role. */
+const L = (es: string, en: string): Localized => ({ es, en });
+
+const ROLE_SPECS: CvRoleSpec[] = [
+  {
+    title: L("Desarrollador Full-Stack y Mobile", "Full-Stack & Mobile Developer"),
+    org: L("Black Sheep Lab", "Black Sheep Lab"),
+    period: { mission: "black-sheep" },
+    bullets: [
+      {
+        label: L("Duplica", "Duplica"),
+        text: L(
+          "Desarrollé y publiqué en App Store y Google Play la app de capacitación para emprendedoras de venta directa, con una sola base de código para web, Android e iOS (Expo, React Native, API en Next.js y PostgreSQL).",
+          "Built and shipped to the App Store and Google Play a training app for direct-sales entrepreneurs, with one codebase for web, Android, and iOS (Expo, React Native, Next.js API, PostgreSQL).",
+        ),
+      },
+      {
+        text: L(
+          "Construí el aula, la comunidad y el asistente con IA; implementé la conciliación de suscripciones con Stripe y la compresión de media para mejorar los tiempos de carga.",
+          "Built the classroom, community, and AI assistant; implemented Stripe subscription reconciliation and media compression to improve load times.",
+        ),
+      },
+      {
+        label: L("LMS multiempresa", "Multi-tenant LMS"),
+        text: L(
+          "Implementé módulos en Next.js, TypeScript y PostgreSQL: autenticación y roles por empresa, cursos, certificados, SCORM y video; empaqueté la app móvil con Capacitor.",
+          "Implemented modules in Next.js, TypeScript, and PostgreSQL: per-company auth and roles, courses, certificates, SCORM, and video; packaged the mobile app with Capacitor.",
+        ),
+      },
+      {
+        label: L("KRKN WMS", "KRKN WMS"),
+        text: L(
+          "Construí el módulo de impresión de etiquetas en ZPL/TSPL para impresoras Zebra y Rongta, con una vista previa fiel a lo impreso, y trabajé en el layout del almacén sincronizado con el ERP Microsip (Firebird).",
+          "Built the ZPL/TSPL label printing module for Zebra and Rongta printers, with a preview that matches the printed output, and worked on the warehouse layout synced with the Microsip ERP (Firebird).",
+        ),
+      },
+      {
+        label: L("Black Sync", "Black Sync"),
+        text: L(
+          "Desarrollé la integración multiempresa entre WhatsApp y el ERP Microsip (Firebird): catálogo, stock, clientes, carrito y pedidos por empresa.",
+          "Developed the multi-tenant integration between WhatsApp and the Microsip ERP (Firebird): catalog, stock, customers, cart, and orders per company.",
+        ),
+      },
+      {
+        label: L("Otros proyectos", "Other projects"),
+        text: L(
+          "módulos de comunidad, eventos con boletos y membresías (Red México Emprende) y una API de códigos postales con datos de SEPOMEX, tokens y documentación (CPMX).",
+          "community, ticketed events, and membership modules (Red México Emprende) and a postal-code API built on SEPOMEX data with tokens and docs (CPMX).",
+        ),
+      },
+    ],
+  },
+  {
+    title: L("Desarrollador (educación dual)", "Developer (dual education program)"),
+    org: L("Aerial Depot", "Aerial Depot"),
+    period: { mission: "academia", project: "aerial-depot" },
+    bullets: [
+      {
+        text: L(
+          "Desarrollé en equipo el sistema de almacén de la empresa con Laravel, Vue.js y MySQL (productos, ubicaciones por rack, préstamo de herramienta, códigos QR y reportes PDF) y la vista 3D en Three.js para ubicar cada producto; se usó en la operación real.",
+          "Built with a small team the company's warehouse system with Laravel, Vue.js, and MySQL (products, rack locations, tool loans, QR codes, PDF reports) and the Three.js 3D view to locate each product; it was used in daily operations.",
+        ),
+      },
+    ],
+  },
+  {
+    title: L("Desarrollador web", "Web Developer"),
+    org: L("Freelance", "Freelance"),
+    period: { mission: "freelance" },
+    bullets: [
+      {
+        text: L(
+          "Desarrollé el sitio corporativo de un despacho contable con Astro y Tailwind CSS, desplegado en Vercel.",
+          "Built the corporate website for an accounting firm with Astro and Tailwind CSS, deployed on Vercel.",
+        ),
+      },
+    ],
+  },
+];
+
+function periodOf({ mission, project }: Period, locale: Locale): string {
+  const m = getMissionById(mission);
+  const p = project ? m?.subMissions.find((s) => s.id === project) : undefined;
+  return formatPeriod(p?.period ?? m?.period, locale) ?? "";
+}
+
 function roles(locale: Locale): CvRole[] {
-  const out: { start: string; role: CvRole }[] = [];
-  for (const mission of missions) {
-    const projects = mission.subMissions.filter(inCv);
-    if (projects.length === 0) continue;
-    if (mission.experience || !projects.some((p) => p.role)) {
-      out.push({
-        start: mission.period?.start ?? "",
-        role: {
-          title: mission.role?.[locale] ?? mission.title[locale],
-          org: mission.orgName ?? mission.title[locale],
-          period: formatPeriod(mission.period, locale) ?? "",
-          bullets: bulletsOf(projects, locale),
-          tech: techOf(projects),
-        },
-      });
-      continue;
-    }
-    for (const p of projects) {
-      out.push({
-        start: p.period?.start ?? mission.period?.start ?? "",
-        role: {
-          title: p.role?.[locale] ?? p.title[locale],
-          org: p.orgName ?? mission.orgName ?? mission.title[locale],
-          period: formatPeriod(p.period ?? mission.period, locale) ?? "",
-          bullets: (p.highlights?.[locale] ?? []).map((text) => ({ label: "", text })),
-          tech: techOf([p]),
-        },
-      });
-    }
-  }
-  return out.sort((a, b) => b.start.localeCompare(a.start)).map((r) => r.role);
+  return ROLE_SPECS.map((r) => ({
+    title: r.title[locale],
+    org: r.org[locale],
+    period: periodOf(r.period, locale),
+    bullets: r.bullets.map((b) => ({ label: b.label?.[locale] ?? "", text: b.text[locale] })),
+    tech: [],
+  }));
 }
+
+const ISSUER_LABEL: Record<string, string> = { Cisco: "Cisco Networking Academy" };
 
 function certs(locale: Locale): CvCertItem[] {
-  return getCertifications(locale).map((c) => ({ title: c.name, org: c.issuer, date: c.date, url: c.url }));
+  // One compact line per issuer: "Cisco Networking Academy: A, B, C (2023 – 2025)".
+  const byIssuer = new Map<string, ReturnType<typeof getCertifications>>();
+  for (const c of getCertifications(locale)) byIssuer.set(c.issuer, [...(byIssuer.get(c.issuer) ?? []), c]);
+  return [...byIssuer].map(([issuer, list]) => {
+    const years = [...new Set(list.map((c) => c.date.slice(-4)))].sort();
+    return {
+      title: ISSUER_LABEL[issuer] ?? issuer,
+      org: list.map((c) => c.name).join(", "),
+      date: years.length > 1 ? `${years[0]} – ${years[years.length - 1]}` : years[0]!,
+      url: list.length === 1 ? list[0]!.url : undefined,
+    };
+  });
 }
 
 const COPY: Record<Locale, Omit<CvContent, "contact" | "roles" | "skillGroups" | "certs">> = {
   es: {
-    legalName: "Isaac Gael Uribe Ortiz",
-    headline: "Desarrollador Full-Stack y Mobile | Next.js, React, React Native, Expo, TypeScript, Node.js",
+    legalName: "Gael Uribe",
+    headline: "Desarrollador Full-Stack | Web, mobile e integraciones con ERP",
     summary:
-      "Desarrollador full-stack y mobile en Black Sheep Lab. Llevo productos de la idea a producción con Next.js, React Native/Expo, TypeScript y PostgreSQL: publiqué Duplica en App Store y Google Play (más de 1,200 usuarios registrados) y construí plataformas multi-tenant e integraciones con ERP.",
+      "Desarrollador full-stack en Black Sheep Lab: construyo y mantengo productos en producción, de la app móvil y la web al backend, con TypeScript, Next.js, React Native y PostgreSQL. Publiqué Duplica en App Store y Google Play (más de 1,200 usuarios registrados y 246 suscripciones activas) y desarrollo integraciones con el ERP Microsip (Firebird).",
     location: "México",
     titles: {
       summary: "Perfil",
@@ -176,17 +234,17 @@ const COPY: Record<Locale, Omit<CvContent, "contact" | "roles" | "skillGroups" |
       languages: "Idiomas",
     },
     education: [
-      { title: "Ingeniería en Tecnologías de la Información", org: "Universidad Politécnica del Valle de México (UPVM)", period: "ene 2023 – abr 2026" },
+      { title: "Ingeniería en Tecnologías de la Información", org: "UPVM", period: "2023 – 2026" },
       { title: "Técnico en Programación", org: "CECyTEM Tultitlán", period: "2019 – 2022" },
     ],
-    languages: ["Español: nativo", "Inglés: intermedio (B1)"],
+    languages: ["Español: nativo", "Inglés: B1 (intermedio)"],
     ui: { back: "← Portafolio", download: "Descargar PDF", downloading: "Generando…", brandStamp: "G-DARKO / CV", available: "Disponible para nuevas oportunidades", techLabel: "Tecnologías" },
   },
   en: {
-    legalName: "Isaac Gael Uribe Ortiz",
-    headline: "Full-Stack & Mobile Developer | Next.js, React, React Native, Expo, TypeScript, Node.js",
+    legalName: "Gael Uribe",
+    headline: "Full-Stack Developer | Web, mobile & ERP integrations",
     summary:
-      "Full-stack and mobile developer at Black Sheep Lab. I take products from idea to production with Next.js, React Native/Expo, TypeScript, and PostgreSQL: shipped Duplica to the App Store and Google Play (1,200+ registered users) and built multi-tenant platforms and ERP integrations.",
+      "Full-stack developer at Black Sheep Lab: I build and maintain products in production, from mobile app and web to backend, with TypeScript, Next.js, React Native, and PostgreSQL. Shipped Duplica to the App Store and Google Play (1,200+ registered users, 246 active subscriptions) and build integrations with the Microsip ERP (Firebird).",
     location: "Mexico",
     titles: {
       summary: "Summary",
@@ -197,10 +255,10 @@ const COPY: Record<Locale, Omit<CvContent, "contact" | "roles" | "skillGroups" |
       languages: "Languages",
     },
     education: [
-      { title: "B.S. in Information Technology Engineering", org: "Universidad Politécnica del Valle de México (UPVM)", period: "Jan 2023 – Apr 2026" },
+      { title: "Information Technology Engineering", org: "UPVM", period: "2023 – 2026" },
       { title: "Programming Technician", org: "CECyTEM Tultitlán", period: "2019 – 2022" },
     ],
-    languages: ["Spanish: native", "English: intermediate (B1)"],
+    languages: ["Spanish: native", "English: B1 (intermediate)"],
     ui: { back: "← Portfolio", download: "Download PDF", downloading: "Generating…", brandStamp: "G-DARKO / CV", available: "Open to new opportunities", techLabel: "Tech" },
   },
 };

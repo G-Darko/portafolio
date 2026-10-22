@@ -115,7 +115,8 @@ export function CvPdfDocument({ content }: { content: CvContent }) {
           <Text style={styles.sectionTitle}>{titles.certs}</Text>
           {content.certs.map((c) => (
             <Text key={c.title} style={styles.item}>
-              <Text style={styles.bold}>{c.title}</Text>, {c.org} ({c.date}){c.folio ? `. Folio ${c.folio}` : ""}
+              <Text style={styles.bold}>{c.title}: </Text>
+              {c.org} · {c.date}
             </Text>
           ))}
         </View>
