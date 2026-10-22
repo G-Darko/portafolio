@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { SKILLS_API_URL, buildSkills, parseApiSkills, type Skill } from "./skills";
+import { SKILLS_API_URL, parseSkills } from "./api";
+import { buildSkills, toSkill, type Skill } from "./skills";
 
 /** Set NEXT_PUBLIC_SKILLS_REFRESH=false to only use the build-time snapshot. */
 const LIVE_REFRESH = process.env.NEXT_PUBLIC_SKILLS_REFRESH !== "false";
@@ -14,7 +15,7 @@ function fetchLiveSkills(): Promise<Skill[] | null> {
   liveRequest ??= fetch(SKILLS_API_URL, { signal: AbortSignal.timeout(TIMEOUT_MS) })
     .then((res) => (res.ok ? res.json() : null))
     .then((data) => {
-      const skills = parseApiSkills(data);
+      const skills = parseSkills(data).map(toSkill);
       if (skills.length === 0) return null;
       liveSkills = skills;
       return skills;

@@ -1,31 +1,25 @@
 import { translations, type Locale } from "./translations";
+import { formatPeriod } from "@/lib/data/api";
 import type { Mission, SubMission } from "@/lib/data/missions";
 
 export function getMissionCopy(locale: Locale, mission: Mission) {
-  const data = translations[locale].missionsData;
-  const m = data.missions[mission.i18nKey as keyof typeof data.missions];
   return {
-    title: m.title,
-    codename: m.codename,
-    description: m.description,
-    org: data.orgs[mission.orgKey as keyof typeof data.orgs],
-    role: mission.roleKey
-      ? data.roles[mission.roleKey as keyof typeof data.roles]
-      : undefined,
+    title: mission.title[locale],
+    codename: mission.codename[locale],
+    description: mission.description[locale],
+    org: mission.org[locale],
+    role: mission.role?.[locale],
+    period: formatPeriod(mission.period, locale),
   };
 }
 
 export function getSubMissionCopy(locale: Locale, sub: SubMission) {
-  const data = translations[locale].missionsData;
-  const s = data.subMissions[sub.i18nKey as keyof typeof data.subMissions];
-  const contextTag = sub.contextTagKey
-    ? data.contextTags[sub.contextTagKey as keyof typeof data.contextTags]
-    : undefined;
   return {
-    title: s.title,
-    tagline: s.tagline,
-    description: s.description,
-    contextTag,
+    title: sub.title[locale],
+    tagline: sub.tagline[locale],
+    description: sub.description[locale],
+    contextTag: sub.contextTag?.[locale],
+    period: formatPeriod(sub.period, locale),
   };
 }
 

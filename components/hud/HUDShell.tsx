@@ -4,8 +4,7 @@ import { useMemo, useState, useEffect, useRef, useCallback } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useHUDStore, type PanelId } from "@/lib/store/useHUDStore";
-import { getMissionById, getSubMission } from "@/lib/data/missions";
-import { aggregateMissionTechIds, techStackToIds } from "@/lib/data/techMap";
+import { getMissionById, getSubMission, missionSpriteIds } from "@/lib/data/missions";
 import HUDHeader from "./HUDHeader";
 import DesktopBackground from "./DesktopBackground";
 import HologramPanel from "./HologramPanel";
@@ -166,11 +165,11 @@ export default function HUDShell() {
     if (activePanel !== "missions") return [];
     if (activeSubMissionId && activeMissionId) {
       const sm = getSubMission(activeMissionId, activeSubMissionId);
-      return sm ? techStackToIds(sm.techStack) : [];
+      return sm?.spriteIds ?? [];
     }
     if (activeMissionId) {
       const mission = getMissionById(activeMissionId);
-      return mission ? aggregateMissionTechIds(mission.subMissions) : [];
+      return mission ? missionSpriteIds(mission) : [];
     }
     return [];
   }, [activePanel, activeMissionId, activeSubMissionId]);

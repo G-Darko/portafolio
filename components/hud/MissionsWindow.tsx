@@ -8,8 +8,6 @@ import {
   ExternalLink,
   GitBranch,
   CheckCircle2,
-  Briefcase,
-  GraduationCap,
 } from "lucide-react";
 import {
   missions,
@@ -23,15 +21,9 @@ import { useProgressStore } from "@/lib/store/useProgressStore";
 import { getMissionCopy, getSubMissionCopy, getMissionsUI } from "@/lib/i18n/missionContent";
 import { playHUDClick } from "@/lib/audio/audio";
 import MissionMediaViewer from "@/components/missions/MissionMediaViewer";
-import SheepIcon from "@/components/icons/SheepIcon";
+import { missionIconMap } from "@/components/missions/missionIcons";
 import HudOutlineLink from "./HudOutlineLink";
 import HudCyanButton from "./HudCyanButton";
-
-const iconMap = {
-  Sheep: SheepIcon,
-  Briefcase,
-  GraduationCap,
-};
 
 /** Triangular lattice anchors (percent of map stage). */
 const NODE_POS: Record<MissionId, { x: number; y: number }> = {
@@ -194,8 +186,8 @@ function OrgNode({
   const locale = useLocaleStore((s) => s.locale);
   const copy = getMissionCopy(locale, mission);
   const ui = getMissionsUI(locale);
-  const Icon = iconMap[mission.icon];
-  const pos = NODE_POS[mission.id];
+  const Icon = missionIconMap[mission.icon];
+  const pos = NODE_POS[mission.id] ?? { x: 50, y: 50 };
 
   return (
     <button
@@ -384,7 +376,7 @@ export default function MissionsWindow() {
                   >
                     {(() => {
                       const copy = getMissionCopy(locale, mission);
-                      const Icon = iconMap[mission.icon];
+                      const Icon = missionIconMap[mission.icon];
                       const prog = missionProgress(mission);
                       return (
                         <>
@@ -405,10 +397,8 @@ export default function MissionsWindow() {
                                 <p className="mt-0.5 truncate font-mono text-xs text-muted-foreground">
                                   {copy.org}
                                 </p>
-                                {mission.period && (
-                                  <p className="font-mono text-xs text-muted-foreground">
-                                    {mission.period.start} — {mission.period.end}
-                                  </p>
+                                {copy.period && (
+                                  <p className="font-mono text-xs text-muted-foreground">{copy.period}</p>
                                 )}
                                 <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-foreground">
                                   {copy.description}

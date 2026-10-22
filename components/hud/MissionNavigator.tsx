@@ -1,19 +1,12 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Briefcase, GraduationCap } from "lucide-react";
 import { useProgressStore } from "@/lib/store/useProgressStore";
 import { useHUDStore } from "@/lib/store/useHUDStore";
 import { missions, type MissionId } from "@/lib/data/missions";
 import { playHUDClick } from "@/lib/audio/audio";
 import { useTranslation } from "@/lib/i18n/useTranslation";
-import SheepIcon from "@/components/icons/SheepIcon";
-
-const iconMap = {
-  Sheep: SheepIcon,
-  Briefcase,
-  GraduationCap,
-};
+import { missionIconMap } from "@/components/missions/missionIcons";
 
 function MissionButtons({
   layout,
@@ -32,7 +25,7 @@ function MissionButtons({
   return (
     <>
       {missions.map((mission) => {
-        const Icon = iconMap[mission.icon];
+        const Icon = missionIconMap[mission.icon];
         const isActive = activeMissionId === mission.id;
         const readCount = mission.subMissions.filter((sm) =>
           readSubmissions.includes(sm.id)

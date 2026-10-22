@@ -2,6 +2,7 @@ import type { PanelId } from "@/lib/store/useHUDStore";
 import {
   getSubMission,
   getSubMissionBySlug,
+  missionIds,
   type MissionId,
 } from "@/lib/data/missions";
 import { getBasePath } from "@/lib/asset";
@@ -20,7 +21,7 @@ const PATH_TO_PANEL = Object.fromEntries(
   Object.entries(PANEL_PATHS).map(([panel, path]) => [path, panel])
 ) as Record<string, PanelId>;
 
-const MISSION_IDS: MissionId[] = ["black-sheep", "freelance", "academia"];
+
 
 /** Alias of getBasePath — keep HUD routing imports stable. */
 export function getHudBasePath(): string {
@@ -28,7 +29,7 @@ export function getHudBasePath(): string {
 }
 
 export function isMissionId(value: string): value is MissionId {
-  return (MISSION_IDS as string[]).includes(value);
+  return missionIds.includes(value);
 }
 
 export function isMissionProjectSlug(missionId: MissionId, slug: string): boolean {

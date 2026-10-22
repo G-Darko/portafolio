@@ -1,16 +1,13 @@
 import { notFound } from "next/navigation";
 import { isMissionId } from "@/lib/hud/routes";
+import { listMissionParams } from "@/lib/data/missions";
 
 type PageProps = {
   params: Promise<{ missionId: string }>;
 };
 
 export function generateStaticParams() {
-  return [
-    { missionId: "black-sheep" },
-    { missionId: "freelance" },
-    { missionId: "academia" },
-  ];
+  return listMissionParams();
 }
 
 /** `/missions/[missionId]/` — shell lives in layout. */

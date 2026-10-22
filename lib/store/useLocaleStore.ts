@@ -1,7 +1,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export type Locale = "es" | "en";
+import type { Locale } from "@/lib/data/api";
+
+export type { Locale };
 
 interface LocaleState {
   locale: Locale;

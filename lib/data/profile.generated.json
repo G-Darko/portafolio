@@ -1,0 +1,1634 @@
+{
+  "source": "https://api.g-darko.dev/api/profile",
+  "name": "Gael Darko",
+  "subtitle": "Desarrollador de software y web",
+  "categories": [
+    "lenguajes",
+    "frontend",
+    "movil",
+    "backend",
+    "datos",
+    "devops",
+    "herramientas"
+  ],
+  "skills": [
+    {
+      "id": "typescript",
+      "title": "TypeScript",
+      "url": "https://www.typescriptlang.org",
+      "color": "#3178c6",
+      "icon": "https://api.g-darko.dev/icon/typescript.svg",
+      "category": "lenguajes",
+      "uiIcon": "file-code",
+      "sprite": "ts",
+      "hudCategory": "frontend"
+    },
+    {
+      "id": "javascript",
+      "title": "JavaScript",
+      "url": "https://developer.mozilla.org/docs/Web/JavaScript",
+      "color": "#f7df1e",
+      "icon": "https://api.g-darko.dev/icon/javascript.svg",
+      "category": "lenguajes",
+      "uiIcon": "braces",
+      "sprite": "js",
+      "hudCategory": "frontend"
+    },
+    {
+      "id": "php",
+      "title": "PHP",
+      "url": "https://www.php.net",
+      "color": "#777bb4",
+      "icon": "https://api.g-darko.dev/icon/php.svg",
+      "category": "lenguajes",
+      "uiIcon": "file-code",
+      "sprite": "php",
+      "hudCategory": "backend"
+    },
+    {
+      "id": "java",
+      "title": "Java",
+      "url": "https://www.java.com",
+      "color": "#5382a1",
+      "icon": "https://api.g-darko.dev/icon/java.svg",
+      "category": "lenguajes",
+      "uiIcon": "coffee",
+      "sprite": "java",
+      "hudCategory": "backend"
+    },
+    {
+      "id": "python",
+      "title": "Python",
+      "url": "https://www.python.org",
+      "color": "#387eb8",
+      "icon": "https://api.g-darko.dev/icon/python.svg",
+      "category": "lenguajes",
+      "uiIcon": "terminal",
+      "sprite": "py",
+      "hudCategory": "backend"
+    },
+    {
+      "id": "html",
+      "title": "HTML5",
+      "url": "https://developer.mozilla.org/docs/Web/HTML",
+      "color": "#e44d26",
+      "icon": "https://api.g-darko.dev/icon/html.svg",
+      "category": "lenguajes",
+      "uiIcon": "code-xml",
+      "sprite": "html",
+      "hudCategory": "frontend"
+    },
+    {
+      "id": "css",
+      "title": "CSS3",
+      "url": "https://developer.mozilla.org/docs/Web/CSS",
+      "color": "#264de4",
+      "icon": "https://api.g-darko.dev/icon/css.svg",
+      "category": "lenguajes",
+      "uiIcon": "palette",
+      "sprite": "css",
+      "hudCategory": "frontend"
+    },
+    {
+      "id": "nextjs",
+      "title": "Next.js",
+      "url": "https://nextjs.org",
+      "color": "#000000",
+      "icon": "https://api.g-darko.dev/icon/nextjs.svg",
+      "category": "frontend",
+      "uiIcon": "layers",
+      "sprite": "nextjs",
+      "hudCategory": "frontend"
+    },
+    {
+      "id": "react",
+      "title": "React",
+      "url": "https://react.dev",
+      "color": "#00d8ff",
+      "icon": "https://api.g-darko.dev/icon/react.svg",
+      "category": "frontend",
+      "uiIcon": "atom",
+      "sprite": "react",
+      "hudCategory": "frontend"
+    },
+    {
+      "id": "vue",
+      "title": "Vue.js",
+      "url": "https://vuejs.org",
+      "color": "#41b883",
+      "icon": "https://api.g-darko.dev/icon/vue.svg",
+      "category": "frontend",
+      "uiIcon": "layout-template",
+      "sprite": "vue",
+      "hudCategory": "frontend"
+    },
+    {
+      "id": "astro",
+      "title": "Astro",
+      "url": "https://astro.build",
+      "color": "#bc52ee",
+      "icon": "https://api.g-darko.dev/icon/astro.svg",
+      "category": "frontend",
+      "uiIcon": "rocket",
+      "sprite": "astro",
+      "hudCategory": "frontend"
+    },
+    {
+      "id": "tailwind",
+      "title": "Tailwind CSS",
+      "url": "https://tailwindcss.com",
+      "color": "#2298bd",
+      "icon": "https://api.g-darko.dev/icon/tailwind.svg",
+      "category": "frontend",
+      "uiIcon": "wind",
+      "sprite": "tail",
+      "hudCategory": "frontend"
+    },
+    {
+      "id": "vite",
+      "title": "Vite",
+      "url": "https://vite.dev",
+      "color": "#41d1ff",
+      "icon": "https://api.g-darko.dev/icon/vite.svg",
+      "category": "frontend",
+      "uiIcon": "zap",
+      "sprite": "vite",
+      "hudCategory": "frontend"
+    },
+    {
+      "id": "threejs",
+      "title": "Three.js",
+      "url": "https://threejs.org",
+      "color": "#6366f1",
+      "icon": "https://api.g-darko.dev/icon/threejs.svg",
+      "category": "frontend",
+      "uiIcon": "box",
+      "sprite": "three",
+      "hudCategory": "graphics"
+    },
+    {
+      "id": "expo",
+      "title": "Expo",
+      "url": "https://expo.dev",
+      "color": "#1c2024",
+      "icon": "https://api.g-darko.dev/icon/expo.svg",
+      "category": "movil",
+      "uiIcon": "smartphone",
+      "sprite": "react",
+      "hudCategory": "mobile"
+    },
+    {
+      "id": "reactnative",
+      "title": "React Native",
+      "url": "https://reactnative.dev",
+      "color": "#00d8ff",
+      "icon": "https://api.g-darko.dev/icon/reactnative.svg",
+      "category": "movil",
+      "uiIcon": "smartphone",
+      "sprite": "react",
+      "hudCategory": "mobile"
+    },
+    {
+      "id": "capacitor",
+      "title": "Capacitor",
+      "url": "https://capacitorjs.com",
+      "color": "#53b9ff",
+      "icon": "https://api.g-darko.dev/icon/capacitor.svg",
+      "category": "movil",
+      "uiIcon": "tablet-smartphone",
+      "hudCategory": "mobile"
+    },
+    {
+      "id": "node",
+      "title": "Node.js",
+      "url": "https://nodejs.org",
+      "color": "#539e43",
+      "icon": "https://api.g-darko.dev/icon/node.svg",
+      "category": "backend",
+      "uiIcon": "server",
+      "sprite": "node",
+      "hudCategory": "backend"
+    },
+    {
+      "id": "hono",
+      "title": "Hono",
+      "url": "https://hono.dev",
+      "color": "#ff5b11",
+      "icon": "https://api.g-darko.dev/icon/hono.svg",
+      "category": "backend",
+      "uiIcon": "flame",
+      "hudCategory": "backend"
+    },
+    {
+      "id": "laravel",
+      "title": "Laravel",
+      "url": "https://laravel.com",
+      "color": "#ff2d20",
+      "icon": "https://api.g-darko.dev/icon/laravel.svg",
+      "category": "backend",
+      "uiIcon": "server-cog",
+      "sprite": "laravel",
+      "hudCategory": "backend"
+    },
+    {
+      "id": "fastapi",
+      "title": "FastAPI",
+      "url": "https://fastapi.tiangolo.com",
+      "color": "#009688",
+      "icon": "https://api.g-darko.dev/icon/fastapi.svg",
+      "category": "backend",
+      "uiIcon": "gauge",
+      "sprite": "py",
+      "hudCategory": "backend"
+    },
+    {
+      "id": "socketio",
+      "title": "Socket.IO",
+      "url": "https://socket.io",
+      "color": "#010101",
+      "icon": "https://api.g-darko.dev/icon/socketio.svg",
+      "category": "backend",
+      "uiIcon": "radio",
+      "sprite": "node",
+      "hudCategory": "backend"
+    },
+    {
+      "id": "postgresql",
+      "title": "PostgreSQL",
+      "url": "https://www.postgresql.org",
+      "color": "#336791",
+      "icon": "https://api.g-darko.dev/icon/postgresql.svg",
+      "category": "datos",
+      "uiIcon": "database",
+      "sprite": "postsql",
+      "hudCategory": "database"
+    },
+    {
+      "id": "mysql",
+      "title": "MySQL",
+      "url": "https://www.mysql.com",
+      "color": "#5b9bd5",
+      "icon": "https://api.g-darko.dev/icon/mysql.svg",
+      "category": "datos",
+      "uiIcon": "database",
+      "sprite": "mysql",
+      "hudCategory": "database"
+    },
+    {
+      "id": "mongodb",
+      "title": "MongoDB",
+      "url": "https://www.mongodb.com",
+      "color": "#01ec64",
+      "icon": "https://api.g-darko.dev/icon/mongodb.svg",
+      "category": "datos",
+      "uiIcon": "leaf",
+      "sprite": "mongo",
+      "hudCategory": "database"
+    },
+    {
+      "id": "prisma",
+      "title": "Prisma",
+      "url": "https://www.prisma.io",
+      "color": "#2d3748",
+      "icon": "https://api.g-darko.dev/icon/prisma.svg",
+      "category": "datos",
+      "uiIcon": "triangle",
+      "hudCategory": "database"
+    },
+    {
+      "id": "docker",
+      "title": "Docker",
+      "url": "https://www.docker.com",
+      "color": "#2396ed",
+      "icon": "https://api.g-darko.dev/icon/docker.svg",
+      "category": "devops",
+      "uiIcon": "container",
+      "sprite": "docker",
+      "hudCategory": "tools"
+    },
+    {
+      "id": "linux",
+      "title": "Linux",
+      "url": "https://www.kernel.org",
+      "color": "#ffeed7",
+      "icon": "https://api.g-darko.dev/icon/linux.svg",
+      "category": "devops",
+      "uiIcon": "terminal",
+      "sprite": "linux",
+      "hudCategory": "tools"
+    },
+    {
+      "id": "cloudflare",
+      "title": "Cloudflare",
+      "url": "https://www.cloudflare.com",
+      "color": "#fbad41",
+      "icon": "https://api.g-darko.dev/icon/cloudflare.svg",
+      "category": "devops",
+      "uiIcon": "cloud",
+      "hudCategory": "tools"
+    },
+    {
+      "id": "vercel",
+      "title": "Vercel",
+      "url": "https://vercel.com",
+      "color": "#000000",
+      "icon": "https://api.g-darko.dev/icon/vercel.svg",
+      "category": "devops",
+      "uiIcon": "cloud-upload",
+      "sprite": "vercel",
+      "hudCategory": "tools"
+    },
+    {
+      "id": "git",
+      "title": "Git",
+      "url": "https://git-scm.com",
+      "color": "#de4c36",
+      "icon": "https://api.g-darko.dev/icon/git.svg",
+      "category": "herramientas",
+      "uiIcon": "git-branch",
+      "sprite": "git",
+      "hudCategory": "tools"
+    },
+    {
+      "id": "github",
+      "title": "GitHub",
+      "url": "https://github.com",
+      "color": "#181717",
+      "icon": "https://api.g-darko.dev/icon/github.svg",
+      "category": "herramientas",
+      "uiIcon": "git-pull-request",
+      "sprite": "github",
+      "hudCategory": "tools"
+    },
+    {
+      "id": "vscode",
+      "title": "VS Code",
+      "url": "https://code.visualstudio.com",
+      "color": "#0065a9",
+      "icon": "https://api.g-darko.dev/icon/vscode.svg",
+      "category": "herramientas",
+      "uiIcon": "square-code",
+      "sprite": "vsc",
+      "hudCategory": "tools"
+    }
+  ],
+  "socials": [
+    {
+      "id": "github",
+      "title": "GitHub",
+      "url": "https://github.com/G-Darko",
+      "color": "#181717",
+      "icon": "https://api.g-darko.dev/icon/github.svg"
+    },
+    {
+      "id": "linkedin",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/in/isaac-gael-uribe-ortiz",
+      "color": "#0a66c2",
+      "icon": "https://api.g-darko.dev/icon/linkedin.svg"
+    },
+    {
+      "id": "discord",
+      "title": "Discord",
+      "url": "https://discord.com/users/darko_z63",
+      "color": "#5865f2",
+      "icon": "https://api.g-darko.dev/icon/discord.svg"
+    },
+    {
+      "id": "twitch",
+      "title": "Twitch",
+      "url": "https://www.twitch.tv/darko_z63",
+      "color": "#5a3e85",
+      "icon": "https://api.g-darko.dev/icon/twitch.svg"
+    },
+    {
+      "id": "credly",
+      "title": "Credly",
+      "url": "https://www.credly.com/users/g-darko",
+      "color": "#ff6b00",
+      "icon": "https://api.g-darko.dev/icon/credly.svg"
+    },
+    {
+      "id": "portfolio",
+      "title": "Portafolio",
+      "url": "https://g-darko.dev",
+      "color": "#6366f1",
+      "icon": "https://api.g-darko.dev/icon/portfolio.svg"
+    },
+    {
+      "id": "email",
+      "title": "Correo: contacto@g-darko.dev",
+      "url": "mailto:contacto@g-darko.dev",
+      "color": "#60d673",
+      "icon": "https://api.g-darko.dev/icon/email.svg",
+      "label": "contacto@g-darko.dev"
+    }
+  ],
+  "contact": {
+    "email": "contacto@g-darko.dev",
+    "github": "https://github.com/G-Darko",
+    "site": "https://g-darko.dev",
+    "linkedin": "https://www.linkedin.com/in/isaac-gael-uribe-ortiz"
+  },
+  "experience": [
+    {
+      "id": "duplica",
+      "title": "Duplica",
+      "tagline": "Membresías, comunidad y app móvil",
+      "description": "Monorepo con API Next, app Expo y paquete compartido: aula, comunidad, DupliBot, pagos y admin multi-tenant.",
+      "org": "Black Sheep Lab",
+      "orgUrl": "https://blck-sheep.com",
+      "period": {
+        "start": "2026-02",
+        "end": "Presente"
+      },
+      "url": "https://duplicamlm.app/",
+      "stack": [
+        {
+          "id": "nextjs",
+          "title": "Next.js",
+          "icon": "https://api.g-darko.dev/icon/nextjs.svg"
+        },
+        {
+          "id": "expo",
+          "title": "Expo",
+          "icon": "https://api.g-darko.dev/icon/expo.svg"
+        },
+        {
+          "id": "reactnative",
+          "title": "React Native",
+          "icon": "https://api.g-darko.dev/icon/reactnative.svg"
+        },
+        {
+          "id": "typescript",
+          "title": "TypeScript",
+          "icon": "https://api.g-darko.dev/icon/typescript.svg"
+        },
+        {
+          "id": "postgresql",
+          "title": "PostgreSQL",
+          "icon": "https://api.g-darko.dev/icon/postgresql.svg"
+        },
+        {
+          "id": "openai",
+          "title": "OpenAI",
+          "icon": "https://api.g-darko.dev/icon/openai.svg"
+        }
+      ]
+    },
+    {
+      "id": "skool",
+      "title": "Skool",
+      "tagline": "El LMS multi-empresa del lab",
+      "description": "Plataforma de cursos multi-tenant: roles, programas, certificados, SCORM, reportes y wrapper Capacitor.",
+      "org": "Black Sheep Lab",
+      "orgUrl": "https://blck-sheep.com",
+      "period": {
+        "start": "2025-12",
+        "end": "2026-04"
+      },
+      "url": "https://skool.com.mx/",
+      "stack": [
+        {
+          "id": "nextjs",
+          "title": "Next.js",
+          "icon": "https://api.g-darko.dev/icon/nextjs.svg"
+        },
+        {
+          "id": "react",
+          "title": "React",
+          "icon": "https://api.g-darko.dev/icon/react.svg"
+        },
+        {
+          "id": "typescript",
+          "title": "TypeScript",
+          "icon": "https://api.g-darko.dev/icon/typescript.svg"
+        },
+        {
+          "id": "tailwind",
+          "title": "Tailwind CSS",
+          "icon": "https://api.g-darko.dev/icon/tailwind.svg"
+        },
+        {
+          "id": "postgresql",
+          "title": "PostgreSQL",
+          "icon": "https://api.g-darko.dev/icon/postgresql.svg"
+        },
+        {
+          "id": "capacitor",
+          "title": "Capacitor",
+          "icon": "https://api.g-darko.dev/icon/capacitor.svg"
+        }
+      ]
+    },
+    {
+      "id": "creser",
+      "title": "CRESER",
+      "tagline": "Comunidad, aula y app móvil",
+      "org": "Black Sheep Lab",
+      "orgUrl": "https://blck-sheep.com",
+      "period": {
+        "start": "2026-08",
+        "end": "Presente"
+      },
+      "url": "https://creser.app/",
+      "stack": [
+        {
+          "id": "nextjs",
+          "title": "Next.js",
+          "icon": "https://api.g-darko.dev/icon/nextjs.svg"
+        },
+        {
+          "id": "expo",
+          "title": "Expo",
+          "icon": "https://api.g-darko.dev/icon/expo.svg"
+        },
+        {
+          "id": "reactnative",
+          "title": "React Native",
+          "icon": "https://api.g-darko.dev/icon/reactnative.svg"
+        },
+        {
+          "id": "typescript",
+          "title": "TypeScript",
+          "icon": "https://api.g-darko.dev/icon/typescript.svg"
+        },
+        {
+          "id": "postgresql",
+          "title": "PostgreSQL",
+          "icon": "https://api.g-darko.dev/icon/postgresql.svg"
+        }
+      ]
+    },
+    {
+      "id": "rnme",
+      "title": "Red México Emprende",
+      "tagline": "Comunidad, eventos y membresías",
+      "description": "Módulos de comunidad, eventos con boletos, membresías, cursos y certificados.",
+      "org": "Black Sheep Lab",
+      "orgUrl": "https://blck-sheep.com",
+      "period": {
+        "start": "2025-10",
+        "end": "2026-04"
+      },
+      "url": "https://www.redmexicoemprende.mx/",
+      "stack": [
+        {
+          "id": "nextjs",
+          "title": "Next.js",
+          "icon": "https://api.g-darko.dev/icon/nextjs.svg"
+        },
+        {
+          "id": "react",
+          "title": "React",
+          "icon": "https://api.g-darko.dev/icon/react.svg"
+        },
+        {
+          "id": "typescript",
+          "title": "TypeScript",
+          "icon": "https://api.g-darko.dev/icon/typescript.svg"
+        },
+        {
+          "id": "tailwind",
+          "title": "Tailwind CSS",
+          "icon": "https://api.g-darko.dev/icon/tailwind.svg"
+        },
+        {
+          "id": "postgresql",
+          "title": "PostgreSQL",
+          "icon": "https://api.g-darko.dev/icon/postgresql.svg"
+        },
+        {
+          "id": "socketio",
+          "title": "Socket.IO",
+          "icon": "https://api.g-darko.dev/icon/socketio.svg"
+        }
+      ]
+    },
+    {
+      "id": "cpmx",
+      "title": "CPMX",
+      "tagline": "API de colonias y códigos postales",
+      "org": "Black Sheep Lab",
+      "orgUrl": "https://blck-sheep.com",
+      "period": {
+        "start": "2026-06",
+        "end": "2026-06"
+      },
+      "url": "https://cpmx.blck-sheep.com/",
+      "stack": [
+        {
+          "id": "nextjs",
+          "title": "Next.js",
+          "icon": "https://api.g-darko.dev/icon/nextjs.svg"
+        },
+        {
+          "id": "typescript",
+          "title": "TypeScript",
+          "icon": "https://api.g-darko.dev/icon/typescript.svg"
+        },
+        {
+          "id": "postgresql",
+          "title": "PostgreSQL",
+          "icon": "https://api.g-darko.dev/icon/postgresql.svg"
+        }
+      ]
+    },
+    {
+      "id": "black-sync",
+      "title": "Black Sync",
+      "tagline": "WhatsApp/IA hablando con Microsip",
+      "description": "Puente entre WhatsApp/respond.io y el ERP Microsip (Firebird).",
+      "org": "Black Sheep Lab",
+      "orgUrl": "https://blck-sheep.com",
+      "period": {
+        "start": "2026-08",
+        "end": "Presente"
+      },
+      "url": "https://black-sync.com/",
+      "stack": [
+        {
+          "id": "nextjs",
+          "title": "Next.js",
+          "icon": "https://api.g-darko.dev/icon/nextjs.svg"
+        },
+        {
+          "id": "typescript",
+          "title": "TypeScript",
+          "icon": "https://api.g-darko.dev/icon/typescript.svg"
+        },
+        {
+          "id": "postgresql",
+          "title": "PostgreSQL",
+          "icon": "https://api.g-darko.dev/icon/postgresql.svg"
+        }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "black-sheep",
+      "icon": "Sheep",
+      "rank": "S",
+      "title": {
+        "es": "Black Sheep Lab",
+        "en": "Black Sheep Lab"
+      },
+      "codename": {
+        "es": "OPERACIÓN: SAAS",
+        "en": "OPERATION: SAAS"
+      },
+      "description": {
+        "es": "Desde octubre 2025 trabajo en productos reales del lab: LMS, apps white-label, comunidad y puentes hacia Microsip/WhatsApp.",
+        "en": "Since October 2025 I've been shipping real lab products: LMS, white-label apps, community, and bridges into Microsip/WhatsApp."
+      },
+      "org": {
+        "es": "Black Sheep Lab — SaaS e Innovación",
+        "en": "Black Sheep Lab — SaaS & Innovation"
+      },
+      "orgName": "Black Sheep Lab",
+      "orgUrl": "https://blck-sheep.com",
+      "role": {
+        "es": "Desarrollador Full-Stack y Mobile",
+        "en": "Full-Stack & Mobile Developer"
+      },
+      "period": {
+        "start": "2025-10",
+        "end": "Presente"
+      },
+      "experience": true,
+      "projects": [
+        {
+          "id": "duplica-app",
+          "slug": "duplica",
+          "title": {
+            "es": "Duplica",
+            "en": "Duplica"
+          },
+          "tagline": {
+            "es": "Membresías, comunidad y app móvil",
+            "en": "Memberships, community, and mobile"
+          },
+          "summary": {
+            "es": "Monorepo con API Next, app Expo y paquete compartido: aula, comunidad, DupliBot, pagos y admin multi-tenant.",
+            "en": "Monorepo with a Next API, Expo app, and shared package: classroom, community, DupliBot, payments, and multi-tenant admin."
+          },
+          "description": {
+            "es": "Duplica es el monorepo grande (API Next, app Expo y paquete shared). Ahí armé el día a día del producto: aula, chat/comunidad, DupliBot, diamantes/XP, pagos y el admin multi-tenant. También los builds white-label para sacar clientes sin forkear todo.",
+            "en": "Duplica is the big monorepo (Next API, Expo app, shared package). I built the day-to-day product: classroom, community/chat, DupliBot, diamonds/XP, payments, and multi-tenant admin — plus white-label builds so new clients don't need a full fork."
+          },
+          "highlights": {
+            "es": [
+              "Llevé Duplica de cero a App Store y Google Play con Expo, React Native y una API en Next.js sobre PostgreSQL: más de 1,200 usuarios registrados y 246 suscripciones activas.",
+              "Construí el aula, la comunidad, el asistente con IA, gamificación (diamantes/XP), pagos y el panel de administración multi-tenant en un monorepo compartido web/móvil."
+            ],
+            "en": [
+              "Took Duplica from zero to the App Store and Google Play with Expo, React Native, and a Next.js API on PostgreSQL: 1,200+ registered users and 246 active subscriptions.",
+              "Built the classroom, community, AI assistant, gamification (diamonds/XP), payments, and multi-tenant admin in a shared web/mobile monorepo."
+            ]
+          },
+          "contextTag": {
+            "es": "Ownership end-to-end",
+            "en": "End-to-end ownership"
+          },
+          "period": {
+            "start": "2026-02",
+            "end": "Presente"
+          },
+          "liveUrl": "https://duplicamlm.app/",
+          "playStoreUrl": "https://play.google.com/store/apps/details?id=com.blacksheep.duplica",
+          "appStoreUrl": "https://apps.apple.com/mx/app/duplica/id6763321394",
+          "video": "/video/duplica/tour.webm",
+          "images": [
+            "/img/duplica/1.webp",
+            "/img/duplica/play.webp",
+            "/img/duplica/appstore.webp",
+            "/img/duplica/app-home.webp",
+            "/img/duplica/app-classroom.webp",
+            "/img/duplica/app-ai.webp",
+            "/img/duplica/app-community.webp",
+            "/img/duplica/app-admin.webp"
+          ],
+          "stack": [
+            {
+              "id": "nextjs",
+              "title": "Next.js",
+              "icon": "https://api.g-darko.dev/icon/nextjs.svg",
+              "sprite": "nextjs"
+            },
+            {
+              "id": "expo",
+              "title": "Expo",
+              "icon": "https://api.g-darko.dev/icon/expo.svg",
+              "sprite": "react"
+            },
+            {
+              "id": "reactnative",
+              "title": "React Native",
+              "icon": "https://api.g-darko.dev/icon/reactnative.svg",
+              "sprite": "react"
+            },
+            {
+              "id": "typescript",
+              "title": "TypeScript",
+              "icon": "https://api.g-darko.dev/icon/typescript.svg",
+              "sprite": "ts"
+            },
+            {
+              "id": "postgresql",
+              "title": "PostgreSQL",
+              "icon": "https://api.g-darko.dev/icon/postgresql.svg",
+              "sprite": "postsql"
+            },
+            {
+              "id": "openai",
+              "title": "OpenAI",
+              "icon": "https://api.g-darko.dev/icon/openai.svg"
+            }
+          ]
+        },
+        {
+          "id": "lms-skool",
+          "slug": "skool",
+          "title": {
+            "es": "Skool",
+            "en": "Skool"
+          },
+          "tagline": {
+            "es": "El LMS multi-empresa del lab",
+            "en": "The lab's multi-company LMS"
+          },
+          "summary": {
+            "es": "Plataforma de cursos multi-tenant: roles, programas, certificados, SCORM, reportes y wrapper Capacitor.",
+            "en": "Multi-tenant course platform: roles, programs, certificates, SCORM, reports, and a Capacitor wrapper."
+          },
+          "description": {
+            "es": "Skool es la plataforma de cursos que usan varias empresas a la vez (cada una con su dominio). Me tocó armar casi todo el producto: login y roles, cursos/programas, certificados, SCORM y video, puntos, reportes, planes y el wrapper Capacitor. Marketing en skool.com.mx; un tenant en producción es Universidad Fyttsa.",
+            "en": "Skool is the course platform several companies share (each on its own domain). I owned most of the product: auth/roles, courses/programs, certificates, SCORM and video, points, reports, plans, and the Capacitor wrapper. Marketing at skool.com.mx; one live tenant is Universidad Fyttsa."
+          },
+          "highlights": {
+            "es": [
+              "Construí casi todo el LMS multi-tenant (cada empresa con su dominio) con Next.js, TypeScript y PostgreSQL: autenticación, roles, cursos y programas.",
+              "Implementé certificados, contenido SCORM y video, puntos, reportes y planes, y empaqueté la app móvil con Capacitor."
+            ],
+            "en": [
+              "Built most of the multi-tenant LMS (each company on its own domain) with Next.js, TypeScript, and PostgreSQL: auth, roles, courses, and programs.",
+              "Implemented certificates, SCORM and video content, points, reports, and plans, and packaged the mobile app with Capacitor."
+            ]
+          },
+          "contextTag": {
+            "es": "Ownership end-to-end",
+            "en": "End-to-end ownership"
+          },
+          "period": {
+            "start": "2025-12",
+            "end": "2026-04"
+          },
+          "liveUrl": "https://skool.com.mx/",
+          "tenantUrl": "https://universidadfyttsa.com/login",
+          "video": "/video/skool/tour.webm",
+          "images": [
+            "/img/skool/app-dashboard.webp",
+            "/img/skool/app-cursos.webp",
+            "/img/skool/app-curso-contenido.webp",
+            "/img/skool/app-gestion.webp",
+            "/img/skool/app-usuarios.webp",
+            "/img/skool/app-reportes.webp",
+            "/img/skool/app-certificados.webp",
+            "/img/skool/app-perfil.webp",
+            "/img/skool/1.webp",
+            "/img/skool/2.webp"
+          ],
+          "stack": [
+            {
+              "id": "nextjs",
+              "title": "Next.js",
+              "icon": "https://api.g-darko.dev/icon/nextjs.svg",
+              "sprite": "nextjs"
+            },
+            {
+              "id": "react",
+              "title": "React",
+              "icon": "https://api.g-darko.dev/icon/react.svg",
+              "sprite": "react"
+            },
+            {
+              "id": "typescript",
+              "title": "TypeScript",
+              "icon": "https://api.g-darko.dev/icon/typescript.svg",
+              "sprite": "ts"
+            },
+            {
+              "id": "tailwind",
+              "title": "Tailwind CSS",
+              "icon": "https://api.g-darko.dev/icon/tailwind.svg",
+              "sprite": "tail"
+            },
+            {
+              "id": "postgresql",
+              "title": "PostgreSQL",
+              "icon": "https://api.g-darko.dev/icon/postgresql.svg",
+              "sprite": "postsql"
+            },
+            {
+              "id": "capacitor",
+              "title": "Capacitor",
+              "icon": "https://api.g-darko.dev/icon/capacitor.svg"
+            }
+          ]
+        },
+        {
+          "id": "creser",
+          "slug": "creser",
+          "title": {
+            "es": "CRESER",
+            "en": "CRESER"
+          },
+          "tagline": {
+            "es": "Comunidad, aula y app móvil",
+            "en": "Community, classroom, and mobile app"
+          },
+          "description": {
+            "es": "Producto propio publicado en creser.app, Google Play y App Store. Configuré el tenant, el branding, los builds para las tiendas y el empaquetado.",
+            "en": "Its own product, live at creser.app, Google Play, and the App Store. I set up the tenant, branding, store builds, and packaging."
+          },
+          "contextTag": {
+            "es": "Producto móvil",
+            "en": "Mobile product"
+          },
+          "period": {
+            "start": "2026-08",
+            "end": "Presente"
+          },
+          "liveUrl": "https://creser.app/",
+          "playStoreUrl": "https://play.google.com/store/apps/details?id=com.blacksheep.creser",
+          "appStoreUrl": "https://apps.apple.com/mx/app/creser/id6798448568",
+          "video": "/video/creser/tour.webm",
+          "images": [
+            "/img/creser/1.webp",
+            "/img/creser/play.webp",
+            "/img/creser/appstore.webp",
+            "/img/creser/app-home.webp",
+            "/img/creser/app-classroom.webp",
+            "/img/creser/app-ai.webp",
+            "/img/creser/app-community.webp",
+            "/img/creser/app-admin.webp"
+          ],
+          "stack": [
+            {
+              "id": "nextjs",
+              "title": "Next.js",
+              "icon": "https://api.g-darko.dev/icon/nextjs.svg",
+              "sprite": "nextjs"
+            },
+            {
+              "id": "expo",
+              "title": "Expo",
+              "icon": "https://api.g-darko.dev/icon/expo.svg",
+              "sprite": "react"
+            },
+            {
+              "id": "reactnative",
+              "title": "React Native",
+              "icon": "https://api.g-darko.dev/icon/reactnative.svg",
+              "sprite": "react"
+            },
+            {
+              "id": "typescript",
+              "title": "TypeScript",
+              "icon": "https://api.g-darko.dev/icon/typescript.svg",
+              "sprite": "ts"
+            },
+            {
+              "id": "postgresql",
+              "title": "PostgreSQL",
+              "icon": "https://api.g-darko.dev/icon/postgresql.svg",
+              "sprite": "postsql"
+            }
+          ]
+        },
+        {
+          "id": "rnme-hub",
+          "slug": "rnme",
+          "title": {
+            "es": "Red México Emprende",
+            "en": "Red México Emprende"
+          },
+          "tagline": {
+            "es": "Comunidad, eventos y membresías",
+            "en": "Community, events, memberships"
+          },
+          "summary": {
+            "es": "Módulos de comunidad, eventos con boletos, membresías, cursos y certificados.",
+            "en": "Community, ticketed events, memberships, courses, and certificates modules."
+          },
+          "description": {
+            "es": "En RNME no armé el sistema entero; sí módulos que duelen si fallan: comunidad, eventos con boletos, membresías, cursos/certificados y la parte de revista/en vivo. Stack Next + Postgres + sockets, en redmexicoemprende.mx.",
+            "en": "I didn't own all of RNME — I owned modules that hurt when they break: community, ticketed events, memberships, courses/certificates, and the magazine/live side. Next + Postgres + sockets, at redmexicoemprende.mx."
+          },
+          "highlights": {
+            "es": [
+              "Desarrollé los módulos de comunidad, eventos con boletos, membresías, cursos y certificados con Next.js, PostgreSQL y Socket.IO."
+            ],
+            "en": [
+              "Developed the community, ticketed events, memberships, courses, and certificates modules with Next.js, PostgreSQL, and Socket.IO."
+            ]
+          },
+          "contextTag": {
+            "es": "Módulos clave",
+            "en": "Key modules"
+          },
+          "period": {
+            "start": "2025-10",
+            "end": "2026-04"
+          },
+          "liveUrl": "https://www.redmexicoemprende.mx/",
+          "video": "/video/rnme/tour.webm",
+          "images": [
+            "/img/rnme/app-comunidad.webp",
+            "/img/rnme/app-comunidad-miembros.webp",
+            "/img/rnme/app-comunidad-chat.webp",
+            "/img/rnme/app-admin.webp",
+            "/img/rnme/app-eventos.webp",
+            "/img/rnme/1.webp",
+            "/img/rnme/2.webp",
+            "/img/rnme/3.webp",
+            "/img/rnme/4.webp"
+          ],
+          "stack": [
+            {
+              "id": "nextjs",
+              "title": "Next.js",
+              "icon": "https://api.g-darko.dev/icon/nextjs.svg",
+              "sprite": "nextjs"
+            },
+            {
+              "id": "react",
+              "title": "React",
+              "icon": "https://api.g-darko.dev/icon/react.svg",
+              "sprite": "react"
+            },
+            {
+              "id": "typescript",
+              "title": "TypeScript",
+              "icon": "https://api.g-darko.dev/icon/typescript.svg",
+              "sprite": "ts"
+            },
+            {
+              "id": "tailwind",
+              "title": "Tailwind CSS",
+              "icon": "https://api.g-darko.dev/icon/tailwind.svg",
+              "sprite": "tail"
+            },
+            {
+              "id": "postgresql",
+              "title": "PostgreSQL",
+              "icon": "https://api.g-darko.dev/icon/postgresql.svg",
+              "sprite": "postsql"
+            },
+            {
+              "id": "socketio",
+              "title": "Socket.IO",
+              "icon": "https://api.g-darko.dev/icon/socketio.svg",
+              "sprite": "node"
+            }
+          ]
+        },
+        {
+          "id": "krkn",
+          "slug": "krkn",
+          "title": {
+            "es": "KRKN / FYTTSA",
+            "en": "KRKN / FYTTSA"
+          },
+          "tagline": {
+            "es": "Croquis y layout del almacén",
+            "en": "Warehouse layout & croquis"
+          },
+          "description": {
+            "es": "FYTTSA es el ERP interno sobre Microsip. Mi pedazo fuerte fue Layout/Croquis: dibujar el piso, acomodar, rutas de picking y sync con el backend (PHP/Firebird + un poco de FastAPI). Menos pantalla bonita, más herramienta de piso.",
+            "en": "FYTTSA is the internal ERP on Microsip. My heavy piece was Layout/Croquis: draw the floor, place stock, picking paths, and sync with PHP/Firebird (+ a bit of FastAPI). Less pretty UI, more floor-tool."
+          },
+          "contextTag": {
+            "es": "Módulos clave",
+            "en": "Key modules"
+          },
+          "period": {
+            "start": "2026-02",
+            "end": "2026-07"
+          },
+          "liveUrl": "https://krkn.mx/",
+          "tenantUrl": "https://fyttsa.krkn.mx/",
+          "featured": false,
+          "video": "/video/krkn/tour.webm",
+          "images": [
+            "/img/krkn/1.webp",
+            "/img/krkn/2.webp",
+            "/img/krkn/3.webp",
+            "/img/krkn/fyttsa.webp",
+            "/img/krkn/app-etiquetado.webp",
+            "/img/krkn/app-layout.webp",
+            "/img/krkn/app-embarques-mapa.webp",
+            "/img/krkn/app-quiebres.webp",
+            "/img/krkn/app-sesiones-microsip.webp",
+            "/img/krkn/app-auditoria-dml.webp"
+          ],
+          "stack": [
+            {
+              "id": "nextjs",
+              "title": "Next.js",
+              "icon": "https://api.g-darko.dev/icon/nextjs.svg",
+              "sprite": "nextjs"
+            },
+            {
+              "id": "typescript",
+              "title": "TypeScript",
+              "icon": "https://api.g-darko.dev/icon/typescript.svg",
+              "sprite": "ts"
+            },
+            {
+              "id": "php",
+              "title": "PHP",
+              "icon": "https://api.g-darko.dev/icon/php.svg",
+              "sprite": "php"
+            },
+            {
+              "title": "Firebird"
+            },
+            {
+              "id": "python",
+              "title": "Python",
+              "icon": "https://api.g-darko.dev/icon/python.svg",
+              "sprite": "py"
+            },
+            {
+              "id": "fastapi",
+              "title": "FastAPI",
+              "icon": "https://api.g-darko.dev/icon/fastapi.svg",
+              "sprite": "py"
+            }
+          ]
+        },
+        {
+          "id": "cpmx",
+          "slug": "cpmx",
+          "title": {
+            "es": "CPMX",
+            "en": "CPMX"
+          },
+          "tagline": {
+            "es": "API de colonias y códigos postales",
+            "en": "Neighborhoods & postal-code API"
+          },
+          "description": {
+            "es": "Servicio chico pero completo: estados, municipios, colonias y CP con catálogo SEPOMEX + GeoJSON. Dashboard con tokens, rate limit, auth y docs para que otros productos consulten direcciones sin reinventar el catálogo.",
+            "en": "Small but complete service: states, municipalities, neighborhoods, and ZIPs from SEPOMEX + GeoJSON. Token dashboard, rate limits, auth, and docs so other products can query addresses without reinventing the catalog."
+          },
+          "highlights": {
+            "es": [
+              "Construí una API de estados, municipios, colonias y códigos postales (catálogo SEPOMEX + GeoJSON) con Next.js y PostgreSQL, con dashboard de tokens, rate limit, autenticación y documentación."
+            ],
+            "en": [
+              "Built a states, municipalities, neighborhoods, and postal-code API (SEPOMEX catalog + GeoJSON) with Next.js and PostgreSQL, including a token dashboard, rate limiting, auth, and docs."
+            ]
+          },
+          "contextTag": {
+            "es": "Microservicio",
+            "en": "Microservice"
+          },
+          "period": {
+            "start": "2026-06",
+            "end": "2026-06"
+          },
+          "liveUrl": "https://cpmx.blck-sheep.com/",
+          "video": "/video/cpmx/tour.webm",
+          "images": [
+            "/img/cpmx/1.webp",
+            "/img/cpmx/app-dashboard.webp",
+            "/img/cpmx/app-catalogo.webp",
+            "/img/cpmx/app-mapa.webp",
+            "/img/cpmx/app-tokens.webp",
+            "/img/cpmx/app-usuarios.webp"
+          ],
+          "stack": [
+            {
+              "id": "nextjs",
+              "title": "Next.js",
+              "icon": "https://api.g-darko.dev/icon/nextjs.svg",
+              "sprite": "nextjs"
+            },
+            {
+              "id": "typescript",
+              "title": "TypeScript",
+              "icon": "https://api.g-darko.dev/icon/typescript.svg",
+              "sprite": "ts"
+            },
+            {
+              "id": "postgresql",
+              "title": "PostgreSQL",
+              "icon": "https://api.g-darko.dev/icon/postgresql.svg",
+              "sprite": "postsql"
+            },
+            {
+              "title": "GeoJSON"
+            },
+            {
+              "title": "NextAuth"
+            }
+          ]
+        },
+        {
+          "id": "black-sync",
+          "slug": "black-sync",
+          "title": {
+            "es": "Black Sync",
+            "en": "Black Sync"
+          },
+          "tagline": {
+            "es": "WhatsApp/IA hablando con Microsip",
+            "en": "WhatsApp/AI talking to Microsip"
+          },
+          "summary": {
+            "es": "Puente entre WhatsApp/respond.io y el ERP Microsip (Firebird).",
+            "en": "Bridge between WhatsApp/respond.io and the Microsip ERP (Firebird)."
+          },
+          "description": {
+            "es": "Puente entre respond.io (WhatsApp + agente) y Microsip (Firebird). Por empresa: catálogo, stock, clientes, carrito y pedidos. Lo armé de cero como SaaS multi-tenant porque el ERP no tenía esa puerta.",
+            "en": "Bridges respond.io (WhatsApp + agent) to Microsip (Firebird). Per company: catalog, stock, clients, cart, and orders. Built from scratch as multi-tenant SaaS because the ERP had no door for that."
+          },
+          "highlights": {
+            "es": [
+              "Diseñé y construí desde cero un SaaS multi-tenant que funciona como puente entre WhatsApp (con agente de IA) y el ERP Microsip (Firebird): catálogo, stock, clientes, carrito y pedidos por empresa."
+            ],
+            "en": [
+              "Designed and built from scratch a multi-tenant SaaS bridging WhatsApp (with an AI agent) and the Microsip ERP (Firebird): per-company catalog, stock, clients, cart, and orders."
+            ]
+          },
+          "contextTag": {
+            "es": "Microservicio",
+            "en": "Microservice"
+          },
+          "period": {
+            "start": "2026-08",
+            "end": "Presente"
+          },
+          "liveUrl": "https://black-sync.com/",
+          "video": "/video/black-sync/tour.webm",
+          "images": [
+            "/img/black-sync/1.webp",
+            "/img/black-sync/app-admin.webp",
+            "/img/black-sync/app-integracion.webp",
+            "/img/black-sync/app-conversaciones.webp",
+            "/img/black-sync/app-empresas.webp"
+          ],
+          "stack": [
+            {
+              "id": "nextjs",
+              "title": "Next.js",
+              "icon": "https://api.g-darko.dev/icon/nextjs.svg",
+              "sprite": "nextjs"
+            },
+            {
+              "id": "typescript",
+              "title": "TypeScript",
+              "icon": "https://api.g-darko.dev/icon/typescript.svg",
+              "sprite": "ts"
+            },
+            {
+              "id": "postgresql",
+              "title": "PostgreSQL",
+              "icon": "https://api.g-darko.dev/icon/postgresql.svg",
+              "sprite": "postsql"
+            },
+            {
+              "title": "Firebird"
+            },
+            {
+              "title": "respond.io"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "freelance",
+      "icon": "Briefcase",
+      "rank": "A",
+      "title": {
+        "es": "Freelance",
+        "en": "Freelance"
+      },
+      "codename": {
+        "es": "OPERACIÓN: CONTRATO",
+        "en": "OPERATION: CONTRACT"
+      },
+      "description": {
+        "es": "Desarrollo de soluciones web corporativas con enfoque en rendimiento y diseño adaptado a cada cliente.",
+        "en": "Development of corporate web solutions with a focus on performance and design tailored to each client."
+      },
+      "org": {
+        "es": "LEAMSI — Soluciones Contables",
+        "en": "LEAMSI — Accounting Solutions"
+      },
+      "orgName": "Freelance",
+      "role": {
+        "es": "Desarrollador web",
+        "en": "Web developer"
+      },
+      "period": {
+        "start": "2025-07",
+        "end": "2025-08"
+      },
+      "projects": [
+        {
+          "id": "leamsi",
+          "slug": "leamsi",
+          "title": {
+            "es": "LEAMSI",
+            "en": "LEAMSI"
+          },
+          "tagline": {
+            "es": "Sitio para un despacho contable",
+            "en": "Site for an accounting firm"
+          },
+          "description": {
+            "es": "Encargo freelance: sitio corporativo en Astro + Tailwind para LEAMSI. Me encargué del front, la estructura de secciones y que cargara ligero. Demo en Vercel; el dominio del cliente ya no está activo.",
+            "en": "Freelance job: corporate site in Astro + Tailwind for LEAMSI. I handled the front, section structure, and keeping it light. Demo on Vercel; the client's custom domain is no longer active."
+          },
+          "highlights": {
+            "es": [
+              "Desarrollé el sitio corporativo de un despacho contable con Astro, Tailwind CSS y JavaScript: estructura de secciones, front ligero y despliegue en Vercel."
+            ],
+            "en": [
+              "Built a corporate site for an accounting firm with Astro, Tailwind CSS, and JavaScript: section structure, lightweight front end, and Vercel deployment."
+            ]
+          },
+          "contextTag": {
+            "es": "Landing",
+            "en": "Landing"
+          },
+          "period": {
+            "start": "2025-07",
+            "end": "2025-08"
+          },
+          "liveUrl": "https://leamsi.vercel.app/",
+          "video": "/video/leamsi/tour.webm",
+          "images": [
+            "/img/leamsi/app-home.webp",
+            "/img/leamsi/app-acerca.webp",
+            "/img/leamsi/app-servicios.webp",
+            "/img/leamsi/app-contacto.webp"
+          ],
+          "stack": [
+            {
+              "id": "astro",
+              "title": "Astro",
+              "icon": "https://api.g-darko.dev/icon/astro.svg",
+              "sprite": "astro"
+            },
+            {
+              "id": "tailwind",
+              "title": "Tailwind CSS",
+              "icon": "https://api.g-darko.dev/icon/tailwind.svg",
+              "sprite": "tail"
+            },
+            {
+              "id": "javascript",
+              "title": "JavaScript",
+              "icon": "https://api.g-darko.dev/icon/javascript.svg",
+              "sprite": "js"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "academia",
+      "icon": "GraduationCap",
+      "rank": "B",
+      "title": {
+        "es": "Academia / Estadías",
+        "en": "Academia / Internships"
+      },
+      "codename": {
+        "es": "OPERACIÓN: BOOTCAMP",
+        "en": "OPERATION: BOOTCAMP"
+      },
+      "description": {
+        "es": "Proyectos de desarrollo durante la educación dual y estancias profesionales. De la universidad a producción real.",
+        "en": "Development projects during dual education and professional internships. From university to real production."
+      },
+      "org": {
+        "es": "UPVM / CECyTEM Tultitlán",
+        "en": "UPVM / CECyTEM Tultitlán"
+      },
+      "orgName": "UPVM / CECyTEM",
+      "period": {
+        "start": "2021",
+        "end": "2025"
+      },
+      "projects": [
+        {
+          "id": "aerial-depot",
+          "slug": "aerial-depot",
+          "title": {
+            "es": "Sistema de Inventarios | AERIAL DEPOT",
+            "en": "Inventory System | AERIAL DEPOT"
+          },
+          "tagline": {
+            "es": "Visualización 3D del almacén",
+            "en": "3D warehouse visualization"
+          },
+          "description": {
+            "es": "Aplicación web desarrollada con Laravel, Vue.js y MySQL, incluye visualización 3D del almacén mediante Three.js para facilitar la localización de productos.",
+            "en": "Web application with Laravel, Vue.js and MySQL, includes 3D warehouse visualization using Three.js to facilitate product location."
+          },
+          "highlights": {
+            "es": [
+              "Desarrollé en equipo el sistema de almacén de la empresa con Laravel, Vue.js y MySQL, con una vista 3D en Three.js para ubicar cada producto en su rack; se usó en la operación real."
+            ],
+            "en": [
+              "Co-developed the company's warehouse system with Laravel, Vue.js, and MySQL, with a Three.js 3D view to locate each product on its rack; used in real warehouse operations."
+            ]
+          },
+          "role": {
+            "es": "Desarrollador (educación dual)",
+            "en": "Developer (dual education)"
+          },
+          "orgName": "Aerial Depot",
+          "contextTag": {
+            "es": "Educación Dual",
+            "en": "Dual Education"
+          },
+          "period": {
+            "start": "2023",
+            "end": "2025"
+          },
+          "video": "https://www.youtube.com/embed/pmJ6ysc6ByY",
+          "images": [
+            "/img/aerial/2.webp",
+            "/img/aerial/1.webp",
+            "/img/aerial/3.webp",
+            "/img/aerial/4.webp",
+            "/img/aerial/5.webp",
+            "/img/aerial/6.webp"
+          ],
+          "stack": [
+            {
+              "id": "vue",
+              "title": "Vue.js",
+              "icon": "https://api.g-darko.dev/icon/vue.svg",
+              "sprite": "vue"
+            },
+            {
+              "id": "laravel",
+              "title": "Laravel",
+              "icon": "https://api.g-darko.dev/icon/laravel.svg",
+              "sprite": "laravel"
+            },
+            {
+              "id": "threejs",
+              "title": "Three.js",
+              "icon": "https://api.g-darko.dev/icon/threejs.svg",
+              "sprite": "three"
+            },
+            {
+              "id": "mysql",
+              "title": "MySQL",
+              "icon": "https://api.g-darko.dev/icon/mysql.svg",
+              "sprite": "mysql"
+            },
+            {
+              "id": "tailwind",
+              "title": "Tailwind CSS",
+              "icon": "https://api.g-darko.dev/icon/tailwind.svg",
+              "sprite": "tail"
+            }
+          ]
+        },
+        {
+          "id": "tienko",
+          "slug": "tienko",
+          "title": {
+            "es": "Gestor de Ventas | Tienko",
+            "en": "Sales Manager | Tienko"
+          },
+          "tagline": {
+            "es": "Sistema de ventas con Java",
+            "en": "Java sales system"
+          },
+          "description": {
+            "es": "Sistema completo con registro de productos, ventas y reportes, desarrollado en Java con base de datos MySQL.",
+            "en": "Complete system with product registration, sales and reports, developed in Java with MySQL database."
+          },
+          "repoUrl": "https://github.com/G-Darko/Tienko",
+          "images": [
+            "/img/tienko/3.webp",
+            "/img/tienko/1.webp",
+            "/img/tienko/2.webp",
+            "/img/tienko/4.webp",
+            "/img/tienko/5.webp"
+          ],
+          "stack": [
+            {
+              "id": "java",
+              "title": "Java",
+              "icon": "https://api.g-darko.dev/icon/java.svg",
+              "sprite": "java"
+            },
+            {
+              "id": "mysql",
+              "title": "MySQL",
+              "icon": "https://api.g-darko.dev/icon/mysql.svg",
+              "sprite": "mysql"
+            }
+          ]
+        },
+        {
+          "id": "postgrados-upvm",
+          "slug": "postgrados",
+          "title": {
+            "es": "Página de Postgrados | UPVM",
+            "en": "Postgraduates Page | UPVM"
+          },
+          "tagline": {
+            "es": "Sitio web institucional",
+            "en": "Institutional website"
+          },
+          "description": {
+            "es": "Sitio web informativo para los aspirantes y estudiantes de postgrados de la UPVM, desarrollada con HTML, CSS, JS, PHP y MySQL.",
+            "en": "Informational website for UPVM postgraduate applicants and students, developed with HTML, CSS, JS, PHP and MySQL."
+          },
+          "highlights": {
+            "es": [
+              "Desarrollé sitios y sistemas académicos durante las estancias, entre ellos el sitio informativo de posgrados de la UPVM, con HTML, CSS, JavaScript, PHP y MySQL."
+            ],
+            "en": [
+              "Built academic sites and systems during internships, including the UPVM graduate programs website, with HTML, CSS, JavaScript, PHP, and MySQL."
+            ]
+          },
+          "role": {
+            "es": "Desarrollador web (estancias)",
+            "en": "Web developer (internships)"
+          },
+          "orgName": "Universidad Politécnica del Valle de México",
+          "contextTag": {
+            "es": "Estancia I",
+            "en": "Internship I"
+          },
+          "period": {
+            "start": "2022",
+            "end": "2024"
+          },
+          "repoUrl": "https://github.com/G-Darko/Postgrados_UPVM",
+          "images": [
+            "/img/postg/1.webp",
+            "/img/postg/2.webp",
+            "/img/postg/3.webp"
+          ],
+          "stack": [
+            {
+              "id": "html",
+              "title": "HTML5",
+              "icon": "https://api.g-darko.dev/icon/html.svg",
+              "sprite": "html"
+            },
+            {
+              "id": "css",
+              "title": "CSS3",
+              "icon": "https://api.g-darko.dev/icon/css.svg",
+              "sprite": "css"
+            },
+            {
+              "id": "javascript",
+              "title": "JavaScript",
+              "icon": "https://api.g-darko.dev/icon/javascript.svg",
+              "sprite": "js"
+            },
+            {
+              "id": "php",
+              "title": "PHP",
+              "icon": "https://api.g-darko.dev/icon/php.svg",
+              "sprite": "php"
+            },
+            {
+              "id": "mysql",
+              "title": "MySQL",
+              "icon": "https://api.g-darko.dev/icon/mysql.svg",
+              "sprite": "mysql"
+            }
+          ]
+        },
+        {
+          "id": "yiza",
+          "slug": "yiza",
+          "title": {
+            "es": "YIZA | CECyTEM Tultitlán",
+            "en": "YIZA | CECyTEM Tultitlán"
+          },
+          "tagline": {
+            "es": "E-Commerce educativo",
+            "en": "Educational E-Commerce"
+          },
+          "description": {
+            "es": "E-Commerce simulado con propia base de datos, manual de usuario y panel de control. Desarrollado con HTML, PHP, JavaScript y CSS puro.",
+            "en": "Simulated E-Commerce with its own database, user manual and control panel. Developed with HTML, PHP, JavaScript and pure CSS."
+          },
+          "contextTag": {
+            "es": "Educación Dual",
+            "en": "Dual Education"
+          },
+          "repoUrl": "https://github.com/G-Darko/YIZA",
+          "images": [
+            "/img/yiza/1.webp",
+            "/img/yiza/2.webp",
+            "/img/yiza/3.webp"
+          ],
+          "stack": [
+            {
+              "id": "html",
+              "title": "HTML5",
+              "icon": "https://api.g-darko.dev/icon/html.svg",
+              "sprite": "html"
+            },
+            {
+              "id": "css",
+              "title": "CSS3",
+              "icon": "https://api.g-darko.dev/icon/css.svg",
+              "sprite": "css"
+            },
+            {
+              "id": "javascript",
+              "title": "JavaScript",
+              "icon": "https://api.g-darko.dev/icon/javascript.svg",
+              "sprite": "js"
+            },
+            {
+              "id": "php",
+              "title": "PHP",
+              "icon": "https://api.g-darko.dev/icon/php.svg",
+              "sprite": "php"
+            },
+            {
+              "id": "mysql",
+              "title": "MySQL",
+              "icon": "https://api.g-darko.dev/icon/mysql.svg",
+              "sprite": "mysql"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "certifications": [
+    {
+      "id": "conocer-ec0160",
+      "name": "Desarrollo de Código de Software (EC0160)",
+      "issuer": "CONOCER",
+      "issuedAt": "2022-09-01",
+      "url": "https://www.renap.edu.mx/EC0160/16955622",
+      "emblem": "EC0160",
+      "color": "#0f766e"
+    }
+  ]
+}

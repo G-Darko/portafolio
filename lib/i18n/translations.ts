@@ -1,7 +1,13 @@
 import { GITHUB_LABEL, GITHUB_URL } from "@/lib/data/profile";
 
-export const translations = {
-  es: {
+/** Same shape as the Spanish copy with plain strings, so `en` must define every key. */
+type Widen<T> = T extends string
+  ? string
+  : T extends readonly (infer U)[]
+    ? readonly Widen<U>[]
+    : { readonly [K in keyof T]: Widen<T[K]> };
+
+const es = {
     bootup: {
       initializing: "Inicializando kernel HUD...",
       loading: "Cargando subsistemas...",
@@ -215,138 +221,12 @@ export const translations = {
       selectProject: "Abre un proyecto para ver media y enlaces",
       sideBrief: "Brief lateral",
     },
-    missionsData: {
-      orgs: {
-        blackSheepOrg: "Black Sheep Lab — SaaS e Innovación",
-        freelanceOrg: "LEAMSI — Soluciones Contables",
-        academiaOrg: "UPVM / CECyTEM Tultitlán",
-      },
-      roles: {
-        freelanceRole: "Desarrollador Freelance",
-      },
-      contextTags: {
-        dualEducation: "Educación Dual",
-        internshipI: "Estancia I",
-        fullOwnership: "Ownership end-to-end",
-        whiteLabel: "White-label",
-        keyModules: "Módulos clave",
-        microservice: "Microservicio",
-        landingPage: "Landing",
-      },
-      missions: {
-        blackSheep: {
-          title: "Black Sheep Lab",
-          codename: "OPERACIÓN: SAAS",
-          description:
-            "Desde octubre 2025 trabajo en productos reales del lab: LMS, apps white-label, comunidad y puentes hacia Microsip/WhatsApp.",
-        },
-        freelance: {
-          title: "Freelance",
-          codename: "OPERACIÓN: CONTRATO",
-          description:
-            "Desarrollo de soluciones web corporativas con enfoque en rendimiento y diseño adaptado a cada cliente.",
-        },
-        academia: {
-          title: "Academia / Estadías",
-          codename: "OPERACIÓN: BOOTCAMP",
-          description:
-            "Proyectos de desarrollo durante la educación dual y estancias profesionales. De la universidad a producción real.",
-        },
-      },
-      subMissions: {
-        lmsSkool: {
-          title: "Skool",
-          tagline: "El LMS multi-empresa del lab",
-          description:
-            "Skool es la plataforma de cursos que usan varias empresas a la vez (cada una con su dominio). Me tocó armar casi todo el producto: login y roles, cursos/programas, certificados, SCORM y video, puntos, reportes, planes y el wrapper Capacitor. Marketing en skool.com.mx; un tenant en producción es Universidad Fyttsa.",
-        },
-        duplicaApp: {
-          title: "Duplica",
-          tagline: "Membresías, comunidad y app móvil",
-          description:
-            "Duplica es el monorepo grande (API Next, app Expo y paquete shared). Ahí armé el día a día del producto: aula, chat/comunidad, DupliBot, diamantes/XP, pagos y el admin multi-tenant. También los builds white-label para sacar clientes sin forkear todo.",
-        },
-        creser: {
-          title: "CRESER",
-          tagline: "Duplica con cara de CRESER",
-          description:
-            "No es otro codebase: es el mismo Duplica, pero como producto propio (creser.app). Configuré tenant, branding, stores y el empaquetado para que se sienta aparte sin duplicar lógica.",
-        },
-        rnmeHub: {
-          title: "Red México Emprende",
-          tagline: "Comunidad, eventos y membresías",
-          description:
-            "En RNME no armé el sistema entero; sí módulos que duelen si fallan: comunidad, eventos con boletos, membresías, cursos/certificados y la parte de revista/en vivo. Stack Next + Postgres + sockets, en redmexicoemprende.mx.",
-        },
-        krkn: {
-          title: "KRKN / FYTTSA",
-          tagline: "Croquis y layout del almacén",
-          description:
-            "FYTTSA es el ERP interno sobre Microsip. Mi pedazo fuerte fue Layout/Croquis: dibujar el piso, acomodar, rutas de picking y sync con el backend (PHP/Firebird + un poco de FastAPI). Menos pantalla bonita, más herramienta de piso.",
-        },
-        cpmx: {
-          title: "CPMX",
-          tagline: "API de colonias y códigos postales",
-          description:
-            "Servicio chico pero completo: estados, municipios, colonias y CP con catálogo SEPOMEX + GeoJSON. Dashboard con tokens, rate limit, auth y docs para que otros productos consulten direcciones sin reinventar el catálogo.",
-        },
-        "black-sync": {
-          title: "Black Sync",
-          tagline: "WhatsApp/IA hablando con Microsip",
-          description:
-            "Puente entre respond.io (WhatsApp + agente) y Microsip (Firebird). Por empresa: catálogo, stock, clientes, carrito y pedidos. Lo armé de cero como SaaS multi-tenant porque el ERP no tenía esa puerta.",
-        },
-        leamsi: {
-          title: "LEAMSI",
-          tagline: "Sitio para un despacho contable",
-          description:
-            "Encargo freelance: sitio corporativo en Astro + Tailwind para LEAMSI. Me encargué del front, la estructura de secciones y que cargara ligero. Demo en Vercel; el dominio del cliente ya no está activo.",
-        },
-        aerialDepot: {
-          title: "Sistema de Inventarios | AERIAL DEPOT",
-          tagline: "Visualización 3D del almacén",
-          description:
-            "Aplicación web desarrollada con Laravel, Vue.js y MySQL, incluye visualización 3D del almacén mediante Three.js para facilitar la localización de productos.",
-        },
-        tienko: {
-          title: "Gestor de Ventas | Tienko",
-          tagline: "Sistema de ventas con Java",
-          description:
-            "Sistema completo con registro de productos, ventas y reportes, desarrollado en Java con base de datos MySQL.",
-        },
-        postgradosUpvm: {
-          title: "Página de Postgrados | UPVM",
-          tagline: "Sitio web institucional",
-          description:
-            "Sitio web informativo para los aspirantes y estudiantes de postgrados de la UPVM, desarrollada con HTML, CSS, JS, PHP y MySQL.",
-        },
-        yiza: {
-          title: "YIZA | CECyTEM Tultitlán",
-          tagline: "E-Commerce educativo",
-          description:
-            "E-Commerce simulado con propia base de datos, manual de usuario y panel de control. Desarrollado con HTML, PHP, JavaScript y CSS puro.",
-        },
-      },
-    },
-    missions: {
-      blackSheep: {
-        title: "Black Sheep Lab",
-        codename: "OPERACIÓN: SAAS",
-        desc: "Desde octubre 2025 trabajo en productos reales del lab: LMS, apps white-label, comunidad y puentes hacia Microsip/WhatsApp.",
-      },
-      freelance: {
-        title: "Freelance",
-        codename: "OPERACIÓN: CONTRATO",
-        desc: "Desarrollo de soluciones web corporativas con enfoque en rendimiento y diseño adaptado a cada cliente.",
-      },
-      academia: {
-        title: "Academia / Estadías",
-        codename: "OPERACIÓN: BOOTCAMP",
-        desc: "Proyectos de desarrollo durante la educación dual y estancias profesionales. De la universidad a producción real.",
-      },
-    },
-  },
-  en: {
+} as const;
+
+type Copy = Widen<typeof es>;
+
+/** English copy: same keys as Spanish (checked by the type). */
+const en: Copy = {
     bootup: {
       initializing: "Initializing HUD kernel...",
       loading: "Loading subsystems...",
@@ -560,138 +440,9 @@ export const translations = {
       selectProject: "Open a project for media and links",
       sideBrief: "Side brief",
     },
-    missionsData: {
-      orgs: {
-        blackSheepOrg: "Black Sheep Lab — SaaS & Innovation",
-        freelanceOrg: "LEAMSI — Accounting Solutions",
-        academiaOrg: "UPVM / CECyTEM Tultitlán",
-      },
-      roles: {
-        freelanceRole: "Freelance Developer",
-      },
-      contextTags: {
-        dualEducation: "Dual Education",
-        internshipI: "Internship I",
-        fullOwnership: "End-to-end ownership",
-        whiteLabel: "White-label",
-        keyModules: "Key modules",
-        microservice: "Microservice",
-        landingPage: "Landing",
-      },
-      missions: {
-        blackSheep: {
-          title: "Black Sheep Lab",
-          codename: "OPERATION: SAAS",
-          description:
-            "Since October 2025 I've been shipping real lab products: LMS, white-label apps, community, and bridges into Microsip/WhatsApp.",
-        },
-        freelance: {
-          title: "Freelance",
-          codename: "OPERATION: CONTRACT",
-          description:
-            "Development of corporate web solutions with a focus on performance and design tailored to each client.",
-        },
-        academia: {
-          title: "Academia / Internships",
-          codename: "OPERATION: BOOTCAMP",
-          description:
-            "Development projects during dual education and professional internships. From university to real production.",
-        },
-      },
-      subMissions: {
-        lmsSkool: {
-          title: "Skool",
-          tagline: "The lab's multi-company LMS",
-          description:
-            "Skool is the course platform several companies share (each on its own domain). I owned most of the product: auth/roles, courses/programs, certificates, SCORM and video, points, reports, plans, and the Capacitor wrapper. Marketing at skool.com.mx; one live tenant is Universidad Fyttsa.",
-        },
-        duplicaApp: {
-          title: "Duplica",
-          tagline: "Memberships, community, and mobile",
-          description:
-            "Duplica is the big monorepo (Next API, Expo app, shared package). I built the day-to-day product: classroom, community/chat, DupliBot, diamonds/XP, payments, and multi-tenant admin — plus white-label builds so new clients don't need a full fork.",
-        },
-        creser: {
-          title: "CRESER",
-          tagline: "Duplica wearing a CRESER face",
-          description:
-            "Not a separate codebase: same Duplica, shipped as its own product (creser.app). I wired tenant config, branding, store builds, and packaging so it feels independent without cloning the logic.",
-        },
-        rnmeHub: {
-          title: "Red México Emprende",
-          tagline: "Community, events, memberships",
-          description:
-            "I didn't own all of RNME — I owned modules that hurt when they break: community, ticketed events, memberships, courses/certificates, and the magazine/live side. Next + Postgres + sockets, at redmexicoemprende.mx.",
-        },
-        krkn: {
-          title: "KRKN / FYTTSA",
-          tagline: "Warehouse layout & croquis",
-          description:
-            "FYTTSA is the internal ERP on Microsip. My heavy piece was Layout/Croquis: draw the floor, place stock, picking paths, and sync with PHP/Firebird (+ a bit of FastAPI). Less pretty UI, more floor-tool.",
-        },
-        cpmx: {
-          title: "CPMX",
-          tagline: "Neighborhoods & postal-code API",
-          description:
-            "Small but complete service: states, municipalities, neighborhoods, and ZIPs from SEPOMEX + GeoJSON. Token dashboard, rate limits, auth, and docs so other products can query addresses without reinventing the catalog.",
-        },
-        "black-sync": {
-          title: "Black Sync",
-          tagline: "WhatsApp/AI talking to Microsip",
-          description:
-            "Bridges respond.io (WhatsApp + agent) to Microsip (Firebird). Per company: catalog, stock, clients, cart, and orders. Built from scratch as multi-tenant SaaS because the ERP had no door for that.",
-        },
-        leamsi: {
-          title: "LEAMSI",
-          tagline: "Site for an accounting firm",
-          description:
-            "Freelance job: corporate site in Astro + Tailwind for LEAMSI. I handled the front, section structure, and keeping it light. Demo on Vercel; the client's custom domain is no longer active.",
-        },
-        aerialDepot: {
-          title: "Inventory System | AERIAL DEPOT",
-          tagline: "3D warehouse visualization",
-          description:
-            "Web application with Laravel, Vue.js and MySQL, includes 3D warehouse visualization using Three.js to facilitate product location.",
-        },
-        tienko: {
-          title: "Sales Manager | Tienko",
-          tagline: "Java sales system",
-          description:
-            "Complete system with product registration, sales and reports, developed in Java with MySQL database.",
-        },
-        postgradosUpvm: {
-          title: "Postgraduates Page | UPVM",
-          tagline: "Institutional website",
-          description:
-            "Informational website for UPVM postgraduate applicants and students, developed with HTML, CSS, JS, PHP and MySQL.",
-        },
-        yiza: {
-          title: "YIZA | CECyTEM Tultitlán",
-          tagline: "Educational E-Commerce",
-          description:
-            "Simulated E-Commerce with its own database, user manual and control panel. Developed with HTML, PHP, JavaScript and pure CSS.",
-        },
-      },
-    },
-    missions: {
-      blackSheep: {
-        title: "Black Sheep Lab",
-        codename: "OPERATION: SAAS",
-        desc: "Since October 2025 I've been shipping real lab products: LMS, white-label apps, community, and bridges into Microsip/WhatsApp.",
-      },
-      freelance: {
-        title: "Freelance",
-        codename: "OPERATION: CONTRACT",
-        desc: "Development of corporate web solutions with a focus on performance and design tailored to each client.",
-      },
-      academia: {
-        title: "Academia / Internships",
-        codename: "OPERATION: BOOTCAMP",
-        desc: "Development projects during dual education and professional internships. From university to real production.",
-      },
-    },
-  },
-} as const;
+};
+
+export const translations: Record<"es" | "en", Copy> = { es, en };
 
 export type Translations = typeof translations;
 export type Locale = keyof Translations;
