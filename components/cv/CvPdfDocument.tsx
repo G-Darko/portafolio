@@ -44,12 +44,20 @@ function Role({ role, techLabel }: { role: CvRole; techLabel: string }) {
         <Text style={styles.rolePeriod}>{role.period}</Text>
       </View>
       {role.bullets.map((b) => (
-        <View key={`${b.label}-${b.text.slice(0, 24)}`} style={styles.bulletRow}>
-          <Text style={styles.bulletDot}>•</Text>
-          <Text style={styles.bulletText}>
-            {b.label ? <Text style={styles.bold}>{b.label}: </Text> : null}
-            {b.text}
-          </Text>
+        <View key={`${b.label}-${b.text.slice(0, 24)}`}>
+          <View style={styles.bulletRow}>
+            <Text style={styles.bulletDot}>•</Text>
+            <Text style={styles.bulletText}>
+              {b.label ? <Text style={styles.bold}>{b.label}: </Text> : null}
+              {b.text}
+            </Text>
+          </View>
+          {b.sub?.map((t) => (
+            <View key={t.slice(0, 24)} style={[styles.bulletRow, { paddingLeft: 13 }]}>
+              <Text style={styles.bulletDot}>–</Text>
+              <Text style={styles.bulletText}>{t}</Text>
+            </View>
+          ))}
         </View>
       ))}
       {role.tech.length > 0 && (
@@ -117,6 +125,14 @@ export function CvPdfDocument({ content }: { content: CvContent }) {
             <Text key={c.title} style={styles.item}>
               <Text style={styles.bold}>{c.title}: </Text>
               {c.org} · {c.date}
+              {c.url && c.linkLabel ? (
+                <>
+                  {" · "}
+                  <Link src={c.url} style={styles.link}>
+                    {c.linkLabel}
+                  </Link>
+                </>
+              ) : null}
             </Text>
           ))}
         </View>

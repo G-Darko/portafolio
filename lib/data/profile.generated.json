@@ -449,11 +449,6 @@
           "icon": "https://api.g-darko.dev/icon/postgresql.svg"
         },
         {
-          "id": "socketio",
-          "title": "Socket.IO",
-          "icon": "https://api.g-darko.dev/icon/socketio.svg"
-        },
-        {
           "id": "openai",
           "title": "OpenAI",
           "icon": "https://api.g-darko.dev/icon/openai.svg"
@@ -616,11 +611,6 @@
           "id": "php",
           "title": "PHP",
           "icon": "https://api.g-darko.dev/icon/php.svg"
-        },
-        {
-          "id": "socketio",
-          "title": "Socket.IO",
-          "icon": "https://api.g-darko.dev/icon/socketio.svg"
         }
       ]
     },
@@ -800,10 +790,7 @@
               "sprite": "postsql"
             },
             {
-              "id": "socketio",
-              "title": "Socket.IO",
-              "icon": "https://api.g-darko.dev/icon/socketio.svg",
-              "sprite": "node"
+              "title": "WebSockets"
             },
             {
               "id": "openai",
@@ -1130,10 +1117,7 @@
               "title": "Firebird"
             },
             {
-              "id": "socketio",
-              "title": "Socket.IO",
-              "icon": "https://api.g-darko.dev/icon/socketio.svg",
-              "sprite": "node"
+              "title": "WebSockets"
             }
           ]
         },

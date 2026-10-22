@@ -35,6 +35,15 @@ function RoleBlock({ role, techLabel }: { role: CvRole; techLabel: string }) {
           <li key={`${b.label}-${b.text.slice(0, 24)}`}>
             {b.label && <strong className="text-foreground">{b.label}: </strong>}
             <span className="text-muted-foreground">{b.text}</span>
+            {b.sub && b.sub.length > 0 && (
+              <ul className="mt-1 list-[circle] space-y-1 pl-5">
+                {b.sub.map((t) => (
+                  <li key={t.slice(0, 24)} className="text-muted-foreground">
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
         ))}
       </ul>
@@ -177,7 +186,7 @@ export function CvView() {
                   <>
                     {" "}
                     <a href={c.url} target="_blank" rel="noreferrer" className="cv-attr text-sm text-hud-cyan underline-offset-2 hover:underline">
-                      {locale === "es" ? "Ver credencial" : "View credential"}
+                      {c.linkLabel ?? (locale === "es" ? "Ver credencial" : "View credential")}
                     </a>
                   </>
                 )}

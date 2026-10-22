@@ -6,6 +6,7 @@ import type { Locale } from "@/lib/store/useLocaleStore";
 import { formatPeriod, type Localized } from "@/lib/data/api";
 import { getMissionById } from "@/lib/data/missions";
 import { getCertifications } from "@/lib/data/certifications";
+import { profileSnapshot } from "@/lib/data/snapshot";
 import {
   CONTACT_EMAIL,
   GITHUB_LABEL,
@@ -22,6 +23,8 @@ export interface CvBullet {
   /** Project name, shown bold before the achievement. */
   label: string;
   text: string;
+  /** Nested detail points under this bullet. */
+  sub?: string[];
 }
 
 export interface CvRole {
@@ -48,6 +51,8 @@ export interface CvCertItem {
   org: string;
   date: string;
   url?: string;
+  /** Visible text for `url`, e.g. "Ver en Credly". */
+  linkLabel?: string;
   folio?: string;
 }
 
@@ -88,7 +93,7 @@ export function getContactItems(): CvContactItem[] {
 const SKILL_GROUPS: { label: Localized; items: string[] }[] = [
   { label: { es: "Lenguajes", en: "Languages" }, items: ["TypeScript", "JavaScript", "PHP", "Python", "SQL"] },
   { label: { es: "Frontend y mobile", en: "Frontend & mobile" }, items: ["Next.js", "React", "React Native", "Expo", "Vue.js", "Tailwind CSS", "Three.js", "Capacitor"] },
-  { label: { es: "Backend", en: "Backend" }, items: ["Node.js", "WebSockets (Socket.IO)", "Hono", "Laravel", "REST APIs", "Stripe"] },
+  { label: { es: "Backend", en: "Backend" }, items: ["Node.js", "WebSockets (ws, Socket.IO)", "Hono", "Laravel", "REST APIs", "Stripe"] },
   { label: { es: "Datos e integraciones", en: "Data & integrations" }, items: ["PostgreSQL", "MySQL", "Firebird (Microsip ERP)", "ORM", "ZPL/TSPL"] },
   { label: { es: "Herramientas", en: "Tools" }, items: ["Git", "GitHub", "Docker", "Linux", "Vercel", "Cloudflare"] },
 ];
@@ -103,7 +108,7 @@ interface CvRoleSpec {
   title: Localized;
   org: Localized;
   period: Period;
-  bullets: { label?: Localized; text: Localized }[];
+  bullets: { label?: Localized; text: Localized; sub?: Localized[] }[];
 }
 
 const L = (es: string, en: string): Localized => ({ es, en });
@@ -120,12 +125,12 @@ const ROLE_SPECS: CvRoleSpec[] = [
           "Desarrollé y publiqué en App Store y Google Play la app de capacitación para emprendedoras de venta directa, con una sola base de código para web, Android e iOS (Expo, React Native, API en Next.js y PostgreSQL).",
           "Built and shipped to the App Store and Google Play a training app for direct-sales entrepreneurs, with one codebase for web, Android, and iOS (Expo, React Native, Next.js API, PostgreSQL).",
         ),
-      },
-      {
-        text: L(
-          "Construí el aula, la comunidad y el asistente con IA, con funciones en tiempo real por WebSockets (Socket.IO); implementé la conciliación de suscripciones con Stripe y la compresión de media para mejorar los tiempos de carga.",
-          "Built the classroom, community, and AI assistant, with real-time features over WebSockets (Socket.IO); implemented Stripe subscription reconciliation and media compression to improve load times.",
-        ),
+        sub: [
+          L(
+            "Construí el aula, la comunidad con chat en tiempo real (servidor WebSocket propio con PostgreSQL LISTEN/NOTIFY) y el asistente con IA; implementé la conciliación de suscripciones con Stripe y la compresión de media para mejorar los tiempos de carga.",
+            "Built the classroom, the community with real-time chat (custom WebSocket server with PostgreSQL LISTEN/NOTIFY), and the AI assistant; implemented Stripe subscription reconciliation and media compression to improve load times.",
+          ),
+        ],
       },
       {
         label: L("Skool", "Skool"),
@@ -137,8 +142,8 @@ const ROLE_SPECS: CvRoleSpec[] = [
       {
         label: L("KRKN WMS", "KRKN WMS"),
         text: L(
-          "Construí el módulo de impresión de etiquetas en ZPL/TSPL para impresoras Zebra y Rongta, con una vista previa fiel a lo impreso, y trabajé en el layout del almacén sincronizado con el ERP Microsip (Firebird), con actualizaciones en tiempo real por WebSockets.",
-          "Built the ZPL/TSPL label printing module for Zebra and Rongta printers, with a preview that matches the printed output, and worked on the warehouse layout synced with the Microsip ERP (Firebird), with real-time updates over WebSockets.",
+          "Construí el módulo de impresión de etiquetas en ZPL/TSPL para impresoras Zebra y Rongta, con una vista previa fiel a lo impreso, y trabajé en el layout del almacén sobre el ERP Microsip (Firebird), con sincronización en tiempo real por WebSockets.",
+          "Built the ZPL/TSPL label printing module for Zebra and Rongta printers, with a preview that matches the printed output, and worked on the warehouse layout on the Microsip ERP (Firebird), with real-time sync over WebSockets.",
         ),
       },
       {
@@ -196,12 +201,32 @@ function roles(locale: Locale): CvRole[] {
     title: r.title[locale],
     org: r.org[locale],
     period: periodOf(r.period, locale),
-    bullets: r.bullets.map((b) => ({ label: b.label?.[locale] ?? "", text: b.text[locale] })),
+    bullets: r.bullets.map((b) => ({ label: b.label?.[locale] ?? "", text: b.text[locale], sub: b.sub?.map((x) => x[locale]) })),
     tech: [],
   }));
 }
 
 const ISSUER_LABEL: Record<string, string> = { Cisco: "Cisco Networking Academy" };
+
+/**
+ * A cert group links only to a verification platform with a public profile in the API socials
+ * (today Credly): when every cert in the group is a badge on that host, link the profile itself.
+ * Other issuer sites (e.g. RENAP for CONOCER) get no link.
+ */
+function verifiedLink(urls: (string | undefined)[], locale: Locale): Pick<CvCertItem, "url" | "linkLabel"> {
+  for (const social of profileSnapshot.socials) {
+    let host: string;
+    try {
+      host = new URL(social.url).host;
+    } catch {
+      continue;
+    }
+    if (urls.length > 0 && urls.every((u) => !!u && URL.canParse(u) && new URL(u).host === host)) {
+      return { url: social.url, linkLabel: locale === "es" ? `Ver en ${social.title}` : `View on ${social.title}` };
+    }
+  }
+  return {};
+}
 
 function certs(locale: Locale): CvCertItem[] {
   // One compact line per issuer: "Cisco Networking Academy: A, B, C (2023 – 2025)".
@@ -213,7 +238,7 @@ function certs(locale: Locale): CvCertItem[] {
       title: ISSUER_LABEL[issuer] ?? issuer,
       org: list.map((c) => c.name).join(", "),
       date: years.length > 1 ? `${years[0]} – ${years[years.length - 1]}` : years[0]!,
-      url: list.length === 1 ? list[0]!.url : undefined,
+      ...verifiedLink(list.map((c) => c.url), locale),
     };
   });
 }
