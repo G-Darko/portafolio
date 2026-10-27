@@ -7,7 +7,7 @@ import { PANEL_PATHS } from "@/lib/hud/routes";
 
 export const SITE_URL = SITE_URL_SLASH.replace(/\/+$/, "");
 export const FULL_NAME = "Isaac Gael Uribe Ortiz";
-export const SITE_NAME = "G-Darko Â· Gael Uribe";
+export const SITE_NAME = "G-Darko · Gael Uribe";
 export const JOB_TITLE = "Full-Stack Developer";
 export const DEFAULT_TITLE = `${FULL_NAME} | ${JOB_TITLE}`;
 export const DEFAULT_DESCRIPTION =
@@ -20,7 +20,7 @@ export const OG_IMAGE = {
   width: 1200,
   height: 630,
   type: "image/png",
-  alt: "Avatar chibi de Isaac Gael Uribe Ortiz con el texto Full-Stack Developer, tecnologÃ­as Next.js, React Native, TypeScript y Node.js, y g-darko.dev",
+  alt: "Avatar chibi de Isaac Gael Uribe Ortiz con el texto Full-Stack Developer, tecnologías Next.js, React Native, TypeScript y Node.js, y g-darko.dev",
 };
 
 /** Only set if the API profile exposes an X/Twitter social. */
