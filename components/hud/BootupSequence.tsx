@@ -120,9 +120,9 @@ export default function BootupSequence() {
                 G
               </div>
               <div className="space-y-2">
-                <h1 className="font-mono text-sm tracking-[0.3em] text-muted-foreground">
+                <p className="font-mono text-sm tracking-[0.3em] text-muted-foreground">
                   {t.bootup.title}
-                </h1>
+                </p>
                 <p className="text-base text-foreground md:text-lg">{t.bootup.tagline}</p>
               </div>
 

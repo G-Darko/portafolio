@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import { THEME_COLOR, buildJsonLd, rootMetadata } from "@/lib/seo";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -8,51 +9,17 @@ const poppins = Poppins({
   weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-const SITE_URL = "https://g-darko.dev";
-const ICON_PATH = "/img/DARKO.png";
-
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0f0f0f" },
+    { media: "(prefers-color-scheme: dark)", color: THEME_COLOR },
     { media: "(prefers-color-scheme: light)", color: "#f7f7f7" },
   ],
 };
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: "Gael Uribe | Portafolio",
-  description:
-    "Portafolio de Gael Uribe (G-Darko), desarrollador web e Ingeniero en Tecnologías de la Información.",
-  keywords: [
-    "Gael Uribe",
-    "G-Darko",
-    "G Darko",
-    "portafolio",
-    "desarrollador web",
-    "Vue",
-    "Laravel",
-    "HTML",
-    "CSS",
-    "JavaScript",
-  ],
-  authors: [{ name: "Gael Uribe" }],
-  icons: {
-    icon: [{ url: ICON_PATH, type: "image/png" }],
-    shortcut: ICON_PATH,
-    apple: ICON_PATH,
-  },
-  openGraph: {
-    title: "Portafolio | G-Darko",
-    description:
-      "Mira el portafolio de Gael Uribe, desarrollador web con experiencia en Vue, Laravel y más.",
-    images: [`${SITE_URL}/img/DARKO.png`],
-    url: SITE_URL,
-    type: "website",
-  },
-};
+export const metadata: Metadata = rootMetadata;
 
 export default function RootLayout({
   children,
@@ -93,6 +60,10 @@ export default function RootLayout({
               })();
             `,
           }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd()).replace(/</g, "\\u003c") }}
         />
       </head>
       <body className="min-h-dvh w-dvw overflow-x-hidden">{children}</body>

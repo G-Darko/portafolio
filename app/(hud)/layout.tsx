@@ -1,5 +1,6 @@
 "use client";
 
+import { FULL_NAME, JOB_TITLE } from "@/lib/seo";
 import PortfolioApp from "@/components/PortfolioApp";
 
 /**
@@ -14,6 +15,9 @@ export default function HudLayout({
 }) {
   return (
     <>
+      <h1 className="sr-only">
+        {FULL_NAME} | {JOB_TITLE}
+      </h1>
       <PortfolioApp />
       <div hidden aria-hidden>
         {children}

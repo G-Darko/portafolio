@@ -1,5 +1,8 @@
+import { PANEL_TITLES, buildMetadata } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { PANEL_PATHS } from "@/lib/hud/routes";
+
+
 
 type PageProps = {
   params: Promise<{ panel: string }>;
@@ -11,6 +14,11 @@ const VALID = new Set(PANEL_SEGMENTS);
 
 export function generateStaticParams() {
   return PANEL_SEGMENTS.map((panel) => ({ panel }));
+}
+
+export async function generateMetadata({ params }: PageProps) {
+  const { panel } = await params;
+  return buildMetadata({ title: PANEL_TITLES[panel] ?? panel, path: panel });
 }
 
 /** Panel routes like `/profile/` — shell lives in layout. */
