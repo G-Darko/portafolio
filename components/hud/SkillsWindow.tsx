@@ -38,7 +38,7 @@ export default function SkillsWindow({ onHoverSkill }: SkillsWindowProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="font-mono text-sm font-bold tracking-widest text-hud-cyan uppercase md:text-base">
+        <h3 className="font-mono text-sm leading-snug font-bold tracking-widest text-hud-cyan uppercase md:text-base">
           {t.skills.title}
         </h3>
         <AnimatePresence mode="wait">
@@ -47,7 +47,7 @@ export default function SkillsWindow({ onHoverSkill }: SkillsWindowProps) {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
-            className="-rotate-12 font-mono text-sm font-bold tracking-widest text-hud-cyan/70 uppercase"
+            className="-rotate-12 font-mono text-sm font-bold tracking-widest text-hud-cyan uppercase"
           >
             {t.skills[current.label]}
           </motion.span>
@@ -63,7 +63,7 @@ export default function SkillsWindow({ onHoverSkill }: SkillsWindowProps) {
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="space-y-2"
+            className="space-y-2 snap-start"
           >
             <p className="font-mono text-sm tracking-widest text-muted-foreground uppercase">
               {t.skills[label]}

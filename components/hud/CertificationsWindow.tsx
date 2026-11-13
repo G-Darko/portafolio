@@ -29,8 +29,8 @@ export default function CertificationsWindow() {
               {cert.emblem}
             </div>
             <div className="flex-1">
-              <h4 className="text-sm font-bold text-foreground md:text-base">{cert.name}</h4>
-              <p className="text-sm text-muted-foreground">
+              <h4 className="text-base leading-snug font-bold text-foreground">{cert.name}</h4>
+              <p className="text-base text-muted-foreground">
                 {cert.issuer} • {cert.date}
               </p>
               {cert.url && (

@@ -22,14 +22,14 @@ export default function ProfileWindow() {
         />
       </div>
 
-      <h2 className="shrink-0 text-center font-mono text-lg font-bold text-hud-cyan md:text-xl">
+      <h2 className="shrink-0 text-center font-mono text-lg leading-snug font-bold text-balance text-hud-cyan md:text-xl">
         {t.profile.name}
       </h2>
-      <p className="text-center text-sm text-muted-foreground md:text-base">
+      <p className="text-center text-base text-muted-foreground">
         {t.profile.role}
       </p>
 
-      <div className="mt-2 w-full rounded border border-hud-border bg-hud-cyan/5 p-4 text-sm leading-relaxed text-foreground md:text-base">
+      <div className="mt-2 w-full rounded border border-hud-border bg-hud-cyan/5 p-4 text-base leading-relaxed text-pretty text-foreground">
         {t.profile.about}
       </div>
 

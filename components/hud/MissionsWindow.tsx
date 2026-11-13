@@ -152,7 +152,7 @@ function MockupPlaceholder({
       <div className="font-mono text-sm font-bold tracking-widest text-hud-cyan md:text-base">
         {label}
       </div>
-      <p className="max-w-prose text-sm leading-relaxed text-muted-foreground">{hint}</p>
+      <p className="max-w-prose text-base leading-relaxed text-pretty text-muted-foreground">{hint}</p>
       <p className="text-sm font-medium text-foreground">{title}</p>
       <div className="flex flex-wrap justify-center gap-1">
         {tags.map((tag) => (
@@ -243,6 +243,11 @@ export default function MissionsWindow() {
     () => missions.find((m) => m.id === activeMissionId) ?? null,
     [activeMissionId]
   );
+
+  // Side Brief default: when no node is selected, show the featured mission
+  // (missions[0] = Black Sheep Lab) instead of an empty panel. No new copy:
+  // it reuses the mission's own title, description and projects.
+  const briefMission = mission ?? missions[0];
 
   const subMission = useMemo(() => {
     if (!mission || !activeSubMissionId) return null;
@@ -351,9 +356,6 @@ export default function MissionsWindow() {
                     />
                   );
                 })}
-                <p className="absolute bottom-3 left-1/2 z-10 w-[90%] -translate-x-1/2 text-center font-mono text-xs text-muted-foreground md:text-sm">
-                  {ui.selectMission}
-                </p>
               </div>
             </section>
 
@@ -366,18 +368,18 @@ export default function MissionsWindow() {
                 {ui.mapTitle}
               </p>
               <AnimatePresence mode="wait">
-                {mission ? (
+                {briefMission && (
                   <motion.div
-                    key={mission.id}
+                    key={briefMission.id}
                     initial={{ opacity: 0, x: 10 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -8 }}
                     className="flex h-88 flex-col overflow-hidden rounded-lg border border-hud-border/60 bg-hud-bg/30 p-3 sm:h-96 md:h-104 md:p-4"
                   >
                     {(() => {
-                      const copy = getMissionCopy(locale, mission);
-                      const Icon = missionIconMap[mission.icon];
-                      const prog = missionProgress(mission);
+                      const copy = getMissionCopy(locale, briefMission);
+                      const Icon = missionIconMap[briefMission.icon];
+                      const prog = missionProgress(briefMission);
                       return (
                         <>
                           <div className="mb-3 shrink-0 border-b border-hud-border/40 pb-3">
@@ -387,11 +389,11 @@ export default function MissionsWindow() {
                               </span>
                               <div className="min-w-0 flex-1">
                                 <div className="flex flex-wrap items-center gap-2">
-                                  <h3 className="font-mono text-sm font-bold tracking-wide text-hud-cyan uppercase">
+                                  <h3 className="font-mono text-sm leading-snug font-bold tracking-wide text-balance text-hud-cyan uppercase">
                                     {copy.title}
                                   </h3>
                                   <span className="rounded border border-hud-cyan/30 px-1.5 py-0.5 font-mono text-xs text-hud-cyan">
-                                    {ui.rank} {mission.rank}
+                                    {ui.rank} {briefMission.rank}
                                   </span>
                                 </div>
                                 <p className="mt-0.5 truncate font-mono text-xs text-muted-foreground">
@@ -400,7 +402,7 @@ export default function MissionsWindow() {
                                 {copy.period && (
                                   <p className="font-mono text-xs text-muted-foreground">{copy.period}</p>
                                 )}
-                                <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-foreground">
+                                <p className="mt-2 line-clamp-3 text-base leading-relaxed text-pretty text-foreground">
                                   {copy.description}
                                 </p>
                                 <div className="mt-2">
@@ -418,7 +420,7 @@ export default function MissionsWindow() {
                             {ui.objectives}
                           </p>
                           <div className="min-h-0 flex-1 space-y-2 overflow-y-auto overscroll-contain pr-0.5">
-                            {mission.subMissions.map((sm, i) => {
+                            {briefMission.subMissions.map((sm, i) => {
                               const smCopy = getSubMissionCopy(locale, sm);
                               const isRead = readSubmissions.includes(sm.id);
                               return (
@@ -434,7 +436,7 @@ export default function MissionsWindow() {
                                   <HudStatusDotProxy read={isRead} />
                                   <div className="min-w-0 flex-1">
                                     <div className="flex flex-wrap items-center gap-2">
-                                      <h4 className="text-sm font-bold text-hud-cyan">
+                                      <h4 className="text-base leading-snug font-bold text-hud-cyan">
                                         {smCopy.title}
                                       </h4>
                                       {smCopy.contextTag && (
@@ -443,7 +445,7 @@ export default function MissionsWindow() {
                                         </span>
                                       )}
                                     </div>
-                                    <p className="mt-0.5 text-xs text-muted-foreground md:text-sm">
+                                    <p className="mt-0.5 text-sm text-muted-foreground md:text-base">
                                       {smCopy.tagline}
                                     </p>
                                     <div className="mt-1.5 flex flex-wrap gap-1">
@@ -469,32 +471,19 @@ export default function MissionsWindow() {
                             <p className="font-mono text-xs text-muted-foreground">
                               {ui.selectProject}
                             </p>
-                            <button
-                              type="button"
-                              onClick={backToMap}
-                              className="mt-1 self-start font-mono text-xs text-muted-foreground hover:text-hud-cyan"
-                            >
-                              {ui.backToMap}
-                            </button>
+                            {mission && (
+                              <button
+                                type="button"
+                                onClick={backToMap}
+                                className="mt-1 self-start font-mono text-xs text-muted-foreground hover:text-hud-cyan"
+                              >
+                                {ui.backToMap}
+                              </button>
+                            )}
                           </div>
                         </>
                       );
                     })()}
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="empty-brief"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="flex h-88 flex-col items-center justify-center rounded-lg border border-dashed border-hud-border/50 bg-hud-bg/15 px-4 py-8 text-center sm:h-96 md:h-104"
-                  >
-                    <p className="font-mono text-sm tracking-widest text-muted-foreground uppercase">
-                      {ui.sideBrief}
-                    </p>
-                    <p className="mt-2 max-w-xs text-sm text-muted-foreground">
-                      {ui.selectMission}
-                    </p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -518,10 +507,10 @@ export default function MissionsWindow() {
               return (
                 <>
                   <div>
-                    <h3 className="text-base font-bold text-hud-cyan md:text-lg">
+                    <h3 className="text-base leading-snug font-bold text-balance text-hud-cyan md:text-lg">
                       {smCopy.title}
                     </h3>
-                    <p className="font-mono text-sm text-muted-foreground">
+                    <p className="font-mono text-base text-muted-foreground">
                       {smCopy.tagline}
                     </p>
                     {smCopy.contextTag && (
@@ -546,7 +535,7 @@ export default function MissionsWindow() {
                     />
                   )}
 
-                  <p className="text-sm leading-relaxed text-foreground">
+                  <p className="text-base leading-relaxed text-pretty text-foreground">
                     {smCopy.description}
                   </p>
 
@@ -566,7 +555,7 @@ export default function MissionsWindow() {
                   {!isRead && (
                     <HudCyanButton
                       className="w-full border-hud-cyan/40 bg-hud-cyan/10 hover:bg-hud-cyan/20"
-                      onClick={() => handleCompleteBrief(subMission, mission.id)}
+                      onClick={() => handleCompleteBrief(subMission, briefMission.id)}
                     >
                       {ui.completeBrief}
                     </HudCyanButton>

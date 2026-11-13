@@ -313,9 +313,9 @@ export default function CoreDefense() {
               <h3 className="font-mono text-base font-bold text-hud-cyan md:text-lg">
                 {t.minigame.title}
               </h3>
-              <p className="mt-1 text-sm text-muted-foreground">{t.minigame.subtitle}</p>
+              <p className="mt-1 text-base text-muted-foreground">{t.minigame.subtitle}</p>
             </div>
-            <p className="max-w-xs text-center text-sm leading-relaxed text-muted-foreground">
+            <p className="max-w-xs text-center text-base leading-relaxed text-pretty text-muted-foreground">
               {t.minigame.instructions}
             </p>
             <button

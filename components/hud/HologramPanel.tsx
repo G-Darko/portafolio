@@ -32,6 +32,12 @@ export default function HologramPanel({
     if (typeof window !== "undefined" && window.matchMedia("(hover: none)").matches) {
       return;
     }
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
@@ -79,11 +85,11 @@ export default function HologramPanel({
         <div className="flex min-w-0 items-center gap-2">
           <HudStatusDot color="cyan" />
           <div className="min-w-0">
-            <span className="block truncate text-sm font-bold tracking-[0.12em] text-hud-cyan md:text-base">
+            <span className="block truncate text-sm leading-snug font-bold tracking-[0.12em] text-hud-cyan md:text-base">
               {title}
             </span>
             {subtitle && (
-              <span className="block truncate font-mono text-sm text-muted-foreground md:text-base">
+              <span className="block truncate font-mono text-sm leading-snug text-muted-foreground md:text-base">
                 {"// "}
                 {subtitle}
               </span>

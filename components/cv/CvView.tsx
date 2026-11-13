@@ -85,7 +85,7 @@ export function CvView() {
   return (
     <div className="cv-body min-h-screen bg-background text-foreground selection:bg-hud-cyan/30">
       <div className="cv-ignore-print sticky top-0 z-20 border-b border-hud-border/50 bg-background/90 backdrop-blur-lg">
-        <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-3 px-4 py-3 md:px-8">
+        <div className="mx-auto flex max-w-prose flex-wrap items-center justify-between gap-3 px-4 py-3 md:px-8">
           <Link href="/" className={`${TOOLBAR_BUTTON} border-hud-cyan/40 text-hud-cyan hover:bg-hud-cyan/10`}>
             {ui.back}
           </Link>
@@ -112,11 +112,11 @@ export function CvView() {
         </div>
       </div>
 
-      <main className="mx-auto max-w-4xl px-4 py-8 md:px-8 md:py-10">
+      <main className="mx-auto max-w-prose px-4 py-8 md:px-8 md:py-10">
         <header className="mb-8">
           <div className="flex flex-wrap items-start justify-between gap-3">
-            <h1 className="font-sans text-3xl font-bold tracking-tight sm:text-4xl">{content.legalName}</h1>
-            <p className="cv-ignore-print inline-flex items-center gap-2 rounded border border-hud-border/60 bg-hud-bg/60 px-3 py-1.5 font-mono text-xs tracking-[0.16em] text-hud-cyan uppercase">
+            <h1 className="font-sans text-3xl leading-tight font-bold tracking-tight text-balance sm:text-4xl">{content.legalName}</h1>
+            <p className="cv-ignore-print inline-flex items-center gap-2 rounded border border-hud-border/60 bg-hud-bg/60 px-3 py-1.5 font-mono text-xs tracking-[0.12em] text-hud-cyan uppercase">
               <span className="size-2 rounded-full bg-hud-green shadow-[0_0_10px_var(--hud-green)]" />
               {ui.available}
             </p>
@@ -141,7 +141,7 @@ export function CvView() {
         </header>
 
         <Section id="cv-summary" title={titles.summary}>
-          <p className="text-base leading-relaxed text-foreground">{content.summary}</p>
+          <p className="text-base leading-relaxed text-pretty text-foreground">{content.summary}</p>
         </Section>
 
         <Section id="cv-experience" title={titles.experience}>

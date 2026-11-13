@@ -20,7 +20,7 @@ export default function NotFound() {
         }}
       />
       <div className="relative w-full max-w-lg rounded-lg border border-hud-border/60 bg-hud-bg/85 p-8 shadow-[0_0_40px_color-mix(in_oklch,var(--hud-cyan)_14%,transparent)] backdrop-blur-xl md:p-10">
-        <p className="font-mono text-xs font-bold tracking-[0.28em] text-hud-cyan uppercase">
+        <p className="font-mono text-xs font-bold tracking-[0.2em] text-hud-cyan uppercase">
           G-DARKO // ERR
         </p>
         <div className="mt-4 flex items-baseline gap-4">

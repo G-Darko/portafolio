@@ -146,12 +146,14 @@ Default dark G-Darko palette is normative. Alternate `data-palette` themes remin
 ### Hierarchy
 - **Display** (Poppins 700, ~1.25rem+, tracking ~0.12em): rare brand moments (boot mark, profile name emphasis).
 - **Headline** (mono 700, ~1.125rem): panel titles and mission names.
-- **Title** (mono 700, tracking ~0.12–0.3em, often uppercase): channel labels, section stamps.
+- **Title** (mono 700, tracking in 3 steps — 0.2em labels, 0.12em titles, 0.18em CTAs — often uppercase): channel labels, section stamps.
 - **Body** (Poppins 400, 1rem, leading-relaxed): about text, mission briefs, contact description.
 - **Label** (mono 700, 0.75–0.875rem, tracking 0.2em+, uppercase): form labels, nav chips, HUD chrome.
 
 ### Named Rules
 **The Two Voices Rule.** Mono speaks for the system; Poppins speaks for the person. Don’t set long biographical paragraphs in all-caps mono.
+
+**PDF-only Helvetica exception.** The downloadable CV PDF (`CvPdfDocument.tsx`, `@react-pdf/renderer`) renders in Helvetica / Helvetica-Bold because the renderer cannot use the project's web fonts. Helvetica is allowed only there — never on web surfaces.
 
 ## Layout
 

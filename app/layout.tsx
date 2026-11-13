@@ -1,12 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
+import { MotionConfig } from "motion/react";
 import "./globals.css";
 import { THEME_COLOR, buildJsonLd, rootMetadata } from "@/lib/seo";
 
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+  // Only weights actually used in the code (200/300/800 never appear).
+  weight: ["400", "500", "600", "700", "900"],
 });
 
 export const viewport: Viewport = {
@@ -66,7 +68,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd()).replace(/</g, "\\u003c") }}
         />
       </head>
-      <body className="min-h-dvh w-dvw overflow-x-hidden">{children}</body>
+      <body className="min-h-dvh w-dvw overflow-x-hidden">
+        {/* Reduced motion: motion/* animations collapse to opacity-only,
+            instant fades instead of spatial movement. */}
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
+      </body>
     </html>
   );
 }
