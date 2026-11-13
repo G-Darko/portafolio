@@ -32,6 +32,16 @@ export default function HUDShell() {
   const isIdle = activePanel === null;
   const [orbExpanded, setOrbExpanded] = useState(false);
   const [orbDragging, setOrbDragging] = useState(false);
+  // The orb is hidden below sm by CSS; don't mount its WebGL canvas there
+  // at all (it kept rendering while invisible on phones).
+  const [orbMounted, setOrbMounted] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 640px)");
+    const update = () => setOrbMounted(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
   const [hoveredSkillId, setHoveredSkillId] = useState<string | null>(null);
   const techSphereRef = useRef<TechSphereHandle | null>(null);
   const dragListenersRef = useRef<{ move: (e: PointerEvent) => void; up: (e: PointerEvent) => void } | null>(
@@ -260,7 +270,7 @@ export default function HUDShell() {
               isIdle ? "hidden opacity-90 md:flex" : "hidden sm:flex"
             }`}
           >
-            <span className="mb-1 font-mono text-xs tracking-[0.2em] text-muted-foreground/70 uppercase">
+            <span className="mb-1 font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
               {t.header.sphere}
             </span>
             <motion.div
@@ -291,17 +301,19 @@ export default function HUDShell() {
                 transition: "box-shadow 0.22s ease, border-color 0.22s ease",
               }}
             >
-              <TechSphere
-                mode={orbMode}
-                highlightIds={highlightTechIds}
-                dimAll={activePanel === "skills"}
-                externalFocusId={activePanel === "skills" ? hoveredSkillId : null}
-                expanded={orbExpanded}
-                isDragging={orbDragging}
-                onTechHoverActive={handleTechHoverActive}
-                onOrbPointerDown={handleOrbDragStart}
-                onRotateReady={handleRotateReady}
-              />
+              {orbMounted && (
+                <TechSphere
+                  mode={orbMode}
+                  highlightIds={highlightTechIds}
+                  dimAll={activePanel === "skills"}
+                  externalFocusId={activePanel === "skills" ? hoveredSkillId : null}
+                  expanded={orbExpanded}
+                  isDragging={orbDragging}
+                  onTechHoverActive={handleTechHoverActive}
+                  onOrbPointerDown={handleOrbDragStart}
+                  onRotateReady={handleRotateReady}
+                />
+              )}
             </motion.div>
           </div>
 
@@ -331,7 +343,11 @@ export default function HUDShell() {
                   contentClassName={
                     activePanel === "terminal"
                       ? "flex min-h-0 flex-col overflow-hidden p-3 md:p-4"
-                      : undefined
+                      : activePanel === "skills"
+                        ? // Snap so scrolling lands on full category rows
+                          // instead of cutting one in half.
+                          "scrollbar-thin overflow-auto snap-y snap-proximity"
+                        : undefined
                   }
                 >
                   {renderContent(activePanel)}

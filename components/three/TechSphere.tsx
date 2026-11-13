@@ -123,6 +123,10 @@ function TechNodes({
   const rotSpeed = isPaused ? 0 : mode === "idle" && !anyLit ? 0.01 : 0.016;
 
   useFrame(() => {
+    // Defensive guard; the render loop itself is paused via frameloop
+    // (see TechSphere) when the tab is hidden, the orb is offscreen, or
+    // the user prefers reduced motion.
+    if (typeof document !== "undefined" && document.hidden) return;
     timerRef.current.update();
     const elapsed = timerRef.current.getElapsed();
 
@@ -193,7 +197,7 @@ function TechNodes({
               >
                 {visual.showLabel && (
                   <span
-                    className="mb-1 whitespace-nowrap rounded border border-hud-border/70 bg-hud-bg/95 px-2 py-0.5 font-mono text-[10px] font-bold tracking-wide text-hud-cyan shadow-[0_0_12px_color-mix(in_oklch,var(--hud-cyan)_35%,transparent)] select-none md:text-xs"
+                    className="mb-1 whitespace-nowrap rounded border border-hud-border/70 bg-hud-bg/95 px-2 py-0.5 font-mono text-xs font-bold tracking-wide text-hud-cyan shadow-[0_0_12px_color-mix(in_oklch,var(--hud-cyan)_35%,transparent)] select-none"
                     style={{ color: tech.color }}
                   >
                     {tech.name}
@@ -256,6 +260,29 @@ const TechSphere = forwardRef<TechSphereHandle, TechSphereProps>(function TechSp
 ) {
   const [hoveredTechId, setHoveredTechId] = useState<string | null>(null);
   const rotationRef = useRef<RotationState>({ y: 0, x: 0 });
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  // Pause the WebGL loop when the orb is offscreen, the tab is hidden, or
+  // the user prefers reduced motion (static orb instead of a spinning one).
+  const [loopPaused, setLoopPaused] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setLoopPaused(mq.matches || document.hidden);
+    update();
+    const onVisibility = () => update();
+    mq.addEventListener("change", update);
+    document.addEventListener("visibilitychange", onVisibility);
+    const observer = new IntersectionObserver(
+      ([entry]) => setLoopPaused(mq.matches || document.hidden || !entry.isIntersecting),
+      { threshold: 0 }
+    );
+    if (wrapperRef.current) observer.observe(wrapperRef.current);
+    return () => {
+      mq.removeEventListener("change", update);
+      document.removeEventListener("visibilitychange", onVisibility);
+      observer.disconnect();
+    };
+  }, []);
   const missionMode = highlightIds.length > 0;
   const anyLit = missionMode || dimAll || hoveredTechId !== null || externalFocusId !== null;
 
@@ -284,8 +311,12 @@ const TechSphere = forwardRef<TechSphereHandle, TechSphereProps>(function TechSp
   };
 
   return (
-    <div className="relative h-full w-full">
-      <Canvas className="pointer-events-none" camera={{ position: [0, 0, 6], fov: 50 }}>
+    <div ref={wrapperRef} className="relative h-full w-full">
+      <Canvas
+        className="pointer-events-none"
+        camera={{ position: [0, 0, 6], fov: 50 }}
+        frameloop={loopPaused ? "never" : "always"}
+      >
         <ambientLight intensity={mode === "idle" && !anyLit ? 0.5 : 0.35} />
         <pointLight position={[10, 10, 10]} intensity={anyLit ? 1.5 : mode === "idle" ? 1.2 : 0.9} />
         <pointLight position={[-5, -5, 5]} color="#0df8f9" intensity={anyLit ? 1 : 0.5} />

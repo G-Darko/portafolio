@@ -21,6 +21,16 @@ export default function WelcomeHologram() {
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
+    // Reduced motion: show the full role line statically, no typing loop.
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setDisplayed(roles[0]);
+      return;
+    }
+
     const full = roles[roleIndex];
     let timeout: ReturnType<typeof setTimeout>;
 
@@ -72,12 +82,12 @@ export default function WelcomeHologram() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-3xl font-bold tracking-tight text-foreground md:text-4xl"
+              className="text-3xl leading-tight font-bold tracking-tight text-balance text-foreground md:text-4xl"
             >
               {t.profile.name}
             </motion.h2>
 
-            <p className="min-h-6 font-mono text-sm text-hud-cyan md:text-base">
+            <p className="min-h-6 font-mono text-base text-hud-cyan">
               {displayed}
               <span className="ml-0.5 inline-block h-3.5 w-0.5 animate-pulse bg-hud-cyan align-middle" />
             </p>
@@ -87,7 +97,7 @@ export default function WelcomeHologram() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="max-w-prose text-base leading-relaxed text-muted-foreground md:text-lg"
+            className="max-w-prose text-base leading-relaxed text-pretty text-muted-foreground md:text-lg"
           >
             {t.bootup.welcomeLead}
           </motion.p>
@@ -116,10 +126,10 @@ export default function WelcomeHologram() {
             }}
             className="hud-focus-ring w-full rounded-lg border border-hud-border/70 bg-hud-cyan/5 px-4 py-3 text-left transition-colors hover:border-hud-cyan/40 hover:bg-hud-cyan/10"
           >
-            <span className="font-mono text-xs tracking-[0.18em] text-hud-cyan/80 uppercase">
+            <span className="font-mono text-xs tracking-[0.18em] text-hud-cyan uppercase">
               {t.bootup.featuredLabel}
             </span>
-            <span className="mt-1 block text-sm font-medium text-foreground md:text-base">
+            <span className="mt-1 block text-base font-medium text-foreground">
               {t.bootup.featuredMission}
             </span>
           </motion.button>
@@ -132,7 +142,7 @@ export default function WelcomeHologram() {
               {t.profile.viewCv}
             </Link>
 
-            <p className="font-mono text-xs leading-relaxed text-muted-foreground/80 md:text-sm">
+            <p className="font-mono text-sm leading-relaxed text-muted-foreground md:text-base">
               {t.bootup.welcomeHint}
             </p>
           </div>

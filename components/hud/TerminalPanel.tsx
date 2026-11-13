@@ -235,7 +235,7 @@ export default function TerminalPanel() {
         <span className="ml-2 truncate font-mono text-xs tracking-wide text-hud-cyan/90 md:text-sm">
           {t.terminal.windowTitle}
         </span>
-        <span className="ml-auto flex items-center gap-1.5 font-mono text-[10px] text-hud-green/90 uppercase md:text-xs">
+        <span className="ml-auto flex items-center gap-1.5 font-mono text-xs text-hud-green/90 uppercase">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-hud-green shadow-[0_0_6px_var(--hud-green)]" />
           {booting ? t.terminal.connecting : t.terminal.online}
         </span>
@@ -302,7 +302,7 @@ export default function TerminalPanel() {
             <span className="h-4 w-2 shrink-0 animate-pulse bg-hud-cyan/90" />
           )}
         </div>
-        <p className="mt-1.5 font-mono text-[10px] text-muted-foreground/60 md:text-xs">
+        <p className="mt-1.5 font-mono text-xs text-muted-foreground">
           {t.terminal.hint}
         </p>
       </div>

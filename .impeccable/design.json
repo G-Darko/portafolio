@@ -214,11 +214,6 @@
         "name": "ease-panel",
         "value": "300ms ease",
         "purpose": "Border, glow, and color state transitions on HUD controls."
-      },
-      {
-        "name": "scanline",
-        "value": "scanline keyframes translating Y across viewport",
-        "purpose": "Optional hologram atmosphere; respect prefers-reduced-motion."
       }
     ],
     "breakpoints": [
@@ -290,7 +285,8 @@
       { "name": "The One Voice Rule", "body": "Holo Cyan is the speaking accent. Use it for hierarchy and focus — not as a full-bleed wash. Rarity keeps the workshop precise.", "section": "colors" },
       { "name": "The Signature Palette Rule", "body": "G-Darko (default) is the brand home. Extra palettes are optional visitor toys; new surfaces should design against default dark first.", "section": "colors" },
       { "name": "The Two Voices Rule", "body": "Mono speaks for the system; Poppins speaks for the person. Don’t set long biographical paragraphs in all-caps mono.", "section": "typography" },
-      { "name": "The Quiet Rest Rule", "body": "Glow intensifies for focus, active, or success — not for every static rectangle.", "section": "elevation" }
+      { "name": "The Quiet Rest Rule", "body": "Glow intensifies for focus, active, or success — not for every static rectangle.", "section": "elevation" },
+      { "name": "The Light Text Rule", "body": "In light mode, accent text uses darkened tokens (Holo Cyan oklch(0.45 0.16 195), Status Green 0.45, Alert Red 0.55) so it passes 4.5:1 on light surfaces; the bright values live on as --hud-cyan-bright for fills, glows and borders only.", "section": "colors" }
     ],
     "dos": [
       "Do design new surfaces against default dark G-Darko (Holo Cyan + Ops Blue) first.",

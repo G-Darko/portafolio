@@ -76,7 +76,7 @@ export default function ContactWindow() {
   return (
     <div className="contact-form space-y-5">
       <div className="text-center">
-        <p className="font-mono text-xs tracking-[0.25em] text-hud-cyan/80 uppercase md:text-sm">
+        <p className="font-mono text-xs tracking-[0.2em] text-hud-cyan uppercase md:text-sm">
           {t.contact.channel}
         </p>
         <p className="mt-2 text-base leading-relaxed text-muted-foreground md:text-lg">
@@ -167,13 +167,13 @@ export default function ContactWindow() {
 
           <div aria-live="polite" className="min-h-6">
             {status === "success" && (
-              <p className="text-center text-sm font-medium text-hud-green md:text-base">
+              <p className="text-center text-base font-medium text-hud-green">
                 {t.contact.success}
               </p>
             )}
             {status === "error" && (
               <div className="space-y-2 text-center">
-                <p className="text-sm font-medium text-hud-red md:text-base">{t.contact.error}</p>
+                <p className="text-base font-medium text-hud-red">{t.contact.error}</p>
                 <div className="flex flex-wrap items-center justify-center gap-2">
                   <button
                     type="button"

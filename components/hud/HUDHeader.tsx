@@ -222,6 +222,23 @@ export default function HUDHeader({
         </div>
       </motion.header>
 
+      {/* Scrim for the mobile "More" sheet: dims the page behind it and
+          closes the menu on tap. Rendered at header level (outside the
+          bottom nav) so it covers the content but stays under the nav. */}
+      <AnimatePresence>
+        {mobileMoreOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-190 bg-black/60 md:hidden"
+            onClick={() => setMobileMoreOpen(false)}
+            aria-hidden
+          />
+        )}
+      </AnimatePresence>
+
       {/* Mobile thumb-zone hire nav */}
       <nav
         className="fixed inset-x-0 bottom-0 z-200 border-t border-hud-border/80 bg-background/95 px-2 pt-1 backdrop-blur-xl md:hidden"
@@ -264,7 +281,7 @@ export default function HUDHeader({
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 8 }}
                   role="menu"
-                  className="absolute bottom-full right-0 mb-2 w-56 rounded-xl border border-hud-border bg-hud-bg/95 p-1.5 shadow-[0_0_24px_color-mix(in_oklch,var(--hud-cyan)_12%,transparent)] backdrop-blur-xl"
+                  className="absolute bottom-full right-0 mb-2 w-56 rounded-xl border border-hud-border bg-background p-1.5 shadow-[0_0_24px_color-mix(in_oklch,var(--hud-cyan)_12%,transparent)] backdrop-blur-xl"
                 >
                   <MoreMenuItems
                     variant="mobile"
@@ -318,7 +335,7 @@ function MoreMenuItems({
   const cls = MORE_ITEM_CLASS[variant];
   return (
     <>
-      <p className="px-2.5 py-1.5 font-mono text-xs tracking-[0.18em] text-hud-cyan/70 uppercase">
+      <p className="px-2.5 py-1.5 font-mono text-xs tracking-[0.18em] text-hud-cyan uppercase">
         {t.header.workshopTools}
       </p>
       {MORE_PANELS.map(({ id, labelKey }) => (
