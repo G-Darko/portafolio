@@ -13,6 +13,8 @@ const eslintConfig = defineConfig([
     "build/**",
     // Static export output (next.config distDir).
     "dist/**",
+    // Tooling artifacts committed to the repo (Impeccable skill output).
+    ".impeccable/**",
     "next-env.d.ts",
   ]),
 ]);

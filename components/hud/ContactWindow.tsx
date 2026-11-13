@@ -25,10 +25,12 @@ export default function ContactWindow() {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<FormStatus>("idle");
   const abortRef = useRef<AbortController | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     return () => {
       abortRef.current?.abort();
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, []);
 
@@ -60,7 +62,8 @@ export default function ContactWindow() {
         setStatus("success");
         setEmail("");
         setMessage("");
-        setTimeout(() => setStatus("idle"), 4000);
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(() => setStatus("idle"), 4000);
       } else {
         setStatus("error");
       }

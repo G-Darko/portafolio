@@ -124,9 +124,9 @@ export default function HUDHeader({
             className="min-w-0 rounded px-1 py-1 text-left transition-colors hover:bg-accent/60 hud-focus-ring"
             aria-label={t.header.title}
           >
-            <h1 className="truncate font-mono text-sm font-bold tracking-widest text-foreground md:text-base">
+            <span className="truncate font-mono text-sm font-bold tracking-widest text-foreground md:text-base">
               {t.header.title}
-            </h1>
+            </span>
           </button>
 
           <nav className="ml-2 hidden items-center gap-0.5 md:flex" aria-label="Primary">
