@@ -17,7 +17,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps) {
   const { missionId, projectId } = await params;
   const sm = getSubMissionBySlug(missionId, projectId);
-  const title = sm ? `${sm.title.es} ? ${getMissionById(missionId)?.title.es ?? ""}`.replace(/ ? $/, "") : undefined;
+  const title = sm ? `${sm.title.es} | ${getMissionById(missionId)?.title.es ?? ""}`.replace(/ \| $/, "") : undefined;
   return buildMetadata({ title, description: sm?.description.es, path: `missions/${missionId}/${projectId}` });
 }
 

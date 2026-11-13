@@ -130,7 +130,7 @@ export function CvView() {
                 <a
                   href={c.href}
                   target={c.href.startsWith("http") ? "_blank" : undefined}
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="break-all text-hud-cyan underline-offset-2 hover:underline"
                 >
                   {c.label}
@@ -185,7 +185,7 @@ export function CvView() {
                 {showCertLink(c, "web") && (
                   <>
                     {" "}
-                    <a href={c.url} target="_blank" rel="noreferrer" className="cv-attr text-sm text-hud-cyan underline-offset-2 hover:underline">
+                    <a href={c.url} target="_blank" rel="noopener noreferrer" className="cv-attr text-sm text-hud-cyan underline-offset-2 hover:underline">
                       {c.linkLabel ?? (locale === "es" ? "Ver credencial" : "View credential")}
                     </a>
                   </>

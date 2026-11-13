@@ -76,6 +76,7 @@ export default function MissionMediaViewer({
               src={current.src}
               title={`${title} demo`}
               className="h-full w-full"
+              loading="lazy"
               allowFullScreen
             />
           ) : (
@@ -98,7 +99,7 @@ export default function MissionMediaViewer({
               type="button"
               onClick={() => go(index - 1)}
               className="absolute left-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-hud-border/60 bg-hud-bg/80 text-hud-cyan backdrop-blur-sm transition-colors hover:bg-hud-cyan/10"
-              aria-label="Previous slide"
+              aria-label="Diapositiva anterior"
             >
               <ChevronLeft size={16} />
             </button>
@@ -106,7 +107,7 @@ export default function MissionMediaViewer({
               type="button"
               onClick={() => go(index + 1)}
               className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-hud-border/60 bg-hud-bg/80 text-hud-cyan backdrop-blur-sm transition-colors hover:bg-hud-cyan/10"
-              aria-label="Next slide"
+              aria-label="Diapositiva siguiente"
             >
               <ChevronRight size={16} />
             </button>
@@ -125,7 +126,8 @@ export default function MissionMediaViewer({
                 className={`h-1.5 rounded-full transition-all ${
                   i === index ? "w-4 bg-hud-cyan" : "w-1.5 bg-hud-cyan/30"
                 }`}
-                aria-label={`Slide ${i + 1}`}
+                aria-label={`Diapositiva ${i + 1}`}
+                aria-current={i === index ? true : undefined}
               />
             ))}
           </div>
