@@ -9,6 +9,7 @@ import HudThemeProvider from "@/components/HudThemeProvider";
 import EasterEggManager from "@/components/hud/EasterEggManager";
 import { parseNyxheimPath } from "@/lib/nyxheim/routes";
 import { initHudAudio, syncHudAudioEnabled } from "@/lib/audio/audio";
+import { setAmbientEnabled } from "@/lib/audio/ambient";
 
 export default function PortfolioApp() {
   const pathname = usePathname();
@@ -31,6 +32,7 @@ export default function PortfolioApp() {
   useEffect(() => {
     if (!hydrated) return;
     syncHudAudioEnabled(soundEnabled);
+    setAmbientEnabled(soundEnabled);
   }, [hydrated, soundEnabled]);
 
   // Deep links skip the boot gate so shared URLs open the destination directly

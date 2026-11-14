@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { MissionId } from "@/lib/data/missions";
 import { setEnabled } from "@/lib/audio/audio";
+import { setAmbientEnabled } from "@/lib/audio/ambient";
 
 export type PanelId =
   | "profile"
@@ -76,15 +77,18 @@ export const useHUDStore = create<HUDState>()(
         set((s) => {
           const soundEnabled = !s.soundEnabled;
           setEnabled(soundEnabled);
+          setAmbientEnabled(soundEnabled);
           return { soundEnabled };
         }),
       setKonamiActive: (v) => set({ konamiActive: v }),
     }),
     {
       name: "gdarko-hud-session",
-      // Panel/mission live in the URL; only persist session so return visits skip boot.
+      // Panel/mission live in the URL; only persist session + the sound
+      // preference so return visits keep the mute the user chose.
       partialize: (state) => ({
         sessionActive: state.sessionActive,
+        soundEnabled: state.soundEnabled,
       }),
       onRehydrateStorage: () => (state) => {
         if (!state) return;

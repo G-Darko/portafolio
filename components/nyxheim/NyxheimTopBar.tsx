@@ -5,7 +5,7 @@ import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useLocaleStore } from "@/lib/store/useLocaleStore";
 import { useNyxheimStore } from "@/lib/nyxheim/useNyxheimStore";
 import { playHUDClick } from "@/lib/audio/audio";
-import ThemePalettePicker from "@/components/hud/ThemePalettePicker";
+import NyxheimSettings from "@/components/nyxheim/NyxheimSettings";
 
 /**
  * The only chrome above the world: the system name (Exordia, a button that
@@ -53,11 +53,11 @@ export function NyxheimTopBar() {
       style={{ paddingTop: "max(0.75rem, env(safe-area-inset-top))" }}
     >
       <div className="flex flex-wrap items-center gap-2">
-        {/* System name: the welcome card is born closed and opens here. */}
+        {/* System name: the welcome card is born closed and opens here.
+            The store plays the open/close cue — no extra tick here. */}
         <button
           type="button"
           onClick={() => {
-            playHUDClick();
             toggleOverview();
           }}
           aria-expanded={overviewOpen}
@@ -78,10 +78,11 @@ export function NyxheimTopBar() {
           </span>
         </button>
 
-        {/* Section navigator: the important destinations, always visible. */}
+        {/* Section navigator: the important destinations, always visible.
+            Scrollable with snap on mobile so no pill is ever cut in half. */}
         <nav
           aria-label={t.nyxheim.sections}
-          className="order-3 flex w-full gap-1.5 overflow-x-auto pb-1 md:order-2 md:w-auto md:flex-1 md:justify-center md:overflow-visible md:pb-0"
+          className="order-3 flex w-full snap-x gap-1.5 overflow-x-auto px-0.5 pb-1 md:order-2 md:w-auto md:flex-1 md:justify-center md:overflow-visible md:pb-0"
           style={{ scrollbarWidth: "none" }}
         >
           {SECTIONS.map(({ id }) => {
@@ -91,11 +92,10 @@ export function NyxheimTopBar() {
                 key={id}
                 type="button"
                 onClick={() => {
-                  playHUDClick();
                   focus(id);
                 }}
                 aria-current={active ? "page" : undefined}
-                className={`hud-focus-ring pointer-events-auto shrink-0 rounded-full border px-3 py-2 font-mono text-xs font-bold tracking-wide whitespace-nowrap backdrop-blur-xl transition-colors md:text-sm ${
+                className={`hud-focus-ring pointer-events-auto shrink-0 snap-start rounded-full border px-3 py-2 font-mono text-xs font-bold tracking-wide whitespace-nowrap backdrop-blur-xl transition-colors md:text-sm ${
                   active
                     ? "border-hud-cyan/70 bg-hud-cyan/15 text-hud-cyan"
                     : "border-hud-border/60 bg-hud-bg/60 text-muted-foreground hover:border-hud-cyan/50 hover:text-foreground"
@@ -107,9 +107,10 @@ export function NyxheimTopBar() {
           })}
         </nav>
 
-        {/* Settings: palette + language. No theme toggle: dark is the only mode. */}
+        {/* Settings: palette + sound + labels, in one popover. No theme
+            toggle: dark is the only mode. */}
         <div className="pointer-events-auto order-2 ml-auto flex items-center gap-1 md:order-3 md:ml-0">
-          <ThemePalettePicker />
+          <NyxheimSettings />
           <button
             type="button"
             onClick={() => {

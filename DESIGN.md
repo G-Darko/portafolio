@@ -102,6 +102,8 @@ This is a personal portfolio dressed as a builder’s workshop rendered in holog
 
 Depth comes from **glow + border** and **frosted glass panels** (backdrop blur, translucent `hud-bg`, inset highlights). Default dark console is the home key; alternate palettes exist (dark only, light mode was removed in the Nyxheim round 2) but signature remains G-Darko Holo Cyan / Ops Blue. Anti-references: saturated cyberpunk neon stacks, generic SaaS dashboards, and purple-on-white AI-template looks.
 
+**Exordia (Nyxheim round 2-3).** The home is a solar system, not a HUD: the sun is scenery, Nyxheim station is the profile, planets are the projects (with their real favicon as the dock/panel mark, remote URL with letter fallback), Sinistra is the technology constellation, Erebo is the black hole at the edge. Panels are bottom sheets on mobile and the camera lifts the focused body above the sheet so you always see what you are touching. Body labels default to hover-only (a setting switches them to always visible) and never paint above a panel or the welcome card. Sound: Cuelume cues on open/close/navigate/tap/success/error (never on hover) plus a soft synthesized ambient drone that starts only after the first user gesture; one sound switch in the settings silences both, and the preference persists.
+
 **Key Characteristics:**
 - Hologram Workshop mood: craft first, OS costume second
 - Precision panels: glow on focus, quiet at rest

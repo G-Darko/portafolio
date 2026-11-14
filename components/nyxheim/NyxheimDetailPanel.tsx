@@ -22,8 +22,11 @@ import {
   type NyxheimBody,
 } from "@/lib/nyxheim/bodies";
 import { useNyxheimStore, usePrefersReducedMotion } from "@/lib/nyxheim/useNyxheimStore";
+import { playSuccess } from "@/lib/audio/audio";
 import SkillIcon from "@/components/SkillIcon";
 import MissionMediaViewer from "@/components/missions/MissionMediaViewer";
+import ContactForm from "@/components/hud/ContactForm";
+import { ProjectLogo } from "./ProjectLogo";
 
 /** Section that reveals on scroll (opacity-only under reduced motion). */
 function Reveal({ children, id }: { children: ReactNode; id?: string }) {
@@ -581,6 +584,7 @@ function ContactPanel() {
     try {
       await navigator.clipboard.writeText(CONTACT_EMAIL);
       setCopied(true);
+      playSuccess();
       setTimeout(() => setCopied(false), 2000);
     } catch {
       // Clipboard unavailable: the mailto link below still works.
@@ -639,6 +643,10 @@ function ContactPanel() {
                 </li>
               ))}
           </ul>
+        </Reveal>
+        <Reveal>
+          <SectionTitle>{t.contact.send}</SectionTitle>
+          <ContactForm />
         </Reveal>
       </div>
     </div>
@@ -733,7 +741,7 @@ export function NyxheimDetailPanel({ body }: { body: NyxheimBody }) {
       exit={{ opacity: 0, x: 24 }}
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       aria-label={title}
-      className="pointer-events-auto absolute z-30 flex flex-col overflow-hidden rounded-2xl border border-hud-border/80 bg-hud-bg/85 shadow-[0_0_40px_oklch(0.65_0.18_255/0.18)] backdrop-blur-xl max-md:inset-x-3 max-md:bottom-24 max-md:max-h-[52vh] md:top-20 md:right-4 md:bottom-24 md:w-[min(30rem,44vw)]"
+      className="pointer-events-auto absolute z-30 flex flex-col overflow-hidden rounded-2xl border border-hud-border/80 bg-hud-bg/85 shadow-[0_0_40px_oklch(0.65_0.18_255/0.18)] backdrop-blur-xl max-md:inset-x-0 max-md:bottom-0 max-md:max-h-[60vh] max-md:rounded-b-none max-md:[padding-bottom:env(safe-area-inset-bottom)] md:top-20 md:right-4 md:bottom-24 md:w-[min(30rem,44vw)]"
       style={{ boxShadow: `0 0 48px ${body.color}30, 0 0 40px oklch(0.65 0.18 255 / 0.15)` }}
     >
       {/* Orbit accent: the panel is part of the world — its top edge glows
@@ -745,6 +753,8 @@ export function NyxheimDetailPanel({ body }: { body: NyxheimBody }) {
           background: `linear-gradient(90deg, transparent, ${body.color} 35%, ${body.color} 65%, transparent)`,
         }}
       />
+      {/* Bottom-sheet grab handle, mobile only. */}
+      <div aria-hidden className="mx-auto mt-2 h-1 w-10 shrink-0 rounded-full bg-hud-border md:hidden" />
       <div className="flex items-center justify-between gap-2 border-b border-hud-border/60 px-4 py-2.5">
         <div className="flex min-w-0 items-center gap-2.5">
           {/* Shared element: the dock chip flies here. */}
@@ -754,7 +764,11 @@ export function NyxheimDetailPanel({ body }: { body: NyxheimBody }) {
             className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold"
             style={{ backgroundColor: `${body.color}22`, color: body.color }}
           >
-            {title.charAt(0)}
+            {body.projectSlug ? (
+              <ProjectLogo slug={body.projectSlug} label={title} color={body.color} size={28} />
+            ) : (
+              title.charAt(0)
+            )}
           </motion.span>
           <div className="min-w-0">
             <span className="block font-mono text-[10px] tracking-[0.24em] text-hud-cyan/70 uppercase">

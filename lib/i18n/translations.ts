@@ -256,6 +256,10 @@ const es = {
       goToStar: "Ir a la estrella",
       openWelcome: "Abrir bienvenida",
       closeWelcome: "Cerrar bienvenida",
+      sound: "Sonido",
+      labels: "Etiquetas",
+      labelsHover: "Al pasar el cursor",
+      labelsAlways: "Siempre visibles",
     },
 } as const;
 
@@ -511,6 +515,10 @@ const en: Copy = {
       goToStar: "Go to the star",
       openWelcome: "Open welcome",
       closeWelcome: "Close welcome",
+      sound: "Sound",
+      labels: "Labels",
+      labelsHover: "On hover",
+      labelsAlways: "Always visible",
     },
 };
 

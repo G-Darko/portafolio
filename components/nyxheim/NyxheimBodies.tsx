@@ -18,6 +18,7 @@ import {
 } from "@/lib/nyxheim/bodies";
 import { getPlanetTexture } from "@/lib/nyxheim/textures";
 import { useNyxheimStore } from "@/lib/nyxheim/useNyxheimStore";
+import { useNyxheimSettings } from "@/lib/nyxheim/useNyxheimSettings";
 
 /** Display name of a body in the current locale. */
 export function useBodyName(body: NyxheimBody): string {
@@ -41,11 +42,16 @@ function BodyLabel({ body }: { body: NyxheimBody }) {
   const focus = useNyxheimStore((s) => s.focus);
   const setHovered = useNyxheimStore((s) => s.setHovered);
   const focusedId = useNyxheimStore((s) => s.focusedId);
+  const hoveredId = useNyxheimStore((s) => s.hoveredId);
+  const overviewOpen = useNyxheimStore((s) => s.overviewOpen);
+  const labelMode = useNyxheimSettings((s) => s.labelMode);
   const focused = focusedId === body.id;
-  // While a panel is open the labels hide: they rendered above the panel
-  // (drei Html z-range) and covered its text. The panel header names the
-  // body already, so nothing is lost.
-  if (focusedId !== null) return null;
+  // Labels never paint above a panel or the welcome card: drei Html
+  // elements sit in a higher z-range and used to cover their text. In
+  // "hover" mode (default) only the hovered body's label is shown, so
+  // labels stop overlapping each other in the overview.
+  if (focusedId !== null || overviewOpen) return null;
+  if (labelMode === "hover" && hoveredId !== body.id) return null;
   // The sun is scenery: its tag is a name only, never a button.
   if (body.kind === "sun") {
     return (
@@ -409,7 +415,7 @@ function Constellation({ reduced }: { reduced: boolean }) {
   const hoveredSkillId = useNyxheimStore((s) => s.hoveredSkillId);
   const focusedSkillId = useNyxheimStore((s) => s.focusedSkillId);
   const focusedId = useNyxheimStore((s) => s.focusedId);
-  const isFocused = focusedId === "sinistra";
+  const overviewOpen = useNyxheimStore((s) => s.overviewOpen);
   const tmp = useMemo(() => new THREE.Vector3(), []);
 
   // Deterministic orbit per star (stable layout, no random jumps).
@@ -449,9 +455,12 @@ function Constellation({ reduced }: { reduced: boolean }) {
   return (
     <group ref={groupRef}>
       {CONSTELLATION_STARS.map((star, i) => {
-        // Star name tags only ride the scene while no panel is open; with a
-        // panel open they would cover its text.
-        const showLabel = focusedId === null && (isFocused || hoveredSkillId === star.id);
+        // Star name tags only ride the scene while no panel or welcome
+        // card is open; with either open they would cover its text.
+        // Stars are always hover-gated (they were never "always
+        // visible"); the label mode governs the body labels.
+        const showLabel =
+          focusedId === null && !overviewOpen && hoveredSkillId === star.id;
         // Hover lights the star up — and so does being the focused
         // destination (deep link or click in the panel), so the star you
         // traveled to is always identifiable.
@@ -558,6 +567,9 @@ function SinistraLabel({ reduced }: { reduced: boolean }) {
   const focus = useNyxheimStore((s) => s.focus);
   const setHovered = useNyxheimStore((s) => s.setHovered);
   const focusedId = useNyxheimStore((s) => s.focusedId);
+  const hoveredId = useNyxheimStore((s) => s.hoveredId);
+  const overviewOpen = useNyxheimStore((s) => s.overviewOpen);
+  const labelMode = useNyxheimSettings((s) => s.labelMode);
   const { t } = useTranslation();
   const tmp = useMemo(() => new THREE.Vector3(), []);
 
@@ -567,8 +579,10 @@ function SinistraLabel({ reduced }: { reduced: boolean }) {
     groupRef.current?.position.copy(tmp);
   });
 
-  // Hidden while a panel is open, like every other label.
-  if (focusedId !== null) return null;
+  // Hidden while a panel or the welcome card is open, like every other
+  // label; in "hover" mode only while Sinistra itself is hovered.
+  if (focusedId !== null || overviewOpen) return null;
+  if (labelMode === "hover" && hoveredId !== "sinistra") return null;
 
   return (
     <group ref={groupRef}>
