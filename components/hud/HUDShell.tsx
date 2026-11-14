@@ -4,11 +4,11 @@ import { useMemo, useState, useEffect, useRef, useCallback } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useHUDStore, type PanelId } from "@/lib/store/useHUDStore";
+import { useNyxheimStore } from "@/lib/nyxheim/useNyxheimStore";
 import { getMissionById, getSubMission, missionSpriteIds } from "@/lib/data/missions";
 import HUDHeader from "./HUDHeader";
 import DesktopBackground from "./DesktopBackground";
 import HologramPanel from "./HologramPanel";
-import WelcomeHologram from "./WelcomeHologram";
 import MissionNavigator from "./MissionNavigator";
 import TechIconsSprite from "@/components/TechIconsSprite";
 import type { TechSphereHandle } from "@/components/three/TechSphere";
@@ -24,11 +24,19 @@ const MissionsWindow = dynamic(() => import("./MissionsWindow"), { ssr: false })
 const SkillsWindow = dynamic(() => import("./SkillsWindow"), { ssr: false });
 const CertificationsWindow = dynamic(() => import("./CertificationsWindow"), { ssr: false });
 const ContactWindow = dynamic(() => import("./ContactWindow"), { ssr: false });
+// Nyxheim: the 3D world is the new home experience (idle view). It mounts
+// only when no panel is open; panels keep the classic orb + window layout.
+const NyxheimWorld = dynamic(() => import("@/components/nyxheim/NyxheimWorld"), { ssr: false });
 
 export default function HUDShell() {
   const { t } = useTranslation();
   const { activePanel, activeMissionId, activeSubMissionId } = useHUDStore();
   const { togglePanelNav, goHome } = useHudRouting();
+  // The header logo returns to the world overview too, not just closes HUD panels.
+  const handleGoHome = useCallback(() => {
+    goHome();
+    useNyxheimStore.getState().goOverview();
+  }, [goHome]);
   const isIdle = activePanel === null;
   const [orbExpanded, setOrbExpanded] = useState(false);
   const [orbDragging, setOrbDragging] = useState(false);
@@ -224,11 +232,12 @@ export default function HUDShell() {
   return (
     <div className="hud-shell fixed inset-0 overflow-hidden bg-background text-foreground">
       <TechIconsSprite />
-      <DesktopBackground />
+      {/* The world canvas is opaque, so the 2D background only runs with panels. */}
+      {!isIdle && <DesktopBackground />}
       <HUDHeader
         activePanel={activePanel}
         onTogglePanel={togglePanelNav}
-        onGoHome={goHome}
+        onGoHome={handleGoHome}
       />
 
       <AnimatePresence>
@@ -245,31 +254,22 @@ export default function HUDShell() {
         )}
       </AnimatePresence>
 
-      <div
-        className={`absolute inset-0 px-3 pt-14 pb-4 md:px-6 lg:pt-14 ${
-          activePanel === "missions"
-            ? "overflow-x-hidden overflow-y-auto pb-36 md:pb-24 lg:pb-4"
-            : activePanel
-              ? "overflow-x-hidden overflow-y-auto pb-24 md:pb-4"
-              : "overflow-y-auto pb-24 md:pb-4 lg:overflow-hidden lg:pb-4"
-        }`}
-        style={{
-          paddingLeft: "max(0.75rem, env(safe-area-inset-left))",
-          paddingRight: "max(0.75rem, env(safe-area-inset-right))",
-        }}
-      >
+      {isIdle ? (
+        <NyxheimWorld />
+      ) : (
         <div
-          className={`mx-auto flex min-h-full w-full max-w-6xl py-2 lg:items-center lg:py-4 ${
-            isIdle
-              ? "flex-col items-center justify-center gap-8 lg:flex-row lg:justify-between lg:gap-16"
-              : "flex-col items-stretch gap-4 lg:flex-row lg:gap-10"
+          className={`absolute inset-0 px-3 pt-14 pb-4 md:px-6 lg:pt-14 ${
+            activePanel === "missions"
+              ? "overflow-x-hidden overflow-y-auto pb-36 md:pb-24 lg:pb-4"
+              : "overflow-x-hidden overflow-y-auto pb-24 md:pb-4"
           }`}
+          style={{
+            paddingLeft: "max(0.75rem, env(safe-area-inset-left))",
+            paddingRight: "max(0.75rem, env(safe-area-inset-right))",
+          }}
         >
-          <div
-            className={`relative z-40 order-2 flex shrink-0 flex-col items-center overflow-visible lg:order-1 ${
-              isIdle ? "hidden opacity-90 md:flex" : "hidden sm:flex"
-            }`}
-          >
+          <div className="mx-auto flex min-h-full w-full max-w-6xl flex-col items-stretch gap-4 py-2 lg:flex-row lg:gap-10 lg:py-4">
+          <div className="relative z-40 order-2 hidden shrink-0 flex-col items-center overflow-visible sm:flex lg:order-1">
             <span className="mb-1 font-mono text-xs tracking-[0.2em] text-muted-foreground uppercase">
               {t.header.sphere}
             </span>
@@ -281,11 +281,7 @@ export default function HUDShell() {
               transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
               className={`select-none rounded-full border bg-hud-bg/20 backdrop-blur-md will-change-transform touch-none ${
                 orbDragging ? "cursor-grabbing" : "cursor-grab"
-              } ${orbExpanded ? "overflow-visible" : "overflow-hidden"} ${
-                isIdle
-                  ? "h-[clamp(7rem,26vw,12rem)] w-[clamp(7rem,26vw,12rem)]"
-                  : "h-[clamp(8.5rem,14vw,12.5rem)] w-[clamp(8.5rem,14vw,12.5rem)]"
-              }`}
+              } ${orbExpanded ? "overflow-visible" : "overflow-hidden"} h-[clamp(8.5rem,14vw,12.5rem)] w-[clamp(8.5rem,14vw,12.5rem)]`}
               style={{
                 borderColor: orbExpanded
                   ? "oklch(0.65 0.18 255 / 0.45)"
@@ -318,18 +314,14 @@ export default function HUDShell() {
           </div>
 
           {/*
-            Content column is always flex-1 full width. Welcome self-limits;
-            panels never inherit the orb’s narrow column (that caused the width flash).
+            Content column is always flex-1 full width; panels never
+            inherit the orb's narrow column (that caused the width flash).
+            The idle home is Nyxheim now (see the conditional above);
+            WelcomeHologram is kept on disk but no longer wired.
           */}
-          <div
-            className={`order-1 min-w-0 lg:order-2 ${
-              isIdle ? "w-full max-w-xl lg:flex-1" : "w-full flex-1"
-            }`}
-          >
+          <div className="order-1 w-full min-w-0 flex-1 lg:order-2">
             <AnimatePresence mode="wait" initial={false}>
-              {isIdle ? (
-                <WelcomeHologram key="welcome" />
-              ) : activePanel ? (
+              {activePanel ? (
                 <HologramPanel
                   key={activePanel}
                   title={panelMeta[activePanel].title}
@@ -356,7 +348,8 @@ export default function HUDShell() {
             </AnimatePresence>
           </div>
         </div>
-      </div>
+        </div>
+      )}
     </div>
   );
 }
