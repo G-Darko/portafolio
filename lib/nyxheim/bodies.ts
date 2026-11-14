@@ -309,13 +309,48 @@ export const NYXHEIM_BODIES: NyxheimBody[] = [
   },
 ];
 
-/** Dock order + arrow-key cycle (only dock bodies). */
+/** Dock order: the 11 dock chips. The panel footer walks NAV_CYCLE
+    instead, so every body is reachable with the arrows. */
 export const DOCK_BODIES: NyxheimBody[] = NYXHEIM_BODIES.filter((b) => b.dock);
 
 /** All project bodies, orbital order (prev/next inside project panels). */
 export const PROJECT_BODIES: NyxheimBody[] = NYXHEIM_BODIES.filter(
   (b) => b.projectSlug
 ).sort((a, b) => a.orbitRadius - b.orbitRadius);
+
+/**
+ * Full navigation cycle for the panel footer arrows: every navigable
+ * body except the sun (it is scenery, not a destination), in orbital
+ * order. CRESER rides right after Duplica, its parent; Sinistra sits
+ * just before Erebo at the edge, and after Erebo the cycle wraps back
+ * to Nyxheim. The dock keeps its own 11-item list.
+ */
+const NAV_CYCLE_IDS = [
+  "base",
+  "project-black-sync",
+  "project-duplica",
+  "project-creser",
+  "certificaciones",
+  "project-skool",
+  "project-krkn",
+  "cv",
+  "project-aerial-depot",
+  "project-yiza",
+  "contacto",
+  "project-rnme",
+  "project-cpmx",
+  "project-leamsi",
+  "project-tienko",
+  "project-postgrados",
+  "sinistra",
+  "erebo",
+];
+
+export const NAV_CYCLE: NyxheimBody[] = NAV_CYCLE_IDS.map((id) => {
+  const body = NYXHEIM_BODIES.find((b) => b.id === id);
+  if (!body) throw new Error(`Nyxheim: NAV_CYCLE id ${id} is not in NYXHEIM_BODIES`);
+  return body;
+});
 
 /**
  * Real favicon/logo of each project, fetched from its own live site and

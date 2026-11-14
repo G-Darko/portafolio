@@ -13,7 +13,7 @@ import { getCvContent, getContactItems } from "@/lib/data/cv";
 import { profileSnapshot } from "@/lib/data/snapshot";
 import { CONTACT_EMAIL, CV_PATH, GITHUB_AVATAR_URL } from "@/lib/data/profile";
 import {
-  DOCK_BODIES,
+  NAV_CYCLE,
   NYXHEIM_STATS,
   PROJECT_BODIES,
   getBodyProject,
@@ -730,9 +730,11 @@ export function NyxheimDetailPanel({ body }: { body: NyxheimBody }) {
     }
   })();
 
-  const dockIdx = DOCK_BODIES.findIndex((b) => b.id === body.id);
-  const dockPrev = dockIdx > 0 ? DOCK_BODIES[(dockIdx - 1 + DOCK_BODIES.length) % DOCK_BODIES.length] : undefined;
-  const dockNext = dockIdx >= 0 ? DOCK_BODIES[(dockIdx + 1) % DOCK_BODIES.length] : undefined;
+  // Footer arrows walk the full cycle (every body except the sun), so
+  // the school projects and CPMX are reachable instead of being skipped.
+  const navIdx = NAV_CYCLE.findIndex((b) => b.id === body.id);
+  const navPrev = navIdx > 0 ? NAV_CYCLE[(navIdx - 1 + NAV_CYCLE.length) % NAV_CYCLE.length] : undefined;
+  const navNext = navIdx >= 0 ? NAV_CYCLE[(navIdx + 1) % NAV_CYCLE.length] : undefined;
 
   return (
     <motion.aside
@@ -805,20 +807,20 @@ export function NyxheimDetailPanel({ body }: { body: NyxheimBody }) {
           {t.nyxheim.backToOverview}
         </button>
         <div className="flex gap-1">
-          {dockPrev && (
+          {navPrev && (
             <button
               type="button"
-              onClick={() => focus(dockPrev.id)}
+              onClick={() => focus(navPrev.id)}
               aria-label={t.nyxheim.prevBody}
               className="hud-focus-ring flex h-10 w-10 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-hud-cyan/10 hover:text-hud-cyan"
             >
               <ChevronLeft size={16} aria-hidden />
             </button>
           )}
-          {dockNext && (
+          {navNext && (
             <button
               type="button"
-              onClick={() => focus(dockNext.id)}
+              onClick={() => focus(navNext.id)}
               aria-label={t.nyxheim.nextBody}
               className="hud-focus-ring flex h-10 w-10 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-hud-cyan/10 hover:text-hud-cyan"
             >

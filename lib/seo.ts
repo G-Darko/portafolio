@@ -20,12 +20,19 @@ export const OG_IMAGE = {
   width: 1200,
   height: 630,
   type: "image/png",
-  alt: "Avatar chibi de Isaac Gael Uribe Ortiz con el texto Full-Stack Developer, tecnologías Next.js, React Native, TypeScript y Node.js, y g-darko.dev",
+  alt: "Sistema solar Exordia de Gael Uribe: sol brillante, órbitas y planetas sobre fondo espacial con su avatar chibi, Full-Stack Developer, Next.js, React Native, TypeScript, Node.js, g-darko.dev y @DARKO_z63",
 };
 
-/** Only set if the API profile exposes an X/Twitter social. */
+/**
+ * Gael's X handle, given by him (2026-11-14). The API profile exposes no
+ * X/Twitter social, so the twitter:site/creator meta falls back to this
+ * instead of being omitted.
+ */
+const X_HANDLE_FALLBACK = "@DARKO_z63";
 const xSocial = profileSnapshot.socials?.find((s) => s.id === "x" || s.id === "twitter");
-const X_HANDLE = xSocial ? `@${xSocial.url.replace(/\/+$/, "").split("/").pop()}` : undefined;
+const X_HANDLE = xSocial
+  ? `@${xSocial.url.replace(/\/+$/, "").split("/").pop()}`
+  : X_HANDLE_FALLBACK;
 
 /** Public profile URLs for schema.org sameAs (no mailto, no self link). */
 export const SAME_AS = (profileSnapshot.socials ?? [])
@@ -61,7 +68,8 @@ export function buildMetadata(opts: { title?: string; description?: string; path
       title,
       description,
       images: [{ url: OG_IMAGE.url, alt: OG_IMAGE.alt }],
-      ...(X_HANDLE ? { site: X_HANDLE, creator: X_HANDLE } : {}),
+      site: X_HANDLE,
+      creator: X_HANDLE,
     },
   };
 }
