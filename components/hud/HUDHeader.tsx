@@ -9,7 +9,7 @@ import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import ThemePalettePicker from "./ThemePalettePicker";
 import { useLocaleStore } from "@/lib/store/useLocaleStore";
 import { useTranslation } from "@/lib/i18n/useTranslation";
-import { useHUDStore, type PanelId } from "@/lib/store/useHUDStore";
+import { type PanelId } from "@/lib/store/useHUDStore";
 import { playHUDClick, playWindowOpen } from "@/lib/audio/audio";
 import HudConfirmDialog from "./HudConfirmDialog";
 import { MORE_PANELS, PRIMARY_PANELS } from "@/lib/hud/navConfig";
@@ -34,7 +34,6 @@ export default function HUDHeader({
   const { resolved, setTheme } = useThemeStore();
   const { locale, toggleLocale } = useLocaleStore();
   const { t } = useTranslation();
-  const { endSession } = useHUDStore();
 
   const moreActive = MORE_PANELS.some(({ id }) => id === activePanel);
 
@@ -76,8 +75,9 @@ export default function HUDHeader({
   };
 
   const confirmRestart = () => {
+    // "Reiniciar sistema" was removed in round 2: the confirm dialog now
+    // just closes. (HUDHeader is unwired; kept on disk for later cleanup.)
     setRestartOpen(false);
-    endSession();
   };
 
   const navButtonClass = (isActive: boolean) =>

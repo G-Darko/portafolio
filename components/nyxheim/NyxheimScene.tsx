@@ -5,7 +5,7 @@ import { NyxheimBodies } from "./NyxheimBodies";
 import { NyxheimCameraRig } from "./NyxheimCameraRig";
 
 /** Thin orbit guides for the main orbits (readability, not to scale). */
-const ORBIT_RINGS = [6.5, 8.5, 11, 13.5, 15, 18.5];
+const ORBIT_RINGS = [6.5, 8.5, 11, 13.5, 15, 18.5, 36];
 
 export function NyxheimScene({ reduced }: { reduced: boolean }) {
   return (

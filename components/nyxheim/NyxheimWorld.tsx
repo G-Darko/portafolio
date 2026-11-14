@@ -4,14 +4,20 @@ import { useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { AnimatePresence, motion } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
-import { DOCK_BODIES, NYXHEIM_STATS } from "@/lib/nyxheim/bodies";
+import { NYXHEIM_STATS } from "@/lib/nyxheim/bodies";
 import { useNyxheimStore, usePrefersReducedMotion } from "@/lib/nyxheim/useNyxheimStore";
 import { NyxheimScene } from "./NyxheimScene";
 import { NyxheimDock } from "./NyxheimDock";
-import { NyxheimDetailPanel } from "./NyxheimDetailPanel";
+import { NyxheimDetailPanel, AvatarImg } from "./NyxheimDetailPanel";
+import { NyxheimTopBar } from "./NyxheimTopBar";
+import { useNyxheimRouting } from "./useNyxheimRouting";
 import { getNyxheimBody } from "@/lib/nyxheim/bodies";
 import HudStatusDot from "@/components/hud/HudStatusDot";
 
+/**
+ * The welcome card is born closed: it opens from the Exordia button in the
+ * top bar (and closes again from there, or when a body is focused).
+ */
 function OverviewCard() {
   const { t } = useTranslation();
   return (
@@ -22,20 +28,28 @@ function OverviewCard() {
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
       className="pointer-events-auto max-w-xs rounded-xl border border-hud-border/60 bg-hud-bg/60 p-4 backdrop-blur-xl md:max-w-sm md:p-5"
     >
-      <p className="flex items-center gap-2 font-mono text-xs tracking-[0.2em] text-hud-green uppercase">
-        <HudStatusDot color="green" />
-        {t.bootup.granted}
-      </p>
-      <h2 className="mt-2 font-mono text-2xl font-bold tracking-[0.18em] text-foreground md:text-3xl">
-        {t.nyxheim.systemName}
-      </h2>
-      <p className="mt-1 font-mono text-sm text-hud-cyan">{t.nyxheim.systemSubtitle}</p>
+      <div className="flex items-center gap-3">
+        <AvatarImg size={52} />
+        <div className="min-w-0">
+          <p className="flex items-center gap-2 font-mono text-xs tracking-[0.2em] text-hud-green uppercase">
+            <HudStatusDot color="green" />
+            {t.bootup.granted}
+          </p>
+          <h2 className="mt-1 font-mono text-2xl font-bold tracking-[0.18em] text-foreground md:text-3xl">
+            {t.nyxheim.systemName}
+          </h2>
+        </div>
+      </div>
+      <p className="mt-2 font-mono text-sm text-hud-cyan">{t.nyxheim.systemSubtitle}</p>
       <p className="mt-3 text-base leading-relaxed text-muted-foreground">{t.bootup.welcomeLead}</p>
       <p className="mt-2 font-mono text-xs text-muted-foreground md:text-sm">
         {t.nyxheim.location} — {t.nyxheim.coordinates}
       </p>
       <p className="mt-3 hidden font-mono text-xs text-muted-foreground md:block">
         {t.nyxheim.hintDrag} — {t.nyxheim.hintZoom}
+      </p>
+      <p className="mt-3 hidden font-mono text-xs text-muted-foreground md:block">
+        {t.nyxheim.hintPan}
       </p>
       <p className="mt-1 font-mono text-xs text-muted-foreground md:hidden">
         {t.nyxheim.focusHint}
@@ -58,13 +72,16 @@ function OverviewCard() {
 export default function NyxheimWorld() {
   const reduced = usePrefersReducedMotion();
   const focusedId = useNyxheimStore((s) => s.focusedId);
-  const focus = useNyxheimStore((s) => s.focus);
+  const overviewOpen = useNyxheimStore((s) => s.overviewOpen);
   const goOverview = useNyxheimStore((s) => s.goOverview);
   const { t } = useTranslation();
   const wrapperRef = useRef<HTMLDivElement>(null);
   // Pause the WebGL loop when the tab is hidden or the world is offscreen,
   // same pattern as TechSphere.
   const [frameloop, setFrameloop] = useState<"always" | "never">("always");
+
+  // Deep routes: every body opens by URL, with history and shareable links.
+  useNyxheimRouting();
 
   useEffect(() => {
     const update = () => {
@@ -87,23 +104,14 @@ export default function NyxheimWorld() {
     };
   }, []);
 
-  // Keyboard travel: arrows cycle the dock, Esc returns to the overview.
+  // Esc returns to the overview. Arrows/WASD fly the camera (camera rig).
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        if (focusedId) goOverview();
-        return;
-      }
-      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
-      const dir = e.key === "ArrowRight" ? 1 : -1;
-      const current = focusedId ? DOCK_BODIES.findIndex((b) => b.id === focusedId) : -1;
-      const next =
-        DOCK_BODIES[(current + dir + DOCK_BODIES.length) % DOCK_BODIES.length];
-      if (next) focus(next.id);
+      if (e.key === "Escape" && focusedId) goOverview();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [focusedId, focus, goOverview]);
+  }, [focusedId, goOverview]);
 
   const focusedBody = focusedId ? getNyxheimBody(focusedId) : undefined;
 
@@ -119,22 +127,29 @@ export default function NyxheimWorld() {
         <NyxheimScene reduced={reduced} />
       </Canvas>
 
-      {/* HTML overlay: overview card, dock, detail panel. */}
+      {/* HTML overlay: top bar, welcome card, dock, detail panel. */}
       <div className="pointer-events-none absolute inset-0 z-10">
-        <div className="absolute top-[4.25rem] left-3 md:top-16 md:left-6">
+        <NyxheimTopBar />
+
+        <div className="absolute top-28 left-3 md:top-16 md:left-6">
           <AnimatePresence>
-            {!focusedBody && <OverviewCard key="overview" />}
+            {overviewOpen && !focusedBody && <OverviewCard key="overview" />}
           </AnimatePresence>
         </div>
 
-        <p className="absolute right-3 bottom-24 hidden font-mono text-xs text-muted-foreground md:right-6 md:bottom-8 md:block">
-          {t.nyxheim.hintKeys}
-        </p>
+        {/* Keyboard hint: only with no panel open — with a panel it would
+            slide under the panel's edge. */}
+        {!focusedBody && (
+          <p className="absolute right-3 bottom-24 hidden font-mono text-xs text-muted-foreground md:right-6 md:bottom-24 md:block">
+            {t.nyxheim.hintKeys}
+          </p>
+        )}
 
         <div
-          className={`absolute bottom-[4.75rem] left-1/2 z-40 -translate-x-1/2 md:bottom-6 ${
+          className={`absolute bottom-3 left-1/2 z-40 -translate-x-1/2 md:bottom-6 ${
             focusedBody ? "max-md:hidden" : ""
           }`}
+          style={{ paddingBottom: "max(0px, env(safe-area-inset-bottom))" }}
         >
           <div className="pointer-events-auto">
             <NyxheimDock reduced={reduced} />

@@ -32,6 +32,7 @@ export function useBodyName(body: NyxheimBody): string {
   if (body.kind === "constellation") return t.nyxheim.sinistra;
   if (body.labelKey === "sun") return t.nyxheim.sun;
   if (body.labelKey === "base") return t.nyxheim.base;
+  if (body.labelKey === "erebo") return t.nyxheim.erebo;
   return body.id;
 }
 
@@ -41,6 +42,25 @@ function BodyLabel({ body }: { body: NyxheimBody }) {
   const setHovered = useNyxheimStore((s) => s.setHovered);
   const focusedId = useNyxheimStore((s) => s.focusedId);
   const focused = focusedId === body.id;
+  // While a panel is open the labels hide: they rendered above the panel
+  // (drei Html z-range) and covered its text. The panel header names the
+  // body already, so nothing is lost.
+  if (focusedId !== null) return null;
+  // The sun is scenery: its tag is a name only, never a button.
+  if (body.kind === "sun") {
+    return (
+      <Html center distanceFactor={14} zIndexRange={[60, 0]}>
+        <span className="pointer-events-none flex shrink-0 items-center gap-1.5 rounded-full border border-hud-border/70 bg-hud-bg/85 px-2.5 py-1 font-mono text-xs font-bold whitespace-nowrap text-foreground backdrop-blur-md">
+          <span
+            aria-hidden
+            className="h-2 w-2 shrink-0 rounded-full"
+            style={{ backgroundColor: body.color, boxShadow: `0 0 8px ${body.color}` }}
+          />
+          {name}
+        </span>
+      </Html>
+    );
+  }
   return (
     <Html center distanceFactor={14} zIndexRange={[60, 0]}>
       <button
@@ -183,11 +203,14 @@ function BodyMesh({ body, reduced }: { body: NyxheimBody; reduced: boolean }) {
   });
 
   useEffect(() => {
+    // The sun is never registered: it does nothing on click, so the
+    // camera rig raycast must never match it.
+    if (body.kind === "sun") return;
     if (groupRef.current) liveBodyObjects.set(body.id, groupRef.current);
     return () => {
       liveBodyObjects.delete(body.id);
     };
-  }, [body.id]);
+  }, [body.id, body.kind]);
 
   const isSun = body.kind === "sun";
 
@@ -222,6 +245,46 @@ function BodyMesh({ body, reduced }: { body: NyxheimBody; reduced: boolean }) {
               />
             </mesh>
             <pointLight intensity={2.2} decay={0} color="#ffd9a0" />
+          </>
+        ) : body.kind === "blackhole" ? (
+          <>
+            {/* Erebo: a pure black sphere (the event horizon) wrapped by a
+                bright accretion disk and a thin photon ring, Gargantua-style. */}
+            <mesh>
+              <sphereGeometry args={[body.size, 48, 48]} />
+              <meshBasicMaterial color="#000000" />
+            </mesh>
+            <mesh rotation-x={Math.PI / 2.35}>
+              <ringGeometry args={[body.size * 1.05, body.size * 2.6, 96]} />
+              <meshBasicMaterial
+                map={texture}
+                transparent
+                opacity={0.95}
+                side={THREE.DoubleSide}
+                blending={THREE.AdditiveBlending}
+                depthWrite={false}
+              />
+            </mesh>
+            <mesh rotation-x={Math.PI / 2.35}>
+              <torusGeometry args={[body.size * 1.02, 0.05, 12, 96]} />
+              <meshBasicMaterial
+                color="#fff7d6"
+                transparent
+                opacity={0.9}
+                blending={THREE.AdditiveBlending}
+                depthWrite={false}
+              />
+            </mesh>
+            <mesh>
+              <sphereGeometry args={[body.size * 1.5, 32, 32]} />
+              <meshBasicMaterial
+                color="#ff8c1a"
+                transparent
+                opacity={0.07}
+                blending={THREE.AdditiveBlending}
+                depthWrite={false}
+              />
+            </mesh>
           </>
         ) : body.kind === "station" ? (
           <>
@@ -341,9 +404,10 @@ function sinistraPosition(
 
 function Constellation({ reduced }: { reduced: boolean }) {
   const groupRef = useRef<THREE.Group>(null);
-  const focus = useNyxheimStore((s) => s.focus);
+  const focusSkill = useNyxheimStore((s) => s.focusSkill);
   const setHoveredSkill = useNyxheimStore((s) => s.setHoveredSkill);
   const hoveredSkillId = useNyxheimStore((s) => s.hoveredSkillId);
+  const focusedSkillId = useNyxheimStore((s) => s.focusedSkillId);
   const focusedId = useNyxheimStore((s) => s.focusedId);
   const isFocused = focusedId === "sinistra";
   const tmp = useMemo(() => new THREE.Vector3(), []);
@@ -385,7 +449,13 @@ function Constellation({ reduced }: { reduced: boolean }) {
   return (
     <group ref={groupRef}>
       {CONSTELLATION_STARS.map((star, i) => {
-        const showLabel = isFocused || hoveredSkillId === star.id;
+        // Star name tags only ride the scene while no panel is open; with a
+        // panel open they would cover its text.
+        const showLabel = focusedId === null && (isFocused || hoveredSkillId === star.id);
+        // Hover lights the star up — and so does being the focused
+        // destination (deep link or click in the panel), so the star you
+        // traveled to is always identifiable.
+        const lit = hoveredSkillId === star.id || focusedSkillId === star.id;
         const initial = sinistraPosition(
           orbits[i].angle,
           orbits[i].radius,
@@ -402,13 +472,25 @@ function Constellation({ reduced }: { reduced: boolean }) {
               onPointerOut={() => setHoveredSkill(null)}
               onClick={(e) => {
                 e.stopPropagation();
-                setHoveredSkill(star.id);
-                focus("sinistra");
+                focusSkill(star.id);
               }}
             >
-              <sphereGeometry args={[hoveredSkillId === star.id ? 0.22 : 0.13, 12, 12]} />
-              <meshBasicMaterial color={star.color} transparent opacity={0.9} />
+              <sphereGeometry args={[lit ? 0.24 : 0.13, 12, 12]} />
+              <meshBasicMaterial color={lit ? "#ffffff" : star.color} transparent opacity={lit ? 1 : 0.9} />
             </mesh>
+            {/* Hover/focus halo: the star lights up while its technology is hovered or focused. */}
+            {lit && (
+              <mesh>
+                <sphereGeometry args={[0.42, 16, 16]} />
+                <meshBasicMaterial
+                  color={star.color}
+                  transparent
+                  opacity={0.35}
+                  blending={THREE.AdditiveBlending}
+                  depthWrite={false}
+                />
+              </mesh>
+            )}
             {showLabel && (
               <Html center distanceFactor={12} zIndexRange={[55, 0]}>
                 <span className="pointer-events-none rounded-full border border-hud-border/70 bg-hud-bg/90 px-2 py-0.5 font-mono text-xs font-bold whitespace-nowrap text-foreground backdrop-blur-md">
@@ -475,6 +557,7 @@ function SinistraLabel({ reduced }: { reduced: boolean }) {
   const angleRef = useRef(-0.7);
   const focus = useNyxheimStore((s) => s.focus);
   const setHovered = useNyxheimStore((s) => s.setHovered);
+  const focusedId = useNyxheimStore((s) => s.focusedId);
   const { t } = useTranslation();
   const tmp = useMemo(() => new THREE.Vector3(), []);
 
@@ -483,6 +566,9 @@ function SinistraLabel({ reduced }: { reduced: boolean }) {
     sinistraPosition(angleRef.current, 22, 1.4, tmp);
     groupRef.current?.position.copy(tmp);
   });
+
+  // Hidden while a panel is open, like every other label.
+  if (focusedId !== null) return null;
 
   return (
     <group ref={groupRef}>

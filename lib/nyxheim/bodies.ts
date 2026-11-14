@@ -24,7 +24,8 @@ export type NyxheimBodyKind =
   | "certs"
   | "cv"
   | "contact"
-  | "constellation";
+  | "constellation"
+  | "blackhole";
 
 export type PlanetTextureKind =
   | "sun"
@@ -36,7 +37,8 @@ export type PlanetTextureKind =
   | "yiza"
   | "rock"
   | "paper"
-  | "metal";
+  | "metal"
+  | "accretion";
 
 export interface NyxheimBody {
   id: string;
@@ -87,7 +89,9 @@ export const NYXHEIM_BODIES: NyxheimBody[] = [
     orbitY: 0,
     spinSpeed: 0.05,
     texture: "sun",
-    dock: true,
+    // The sun is scenery and light: it does nothing on click, it is not a
+    // destination, and the profile only opens from Nyxheim (the station).
+    dock: false,
   },
   {
     id: "base",
@@ -287,6 +291,20 @@ export const NYXHEIM_BODIES: NyxheimBody[] = [
     orbitY: 0,
     spinSpeed: 0,
     texture: "rock",
+    dock: true,
+  },
+  {
+    id: "erebo",
+    kind: "blackhole",
+    labelKey: "erebo",
+    color: "#fb923c",
+    size: 2.2,
+    orbitRadius: 36,
+    orbitAngle: 0.9,
+    orbitSpeed: 0.004,
+    orbitY: 1.0,
+    spinSpeed: 0.05,
+    texture: "accretion",
     dock: true,
   },
 ];

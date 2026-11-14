@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { profileSnapshot } from "@/lib/data/snapshot";
 import { CONTACT_EMAIL, SITE_URL as SITE_URL_SLASH } from "@/lib/data/profile";
 import { missions } from "@/lib/data/missions";
-import { PANEL_PATHS } from "@/lib/hud/routes";
+import { listNyxheimParams, listSinistraSkillParams } from "@/lib/nyxheim/routes";
 
 export const SITE_URL = SITE_URL_SLASH.replace(/\/+$/, "");
 export const FULL_NAME = "Isaac Gael Uribe Ortiz";
@@ -124,10 +124,14 @@ export const PANEL_TITLES: Record<string, string> = {
 
 /** Every static route, for sitemap.xml. */
 export function listSitePaths(): string[] {
-  const panels = Object.values(PANEL_PATHS);
+  // Nyxheim destinations (planets, station, constellation, black hole...),
+  // every technology as its own Sinistra route, the mission pages, and the
+  // CV document (the CV itself lives at /cv, a destination route).
+  const destinations = listNyxheimParams().map((p) => p.panel);
+  const skillPaths = listSinistraSkillParams().map((p) => `sinistra/${p.skill}`);
   const missionPaths = missions.flatMap((m) => [
     `missions/${m.id}`,
     ...m.subMissions.map((s) => `missions/${m.id}/${s.slug}`),
   ]);
-  return ["/", ...panels, ...missionPaths, "cv"].map(canonicalPath);
+  return ["/", ...destinations, ...skillPaths, ...missionPaths, "cv/documento"].map(canonicalPath);
 }

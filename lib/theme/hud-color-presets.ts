@@ -1,6 +1,6 @@
 export type HudPaletteId =
   | "default"
-  | "skool"
+  | "electrico"
   | "ocean"
   | "lavender"
   | "rose"
@@ -31,11 +31,11 @@ export const HUD_PALETTES: HudPaletteMeta[] = [
     swatch: "oklch(0.75 0.18 195)",
   },
   {
-    id: "skool",
-    name: "Skool",
-    nameEn: "Skool",
-    description: "Azul eléctrico del LMS",
-    descriptionEn: "Electric blue from the LMS",
+    id: "electrico",
+    name: "Eléctrico",
+    nameEn: "Electric",
+    description: "Azul eléctrico",
+    descriptionEn: "Electric blue",
     swatch: "oklch(0.731 0.159 238)",
   },
   {
@@ -119,7 +119,13 @@ export const HUD_PALETTES: HudPaletteMeta[] = [
     swatch: "oklch(0.58 0.2 275)",
   },
 ];
-export const DEFAULT_PALETTE_ID: HudPaletteId = "default";
+export const DEFAULT_PALETTE_ID: HudPaletteId = "violet";
+
+export const PALETTE_IDS: HudPaletteId[] = HUD_PALETTES.map((p) => p.id);
+
+export function isHudPaletteId(id: unknown): id is HudPaletteId {
+  return typeof id === "string" && (PALETTE_IDS as string[]).includes(id);
+}
 
 export function getPaletteMeta(id: HudPaletteId): HudPaletteMeta {
   return HUD_PALETTES.find((p) => p.id === id) ?? HUD_PALETTES[0];

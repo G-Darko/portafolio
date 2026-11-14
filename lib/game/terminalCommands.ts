@@ -59,7 +59,6 @@ export interface TerminalStrings {
 }
 
 export interface TerminalActions {
-  endSession: () => void;
   openPanel: (id: PanelId) => void;
   openMissionPanel: (id: MissionId) => void;
   selectSubMission: (id: string | null) => void;
@@ -188,11 +187,6 @@ export function runTerminalCommand(
         { text: `${ctx.t.statusPalette}: ${ctx.paletteId}`, type: "out" },
       ],
     };
-  }
-
-  if (head === "logout" || head === "exit" || head === "restart") {
-    setTimeout(() => ctx.actions.endSession(), 600);
-    return { lines: [{ text: ctx.t.logout, type: "warn" }] };
   }
 
   if (head === "missions") {

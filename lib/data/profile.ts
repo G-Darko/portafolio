@@ -7,6 +7,8 @@ export const CONTACT_EMAIL = contact?.email ?? "contacto@g-darko.dev";
 export const GITHUB_URL = contact?.github ?? "https://github.com/G-Darko";
 export const GITHUB_HANDLE = GITHUB_URL.replace(/\/+$/, "").split("/").pop() ?? "G-Darko";
 export const GITHUB_LABEL = `github.com/${GITHUB_HANDLE}`;
+/** Profile photo: the GitHub avatar of the login in the snapshot. */
+export const GITHUB_AVATAR_URL = `https://github.com/${GITHUB_HANDLE}.png`;
 export const SITE_URL = (contact?.site ?? "https://g-darko.dev").replace(/\/?$/, "/");
 export const SITE_LABEL = new URL(SITE_URL).host;
 export const LINKEDIN_URL = contact?.linkedin;
@@ -15,7 +17,7 @@ export const LINKEDIN_LABEL = LINKEDIN_URL?.replace(/^https?:\/\/(www\.)?/, "").
 /** Local only: the phone is not published by the API. */
 export const PHONE = "+52 720 294 8727";
 export const FORMSPREE_ENDPOINT = "https://formspree.io/f/xlevgjee";
-export const CV_PATH = "/cv";
+export const CV_PATH = "/cv/documento";
 
 /** Digits-only E.164-ish value for `tel:` links. */
 export function telHref(phone: string = PHONE): string {
