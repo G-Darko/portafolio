@@ -317,6 +317,30 @@ export const PROJECT_BODIES: NyxheimBody[] = NYXHEIM_BODIES.filter(
   (b) => b.projectSlug
 ).sort((a, b) => a.orbitRadius - b.orbitRadius);
 
+/**
+ * Real favicon/logo of each project, fetched from its own live site and
+ * verified to load (GET 200, image content-type, 2026-11-14). Remote URLs
+ * only — no binaries are committed. Projects without a public site or
+ * without an accessible favicon have no entry and keep their initial
+ * letter: CRESER (its tenant favicon endpoints answer 404
+ * TENANT_NOT_FOUND from outside), Aerial Depot (no public URL in the
+ * data), Tienko, Postgrados and YIZA (repo only, GitHub has no per-repo
+ * favicon).
+ */
+export const PROJECT_FAVICONS: Record<string, string> = {
+  duplica: "https://duplicamlm.app/api/tenant/icon.svg",
+  skool: "https://skool.com.mx/favicon.ico",
+  rnme: "https://www.redmexicoemprende.mx/icon.png?icon.1642624a.png",
+  krkn: "https://krkn.mx/icons/favicon-32x32.png",
+  cpmx: "https://cpmx.blck-sheep.com/cpmx.png",
+  "black-sync": "https://black-sync.com/BlackSync%20Icon.png",
+  leamsi: "https://leamsi.vercel.app/assets/Logo-leamsi-secundario.svg",
+};
+
+export function getProjectFavicon(slug: string): string | undefined {
+  return PROJECT_FAVICONS[slug];
+}
+
 /** Constellation: one star per skill in the snapshot (31, no Prisma).
     Sinistra: the stars share the system with the planets (inclined orbits
     around the sun, connected by lines), they are not a separate layer. */

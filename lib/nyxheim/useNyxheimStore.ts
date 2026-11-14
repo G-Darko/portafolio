@@ -6,6 +6,11 @@
  */
 import { useEffect, useState } from "react";
 import { create } from "zustand";
+import {
+  playNavigate,
+  playPanelClose,
+  playWindowOpen,
+} from "@/lib/audio/audio";
 
 interface NyxheimState {
   /** Focused body id, or null for the overview. */
@@ -34,18 +39,41 @@ export const useNyxheimStore = create<NyxheimState>()((set, get) => ({
   focusedSkillId: null,
   overviewOpen: false,
 
-  focus: (id, skillId = null) =>
-    set({ focusedId: id, focusedSkillId: skillId, overviewOpen: false }),
-  focusSkill: (skillId) =>
-    set({ focusedId: "sinistra", focusedSkillId: skillId, overviewOpen: false }),
-  goOverview: () => set({ focusedId: null, focusedSkillId: null, overviewOpen: false }),
+  // Cues (Cuelume, via the audio facade — never on hover): opening a body
+  // blooms, traveling between bodies pages, closing droplets. The router
+  // also drives focus (deep links, back/forward), which is a navigation
+  // too; before the first user gesture the AudioContext is suspended and
+  // play() is a silent no-op, so a deep-link load stays quiet.
+  focus: (id, skillId = null) => {
+    const prev = get().focusedId;
+    if (prev === id && get().focusedSkillId === skillId) {
+      set({ focusedId: id, focusedSkillId: skillId, overviewOpen: false });
+      return;
+    }
+    set({ focusedId: id, focusedSkillId: skillId, overviewOpen: false });
+    if (prev === null) playWindowOpen();
+    else playNavigate();
+  },
+  focusSkill: (skillId) => {
+    const { focusedId, focusedSkillId } = get();
+    set({ focusedId: "sinistra", focusedSkillId: skillId, overviewOpen: false });
+    if (focusedId === null) playWindowOpen();
+    else if (focusedId !== "sinistra" || focusedSkillId !== skillId) playNavigate();
+  },
+  goOverview: () => {
+    if (get().focusedId !== null) playPanelClose();
+    set({ focusedId: null, focusedSkillId: null, overviewOpen: false });
+  },
   toggleOverview: () => {
     const { focusedId, overviewOpen } = get();
     if (focusedId) {
       // From a body: back to the overview and open the welcome card.
+      playWindowOpen();
       set({ focusedId: null, focusedSkillId: null, overviewOpen: true });
       return;
     }
+    if (overviewOpen) playPanelClose();
+    else playWindowOpen();
     set({ overviewOpen: !overviewOpen });
   },
   setHovered: (id) => set({ hoveredId: id }),

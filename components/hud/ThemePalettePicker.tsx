@@ -12,8 +12,7 @@ import { useColorThemeStore } from "@/lib/store/useColorThemeStore";
 import { playHUDClick } from "@/lib/audio/audio";
 
 export default function ThemePalettePicker() {
-  const { t, locale } = useTranslation();
-  const { paletteId, setPaletteId } = useColorThemeStore();
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -27,12 +26,6 @@ export default function ThemePalettePicker() {
     document.addEventListener("mousedown", onPointerDown);
     return () => document.removeEventListener("mousedown", onPointerDown);
   }, [open]);
-
-  const handleSelect = (id: HudPaletteId) => {
-    playHUDClick();
-    setPaletteId(id);
-    setOpen(false);
-  };
 
   return (
     <div ref={rootRef} className="relative">
@@ -62,33 +55,50 @@ export default function ThemePalettePicker() {
             <p className="mb-2 font-mono text-xs font-bold tracking-widest text-hud-cyan uppercase">
               {t.theme.palette}
             </p>
-            <div className="scrollbar-thin grid max-h-64 grid-cols-2 gap-1.5 overflow-y-auto pr-0.5">
-              {HUD_PALETTES.map((palette) => {
-                const active = paletteId === palette.id;
-                const label = locale === "es" ? palette.name : palette.nameEn;
-                return (
-                  <button
-                    key={palette.id}
-                    type="button"
-                    onClick={() => handleSelect(palette.id)}
-                    className={`flex items-center gap-2 rounded border px-2 py-2 text-left transition-colors ${
-                      active
-                        ? "border-hud-cyan/60 bg-hud-cyan/10 text-hud-cyan"
-                        : "border-hud-border/60 text-muted-foreground hover:border-hud-border hover:bg-accent/50 hover:text-foreground"
-                    }`}
-                  >
-                    <span
-                      className="h-4 w-4 shrink-0 rounded-full border border-white/20 shadow-[0_0_8px_currentColor]"
-                      style={{ backgroundColor: palette.swatch, color: palette.swatch }}
-                    />
-                    <span className="truncate font-mono text-xs">{label}</span>
-                  </button>
-                );
-              })}
-            </div>
+            <PaletteGrid onSelect={() => setOpen(false)} />
           </motion.div>
         )}
       </AnimatePresence>
+    </div>
+  );
+}
+
+/** The palette grid, shared by the standalone picker and the Nyxheim
+    settings popover (palette + sound + labels in one place). */
+export function PaletteGrid({ onSelect }: { onSelect?: () => void }) {
+  const { locale } = useTranslation();
+  const { paletteId, setPaletteId } = useColorThemeStore();
+
+  const handleSelect = (id: HudPaletteId) => {
+    playHUDClick();
+    setPaletteId(id);
+    onSelect?.();
+  };
+
+  return (
+    <div className="scrollbar-thin grid max-h-64 grid-cols-2 gap-1.5 overflow-y-auto pr-0.5">
+      {HUD_PALETTES.map((palette) => {
+        const active = paletteId === palette.id;
+        const label = locale === "es" ? palette.name : palette.nameEn;
+        return (
+          <button
+            key={palette.id}
+            type="button"
+            onClick={() => handleSelect(palette.id)}
+            className={`flex items-center gap-2 rounded border px-2 py-2 text-left transition-colors ${
+              active
+                ? "border-hud-cyan/60 bg-hud-cyan/10 text-hud-cyan"
+                : "border-hud-border/60 text-muted-foreground hover:border-hud-border hover:bg-accent/50 hover:text-foreground"
+            }`}
+          >
+            <span
+              className="h-4 w-4 shrink-0 rounded-full border border-white/20 shadow-[0_0_8px_currentColor]"
+              style={{ backgroundColor: palette.swatch, color: palette.swatch }}
+            />
+            <span className="truncate font-mono text-xs">{label}</span>
+          </button>
+        );
+      })}
     </div>
   );
 }

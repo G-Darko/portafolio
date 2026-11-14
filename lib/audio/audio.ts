@@ -36,6 +36,26 @@ export function playWindowOpen() {
   play("bloom");
 }
 
+/** A panel closes or collapses: the "droplet" dismiss cue. */
+export function playPanelClose() {
+  play("droplet");
+}
+
+/** Traveling between bodies/routes: the "page" navigation cue. */
+export function playNavigate() {
+  play("page");
+}
+
+/** An action completed (copy, form sent). */
+export function playSuccess() {
+  play("success");
+}
+
+/** A recoverable error (form failed). */
+export function playError() {
+  play("error");
+}
+
 export function playBootupChime() {
   play("chime");
 }

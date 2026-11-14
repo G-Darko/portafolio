@@ -12,6 +12,8 @@ import { NyxheimDetailPanel, AvatarImg } from "./NyxheimDetailPanel";
 import { NyxheimTopBar } from "./NyxheimTopBar";
 import { useNyxheimRouting } from "./useNyxheimRouting";
 import { getNyxheimBody } from "@/lib/nyxheim/bodies";
+import { useHUDStore } from "@/lib/store/useHUDStore";
+import { startAmbient } from "@/lib/audio/ambient";
 import HudStatusDot from "@/components/hud/HudStatusDot";
 
 /**
@@ -26,7 +28,7 @@ function OverviewCard() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-      className="pointer-events-auto max-w-xs rounded-xl border border-hud-border/60 bg-hud-bg/60 p-4 backdrop-blur-xl md:max-w-sm md:p-5"
+      className="pointer-events-auto w-[calc(100vw-1.5rem)] max-w-xs rounded-xl border border-hud-border/60 bg-hud-bg/60 p-4 backdrop-blur-xl md:w-auto md:max-w-sm md:p-5"
     >
       <div className="flex items-center gap-3">
         <AvatarImg size={52} />
@@ -54,14 +56,14 @@ function OverviewCard() {
       <p className="mt-1 font-mono text-xs text-muted-foreground md:hidden">
         {t.nyxheim.focusHint}
       </p>
-      <div className="mt-3 flex gap-4 font-mono text-xs text-muted-foreground md:text-sm">
-        <span>
+      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs text-muted-foreground md:text-sm">
+        <span className="whitespace-nowrap">
           <strong className="text-hud-cyan">{NYXHEIM_STATS.projects}</strong> {t.nyxheim.projects}
         </span>
-        <span>
+        <span className="whitespace-nowrap">
           <strong className="text-hud-cyan">{NYXHEIM_STATS.skills}</strong> {t.nyxheim.technologies}
         </span>
-        <span>
+        <span className="whitespace-nowrap">
           <strong className="text-hud-cyan">{NYXHEIM_STATS.certifications}</strong> {t.nyxheim.certs}
         </span>
       </div>
@@ -113,6 +115,21 @@ export default function NyxheimWorld() {
     return () => window.removeEventListener("keydown", onKey);
   }, [focusedId, goOverview]);
 
+  // Ambient drone: browsers block audio until the user interacts, so it
+  // only starts on the first pointer/key gesture — and only if sound is
+  // enabled in the settings.
+  useEffect(() => {
+    const onFirstGesture = () => {
+      startAmbient(useHUDStore.getState().soundEnabled);
+    };
+    window.addEventListener("pointerdown", onFirstGesture, { once: true });
+    window.addEventListener("keydown", onFirstGesture, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", onFirstGesture);
+      window.removeEventListener("keydown", onFirstGesture);
+    };
+  }, []);
+
   const focusedBody = focusedId ? getNyxheimBody(focusedId) : undefined;
 
   return (
@@ -145,13 +162,16 @@ export default function NyxheimWorld() {
           </p>
         )}
 
+        {/* The dock: on mobile it is a scrollable strip that fits the
+            viewport (inset-x-3 + full width) instead of a centered row
+            wider than the screen, which used to clip at both edges. */}
         <div
-          className={`absolute bottom-3 left-1/2 z-40 -translate-x-1/2 md:bottom-6 ${
+          className={`absolute inset-x-3 bottom-3 z-40 flex justify-center md:inset-x-auto md:bottom-6 md:left-1/2 md:-translate-x-1/2 ${
             focusedBody ? "max-md:hidden" : ""
           }`}
           style={{ paddingBottom: "max(0px, env(safe-area-inset-bottom))" }}
         >
-          <div className="pointer-events-auto">
+          <div className="pointer-events-auto w-full md:w-auto">
             <NyxheimDock reduced={reduced} />
           </div>
         </div>

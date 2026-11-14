@@ -6,6 +6,7 @@ import { useTranslation } from "@/lib/i18n/useTranslation";
 import { getSubMissionCopy } from "@/lib/i18n/missionContent";
 import { DOCK_BODIES, getBodyProject, type NyxheimBody } from "@/lib/nyxheim/bodies";
 import { useNyxheimStore } from "@/lib/nyxheim/useNyxheimStore";
+import { ProjectLogo } from "./ProjectLogo";
 
 function useDockLabel(body: NyxheimBody): string {
   const { t, locale } = useTranslation();
@@ -45,7 +46,7 @@ function DockItem({ body }: { body: NyxheimBody }) {
       onPointerLeave={() => setHovered(null)}
       aria-label={label}
       aria-current={focused ? true : undefined}
-      className="hud-focus-ring group relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border backdrop-blur-md transition-colors will-change-transform md:h-12 md:w-12"
+      className="hud-focus-ring group relative flex h-10 w-10 shrink-0 snap-start items-center justify-center rounded-xl border backdrop-blur-md transition-colors will-change-transform md:h-12 md:w-12"
       style={{
         borderColor: focused ? body.color : "oklch(0.65 0.18 255 / 0.25)",
         backgroundColor: focused ? `${body.color}33` : "oklch(0.08 0.02 240 / 0.7)",
@@ -59,7 +60,11 @@ function DockItem({ body }: { body: NyxheimBody }) {
         className="flex h-7 w-7 items-center justify-center rounded-full font-mono text-xs font-bold md:h-8 md:w-8"
         style={{ backgroundColor: `${body.color}22`, color: body.color }}
       >
-        {label.charAt(0)}
+        {body.projectSlug ? (
+          <ProjectLogo slug={body.projectSlug} label={label} color={body.color} size={26} />
+        ) : (
+          label.charAt(0)
+        )}
       </motion.span>
       <span
         aria-hidden
@@ -122,7 +127,7 @@ export function NyxheimDock({ reduced }: { reduced: boolean }) {
       onMouseLeave={resetMagnification}
       role="navigation"
       aria-label={t.nyxheim.destinations}
-      className="flex items-end gap-1.5 overflow-x-auto rounded-2xl border border-hud-border/60 bg-hud-bg/60 px-2 py-2 shadow-[0_0_30px_oklch(0.65_0.18_255/0.15)] backdrop-blur-xl md:gap-2 md:px-3"
+      className="flex w-full snap-x items-end gap-1.5 overflow-x-auto rounded-2xl border border-hud-border/60 bg-hud-bg/60 px-2 py-2 shadow-[0_0_30px_oklch(0.65_0.18_255/0.15)] backdrop-blur-xl md:w-auto md:gap-2 md:px-3"
       style={{ scrollbarWidth: "none" }}
     >
       {DOCK_BODIES.map((body) => (

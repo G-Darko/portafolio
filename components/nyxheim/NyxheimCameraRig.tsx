@@ -42,6 +42,9 @@ export function NyxheimCameraRig({ reduced }: { reduced: boolean }) {
   const goal = useRef({ radius: 34, theta: -0.6, phi: 1.12 });
   const focusCur = useRef(new THREE.Vector3(0, 0, 0));
   const shiftCur = useRef(0);
+  /** Mobile bottom sheet: how far the look target drops so the focused
+      body floats up into the visible strip above the sheet. */
+  const shiftUpCur = useRef(0);
   /** Free-flight offset from the focused body (or the origin): panning and
       WASD/arrows move this, the orbit still turns around it. */
   const targetOffset = useRef(new THREE.Vector3(0, 0, 0));
@@ -279,6 +282,10 @@ export function NyxheimCameraRig({ reduced }: { reduced: boolean }) {
     sph.current.phi += (goal.current.phi - sph.current.phi) * k;
     const shiftGoal = focusedId && size.width >= 1024 ? 1 : 0;
     shiftCur.current += (shiftGoal - shiftCur.current) * k;
+    // Mobile: the open sheet covers the bottom ~60% of the screen, so the
+    // focused body must ride in the visible top strip.
+    const shiftUpGoal = focusedId && size.width < 768 ? 1 : 0;
+    shiftUpCur.current += (shiftUpGoal - shiftUpCur.current) * k;
 
     const { radius, theta, phi } = sph.current;
     const sinPhi = Math.sin(phi);
@@ -289,10 +296,12 @@ export function NyxheimCameraRig({ reduced }: { reduced: boolean }) {
     );
 
     // Look slightly to the right of the body on desktop so the open panel
-    // does not cover it: the body ends up left of center.
+    // does not cover it: the body ends up left of center. On mobile the
+    // look target drops instead, so the body floats above the bottom sheet.
     tmpForward.copy(focusCur.current).sub(camera.position).normalize();
     tmpRight.crossVectors(tmpForward, camera.up).normalize();
     tmpLook.copy(focusCur.current).addScaledVector(tmpRight, shiftCur.current * PANEL_SHIFT);
+    tmpLook.y -= shiftUpCur.current * sph.current.radius * 0.27;
     camera.lookAt(tmpLook);
   });
 
