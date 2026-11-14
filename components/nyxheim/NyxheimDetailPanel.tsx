@@ -3,7 +3,7 @@
 import { useCallback, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { ChevronLeft, ChevronRight, Copy, Check, ExternalLink, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Copy, Check, ExternalLink, X, Phone } from "lucide-react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { getMissionCopy, getSubMissionCopy } from "@/lib/i18n/missionContent";
 import { missions, type SubMission } from "@/lib/data/missions";
@@ -11,7 +11,7 @@ import { buildSkills, type Skill } from "@/lib/data/skills";
 import { getCertifications } from "@/lib/data/certifications";
 import { getCvContent, getContactItems } from "@/lib/data/cv";
 import { profileSnapshot } from "@/lib/data/snapshot";
-import { CONTACT_EMAIL, CV_PATH } from "@/lib/data/profile";
+import { CONTACT_EMAIL, CV_PATH, GITHUB_AVATAR_URL } from "@/lib/data/profile";
 import {
   DOCK_BODIES,
   NYXHEIM_STATS,
@@ -69,6 +69,73 @@ function OutLink({ href, children }: { href: string; children: ReactNode }) {
       <ExternalLink size={14} aria-hidden />
     </a>
   );
+}
+
+/** Real favicon of a service (the `icon` URL from the profile snapshot).
+    Falls back to the service initial if the remote icon fails to load. */
+function FaviconImg({ src, alt, size = 18 }: { src?: string; alt: string; size?: number }) {
+  const [failed, setFailed] = useState(false);
+  if (!src || failed) {
+    return (
+      <span
+        aria-hidden
+        className="flex shrink-0 items-center justify-center rounded bg-hud-cyan/15 font-mono text-xs font-bold text-hud-cyan"
+        style={{ width: size, height: size }}
+      >
+        {alt.charAt(0)}
+      </span>
+    );
+  }
+  return (
+    <img
+      src={src}
+      alt=""
+      aria-hidden
+      width={size}
+      height={size}
+      loading="lazy"
+      onError={() => setFailed(true)}
+      className="shrink-0 rounded-sm"
+    />
+  );
+}
+
+/** Gael's profile photo (GitHub avatar of the login in the snapshot). */
+export function AvatarImg({ size = 56 }: { size?: number }) {
+  const { t } = useTranslation();
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return (
+      <span
+        aria-hidden
+        className="flex shrink-0 items-center justify-center rounded-full border border-hud-cyan/40 bg-hud-cyan/10 font-mono text-xl font-bold text-hud-cyan"
+        style={{ width: size, height: size }}
+      >
+        G
+      </span>
+    );
+  }
+  return (
+    <img
+      src={GITHUB_AVATAR_URL}
+      alt={t.nyxheim.avatarAlt}
+      width={size}
+      height={size}
+      loading="lazy"
+      onError={() => setFailed(true)}
+      className="shrink-0 rounded-full border border-hud-cyan/40 object-cover"
+      style={{ width: size, height: size }}
+    />
+  );
+}
+
+/** Skill id for a stack chip (match by sprite, then by name). */
+function skillIdForStackItem(item: { title: string; sprite?: string }): string | undefined {
+  if (item.sprite) {
+    const bySprite = buildSkills.find((s) => s.sprite === item.sprite);
+    if (bySprite) return bySprite.id;
+  }
+  return buildSkills.find((s) => s.name.toLowerCase() === item.title.toLowerCase())?.id;
 }
 
 /* ── Project panel ─────────────────────────────────────────── */
@@ -157,12 +224,31 @@ function ProjectPanel({ body, project }: { body: NyxheimBody; project: SubMissio
         <Reveal id="nyx-stack">
           <SectionTitle>{t.nyxheim.stack}</SectionTitle>
           <div className="flex flex-wrap gap-2">
-            {project.stack.map((item, i) => (
-              <Chip key={`${item.title}-${i}`}>
-                <SkillIcon skill={{ icon: item.icon, sprite: item.sprite, uiIcon: undefined }} size={16} />
-                {item.title}
-              </Chip>
-            ))}
+            {project.stack.map((item, i) => {
+              const skillId = skillIdForStackItem(item);
+              const chip = (
+                <>
+                  <SkillIcon skill={{ icon: item.icon, sprite: item.sprite, uiIcon: undefined }} size={16} />
+                  {item.title}
+                </>
+              );
+              // A technology is a destination: click it and the camera flies
+              // to its star in Sinistra (only when it maps to a skill).
+              return skillId ? (
+                <button
+                  key={`${item.title}-${i}`}
+                  type="button"
+                  onClick={() => useNyxheimStore.getState().focusSkill(skillId)}
+                  title={t.nyxheim.goToStar}
+                  aria-label={`${item.title} — ${t.nyxheim.goToStar}`}
+                  className="hud-focus-ring inline-flex items-center gap-1.5 rounded-full border border-hud-border/70 bg-hud-bg/70 px-2.5 py-1 text-sm text-foreground transition-colors hover:border-hud-cyan/60 hover:bg-hud-cyan/10 hover:text-hud-cyan"
+                >
+                  {chip}
+                </button>
+              ) : (
+                <Chip key={`${item.title}-${i}`}>{chip}</Chip>
+              );
+            })}
           </div>
         </Reveal>
 
@@ -236,7 +322,9 @@ const SKILL_GROUP_LABEL: Record<string, "frontend" | "backend" | "mobile" | "dat
 function SkillsPanel() {
   const { t } = useTranslation();
   const hoveredSkillId = useNyxheimStore((s) => s.hoveredSkillId);
+  const focusedSkillId = useNyxheimStore((s) => s.focusedSkillId);
   const setHoveredSkill = useNyxheimStore((s) => s.setHoveredSkill);
+  const focusSkill = useNyxheimStore((s) => s.focusSkill);
 
   const groups = useMemo(() => {
     const map = new Map<string, Skill[]>();
@@ -259,12 +347,15 @@ function SkillsPanel() {
                 <li key={skill.id}>
                   <button
                     type="button"
+                    onClick={() => focusSkill(skill.id)}
+                    title={t.nyxheim.goToStar}
+                    aria-label={`${skill.name} — ${t.nyxheim.goToStar}`}
                     onPointerEnter={() => setHoveredSkill(skill.id)}
                     onPointerLeave={() => setHoveredSkill(null)}
                     onFocus={() => setHoveredSkill(skill.id)}
                     onBlur={() => setHoveredSkill(null)}
                     className={`hud-focus-ring flex w-full items-center gap-2.5 rounded-lg border px-3 py-2 text-left text-base transition-colors ${
-                      hoveredSkillId === skill.id
+                      hoveredSkillId === skill.id || focusedSkillId === skill.id
                         ? "border-hud-cyan/60 bg-hud-cyan/10 text-foreground"
                         : "border-hud-border/50 text-muted-foreground hover:text-foreground"
                     }`}
@@ -412,7 +503,7 @@ function CvPanel() {
   );
 }
 
-/* ── Profile panel (Nyxheim station / the sun) ─────────────── */
+/* ── Profile panel (Nyxheim station only — the sun does nothing) ── */
 
 function ProfilePanel() {
   const { t, locale } = useTranslation();
@@ -420,6 +511,15 @@ function ProfilePanel() {
   return (
     <div className="min-h-0 flex-1 overflow-y-auto p-4 md:p-5">
       <div className="space-y-5">
+        <Reveal>
+          <div className="flex items-center gap-3">
+            <AvatarImg size={56} />
+            <div className="min-w-0">
+              <p className="truncate text-lg leading-snug font-bold text-foreground">{t.profile.name}</p>
+              <p className="font-mono text-sm text-hud-cyan">{t.profile.role}</p>
+            </div>
+          </div>
+        </Reveal>
         <Reveal>
           <SectionTitle>{t.nyxheim.summary}</SectionTitle>
           <p className="text-base leading-relaxed text-pretty text-muted-foreground">{t.profile.about}</p>
@@ -445,9 +545,16 @@ function ProfilePanel() {
           <SectionTitle>{t.nyxheim.links}</SectionTitle>
           <div className="flex flex-wrap gap-2">
             {profileSnapshot.socials.map((s) => (
-              <OutLink key={s.id} href={s.url}>
+              <a
+                key={s.id}
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hud-focus-ring inline-flex min-h-10 items-center gap-2 rounded-lg border border-hud-border/70 bg-hud-cyan/5 px-3 py-2 text-sm font-medium text-hud-cyan transition-colors hover:bg-hud-cyan/15"
+              >
+                <FaviconImg src={s.icon} alt={s.title} />
                 {s.title}
-              </OutLink>
+              </a>
             ))}
           </div>
         </Reveal>
@@ -505,21 +612,57 @@ function ContactPanel() {
         <Reveal>
           <SectionTitle>{t.contact.channels}</SectionTitle>
           <ul className="space-y-2">
-            {items.map((item) => (
-              <li key={item.kind}>
+            {profileSnapshot.socials.map((s) => (
+              <li key={s.id}>
                 <a
-                  href={item.href}
-                  target={item.href.startsWith("http") ? "_blank" : undefined}
-                  rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="hud-focus-ring inline-flex items-center gap-1.5 font-mono text-base text-muted-foreground transition-colors hover:text-hud-cyan"
+                  href={s.url}
+                  target={s.url.startsWith("http") ? "_blank" : undefined}
+                  rel={s.url.startsWith("http") ? "noopener noreferrer" : undefined}
+                  className="hud-focus-ring inline-flex items-center gap-2.5 rounded-lg border border-hud-border/60 bg-hud-bg/40 px-3 py-2 text-base text-foreground transition-colors hover:border-hud-cyan/50 hover:text-hud-cyan"
                 >
-                  {item.label}
-                  {item.href.startsWith("http") && <ExternalLink size={13} aria-hidden />}
+                  <FaviconImg src={s.icon} alt={s.title} size={20} />
+                  <span className="min-w-0 truncate">{s.label ?? s.title}</span>
                 </a>
               </li>
             ))}
+            {items
+              .filter((item) => item.kind === "phone")
+              .map((item) => (
+                <li key={item.kind}>
+                  <a
+                    href={item.href}
+                    className="hud-focus-ring inline-flex items-center gap-2.5 rounded-lg border border-hud-border/60 bg-hud-bg/40 px-3 py-2 font-mono text-base text-muted-foreground transition-colors hover:border-hud-cyan/50 hover:text-hud-cyan"
+                  >
+                    <Phone size={18} aria-hidden className="shrink-0" />
+                    <span className="min-w-0 truncate">{item.label}</span>
+                  </a>
+                </li>
+              ))}
           </ul>
         </Reveal>
+      </div>
+    </div>
+  );
+}
+
+/* ── Erebo panel (the black hole at the edge of Exordia) ─────── */
+
+function EreboPanel() {
+  const { t } = useTranslation();
+  const goOverview = useNyxheimStore((s) => s.goOverview);
+  return (
+    <div className="min-h-0 flex-1 overflow-y-auto p-4 md:p-5">
+      <div className="space-y-5">
+        <Reveal>
+          <p className="text-base leading-relaxed text-pretty text-muted-foreground">{t.nyxheim.ereboAbout}</p>
+        </Reveal>
+        <button
+          type="button"
+          onClick={() => goOverview()}
+          className="hud-focus-ring inline-flex min-h-11 items-center rounded-lg border border-hud-cyan/40 bg-hud-cyan/10 px-4 py-2.5 text-base font-medium text-hud-cyan transition-colors hover:bg-hud-cyan/20"
+        >
+          {t.nyxheim.backToOverview}
+        </button>
       </div>
     </div>
   );
@@ -539,11 +682,9 @@ export function NyxheimDetailPanel({ body }: { body: NyxheimBody }) {
       return { title: copy.title, subtitle: copy.tagline };
     }
     switch (body.kind) {
-      case "sun":
-        // The sun is the center of the system and shows Gael's profile.
-        return { title: t.profile.name, subtitle: t.profile.role };
       case "station":
         // Nyxheim is the station: Gael's profile, living in the system.
+        // (The sun does nothing: it is not a destination and never opens a panel.)
         return { title: t.nyxheim.base, subtitle: t.nyxheim.station };
       case "certs":
         return { title: t.header.certifications, subtitle: t.nyxheim.certs };
@@ -553,6 +694,8 @@ export function NyxheimDetailPanel({ body }: { body: NyxheimBody }) {
         return { title: t.header.contact, subtitle: CONTACT_EMAIL };
       case "constellation":
         return { title: t.nyxheim.sinistra, subtitle: `${NYXHEIM_STATS.skills} ${t.nyxheim.technologies}` };
+      case "blackhole":
+        return { title: t.nyxheim.erebo, subtitle: t.nyxheim.ereboRole };
       default:
         return { title: body.id, subtitle: "" };
     }
@@ -562,8 +705,6 @@ export function NyxheimDetailPanel({ body }: { body: NyxheimBody }) {
     const project = getBodyProject(body);
     if (project) return <ProjectPanel body={body} project={project} />;
     switch (body.kind) {
-      case "sun":
-        return <ProfilePanel />;
       case "station":
         return <ProfilePanel />;
       case "certs":
@@ -574,6 +715,8 @@ export function NyxheimDetailPanel({ body }: { body: NyxheimBody }) {
         return <ContactPanel />;
       case "constellation":
         return <SkillsPanel />;
+      case "blackhole":
+        return <EreboPanel />;
       default:
         return null;
     }
@@ -590,8 +733,18 @@ export function NyxheimDetailPanel({ body }: { body: NyxheimBody }) {
       exit={{ opacity: 0, x: 24 }}
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       aria-label={title}
-      className="pointer-events-auto absolute z-30 flex flex-col overflow-hidden rounded-xl border border-hud-border/80 bg-hud-bg/80 shadow-[0_0_40px_oklch(0.65_0.18_255/0.18)] backdrop-blur-xl max-md:inset-x-3 max-md:bottom-[4.75rem] max-md:max-h-[54vh] md:top-[4.5rem] md:right-4 md:bottom-24 md:w-[min(30rem,44vw)]"
+      className="pointer-events-auto absolute z-30 flex flex-col overflow-hidden rounded-2xl border border-hud-border/80 bg-hud-bg/85 shadow-[0_0_40px_oklch(0.65_0.18_255/0.18)] backdrop-blur-xl max-md:inset-x-3 max-md:bottom-24 max-md:max-h-[52vh] md:top-20 md:right-4 md:bottom-24 md:w-[min(30rem,44vw)]"
+      style={{ boxShadow: `0 0 48px ${body.color}30, 0 0 40px oklch(0.65 0.18 255 / 0.15)` }}
     >
+      {/* Orbit accent: the panel is part of the world — its top edge glows
+          with the focused body's own color. */}
+      <div
+        aria-hidden
+        className="h-1 w-full shrink-0"
+        style={{
+          background: `linear-gradient(90deg, transparent, ${body.color} 35%, ${body.color} 65%, transparent)`,
+        }}
+      />
       <div className="flex items-center justify-between gap-2 border-b border-hud-border/60 px-4 py-2.5">
         <div className="flex min-w-0 items-center gap-2.5">
           {/* Shared element: the dock chip flies here. */}
@@ -604,6 +757,9 @@ export function NyxheimDetailPanel({ body }: { body: NyxheimBody }) {
             {title.charAt(0)}
           </motion.span>
           <div className="min-w-0">
+            <span className="block font-mono text-[10px] tracking-[0.24em] text-hud-cyan/70 uppercase">
+              {t.nyxheim.systemName}
+            </span>
             <span className="block truncate text-base leading-snug font-bold tracking-[0.12em] text-foreground">
               {title}
             </span>

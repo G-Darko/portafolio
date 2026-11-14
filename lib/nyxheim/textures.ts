@@ -217,6 +217,31 @@ const DRAWERS: Record<PlanetTextureKind, (ctx: CanvasRenderingContext2D, w: numb
     }
     speckle(ctx, w, h, "#e2e8f0", 140, 2);
   },
+  // Erebo's accretion disk: planar UVs, so a radial gradient paints the
+  // ring — white-hot inner edge, amber mid-band, transparent outside.
+  accretion: (ctx, w, h) => {
+    const cx = w / 2;
+    const cy = h / 2;
+    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, w / 2);
+    g.addColorStop(0, "rgba(0,0,0,0)");
+    g.addColorStop(0.28, "rgba(0,0,0,0)");
+    g.addColorStop(0.36, "rgba(255, 244, 214, 0.95)");
+    g.addColorStop(0.5, "rgba(251, 146, 60, 0.9)");
+    g.addColorStop(0.68, "rgba(234, 88, 12, 0.55)");
+    g.addColorStop(0.85, "rgba(124, 45, 18, 0.22)");
+    g.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, w, h);
+    // Hot streaks in the disk.
+    for (let i = 0; i < 90; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const r = w * (0.36 + Math.random() * 0.3);
+      ctx.fillStyle = `rgba(255, ${200 + Math.floor(Math.random() * 55)}, 180, ${0.25 + Math.random() * 0.5})`;
+      ctx.beginPath();
+      ctx.arc(cx + Math.cos(a) * r, cy + Math.sin(a) * r, 1 + Math.random() * 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  },
 };
 
 /** Memoize per kind: textures are shared by every body of that kind. */

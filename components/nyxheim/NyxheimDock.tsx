@@ -19,6 +19,7 @@ function useDockLabel(body: NyxheimBody): string {
   if (body.kind === "constellation") return t.nyxheim.sinistra;
   if (body.labelKey === "sun") return t.nyxheim.sun;
   if (body.labelKey === "base") return t.nyxheim.base;
+  if (body.labelKey === "erebo") return t.nyxheim.erebo;
   return body.id;
 }
 
@@ -27,7 +28,7 @@ function DockItem({ body }: { body: NyxheimBody }) {
   const focusedId = useNyxheimStore((s) => s.focusedId);
   const focus = useNyxheimStore((s) => s.focus);
   const setHovered = useNyxheimStore((s) => s.setHovered);
-  const focused = focusedId === body.id || (body.id === "sol" && focusedId === null);
+  const focused = focusedId === body.id;
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const onClick = () => {

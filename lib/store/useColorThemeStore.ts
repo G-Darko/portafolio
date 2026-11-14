@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import {
   DEFAULT_PALETTE_ID,
+  isHudPaletteId,
   type HudPaletteId,
 } from "@/lib/theme/hud-color-presets";
 
@@ -27,7 +28,13 @@ export const useColorThemeStore = create<ColorThemeState>()(
     {
       name: "gdarko-hud-palette",
       onRehydrateStorage: () => (state) => {
-        if (state) applyPaletteAttribute(state.paletteId);
+        if (!state) return;
+        // Migrate stored palettes: the old 'skool' id is now 'electrico';
+        // anything unknown falls back to the violet default.
+        const stored = state.paletteId === ("skool" as HudPaletteId) ? "electrico" : state.paletteId;
+        const paletteId = isHudPaletteId(stored) ? stored : DEFAULT_PALETTE_ID;
+        state.paletteId = paletteId;
+        applyPaletteAttribute(paletteId);
       },
     }
   )

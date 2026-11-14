@@ -7,7 +7,7 @@ import BootupSequence from "@/components/hud/BootupSequence";
 import HUDShell from "@/components/hud/HUDShell";
 import HudThemeProvider from "@/components/HudThemeProvider";
 import EasterEggManager from "@/components/hud/EasterEggManager";
-import { parseHudPath } from "@/lib/hud/routes";
+import { parseNyxheimPath } from "@/lib/nyxheim/routes";
 import { initHudAudio, syncHudAudioEnabled } from "@/lib/audio/audio";
 
 export default function PortfolioApp() {
@@ -33,11 +33,11 @@ export default function PortfolioApp() {
     syncHudAudioEnabled(soundEnabled);
   }, [hydrated, soundEnabled]);
 
-  // Deep links skip the boot gate so shared URLs open the panel directly
+  // Deep links skip the boot gate so shared URLs open the destination directly
   useEffect(() => {
     if (!hydrated) return;
-    const { panel } = parseHudPath(pathname);
-    if (panel && !sessionActive && !bootupDone) {
+    const dest = parseNyxheimPath(pathname);
+    if ((dest.valid || dest.legacyHref) && pathname !== "/" && !sessionActive && !bootupDone) {
       completeBoot();
     }
   }, [hydrated, pathname, sessionActive, bootupDone, completeBoot]);

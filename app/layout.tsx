@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import { MotionConfig } from "motion/react";
 import "./globals.css";
 import { THEME_COLOR, buildJsonLd, rootMetadata } from "@/lib/seo";
+import { DEFAULT_PALETTE_ID, PALETTE_IDS } from "@/lib/theme/hud-color-presets";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -15,10 +16,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: THEME_COLOR },
-    { media: "(prefers-color-scheme: light)", color: "#f7f7f7" },
-  ],
+  // Dark only: the site has no light mode (round 2).
+  themeColor: THEME_COLOR,
 };
 
 export const metadata: Metadata = rootMetadata;
@@ -32,7 +31,7 @@ export default function RootLayout({
     <html
       lang="es"
       className={`${poppins.variable} antialiased dark`}
-      data-palette="default"
+      data-palette={DEFAULT_PALETTE_ID}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
@@ -42,22 +41,23 @@ export default function RootLayout({
             __html: `
               (function () {
                 try {
+                  // Dark only: light mode was removed in round 2. The class is
+                  // always on; stored values from the old light/dark toggle
+                  // are ignored.
+                  document.documentElement.classList.add("dark");
+                  // Palette, restored from storage; the old 'skool' id
+                  // migrates to 'electrico', anything unknown falls back to
+                  // the violet default.
+                  var allowed = ${JSON.stringify(PALETTE_IDS)};
                   var paletteRaw = localStorage.getItem("gdarko-hud-palette");
                   if (paletteRaw) {
                     var paletteState = JSON.parse(paletteRaw).state;
-                    if (paletteState && paletteState.paletteId) {
-                      document.documentElement.dataset.palette = paletteState.paletteId;
+                    var paletteId = paletteState && paletteState.paletteId;
+                    if (paletteId === "skool") paletteId = "electrico";
+                    if (allowed.indexOf(paletteId) !== -1) {
+                      document.documentElement.dataset.palette = paletteId;
                     }
                   }
-                  var themeRaw = localStorage.getItem("gdarko-hud-theme");
-                  if (themeRaw) {
-                    var themeState = JSON.parse(themeRaw).state;
-                    var theme = themeState && themeState.theme ? themeState.theme : "dark";
-                    var dark = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-                    document.documentElement.classList.toggle("dark", dark);
-                    return;
-                  }
-                  document.documentElement.classList.add("dark");
                 } catch (_) {}
               })();
             `,

@@ -100,7 +100,7 @@ components:
 
 This is a personal portfolio dressed as a builder’s workshop rendered in hologram glass: precise, technical, and playfully controlled. The HUD is atmosphere and personality — not a competing product. Identity, work proof, and contact must remain readable before chrome, meters, or optional systems theater.
 
-Depth comes from **glow + border** and **frosted glass panels** (backdrop blur, translucent `hud-bg`, inset highlights). Default dark console is the home key; light mode and alternate palettes exist but signature remains G-Darko Holo Cyan / Ops Blue. Anti-references: saturated cyberpunk neon stacks, generic SaaS dashboards, and purple-on-white AI-template looks.
+Depth comes from **glow + border** and **frosted glass panels** (backdrop blur, translucent `hud-bg`, inset highlights). Default dark console is the home key; alternate palettes exist (dark only, light mode was removed in the Nyxheim round 2) but signature remains G-Darko Holo Cyan / Ops Blue. Anti-references: saturated cyberpunk neon stacks, generic SaaS dashboards, and purple-on-white AI-template looks.
 
 **Key Characteristics:**
 - Hologram Workshop mood: craft first, OS costume second
@@ -111,7 +111,7 @@ Depth comes from **glow + border** and **frosted glass panels** (backdrop blur, 
 
 ## Colors
 
-Default dark G-Darko palette is normative. Alternate `data-palette` themes remint Holo Cyan / Ops Blue only; status greens/reds/ambers stay readable.
+Dark is the only mode and the violet palette is the default. Alternate `data-palette` themes remint Holo Cyan / Ops Blue only; status greens/reds/ambers stay readable.
 
 ### Primary
 - **Holo Cyan** (`oklch(0.8 0.18 195)` dark / `oklch(0.75 0.18 195)` light): accent text, active nav, focus rings, scan accents, primary CTAs on hover.
@@ -133,7 +133,7 @@ Default dark G-Darko palette is normative. Alternate `data-palette` themes remin
 ### Named Rules
 **The One Voice Rule.** Holo Cyan is the speaking accent. Use it for hierarchy and focus — not as a full-bleed wash. Rarity keeps the workshop precise.
 
-**The Signature Palette Rule.** G-Darko (default) is the brand home. Extra palettes are optional visitor toys; new surfaces should design against default dark first.
+**The Signature Palette Rule.** Violet (default) is the brand home. Extra palettes are optional visitor toys; new surfaces should design against default dark first.
 
 ## Typography
 

@@ -53,8 +53,7 @@ export default function TerminalPanel() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { endSession, openMissionPanel, selectSubMission, openPanel } =
-    useHUDStore();
+  const { openMissionPanel, selectSubMission, openPanel } = useHUDStore();
   const { totalPercent, secretsFound, unlockSecret } = useProgressStore();
   const setLocale = useLocaleStore((s) => s.setLocale);
   const { paletteId, setPaletteId } = useColorThemeStore();
@@ -147,7 +146,6 @@ export default function TerminalPanel() {
       paletteId,
       t: terminalStrings,
       actions: {
-        endSession,
         openPanel,
         openMissionPanel,
         selectSubMission,

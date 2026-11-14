@@ -23,7 +23,6 @@ interface HUDState {
   konamiActive: boolean;
 
   completeBoot: () => void;
-  endSession: () => void;
   openPanel: (id: PanelId) => void;
   closePanel: () => void;
   togglePanel: (id: PanelId) => void;
@@ -47,15 +46,6 @@ export const useHUDStore = create<HUDState>()(
       konamiActive: false,
 
       completeBoot: () => set({ sessionActive: true, bootupDone: true }),
-      endSession: () =>
-        set((s) => ({
-          sessionActive: false,
-          bootupDone: false,
-          activePanel: null,
-          activeMissionId: null,
-          activeSubMissionId: null,
-          bootEpoch: s.bootEpoch + 1,
-        })),
       openPanel: (id) =>
         set({
           activePanel: id,
