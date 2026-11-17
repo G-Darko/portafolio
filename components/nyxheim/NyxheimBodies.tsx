@@ -393,6 +393,16 @@ function BodyMesh({ body, reduced }: { body: NyxheimBody; reduced: boolean }) {
  */
 const SINISTRA_TILT = 0.42;
 
+/**
+ * Below this camera distance a star (core + halo) shrinks in proportion to
+ * its distance, so its apparent size never exceeds what it looks like at
+ * this range. Farther away a star is exactly as before: from the overview
+ * the closest star is ~7 units away, and the Sinistra focus sits 16 units
+ * from its anchor star, so those views look the same — only a camera flown
+ * right up to a star stops seeing a giant disc.
+ */
+const STAR_CLOSE_RANGE = 6;
+
 /** Position on the tilted Sinistra band for a given orbit angle. */
 function sinistraPosition(
   angle: number,
@@ -431,7 +441,7 @@ function Constellation({ reduced }: { reduced: boolean }) {
   );
   const anglesRef = useRef(orbits.map((o) => o.angle));
 
-  useFrame(({ clock }, delta) => {
+  useFrame(({ camera, clock }, delta) => {
     const group = groupRef.current;
     if (!group) return;
     const t = clock.getElapsedTime();
@@ -442,6 +452,17 @@ function Constellation({ reduced }: { reduced: boolean }) {
       sinistraPosition(anglesRef.current[i], orbit.radius, orbit.yBase, tmp);
       child.position.copy(tmp);
       liveStarPositions[i]?.copy(tmp);
+      // Distance attenuation: shrink the star core and its halo when the
+      // camera gets close, so neither ever blows up into a disc.
+      const closeScale = THREE.MathUtils.clamp(
+        camera.position.distanceTo(tmp) / STAR_CLOSE_RANGE,
+        0,
+        1
+      );
+      const core = child.children[0];
+      if (core instanceof THREE.Mesh) core.scale.setScalar(closeScale);
+      const halo = child.children[1];
+      if (halo instanceof THREE.Mesh) halo.scale.setScalar(closeScale);
       if (!reduced) {
         const mesh = child.children[0] as THREE.Mesh | undefined;
         if (mesh) {

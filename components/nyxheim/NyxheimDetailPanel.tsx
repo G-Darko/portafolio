@@ -780,7 +780,7 @@ export function NyxheimDetailPanel({ body }: { body: NyxheimBody }) {
               {title}
             </span>
             {subtitle && (
-              <span className="block truncate font-mono text-sm leading-snug text-muted-foreground">
+              <span className="block font-mono text-sm leading-snug text-muted-foreground max-md:line-clamp-2 md:truncate">
                 {subtitle}
               </span>
             )}
