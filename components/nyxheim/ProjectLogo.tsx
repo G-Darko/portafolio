@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { getProjectFavicon } from "@/lib/nyxheim/bodies";
 
 /**
@@ -34,7 +35,7 @@ export function ProjectLogo({
     );
   }
   return (
-    <img
+    <Image
       src={src}
       alt=""
       aria-hidden

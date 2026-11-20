@@ -582,7 +582,6 @@ try {
         // KRKN: dismiss promo for whatever user id is stored
         await page.evaluate(() => {
           try {
-            const raw = localStorage.getItem("usuario") || localStorage.getItem("user");
             // also blanket-set for ids found in any auth payload
             for (let i = 0; i < localStorage.length; i++) {
               const k = localStorage.key(i);

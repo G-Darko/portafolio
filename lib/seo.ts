@@ -2,7 +2,6 @@
 import type { Metadata } from "next";
 import { profileSnapshot } from "@/lib/data/snapshot";
 import { CONTACT_EMAIL, SITE_URL as SITE_URL_SLASH } from "@/lib/data/profile";
-import { missions } from "@/lib/data/missions";
 import { listNyxheimParams, listSinistraSkillParams } from "@/lib/nyxheim/routes";
 
 export const SITE_URL = SITE_URL_SLASH.replace(/\/+$/, "");
@@ -39,7 +38,47 @@ export const SAME_AS = (profileSnapshot.socials ?? [])
   .map((s) => s.url)
   .filter((url) => /^https?:\/\//.test(url) && !url.startsWith(SITE_URL));
 
-/** Normalize a route to the trailing-slash form emitted by the static export. */
+/** Truncate a description to ~155 chars on a word boundary (meta description). */
+export function metaDescription(text: string, max = 155): string {
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length <= max) return clean;
+  const cut = clean.slice(0, max - 1);
+  const lastSpace = cut.lastIndexOf(" ");
+  return `${(lastSpace > 40 ? cut.slice(0, lastSpace) : cut).trimEnd()}…`;
+}
+
+/** One meta description per destination body without project copy. */
+const DESTINATION_DESCRIPTIONS: Record<string, string> = {
+  nyxheim:
+    "Nyxheim es el perfil de Gael Uribe dentro de Exordia: desarrollador Full-Stack y Mobile, experiencia, proyectos y contacto.",
+  sinistra:
+    "Sinistra es la constelación de las 31 tecnologías de Gael Uribe: TypeScript, React, Next.js, React Native, Node.js y más.",
+  certificaciones:
+    "Certificaciones de Gael Uribe: Cisco CCNA, Python, JavaScript, Linux y CONOCER EC0160.",
+  cv: "CV de Isaac Gael Uribe Ortiz, desarrollador Full-Stack: experiencia en Black Sheep Labs, proyectos, habilidades y certificaciones.",
+  contacto:
+    "Contacto de Gael Uribe: escríbele por el formulario o directo a contacto@g-darko.dev.",
+  erebo: "Erebo, el agujero negro al borde de Exordia, el sistema solar de Gael Uribe.",
+};
+
+export function destinationDescription(segment: string): string | undefined {
+  return DESTINATION_DESCRIPTIONS[segment];
+}
+
+/** One meta description per Sinistra technology (name + category). */
+const SKILL_CATEGORY_LABELS: Record<string, string> = {
+  frontend: "frontend",
+  backend: "backend",
+  mobile: "móvil",
+  database: "bases de datos",
+  graphics: "3D y audio",
+  tools: "herramientas",
+};
+
+export function skillDescription(skill: { name: string; category: string }): string {
+  const category = SKILL_CATEGORY_LABELS[skill.category] ?? skill.category;
+  return `${skill.name} en Sinistra, la constelación de tecnologías de Gael Uribe (${category}). Explora su estrella en el sistema solar Exordia.`;
+}
 export function canonicalPath(path = "/"): string {
   const clean = path.replace(/^\/+|\/+$/g, "");
   return clean ? `/${clean}/` : "/";
@@ -120,26 +159,12 @@ export function buildJsonLd() {
   return { "@context": "https://schema.org", "@graph": [person, website] };
 }
 
-export const PANEL_TITLES: Record<string, string> = {
-  profile: "Perfil",
-  missions: "Misiones y proyectos",
-  skills: "Habilidades",
-  certifications: "Certificaciones",
-  terminal: "Terminal",
-  minigame: "Minijuego",
-  contact: "Contacto",
-};
-
 /** Every static route, for sitemap.xml. */
 export function listSitePaths(): string[] {
   // Nyxheim destinations (planets, station, constellation, black hole...),
-  // every technology as its own Sinistra route, the mission pages, and the
-  // CV document (the CV itself lives at /cv, a destination route).
+  // every technology as its own Sinistra route, and the CV document
+  // (the CV itself lives at /cv, a destination route).
   const destinations = listNyxheimParams().map((p) => p.panel);
   const skillPaths = listSinistraSkillParams().map((p) => `sinistra/${p.skill}`);
-  const missionPaths = missions.flatMap((m) => [
-    `missions/${m.id}`,
-    ...m.subMissions.map((s) => `missions/${m.id}/${s.slug}`),
-  ]);
-  return ["/", ...destinations, ...skillPaths, ...missionPaths, "cv/documento"].map(canonicalPath);
+  return ["/", ...destinations, ...skillPaths, "cv/documento"].map(canonicalPath);
 }

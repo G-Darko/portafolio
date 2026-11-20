@@ -313,11 +313,6 @@ export const NYXHEIM_BODIES: NyxheimBody[] = [
     instead, so every body is reachable with the arrows. */
 export const DOCK_BODIES: NyxheimBody[] = NYXHEIM_BODIES.filter((b) => b.dock);
 
-/** All project bodies, orbital order (prev/next inside project panels). */
-export const PROJECT_BODIES: NyxheimBody[] = NYXHEIM_BODIES.filter(
-  (b) => b.projectSlug
-).sort((a, b) => a.orbitRadius - b.orbitRadius);
-
 /**
  * Full navigation cycle for the panel footer arrows: every navigable
  * body except the sun (it is scenery, not a destination), in orbital
@@ -353,11 +348,19 @@ export const NAV_CYCLE: NyxheimBody[] = NAV_CYCLE_IDS.map((id) => {
 });
 
 /**
+ * The footer cycle, projects only: the prev/next inside project panels
+ * walks this, so both controls agree. (Sorting by orbitRadius would put
+ * CRESER first: its 3.6 is its orbit around Duplica, not the sun.)
+ */
+export const PROJECT_NAV_CYCLE: NyxheimBody[] = NAV_CYCLE.filter((b) => b.projectSlug);
+
+/**
  * Real favicon/logo of each project, fetched from its own live site and
- * verified to load (GET 200, image content-type, 2026-11-14). Remote URLs
- * only — no binaries are committed. Projects without a public site or
- * without an accessible favicon have no entry and keep their initial
- * letter: CRESER (its tenant favicon endpoints answer 404
+ * verified to load (GET 200, image content-type, 2026-11-14). Remote URLs,
+ * except Black Sync: its 274 KB remote icon is served locally instead
+ * (public/img/black-sync-icon.webp, 128px, 2.2 KB). Projects without a
+ * public site or without an accessible favicon have no entry and keep
+ * their initial letter: CRESER (its tenant favicon endpoints answer 404
  * TENANT_NOT_FOUND from outside), Aerial Depot (no public URL in the
  * data), Tienko, Postgrados and YIZA (repo only, GitHub has no per-repo
  * favicon).
@@ -368,7 +371,7 @@ export const PROJECT_FAVICONS: Record<string, string> = {
   rnme: "https://www.redmexicoemprende.mx/icon.png?icon.1642624a.png",
   krkn: "https://krkn.mx/icons/favicon-32x32.png",
   cpmx: "https://cpmx.blck-sheep.com/cpmx.png",
-  "black-sync": "https://black-sync.com/BlackSync%20Icon.png",
+  "black-sync": "/img/black-sync-icon.webp",
   leamsi: "https://leamsi.vercel.app/assets/Logo-leamsi-secundario.svg",
 };
 

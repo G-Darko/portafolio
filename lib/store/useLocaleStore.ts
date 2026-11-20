@@ -17,13 +17,28 @@ function detectLocale(): Locale {
   return lang.startsWith("es") ? "es" : "en";
 }
 
+/** Keep <html lang> in sync so screen readers and search engines see the
+    active language (the attribute is also restored pre-hydration in
+    app/layout.tsx). */
+function applyHtmlLang(l: Locale) {
+  if (typeof document !== "undefined") {
+    document.documentElement.lang = l;
+  }
+}
+
 export const useLocaleStore = create<LocaleState>()(
   persist(
     (set, get) => ({
       locale: detectLocale(),
-      setLocale: (l) => set({ locale: l }),
-      toggleLocale: () =>
-        set({ locale: get().locale === "es" ? "en" : "es" }),
+      setLocale: (l) => {
+        applyHtmlLang(l);
+        set({ locale: l });
+      },
+      toggleLocale: () => {
+        const next = get().locale === "es" ? "en" : "es";
+        applyHtmlLang(next);
+        set({ locale: next });
+      },
     }),
     {
       name: "gdarko-hud-locale",
@@ -31,6 +46,7 @@ export const useLocaleStore = create<LocaleState>()(
         if (!state) return;
         const detected = detectLocale();
         if (!state.locale) state.locale = detected;
+        applyHtmlLang(state.locale);
       },
     }
   )

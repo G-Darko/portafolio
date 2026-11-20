@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { ChevronLeft, ChevronRight, Copy, Check, ExternalLink, X, Phone } from "lucide-react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
@@ -15,7 +16,7 @@ import { CONTACT_EMAIL, CV_PATH, GITHUB_AVATAR_URL } from "@/lib/data/profile";
 import {
   NAV_CYCLE,
   NYXHEIM_STATS,
-  PROJECT_BODIES,
+  PROJECT_NAV_CYCLE,
   getBodyProject,
   getProjectBodyBySlug,
   getSiblingProjects,
@@ -90,7 +91,7 @@ function FaviconImg({ src, alt, size = 18 }: { src?: string; alt: string; size?:
     );
   }
   return (
-    <img
+    <Image
       src={src}
       alt=""
       aria-hidden
@@ -119,7 +120,7 @@ export function AvatarImg({ size = 56 }: { size?: number }) {
     );
   }
   return (
-    <img
+    <Image
       src={GITHUB_AVATAR_URL}
       alt={t.nyxheim.avatarAlt}
       width={size}
@@ -160,9 +161,9 @@ function ProjectPanel({ body, project }: { body: NyxheimBody; project: SubMissio
     [reduced]
   );
 
-  const idx = PROJECT_BODIES.findIndex((b) => b.id === body.id);
-  const prev = PROJECT_BODIES[(idx - 1 + PROJECT_BODIES.length) % PROJECT_BODIES.length];
-  const next = PROJECT_BODIES[(idx + 1) % PROJECT_BODIES.length];
+  const idx = PROJECT_NAV_CYCLE.findIndex((b) => b.id === body.id);
+  const prev = PROJECT_NAV_CYCLE[(idx - 1 + PROJECT_NAV_CYCLE.length) % PROJECT_NAV_CYCLE.length];
+  const next = PROJECT_NAV_CYCLE[(idx + 1) % PROJECT_NAV_CYCLE.length];
   const siblings = getSiblingProjects(body);
   const isCreser = body.projectSlug === "creser";
 
@@ -616,7 +617,11 @@ function ContactPanel() {
         <Reveal>
           <SectionTitle>{t.contact.channels}</SectionTitle>
           <ul className="space-y-2">
-            {profileSnapshot.socials.map((s) => (
+            {/* No "Portafolio" (it links to this same site) and no email
+                entry: the address is already the mailto button above. */}
+            {profileSnapshot.socials
+              .filter((s) => s.id !== "portfolio" && s.id !== "email")
+              .map((s) => (
               <li key={s.id}>
                 <a
                   href={s.url}
@@ -699,7 +704,7 @@ export function NyxheimDetailPanel({ body }: { body: NyxheimBody }) {
       case "cv":
         return { title: "CV", subtitle: t.profile.name };
       case "contact":
-        return { title: t.header.contact, subtitle: CONTACT_EMAIL };
+        return { title: t.header.contact, subtitle: t.contact.channels };
       case "constellation":
         return { title: t.nyxheim.sinistra, subtitle: `${NYXHEIM_STATS.skills} ${t.nyxheim.technologies}` };
       case "blackhole":
@@ -732,8 +737,9 @@ export function NyxheimDetailPanel({ body }: { body: NyxheimBody }) {
 
   // Footer arrows walk the full cycle (every body except the sun), so
   // the school projects and CPMX are reachable instead of being skipped.
+  // Both arrows wrap: from Nyxheim, "previous" goes back to Erebo.
   const navIdx = NAV_CYCLE.findIndex((b) => b.id === body.id);
-  const navPrev = navIdx > 0 ? NAV_CYCLE[(navIdx - 1 + NAV_CYCLE.length) % NAV_CYCLE.length] : undefined;
+  const navPrev = navIdx >= 0 ? NAV_CYCLE[(navIdx - 1 + NAV_CYCLE.length) % NAV_CYCLE.length] : undefined;
   const navNext = navIdx >= 0 ? NAV_CYCLE[(navIdx + 1) % NAV_CYCLE.length] : undefined;
 
   return (

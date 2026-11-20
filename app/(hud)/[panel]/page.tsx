@@ -1,4 +1,4 @@
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, destinationDescription, metaDescription } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { destinationTitle, listNyxheimParams } from "@/lib/nyxheim/routes";
 import { getProjectBodyBySlug } from "@/lib/nyxheim/bodies";
@@ -11,23 +11,10 @@ type PageProps = {
 
 /**
  * Every Nyxheim destination is a static route (`/nyxheim`, `/duplica`,
- * `/sinistra`, `/erebo`, ...) plus the legacy HUD paths, which stay emitted
- * so old shared links mount the shell and redirect to their new home.
+ * `/sinistra`, `/erebo`, ...). Legacy HUD paths (`/profile`,
+ * `/missions/...`, `/skills`, ...) do not exist and do not redirect.
  */
-const LEGACY_SEGMENTS = [
-  "profile",
-  "missions",
-  "skills",
-  "certifications",
-  "contact",
-  "terminal",
-  "minigame",
-];
-
-const VALID = new Set<string>([
-  ...listNyxheimParams().map((p) => p.panel),
-  ...LEGACY_SEGMENTS,
-]);
+const VALID = new Set<string>(listNyxheimParams().map((p) => p.panel));
 
 export function generateStaticParams() {
   return [...VALID].map((panel) => ({ panel }));
@@ -36,10 +23,12 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps) {
   const { panel } = await params;
   const project = getProjectBodyBySlug(panel);
-  const title = project
-    ? getSubMissionCopy("es", getSubMissionBySlug(project.missionId!, project.projectSlug!)!).title
-    : (destinationTitle(panel) ?? panel);
-  return buildMetadata({ title, path: panel });
+  if (project) {
+    const copy = getSubMissionCopy("es", getSubMissionBySlug(project.missionId!, project.projectSlug!)!);
+    return buildMetadata({ title: copy.title, description: metaDescription(copy.description), path: panel });
+  }
+  const title = destinationTitle(panel) ?? panel;
+  return buildMetadata({ title, description: destinationDescription(panel), path: panel });
 }
 
 /** Destination routes — the shell lives in (hud)/layout. */

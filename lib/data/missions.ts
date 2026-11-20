@@ -57,11 +57,3 @@ export function getProjectSlug(sm: SubMission): string {
 export function missionSpriteIds(mission: Mission): string[] {
   return [...new Set(mission.subMissions.flatMap((s) => s.spriteIds))];
 }
-
-export function listMissionParams(): { missionId: string }[] {
-  return missions.map((m) => ({ missionId: m.id }));
-}
-
-export function listMissionProjectParams(): { missionId: string; projectId: string }[] {
-  return missions.flatMap((m) => m.subMissions.map((sm) => ({ missionId: m.id, projectId: sm.slug })));
-}

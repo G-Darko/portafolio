@@ -27,7 +27,7 @@ export const useThemeStore = create<ThemeState>()(
     (set) => ({
       theme: "dark",
       resolved: "dark",
-      setTheme: (t) => {
+      setTheme: () => {
         // The theme is always dark now; stored values are ignored.
         const resolved = "dark" as const;
         set({ theme: "dark", resolved });

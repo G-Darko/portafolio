@@ -21,14 +21,14 @@ const es = {
       watchIntro: "Ver intro",
       tagline: "Gael Uribe — software y web",
       featuredLabel: "Destacado",
-      featuredMission: "Black Sheep Lab — misiones SaaS",
+      featuredMission: "Black Sheep Labs — misiones SaaS",
       title: "G-DARKO OS",
       welcomeTitle: "Sistema en línea",
       welcomeHint: "Mira el trabajo, el perfil o escribe — el resto del taller está en Más.",
       welcomeLead:
         "Construyo software y experiencias web. Aquí está la prueba y cómo contactarme.",
       typewriterRoles: [
-        "Desarrollador de Software y Web",
+        "Full-Stack Developer",
         "Ingeniero en Tecnologías de la Información",
         "Constructor de SaaS y experiencias móviles",
         "Arquitecto de sistemas G-Darko",
@@ -67,9 +67,9 @@ const es = {
     },
     profile: {
       name: "Gael Uribe",
-      role: "Desarrollador de Software y Web",
+      role: "Full-Stack Developer",
       about:
-        "Ingeniero en Tecnologías de la Información. Apasionado por el desarrollo web y de software. Me encanta aprender nuevas tecnologías y mejorar mis habilidades en programación. Me considero una persona analítica y siempre dispuesta a enfrentar nuevos desafíos. Destaco por mi capacidad de adaptación, aprendizaje rápido y enfoque en la eficiencia.",
+        "Desarrollador Full-Stack y Mobile en Black Sheep Labs. Lidero Duplica, la app de capacitación con más de 1,200 usuarios y 246 suscripciones activas, y construyo productos SaaS con TypeScript, Next.js, React Native y PostgreSQL: del aula y la comunidad a los pagos y las integraciones con ERP.",
       viewCv: "Ver CV",
       contact: "Contacto",
     },
@@ -260,6 +260,10 @@ const es = {
       labels: "Etiquetas",
       labelsHover: "Al pasar el cursor",
       labelsAlways: "Siempre visibles",
+      toggleLanguage: "Cambiar idioma",
+      prevSlide: "Diapositiva anterior",
+      nextSlide: "Diapositiva siguiente",
+      slide: "Diapositiva",
     },
 } as const;
 
@@ -280,14 +284,14 @@ const en: Copy = {
       watchIntro: "Watch intro",
       tagline: "Gael Uribe — software & web",
       featuredLabel: "Featured",
-      featuredMission: "Black Sheep Lab — SaaS missions",
+      featuredMission: "Black Sheep Labs — SaaS missions",
       title: "G-DARKO OS",
       welcomeTitle: "System online",
       welcomeHint: "See the work, the profile, or write — the rest of the workshop lives under More.",
       welcomeLead:
         "I build software and web experiences. Here is the proof and how to reach me.",
       typewriterRoles: [
-        "Software and Web Developer",
+        "Full-Stack Developer",
         "Information Technology Engineer",
         "SaaS and mobile experience builder",
         "G-Darko systems architect",
@@ -326,9 +330,9 @@ const en: Copy = {
     },
     profile: {
       name: "Gael Uribe",
-      role: "Software and Web Developer",
+      role: "Full-Stack Developer",
       about:
-        "Information Technology Engineer. Passionate about web and software development. I love learning new technologies and improving my programming skills. I consider myself an analytical person always willing to face new challenges. I stand out for my adaptability, fast learning, and focus on efficiency.",
+        "Full-Stack & Mobile Developer at Black Sheep Labs. I lead Duplica, the training app with 1,200+ users and 246 active subscriptions, and I build SaaS products with TypeScript, Next.js, React Native, and PostgreSQL: from classroom and community to payments and ERP integrations.",
       viewCv: "View CV",
       contact: "Contact",
     },
@@ -519,6 +523,10 @@ const en: Copy = {
       labels: "Labels",
       labelsHover: "On hover",
       labelsAlways: "Always visible",
+      toggleLanguage: "Toggle language",
+      prevSlide: "Previous slide",
+      nextSlide: "Next slide",
+      slide: "Slide",
     },
 };
 

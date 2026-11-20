@@ -125,7 +125,7 @@ const L = (es: string, en: string): Localized => ({ es, en });
 const ROLE_SPECS: CvRoleSpec[] = [
   {
     title: L("Desarrollador Full-Stack y Mobile", "Full-Stack & Mobile Developer"),
-    org: L("Black Sheep Lab", "Black Sheep Lab"),
+    org: L("Black Sheep Labs", "Black Sheep Labs"),
     period: { mission: "black-sheep" },
     bullets: [
       {
@@ -257,7 +257,7 @@ const COPY: Record<Locale, Omit<CvContent, "contact" | "roles" | "skillGroups" |
     legalName: "Isaac Gael Uribe Ortiz",
     headline: "Desarrollador Full-Stack | Web, mobile e integraciones con ERP",
     summary:
-      "Desarrollador full-stack en Black Sheep Lab: construyo y mantengo productos en producción, de la app móvil y la web al backend, con TypeScript, Next.js, React Native y PostgreSQL. Publiqué Duplica en App Store y Google Play y desarrollo integraciones con el ERP Microsip (Firebird).",
+      "Desarrollador full-stack en Black Sheep Labs: construyo y mantengo productos en producción, de la app móvil y la web al backend, con TypeScript, Next.js, React Native y PostgreSQL. Publiqué Duplica en App Store y Google Play y desarrollo integraciones con el ERP Microsip (Firebird).",
     location: "México",
     titles: {
       summary: "Perfil",
@@ -278,7 +278,7 @@ const COPY: Record<Locale, Omit<CvContent, "contact" | "roles" | "skillGroups" |
     legalName: "Isaac Gael Uribe Ortiz",
     headline: "Full-Stack Developer | Web, mobile & ERP integrations",
     summary:
-      "Full-stack developer at Black Sheep Lab: I build and maintain products in production, from mobile app and web to backend, with TypeScript, Next.js, React Native, and PostgreSQL. Shipped Duplica to the App Store and Google Play and build integrations with the Microsip ERP (Firebird).",
+      "Full-stack developer at Black Sheep Labs: I build and maintain products in production, from mobile app and web to backend, with TypeScript, Next.js, React Native, and PostgreSQL. Shipped Duplica to the App Store and Google Play and build integrations with the Microsip ERP (Firebird).",
     location: "Mexico",
     titles: {
       summary: "Summary",

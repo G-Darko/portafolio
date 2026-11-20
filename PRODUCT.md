@@ -43,7 +43,7 @@ Visited on desktop and mobile browsers; often as a cold link from a résumé, Gi
 ## Evidence on Hand
 
 - Profile copy and role (Software / Web Developer; IT Engineer framing in terminal/CV).
-- Missions / project briefs (including orgs such as Black Sheep Lab and others in content); some entries still use mockup placeholders — do not invent screenshots or case metrics.
+- Missions / project briefs (including orgs such as Black Sheep Labs and others in content); some entries still use mockup placeholders — do not invent screenshots or case metrics.
 - Certifications and skills panels in the HUD.
 - CV page at `/cv`.
 - Contact form via Formspree; no alternate in-HUD mailto is currently surfaced as a primary control.

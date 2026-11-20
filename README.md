@@ -12,15 +12,15 @@ Sitio interactivo con metáfora HUD (“Hologram Workshop”), misiones/proyecto
 
 | Ruta / módulo | Descripción |
 | --- | --- |
-| `/` | Shell HUD: perfil, misiones, skills, certificaciones, contacto, terminal y extras |
-| `/missions/...` | Casos de trabajo (Black Sheep Lab, freelance, academia) con media y stack |
-| `/skills` | Catálogo de tecnologías + orbe 3D enlazado al stack de cada misión |
-| `/cv` | CV curado (destacados) + descarga PDF client-side |
-| Temas | Paletas HUD, modo claro/oscuro, locale ES/EN |
+| `/` | Sistema solar Exordia: mundo 3D navegable con bienvenida |
+| `/{cuerpo}` | Cada destino por ruta: `/nyxheim`, `/duplica`, `/sinistra`, `/erebo`, `/cv`, `/contacto`, `/certificaciones` |
+| `/sinistra/<tecnología>` | Constelación de tecnologías, una estrella por ruta |
+| `/cv/documento` | CV en una página A4, listo para imprimir/PDF |
+| Temas | Paletas HUD, modo oscuro, locale ES/EN |
 
 ### Experiencia destacada (contenido)
 
-- **Black Sheep Lab** — ownership end-to-end: LMS multi-tenant (Skool), apps Expo (Duplica / CRESER white-label), integraciones WhatsApp/ERP (Black Sync, KRKN), WMS/etiquetas (Firebird, ZPL/TSPL).
+- **Black Sheep Labs** — ownership end-to-end: LMS multi-tenant (Skool), apps Expo (Duplica / CRESER white-label), integraciones WhatsApp/ERP (Black Sync, KRKN), WMS/etiquetas (Firebird, ZPL/TSPL).
 - Freelance y formación aplicada (Astro, Aerial Depot, estancias UPVM) como soporte secundario.
 
 ---

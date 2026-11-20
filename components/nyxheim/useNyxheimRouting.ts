@@ -26,17 +26,11 @@ export function useNyxheimRouting() {
   const syncingFromUrl = useRef(false);
   const lastHref = useRef(pathname);
 
-  // URL → store (back/forward, deep links, soft nav, legacy redirects).
+  // URL → store (back/forward, deep links, soft nav).
   useEffect(() => {
     if (!sessionActive && !bootupDone) return;
     const dest = parseNyxheimPath(pathname);
     if (!dest.valid) return;
-
-    if (dest.legacyHref) {
-      lastHref.current = dest.legacyHref;
-      router.replace(dest.legacyHref, { scroll: false });
-      return;
-    }
 
     syncingFromUrl.current = true;
     const store = useNyxheimStore.getState();
