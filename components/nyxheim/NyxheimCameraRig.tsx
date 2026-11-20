@@ -227,7 +227,7 @@ export function NyxheimCameraRig({ reduced }: { reduced: boolean }) {
       el.removeEventListener("wheel", onWheel);
       el.removeEventListener("contextmenu", onContextMenu);
     };
-  }, [gl, camera, focus, raycaster, size]);
+  }, [gl, camera, focus, raycaster, size, tmpForward, tmpRight]);
 
   useFrame((_, delta) => {
     if (typeof document !== "undefined" && document.hidden) return;
@@ -253,7 +253,7 @@ export function NyxheimCameraRig({ reduced }: { reduced: boolean }) {
       const speed = sph.current.radius * 0.55 * Math.min(delta, 0.05);
       const boost = 2.2;
       tmpForward.copy(tmpFocus).sub(camera.position);
-      tmpForward.y = 0;
+      tmpForward.setY(0);
       tmpForward.normalize();
       tmpRight.crossVectors(tmpForward, tmpUp).normalize();
       tmpMove.set(0, 0, 0);
@@ -262,8 +262,8 @@ export function NyxheimCameraRig({ reduced }: { reduced: boolean }) {
       if (k.has("KeyS")) tmpMove.sub(tmpForward);
       if (k.has("KeyD")) tmpMove.add(tmpRight);
       if (k.has("KeyA")) tmpMove.sub(tmpRight);
-      if (k.has("KeyE")) tmpMove.y += 1;
-      if (k.has("KeyQ")) tmpMove.y -= 1;
+      if (k.has("KeyE")) tmpMove.setY(tmpMove.y + 1);
+      if (k.has("KeyQ")) tmpMove.setY(tmpMove.y - 1);
       if (tmpMove.lengthSq() > 0) {
         tmpMove.normalize().multiplyScalar(speed * boost);
         targetOffset.current.add(tmpMove);
@@ -301,7 +301,7 @@ export function NyxheimCameraRig({ reduced }: { reduced: boolean }) {
     tmpForward.copy(focusCur.current).sub(camera.position).normalize();
     tmpRight.crossVectors(tmpForward, camera.up).normalize();
     tmpLook.copy(focusCur.current).addScaledVector(tmpRight, shiftCur.current * PANEL_SHIFT);
-    tmpLook.y -= shiftUpCur.current * sph.current.radius * 0.27;
+    tmpLook.setY(tmpLook.y - shiftUpCur.current * sph.current.radius * 0.27);
     camera.lookAt(tmpLook);
   });
 

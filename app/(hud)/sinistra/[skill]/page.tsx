@@ -1,4 +1,4 @@
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, skillDescription } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { listSinistraSkillParams } from "@/lib/nyxheim/routes";
 import { buildSkills } from "@/lib/data/skills";
@@ -17,6 +17,7 @@ export async function generateMetadata({ params }: PageProps) {
   const found = buildSkills.find((s) => s.id === skill);
   return buildMetadata({
     title: found ? `${found.name} — Sinistra` : "Sinistra",
+    description: found ? skillDescription(found) : undefined,
     path: `sinistra/${skill}`,
   });
 }

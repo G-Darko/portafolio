@@ -53,6 +53,21 @@ function DockItem({ body }: { body: NyxheimBody }) {
         boxShadow: focused ? `0 0 18px ${body.color}66` : undefined,
       }}
     >
+      {/* Static copy of the icon: the shared element above flies to the
+          detail panel header when this body is focused, which used to leave
+          the dock cell empty. This copy stays put, so the cell always shows
+          its icon. */}
+      <span
+        aria-hidden
+        className="absolute top-1/2 left-1/2 flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full font-mono text-xs font-bold md:h-8 md:w-8"
+        style={{ backgroundColor: `${body.color}22`, color: body.color }}
+      >
+        {body.projectSlug ? (
+          <ProjectLogo slug={body.projectSlug} label={label} color={body.color} size={26} />
+        ) : (
+          label.charAt(0)
+        )}
+      </span>
       {/* Shared element: this chip morphs into the detail panel header. */}
       <motion.span
         layoutId={`nyx-chip-${body.id}`}
@@ -120,6 +135,10 @@ export function NyxheimDock({ reduced }: { reduced: boolean }) {
       });
   }, []);
 
+  {/* On desktop the 11 chips fit, so the strip overflows visibly: hover
+      labels and the magnified icon are never clipped at the top
+      (overflow-x-auto would clip the Y axis too). On mobile the strip
+      scrolls, with a fade at the right edge hinting there is more. */}
   return (
     <div
       ref={containerRef}
@@ -127,7 +146,7 @@ export function NyxheimDock({ reduced }: { reduced: boolean }) {
       onMouseLeave={resetMagnification}
       role="navigation"
       aria-label={t.nyxheim.destinations}
-      className="flex w-full snap-x items-end gap-1.5 overflow-x-auto rounded-2xl border border-hud-border/60 bg-hud-bg/60 px-2 py-2 shadow-[0_0_30px_oklch(0.65_0.18_255/0.15)] backdrop-blur-xl md:w-auto md:gap-2 md:px-3"
+      className="flex w-full snap-x items-end gap-1.5 overflow-x-auto rounded-2xl border border-hud-border/60 bg-hud-bg/60 px-2 py-2 shadow-[0_0_30px_oklch(0.65_0.18_255/0.15)] backdrop-blur-xl max-md:[mask-image:linear-gradient(to_right,black_85%,transparent_100%)] md:w-auto md:gap-2 md:overflow-visible md:px-3"
       style={{ scrollbarWidth: "none" }}
     >
       {DOCK_BODIES.map((body) => (

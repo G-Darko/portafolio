@@ -4,7 +4,7 @@ import { FULL_NAME, JOB_TITLE } from "@/lib/seo";
 import PortfolioApp from "@/components/PortfolioApp";
 
 /**
- * Persistent HUD shell across /profile, /missions, etc.
+ * Persistent HUD shell across the Nyxheim destinations.
  * The page slot only exists so static export can emit shareable HTML;
  * UI lives here so soft navigations never remount the orb/header.
  */

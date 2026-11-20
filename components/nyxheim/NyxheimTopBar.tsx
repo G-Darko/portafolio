@@ -79,10 +79,11 @@ export function NyxheimTopBar() {
         </button>
 
         {/* Section navigator: the important destinations, always visible.
-            Scrollable with snap on mobile so no pill is ever cut in half. */}
+            Scrollable with snap on mobile so no pill is ever cut in half;
+            the fade at the right edge hints the row scrolls. */}
         <nav
           aria-label={t.nyxheim.sections}
-          className="order-3 flex w-full snap-x gap-1.5 overflow-x-auto px-0.5 pb-1 md:order-2 md:w-auto md:flex-1 md:justify-center md:overflow-visible md:pb-0"
+          className="order-3 flex w-full snap-x gap-1.5 overflow-x-auto px-0.5 pb-1 max-md:[mask-image:linear-gradient(to_right,black_85%,transparent_100%)] md:order-2 md:w-auto md:flex-1 md:justify-center md:overflow-visible md:pb-0"
           style={{ scrollbarWidth: "none" }}
         >
           {SECTIONS.map(({ id }) => {
@@ -118,8 +119,8 @@ export function NyxheimTopBar() {
               toggleLocale();
             }}
             className="flex h-11 items-center justify-center rounded px-2 font-mono text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground md:text-base"
-            title="Toggle language"
-            aria-label="Toggle language"
+            title={t.nyxheim.toggleLanguage}
+            aria-label={t.nyxheim.toggleLanguage}
           >
             <Globe size={14} className="mr-1" aria-hidden />
             {locale.toUpperCase()}

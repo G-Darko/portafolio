@@ -229,6 +229,11 @@ html[data-magicui-theme-vt="active"]::view-transition-new(root) {
   .hud-shell [role="menuitem"] {
     min-height: 2.75rem;
   }
+  /* Carousel dots are indicators, not touch targets: they keep their dot
+     size instead of stretching into tall bars. */
+  .hud-shell button.carousel-indicator {
+    min-height: 0;
+  }
 }
 
 @layer components {

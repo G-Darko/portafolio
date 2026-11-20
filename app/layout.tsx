@@ -58,6 +58,16 @@ export default function RootLayout({
                       document.documentElement.dataset.palette = paletteId;
                     }
                   }
+                  // Locale, restored from storage so <html lang> matches
+                  // the active language before hydration.
+                  var localeRaw = localStorage.getItem("gdarko-hud-locale");
+                  if (localeRaw) {
+                    var localeState = JSON.parse(localeRaw).state;
+                    var locale = localeState && localeState.locale;
+                    if (locale === "es" || locale === "en") {
+                      document.documentElement.lang = locale;
+                    }
+                  }
                 } catch (_) {}
               })();
             `,

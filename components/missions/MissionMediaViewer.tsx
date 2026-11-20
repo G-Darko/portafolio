@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { asset } from "@/lib/asset";
+import { useTranslation } from "@/lib/i18n/useTranslation";
 
 interface MissionMediaViewerProps {
   images: string[];
@@ -29,6 +30,7 @@ export default function MissionMediaViewer({
   video,
   title,
 }: MissionMediaViewerProps) {
+  const { t } = useTranslation();
   const slides = useMemo(
     () =>
       video
@@ -99,7 +101,7 @@ export default function MissionMediaViewer({
               type="button"
               onClick={() => go(index - 1)}
               className="absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-hud-border/60 bg-hud-bg/80 text-hud-cyan backdrop-blur-sm transition-colors hover:bg-hud-cyan/10"
-              aria-label="Diapositiva anterior"
+              aria-label={t.nyxheim.prevSlide}
             >
               <ChevronLeft size={16} />
             </button>
@@ -107,7 +109,7 @@ export default function MissionMediaViewer({
               type="button"
               onClick={() => go(index + 1)}
               className="absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-hud-border/60 bg-hud-bg/80 text-hud-cyan backdrop-blur-sm transition-colors hover:bg-hud-cyan/10"
-              aria-label="Diapositiva siguiente"
+              aria-label={t.nyxheim.nextSlide}
             >
               <ChevronRight size={16} />
             </button>
@@ -123,10 +125,10 @@ export default function MissionMediaViewer({
                 key={i}
                 type="button"
                 onClick={() => setIndex(i)}
-                className={`h-1.5 rounded-full transition-all ${
+                className={`carousel-indicator h-1.5 rounded-full transition-all ${
                   i === index ? "w-4 bg-hud-cyan" : "w-1.5 bg-hud-cyan/30"
                 }`}
-                aria-label={`Diapositiva ${i + 1}`}
+                aria-label={`${t.nyxheim.slide} ${i + 1}`}
                 aria-current={i === index ? true : undefined}
               />
             ))}

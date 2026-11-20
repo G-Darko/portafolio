@@ -367,6 +367,13 @@
       "icon": "https://api.g-darko.dev/icon/linkedin.svg"
     },
     {
+      "id": "x",
+      "title": "X",
+      "url": "https://x.com/DARKO_z63",
+      "color": "#6366f1",
+      "icon": "https://api.g-darko.dev/icon/x.svg"
+    },
+    {
       "id": "discord",
       "title": "Discord",
       "url": "https://discord.com/users/darko_z63",

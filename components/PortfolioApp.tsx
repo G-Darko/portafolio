@@ -39,7 +39,7 @@ export default function PortfolioApp() {
   useEffect(() => {
     if (!hydrated) return;
     const dest = parseNyxheimPath(pathname);
-    if ((dest.valid || dest.legacyHref) && pathname !== "/" && !sessionActive && !bootupDone) {
+    if (dest.valid && pathname !== "/" && !sessionActive && !bootupDone) {
       completeBoot();
     }
   }, [hydrated, pathname, sessionActive, bootupDone, completeBoot]);
