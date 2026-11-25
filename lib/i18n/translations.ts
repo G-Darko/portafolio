@@ -283,6 +283,7 @@ const es = {
     legacy: {
       home: "Inicio",
       about: "Sobre mí",
+      aboutNav: "Sobre mi",
       experience: "Experiencia",
       portfolio: "Portafolio",
       projects: "Proyectos",
@@ -306,8 +307,9 @@ const es = {
       certBadge: "Ver insignia en Credly",
       certValidate: "Validar en RENAP",
       certView: "Ver certificado",
+      certFolio: "Folio para validar",
       visitSite: "Ir a la página",
-      typewriterRoles: ["Desarrollador web", "Desarrollador de software", "Full-Stack", "Mobile"],
+      typewriterRoles: ["Desarrollador web & ", "de Software: ", "Frontend &", "Backend."],
     },
 } as const;
 
@@ -590,6 +592,7 @@ const en: Copy = {
     legacy: {
       home: "Home",
       about: "About me",
+      aboutNav: "About me",
       experience: "Experience",
       portfolio: "Portfolio",
       projects: "Projects",
@@ -613,8 +616,9 @@ const en: Copy = {
       certBadge: "View badge on Credly",
       certValidate: "Verify on RENAP",
       certView: "View certificate",
+      certFolio: "Validation folio",
       visitSite: "Visit page",
-      typewriterRoles: ["Web developer", "Software developer", "Full-Stack", "Mobile"],
+      typewriterRoles: ["Web developer & ", "Software: ", "Frontend &", "Backend."],
     },
 };
 
