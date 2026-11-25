@@ -174,8 +174,7 @@ export function buildJsonLd() {
  * era URLs — the home and deep links of non-active eras with real
  * content (`/era/hud/`, `/era/hud/missions/`, ...). Excluded on purpose:
  * `/era/<active>/` (canonical → `/`, noindex), its deep links (canonical
- * → their root twin), `/era/legacy/` (placeholder, noindex until PR-2)
- * and the `/cv/documento/` alias (canonical → `/cv/`).
+ * → their root twin) and the `/cv/documento/` alias (canonical → `/cv/`).
  */
 export function listSitePaths(): string[] {
   // Nyxheim destinations (planets, station, constellation, black hole...),

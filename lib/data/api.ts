@@ -101,6 +101,18 @@ export interface ApiMission {
   projects: ApiProject[];
 }
 
+export interface ApiExperienceItem {
+  id: string;
+  title: string;
+  tagline: string;
+  description?: string;
+  org: string;
+  orgUrl?: string;
+  period?: ApiPeriod;
+  url?: string;
+  stack: ApiStackItem[];
+}
+
 export interface ApiCertification {
   id: string;
   name: string;
@@ -118,6 +130,8 @@ export interface ApiProfile {
   skills: ApiSkill[];
   socials: ApiSocial[];
   missions: ApiMission[];
+  /** Work timeline (same projects as the missions, flat, with org + live URL). */
+  experience: ApiExperienceItem[];
   certifications: ApiCertification[];
 }
 
@@ -159,6 +173,11 @@ export function parseSkills(data: unknown): ApiSkill[] {
   return isObj(data) ? list<ApiSkill>(data.skills, isApiSkill) : [];
 }
 
+const isExperienceItem = (e: Obj): boolean =>
+  isStr(e.id) && isStr(e.title) && isStr(e.tagline) && optStr(e.description) && isStr(e.org) &&
+  optStr(e.orgUrl) && optStr(e.url) && (e.period === undefined || isPeriod(e.period)) &&
+  Array.isArray(e.stack);
+
 /** Full `/api/profile` payload, or null when it is not one. */
 export function parseProfile(data: unknown): ApiProfile | null {
   if (!isObj(data) || !isStr(data.name)) return null;
@@ -170,6 +189,10 @@ export function parseProfile(data: unknown): ApiProfile | null {
     skills: parseSkills(data),
     socials: list<ApiSocial>(data.socials, (s) => isStr(s.id) && isStr(s.title) && isStr(s.url)),
     missions: Array.isArray(data.missions) ? data.missions.flatMap((m) => (isObj(m) ? parseMission(m) : [])) : [],
+    experience: list<ApiExperienceItem>(data.experience, isExperienceItem).map((e) => ({
+      ...e,
+      stack: list<ApiStackItem>(e.stack, (s) => isStr(s.title)),
+    })),
     certifications: list<ApiCertification>(data.certifications, (c) => isStr(c.id) && isStr(c.name) && isStr(c.issuer) && isStr(c.issuedAt)),
   };
 }
