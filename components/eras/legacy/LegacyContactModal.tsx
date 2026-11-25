@@ -52,7 +52,7 @@ export default function LegacyContactModal({
       <div className="relative max-h-[90%] w-full max-w-[800px] overflow-y-auto rounded-[30px] bg-[#121212] shadow-[0_5px_15px_rgba(255,255,255,0.25)] max-md:w-[calc(100%-5px)]">
         <header className="sticky top-0 z-10">
           <div className="bg-[#222] pr-[45px]">
-            <h2 className="p-2.5 text-xl font-bold text-[#66ccff]">{t.legacy.contactTitle}</h2>
+            <h2 className="p-2.5 text-[1.5em] font-bold text-[#66ccff]">{t.legacy.contactTitle}</h2>
           </div>
           <button
             type="button"
@@ -75,7 +75,7 @@ export default function LegacyContactModal({
                 placeholder=" "
                 className="w-full rounded-[10px] border-2 border-white/25 bg-[#222] p-5 text-[1.3em] text-[#f0f0f0] outline-none transition-colors peer focus:border-[#0df8f9]"
               />
-              <label className="pointer-events-none absolute top-5 left-0 px-5 text-[1.3em] text-[#f0f0f0] uppercase transition-all duration-500 peer-focus:translate-x-5 peer-focus:-translate-y-7 peer-focus:border-x peer-focus:border-[#0df8f9] peer-focus:bg-[#222] peer-focus:px-2.5 peer-focus:text-[0.85em] peer-focus:tracking-[0.2em] peer-focus:text-[#0df8f9] peer-[:not(:placeholder-shown)]:translate-x-5 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:border-x peer-[:not(:placeholder-shown)]:border-[#0df8f9] peer-[:not(:placeholder-shown)]:bg-[#222] peer-[:not(:placeholder-shown)]:px-2.5 peer-[:not(:placeholder-shown)]:text-[0.85em] peer-[:not(:placeholder-shown)]:tracking-[0.2em] peer-[:not(:placeholder-shown)]:text-[#0df8f9]">
+              <label className="pointer-events-none absolute top-5 left-0 px-5 text-[1.3em] text-[#f0f0f0] uppercase transition-all duration-500 peer-focus:translate-x-5 peer-focus:-translate-y-[7px] peer-focus:border-x peer-focus:border-[#0df8f9] peer-focus:bg-[#222] peer-focus:px-2.5 peer-focus:text-[0.85em] peer-focus:tracking-[0.2em] peer-focus:text-[#0df8f9] peer-[:not(:placeholder-shown)]:translate-x-5 peer-[:not(:placeholder-shown)]:-translate-y-[7px] peer-[:not(:placeholder-shown)]:border-x peer-[:not(:placeholder-shown)]:border-[#0df8f9] peer-[:not(:placeholder-shown)]:bg-[#222] peer-[:not(:placeholder-shown)]:px-2.5 peer-[:not(:placeholder-shown)]:text-[0.85em] peer-[:not(:placeholder-shown)]:tracking-[0.2em] peer-[:not(:placeholder-shown)]:text-[#0df8f9]">
                 {t.legacy.emailLabel}
               </label>
             </div>
@@ -87,13 +87,13 @@ export default function LegacyContactModal({
                 placeholder=" "
                 className="w-full resize-none rounded-[10px] border-2 border-white/25 bg-[#222] p-5 text-[1.3em] text-[#f0f0f0] outline-none transition-colors peer focus:border-[#0df8f9]"
               />
-              <label className="pointer-events-none absolute top-5 left-0 px-5 text-[1.3em] text-[#f0f0f0] uppercase transition-all duration-500 peer-focus:translate-x-5 peer-focus:-translate-y-7 peer-focus:border-x peer-focus:border-[#0df8f9] peer-focus:bg-[#222] peer-focus:px-2.5 peer-focus:text-[0.85em] peer-focus:tracking-[0.2em] peer-focus:text-[#0df8f9] peer-[:not(:placeholder-shown)]:translate-x-5 peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:border-x peer-[:not(:placeholder-shown)]:border-[#0df8f9] peer-[:not(:placeholder-shown)]:bg-[#222] peer-[:not(:placeholder-shown)]:px-2.5 peer-[:not(:placeholder-shown)]:text-[0.85em] peer-[:not(:placeholder-shown)]:tracking-[0.2em] peer-[:not(:placeholder-shown)]:text-[#0df8f9]">
+              <label className="pointer-events-none absolute top-5 left-0 px-5 text-[1.3em] text-[#f0f0f0] uppercase transition-all duration-500 peer-focus:translate-x-5 peer-focus:-translate-y-[7px] peer-focus:border-x peer-focus:border-[#0df8f9] peer-focus:bg-[#222] peer-focus:px-2.5 peer-focus:text-[0.85em] peer-focus:tracking-[0.2em] peer-focus:text-[#0df8f9] peer-[:not(:placeholder-shown)]:translate-x-5 peer-[:not(:placeholder-shown)]:-translate-y-[7px] peer-[:not(:placeholder-shown)]:border-x peer-[:not(:placeholder-shown)]:border-[#0df8f9] peer-[:not(:placeholder-shown)]:bg-[#222] peer-[:not(:placeholder-shown)]:px-2.5 peer-[:not(:placeholder-shown)]:text-[0.85em] peer-[:not(:placeholder-shown)]:tracking-[0.2em] peer-[:not(:placeholder-shown)]:text-[#0df8f9]">
                 {t.legacy.messageLabel}
               </label>
             </div>
             <button
               type="submit"
-              className="w-full cursor-pointer rounded-[10px] border-none bg-white py-2.5 text-[1.5em] font-bold tracking-[0.3em] text-[#121212] uppercase transition-colors duration-500 hover:bg-[linear-gradient(45deg,#0df8f9,#0D82F9)] hover:text-[#f0f0f0]"
+              className="w-full cursor-pointer rounded-[10px] border-none bg-white py-2.5 text-[1.5em] tracking-[0.3em] text-[#121212] uppercase transition-colors duration-500 hover:bg-[linear-gradient(45deg,#0df8f9,#0D82F9)]"
             >
               <Send size={22} aria-hidden className="mr-2 inline-block translate-y-[-2px]" />
               {t.legacy.send}

@@ -69,10 +69,10 @@ export default function LegacyProjectModal({
         onClick={onClose}
         className="absolute inset-0 cursor-default bg-[#454546] opacity-60"
       />
-      <div className="relative max-h-[90%] w-full max-w-[800px] overflow-y-auto rounded-[30px] bg-[#121212] shadow-[0_5px_15px_rgba(255,255,255,0.25)] max-md:w-[calc(100%-5px)] max-md:max-h-[80%]">
+      <div className="relative h-[90%] w-full max-w-[800px] overflow-y-auto rounded-[30px] bg-[#121212] shadow-[0_5px_15px_rgba(255,255,255,0.25)] max-md:h-[80%] max-md:w-[calc(100%-5px)]">
         <header className="sticky top-0 z-10">
           <div className="bg-[#222] pr-[45px]">
-            <h2 className="p-2.5 text-xl font-bold text-[#66ccff]">{project.title}</h2>
+            <h2 className="p-2.5 text-[1.5em] font-bold text-[#66ccff]">{project.title}</h2>
           </div>
           <button
             type="button"
@@ -88,12 +88,12 @@ export default function LegacyProjectModal({
           <ProjectSlider key={project.id} project={project} />
 
           <article className="mt-7">
-            <p className="text-base leading-relaxed">{project.description}</p>
+            <p className="text-[1.1em] leading-relaxed">{project.description}</p>
             {project.period && <p className="mt-2 text-sm text-[#f0f0f0]/70 italic">{project.period}</p>}
             {project.contextTag && <p className="mt-1 text-sm text-[#0df8f9]">{project.contextTag}</p>}
 
             <section className="mt-2.5">
-              <span className="text-[1.5em]">{t.legacy.developedWith}</span>
+              <span className="text-[1.5em] text-[#66ccff]">{t.legacy.developedWith}</span>
               <div className="mt-2.5 flex flex-wrap gap-5">
                 {project.stack.map((tech) =>
                   tech.icon ? (
@@ -184,7 +184,9 @@ function ProjectSlider({ project }: { project: LegacyProject }) {
           {slides.map((slide, i) => (
             <figure
               key={`${slide.kind}-${i}`}
-              className="flex min-w-full items-center justify-center overflow-hidden"
+              className={`flex min-w-full items-center justify-center overflow-hidden ${
+                slide.kind === "video" ? "p-[25px] max-md:p-0" : ""
+              }`}
             >
               {slide.kind === "video" ? (
                 slide.isYouTube ? (
@@ -248,7 +250,7 @@ function ProjectSlider({ project }: { project: LegacyProject }) {
         )}
       </div>
 
-      {total > 1 && (
+      {total >= 1 && (
         <div className="mt-0 flex flex-nowrap justify-around gap-2.5 overflow-x-auto bg-[#222] p-2.5">
           {slides.map((slide, i) => (
             <button

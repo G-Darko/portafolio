@@ -59,7 +59,7 @@ import {
 
 const NAV_ITEMS = [
   { id: "whoami", key: "home" },
-  { id: "aboutme", key: "about" },
+  { id: "aboutme", key: "aboutNav" },
   { id: "experience", key: "experience" },
   { id: "portfolio", key: "portfolio" },
   { id: "skills", key: "skills" },
@@ -81,7 +81,7 @@ export default function LegacyEraApp() {
   );
   const rootRef = useRef<HTMLDivElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [selected, setSelected] = useState<string>("whoami");
+  const [selected, setSelected] = useState<string>("");
   const [openProject, setOpenProject] = useState<LegacyProject | null>(null);
   const [contactOpen, setContactOpen] = useState(false);
   const [typeIdx, setTypeIdx] = useState(0);
@@ -166,9 +166,9 @@ export default function LegacyEraApp() {
       <style>{`
         .lgcy-warp {
           background:
-            radial-gradient(circle at 50% 50%, #ffffff 0%, #ff7ad9 6%, #c026d3 18%, rgba(88, 28, 135, 0.55) 34%, transparent 55%),
-            repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 255, 255, 0.55) 0deg 0.6deg, rgba(255, 122, 217, 0.3) 0.6deg 1.4deg, transparent 1.4deg 7deg),
-            radial-gradient(circle at 50% 50%, #2e1065 0%, #12081f 60%, #0a0a0a 100%);
+            radial-gradient(circle at 50% 50%, #ffffff 0%, #ff2d55 8%, #7f1d1d 22%, rgba(60, 10, 10, 0.6) 38%, transparent 55%),
+            repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 255, 255, 0.6) 0deg 0.5deg, rgba(255, 45, 85, 0.35) 0.5deg 1deg, transparent 1deg 3.5deg),
+            radial-gradient(circle at 50% 50%, #3f0a0a 0%, #12060a 60%, #0a0a0a 100%);
           animation: lgcy-hue 5s linear infinite;
         }
         .lgcy-ring {
@@ -190,9 +190,23 @@ export default function LegacyEraApp() {
           animation: lgcy-zoom-text 2s infinite alternate ease-in-out;
         }
         @keyframes lgcy-zoom-text {
-          0% { transform: translate(0, 0) rotate(var(--lgcy-deg, -45deg)); }
-          50% { transform: translate(-3px, 2px) rotate(var(--lgcy-deg, -45deg)); }
-          100% { transform: translate(0, 0) rotate(var(--lgcy-deg, -45deg)); }
+          0% { transform: translate(0, 0) rotate(var(--lgcy-deg, -45deg)); text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
+          25% { transform: translate(2px, -1px) rotate(var(--lgcy-deg, -45deg)); text-shadow: 3px 3px 5px rgba(255, 193, 7, 0.7); }
+          50% { transform: translate(-3px, 2px) rotate(var(--lgcy-deg, -45deg)); text-shadow: 4px 4px 6px rgba(255, 235, 59, 0.8); }
+          75% { transform: translate(1px, -2px) rotate(var(--lgcy-deg, -45deg)); text-shadow: 3px 3px 5px rgba(255, 193, 7, 0.7); }
+          100% { transform: translate(0, 0) rotate(var(--lgcy-deg, -45deg)); text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
+        }
+        .lgcy-skill-tip { animation: lgcy-hue 5s linear infinite; }
+        .lgcy-skill-tip::after {
+          content: "";
+          position: absolute;
+          right: 50px;
+          top: 25px;
+          width: 20px;
+          height: 20px;
+          background: #454546;
+          border-radius: 0% 100% 0% 100% / 100% 100% 0% 0%;
+          transform: rotate(-45deg);
         }
         @media (min-width: 768px) {
           .lgcy-tl-content::after {
@@ -228,7 +242,7 @@ export default function LegacyEraApp() {
       `}</style>
 
       {/* ── Header: sticky nav, like the original ─────────────── */}
-      <header className="sticky top-0 z-[3000] w-full border-b border-[#66ccff] bg-[#1e1e1e]/85 px-2.5 py-2.5 backdrop-blur-sm">
+      <header className="sticky top-0 z-[3000] w-full border-b border-[#66ccff] bg-[#1e1e1e]/85 px-2.5 py-2.5">
         <div className="relative flex flex-wrap items-center justify-between px-2.5">
           <h1 className="w-4/5 cursor-pointer pl-5 text-[2em] font-bold">
             <a href="#whoami" onClick={() => setSelected("whoami")}>
@@ -292,7 +306,7 @@ export default function LegacyEraApp() {
           id="whoami"
           className="relative flex flex-wrap items-center justify-around border-b border-[#66ccff] bg-[#121212] p-5 max-md:flex-col-reverse"
         >
-          <article id="iam" className="mt-2.5 w-[350px] max-w-full rounded-[20px] bg-[#1e1e1e]/85 p-[30px]">
+          <article id="iam" className="w-[350px] max-w-full rounded-[20px] bg-[#1e1e1e]/85 p-[30px] max-md:mt-2.5">
             <div className="text-[2em]">Gael Uribe</div>
             <div className="text-[1.5em] font-bold">
               <span
@@ -310,7 +324,7 @@ export default function LegacyEraApp() {
                   target="_blank"
                   rel="noopener noreferrer"
                   href={github.url}
-                  className="mx-2.5 my-1 flex items-center gap-1 text-[#f0f0f0] transition-colors hover:text-[#66ccff]"
+                  className="mx-2.5 my-1 flex w-full items-center gap-1 text-[#f0f0f0] transition-colors hover:text-[#66ccff]"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element -- remote API icon */}
                   <img
@@ -321,9 +335,9 @@ export default function LegacyEraApp() {
                     onError={(e) => {
                       e.currentTarget.style.display = "none";
                     }}
-                    className="h-[30px] w-[30px] invert"
+                    className="h-[30px] w-[30px] translate-y-2 invert"
                   />
-                  <b className="text-base">Github</b>
+                  <b className="mr-[5px] border-l border-[#66ccff] bg-[#121212] px-[5px] text-[1.4em]">Github</b>
                 </a>
               )}
               {credly && (
@@ -332,7 +346,7 @@ export default function LegacyEraApp() {
                   target="_blank"
                   rel="noopener noreferrer"
                   href={credly.url}
-                  className="mx-2.5 my-1 flex items-center gap-1 text-[#f0f0f0] transition-colors hover:text-[#66ccff]"
+                  className="mx-2.5 my-1 flex w-full items-center gap-1 text-[#f0f0f0] transition-colors hover:text-[#66ccff]"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element -- remote API icon */}
                   <img
@@ -343,19 +357,19 @@ export default function LegacyEraApp() {
                     onError={(e) => {
                       e.currentTarget.style.display = "none";
                     }}
-                    className="h-[30px] w-[30px] invert"
+                    className="h-[30px] w-[30px] translate-y-2 invert"
                   />
-                  <b className="text-base">Credly</b>
+                  <b className="mr-[5px] border-l border-[#66ccff] bg-[#121212] px-[5px] text-[1.4em]">Credly</b>
                 </a>
               )}
               <button
                 type="button"
                 title={t.legacy.contact}
                 onClick={() => setContactOpen(true)}
-                className="mx-2.5 my-1 flex items-center gap-1 text-[#f0f0f0] transition-colors hover:text-[#66ccff]"
+                className="mx-2.5 my-1 flex w-full items-center gap-1 text-[#f0f0f0] transition-colors hover:text-[#66ccff]"
               >
-                <Mail size={30} aria-hidden className="h-[30px] w-[30px]" />
-                <b className="text-base">{t.legacy.contact}</b>
+                <Mail size={30} aria-hidden className="h-[30px] w-[30px] translate-y-2" />
+                <b className="mr-[5px] border-l border-[#66ccff] bg-[#121212] px-[5px] text-[1.4em]">{t.legacy.contact}</b>
               </button>
             </section>
           </article>
@@ -363,8 +377,8 @@ export default function LegacyEraApp() {
           <div className="hero relative flex h-[350px] w-[350px] max-w-full items-center justify-center">
             <div className="lgcy-warp absolute inset-0 rounded-full opacity-60" aria-hidden />
             <div className="perfil absolute inset-0 flex items-center justify-center" aria-hidden>
-              <div className="lgcy-ring absolute h-[245px] w-[245px] rounded-full opacity-60 blur-[2px]" />
-              <div className="lgcy-ring absolute h-[200px] w-[200px] rounded-full opacity-60 blur-[2px]" />
+              <div className="lgcy-ring absolute h-[245px] w-[245px] rounded-full opacity-60 blur-[5px]" />
+              <div className="lgcy-ring absolute h-[200px] w-[200px] rounded-full opacity-60 blur-[5px]" />
               <div className="absolute">
                 {/* eslint-disable-next-line @next/next/no-img-element -- local /img/DARKO.png, the legacy avatar */}
                 <img
@@ -382,7 +396,7 @@ export default function LegacyEraApp() {
         {/* ── Sobre mí ───────────────────────────────────────── */}
         <section id="aboutme" data-lgcy-reveal className="lgcy-fade-in scroll-mt-24">
           <article className="mx-auto flex w-[90%] flex-col items-center justify-center pt-5">
-            <h2 className="w-full p-10 text-center text-[2em] font-bold">
+            <h2 className="w-full p-10 text-center text-[1.5em] font-bold">
               <span className="text-[#66ccff]">{t.legacy.about}</span>
             </h2>
             <p className="text-base leading-relaxed">{about}</p>
@@ -391,7 +405,7 @@ export default function LegacyEraApp() {
 
         {/* ── Experiencia (timeline) ─────────────────────────── */}
         <section id="experience" data-lgcy-reveal className="lgcy-fade-in mx-auto w-[90%] scroll-mt-24 pt-5">
-          <h2 className="w-full p-10 text-center text-[2em] font-bold">
+          <h2 className="w-full p-10 text-center text-[1.5em] font-bold">
             <span className="text-[#66ccff]">{t.legacy.experience}</span>
           </h2>
           <div className="relative mx-auto max-w-[1200px] px-5">
@@ -465,7 +479,7 @@ export default function LegacyEraApp() {
 
         {/* ── Portafolio ─────────────────────────────────────── */}
         <section id="portfolio" data-lgcy-reveal className="lgcy-fade-in scroll-mt-24">
-          <h2 className="w-full px-10 pt-[60px] pb-10 text-center text-[2em] font-bold">
+          <h2 className="w-full px-10 pt-[60px] pb-10 text-center text-[1.5em] font-bold">
             <span className="text-[#66ccff]">{t.legacy.projects}</span>
           </h2>
           <section className="mx-auto w-[90%]">
@@ -495,7 +509,7 @@ export default function LegacyEraApp() {
                   )}
                 </figure>
                 <div className="flex min-h-[300px] w-1/2 flex-col items-start justify-between bg-[#222] p-5 max-md:w-full max-md:min-h-0">
-                  <h4 className="text-lg font-bold">
+                  <h4 className="text-base font-bold">
                     <span className="text-[#66ccff]">
                       {project.title}
                       {project.contextTag ? (
@@ -519,7 +533,7 @@ export default function LegacyEraApp() {
                   <button
                     type="button"
                     onClick={() => setOpenProject(project)}
-                    className="my-2.5 cursor-pointer rounded-[10px] border-none bg-[#66ccff] px-2.5 py-2.5 text-base font-semibold tracking-[0.3em] text-[#121212] uppercase transition-colors duration-500 hover:bg-[linear-gradient(45deg,#0df8f9,#0D82F9)] hover:text-[#f0f0f0]"
+                    className="my-2.5 cursor-pointer rounded-[10px] border-none bg-[#66ccff] px-2.5 py-2.5 text-base font-semibold tracking-[0.3em] text-[#121212] uppercase transition-colors duration-500 hover:bg-[linear-gradient(45deg,#0df8f9,#0D82F9)]"
                   >
                     {t.legacy.viewMore}
                   </button>
@@ -531,7 +545,7 @@ export default function LegacyEraApp() {
 
         {/* ── Habilidades ────────────────────────────────────── */}
         <section id="skills" data-lgcy-reveal className="lgcy-fade-in mx-auto w-[90%] scroll-mt-24">
-          <h2 className="w-full p-10 text-center text-[2em] font-bold">
+          <h2 className="w-full p-10 text-center text-[1.5em] font-bold">
             <span className="text-[#66ccff]">{t.legacy.skills}</span>
           </h2>
           <div className="mx-auto w-full justify-center gap-20">
@@ -557,7 +571,7 @@ export default function LegacyEraApp() {
                           <SkillIcon skill={skill} size={70} className="grayscale brightness-[1.2]" />
                         </div>
                         <span className="mt-2 text-xs text-[#f0f0f0]/70 md:hidden">{skill.name}</span>
-                        <h3 className="pointer-events-none absolute bottom-0 hidden h-9 w-[120px] rounded-[5px] bg-[#454546] py-1 text-center text-[1.1em] text-[#0df8f9] opacity-0 shadow-[0_5px_20px_rgba(255,255,255,0.25)] transition-all duration-500 group-hover:-translate-y-[100px] group-hover:opacity-100 md:block">
+                        <h3 className="lgcy-skill-tip pointer-events-none absolute bottom-0 hidden h-9 w-[120px] rounded-[5px] bg-[#454546] py-1 text-center text-[1.1em] text-[#0df8f9] opacity-0 shadow-[0_5px_20px_rgba(255,255,255,0.25)] transition-all duration-500 group-hover:-translate-y-[100px] group-hover:opacity-100 md:block">
                           {skill.name}
                         </h3>
                       </div>
@@ -571,7 +585,7 @@ export default function LegacyEraApp() {
 
         {/* ── Certificaciones ────────────────────────────────── */}
         <section id="certifications" data-lgcy-reveal className="lgcy-fade-in scroll-mt-24">
-          <h2 className="w-full px-10 pt-5 pb-10 text-center text-[2em] font-bold">
+          <h2 className="w-full px-10 pt-5 pb-10 text-center text-[1.5em] font-bold">
             <span className="text-[#66ccff]">{t.legacy.certifications}</span>
           </h2>
           <div className="mx-auto grid w-[90%] grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-5">
@@ -590,7 +604,12 @@ export default function LegacyEraApp() {
                     <span className="text-[#66ccff]">{cert.name}</span>
                   </h3>
                   <p className="mt-2.5 font-extrabold italic">{cert.issuer}</p>
-                  <p className="mt-1 text-sm text-[#f0f0f0]/70">{cert.date}</p>
+                  <p>{cert.date}</p>
+                  {cert.folio && (
+                    <p>
+                      {t.legacy.certFolio}: <b>{cert.folio}</b>
+                    </p>
+                  )}
                   {cert.url && linkLabel && (
                     <a
                       href={cert.url}
@@ -608,7 +627,7 @@ export default function LegacyEraApp() {
         </section>
       </main>
 
-      <footer className="mt-[50px] border-t border-[#66ccff] bg-[#1e1e1e] px-1.5 py-1.5 text-center text-xl font-bold">
+      <footer className="mt-[50px] border-t border-[#66ccff] bg-[#1e1e1e] px-1.5 py-1.5 text-center text-[1.8em] font-bold">
         <b>{year}</b> | <span className="text-[#66ccff]">G-Darko</span>
       </footer>
 

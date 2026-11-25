@@ -125,8 +125,22 @@ export function legacyAbout(locale: Locale): string {
 }
 
 export function legacyCertifications(locale: Locale) {
-  return getCertifications(locale);
+  return getCertifications(locale).map((c) => ({
+    ...c,
+    folio: LEGACY_CERT_FOLIOS[c.id],
+  }));
 }
+
+/**
+ * Folios that only exist in the original HTML (`a79e3fe^:_LEGACY/index.html`):
+ * the snapshot carries no folio field, so the CONOCER credential number
+ * (16955622) is carried here, keyed by snapshot cert id, until the API
+ * carries it. Nothing else is hardcoded: name, issuer, date and URL all
+ * come from the snapshot.
+ */
+const LEGACY_CERT_FOLIOS: Record<string, string> = {
+  "conocer-ec0160": "16955622",
+};
 
 /** Socials for the hero (GitHub, Credly) — remote icons from the API. */
 export function legacySocials() {
