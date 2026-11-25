@@ -8,9 +8,10 @@
  * The switcher, the sitemap and `generateStaticParams` all derive from
  * this registry — nothing else needs a hand edit when an era is added.
  *
- * LEGACY has no content yet (PR-2, Ronda 7): it is listed here so the
- * switcher and its route already exist, but its page is an explicit
- * "in restoration" placeholder, noindexed and out of the sitemap.
+ * LEGACY has real content since Ronda 7 PR-2: the 2022–2026 static site
+ * re-implemented as a Next renderer over the same snapshot
+ * (`components/eras/legacy/`). Dark-only v1, like the HUD era: the
+ * original's light theme was not restored.
  */
 
 export type EraId = "legacy" | "hud" | "exordia";
@@ -36,7 +37,7 @@ export const ERAS: EraDef[] = [
     years: "2022–2026",
     taglineKey: "legacyTagline",
     blurbKey: "legacyBlurb",
-    hasContent: false,
+    hasContent: true,
   },
   {
     id: "hud",

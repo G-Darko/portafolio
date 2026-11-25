@@ -11,6 +11,8 @@
  * - `topbar`: compact button next to the Exordia settings (clock icon).
  * - `card`: a row inside the Exordia welcome card (OverviewCard).
  * - `hud`: a button in the restored HUD header.
+ * - `legacy`: a fixed corner chip on the LEGACY era (its menu opens
+ *   upwards, styled with the legacy palette, not the HUD tokens).
  */
 import { useEffect, useRef, useState } from "react";
 import { History } from "lucide-react";
@@ -24,7 +26,7 @@ export function EraSwitcher({
   variant,
 }: {
   currentEra: EraId;
-  variant: "topbar" | "card" | "hud";
+  variant: "topbar" | "card" | "hud" | "legacy";
 }) {
   const { t } = useTranslation();
   const { travelTo, travelingTo } = useEraTravel();
@@ -85,6 +87,71 @@ export function EraSwitcher({
             );
           })}
         </div>
+      </div>
+    );
+  }
+
+  if (variant === "legacy") {
+    return (
+      <div className="relative" ref={ref}>
+        <button
+          type="button"
+          onClick={() => {
+            playHUDClick();
+            setOpen((v) => !v);
+          }}
+          aria-expanded={open}
+          aria-haspopup="menu"
+          title={t.eras.title}
+          className="flex min-h-11 items-center gap-2 rounded-[10px] border border-[#66ccff]/60 bg-[#1e1e1e]/95 px-4 py-2.5 text-sm font-bold tracking-wide text-[#f0f0f0] shadow-[0_4px_16px_rgba(0,0,0,0.5)] transition-colors hover:border-[#66ccff] hover:text-[#66ccff]"
+        >
+          <History size={16} aria-hidden />
+          {t.eras.title}
+        </button>
+        {open && (
+          <div
+            role="menu"
+            className="absolute right-0 bottom-full z-[300] mb-2 w-72 rounded-[10px] border border-[#454546] bg-[#1e1e1e] p-2 shadow-[0_5px_15px_rgba(255,255,255,0.25)]"
+          >
+            <p className="px-2 py-1.5 text-xs font-bold tracking-[0.18em] text-[#66ccff] uppercase">
+              {t.eras.title}
+            </p>
+            <p className="px-2 pb-2 text-xs text-[#f0f0f0]/70">{t.eras.subtitle}</p>
+            {ERAS.map((era) => {
+              const here = era.id === currentEra;
+              return (
+                <button
+                  key={era.id}
+                  type="button"
+                  role="menuitem"
+                  disabled={here || Boolean(travelingTo)}
+                  onClick={() => go(era.id)}
+                  className={`flex w-full min-h-11 flex-col items-start rounded px-2.5 py-2 text-left text-sm transition-colors ${
+                    here
+                      ? "bg-[#66ccff]/15 text-[#66ccff]"
+                      : "text-[#f0f0f0]/70 hover:bg-[#222] hover:text-[#f0f0f0]"
+                  }`}
+                >
+                  <span className="flex w-full items-center justify-between gap-2 font-bold tracking-wide">
+                    <span className="whitespace-nowrap">
+                      {era.name} <span className="font-normal opacity-70">{era.years}</span>
+                    </span>
+                    {here ? (
+                      <span className="shrink-0 text-xs font-normal whitespace-nowrap">{t.eras.here}</span>
+                    ) : !era.hasContent ? (
+                      <span className="shrink-0 text-xs font-normal whitespace-nowrap opacity-70">{t.eras.comingSoon}</span>
+                    ) : (
+                      <span className="shrink-0 text-xs font-normal whitespace-nowrap opacity-70">{t.eras.travelTo} →</span>
+                    )}
+                  </span>
+                  <span className="mt-0.5 text-xs opacity-80">
+                    {t.eras[era.taglineKey as keyof typeof t.eras]}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
     );
   }
