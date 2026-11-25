@@ -13,7 +13,7 @@ import { NyxheimTopBar } from "./NyxheimTopBar";
 import { useNyxheimRouting } from "./useNyxheimRouting";
 import { getNyxheimBody } from "@/lib/nyxheim/bodies";
 import { useHUDStore } from "@/lib/store/useHUDStore";
-import { startAmbient } from "@/lib/audio/ambient";
+import { hasAmbientInteracted, noteAmbientGesture, setAmbientEnabled, startAmbient, stopAmbient } from "@/lib/audio/ambient";
 import HudStatusDot from "@/components/hud/HudStatusDot";
 import { EraSwitcher } from "@/components/eras/EraSwitcher";
 import { useEraTravel } from "@/components/eras/EraTravel";
@@ -128,6 +128,7 @@ export default function NyxheimWorld() {
   // enabled in the settings.
   useEffect(() => {
     const onFirstGesture = () => {
+      noteAmbientGesture();
       startAmbient(useHUDStore.getState().soundEnabled);
     };
     window.addEventListener("pointerdown", onFirstGesture, { once: true });
@@ -135,6 +136,24 @@ export default function NyxheimWorld() {
     return () => {
       window.removeEventListener("pointerdown", onFirstGesture);
       window.removeEventListener("keydown", onFirstGesture);
+    };
+  }, []);
+
+  // The drone belongs to this world: it follows the settings sound
+  // switch while mounted and stops when the world unmounts — otherwise
+  // the module singleton would keep playing the Exordia drone in the
+  // HUD/LEGACY eras, where it was never meant to sound.
+  const soundEnabled = useHUDStore((s) => s.soundEnabled);
+  useEffect(() => {
+    if (soundEnabled) {
+      if (hasAmbientInteracted()) startAmbient(true);
+    } else {
+      setAmbientEnabled(false);
+    }
+  }, [soundEnabled]);
+  useEffect(() => {
+    return () => {
+      stopAmbient();
     };
   }, []);
 
