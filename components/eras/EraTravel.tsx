@@ -28,6 +28,7 @@ import { ACTIVE_ERA_ID, ERAS, eraHref, getEra, type EraId } from "@/lib/eras";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { usePrefersReducedMotion } from "@/lib/nyxheim/useNyxheimStore";
 import { playTimeTravel } from "@/lib/audio/audio";
+import { noteAmbientGesture, stopAmbient } from "@/lib/audio/ambient";
 
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -119,6 +120,11 @@ export function EraTravelProvider({ children }: { children: ReactNode }) {
       const dest = eraHref(to);
       navigated.current = false;
       setTravel({ from, to });
+      // The click that starts the travel is a real gesture, and the
+      // Exordia drone must not follow the user into the next era: fade
+      // it out under the tunnel (no-op when it never started).
+      noteAmbientGesture();
+      stopAmbient();
       playTimeTravel();
       if (reduced) {
         // Reduced motion: 300 ms crossfade + static date card.
