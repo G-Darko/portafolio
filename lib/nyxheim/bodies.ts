@@ -357,8 +357,9 @@ export const PROJECT_NAV_CYCLE: NyxheimBody[] = NAV_CYCLE.filter((b) => b.projec
 /**
  * Real favicon/logo of each project, fetched from its own live site and
  * verified to load (GET 200, image content-type, 2026-11-14). Remote URLs,
- * except Black Sync: its 274 KB remote icon is served locally instead
- * (public/img/black-sync-icon.webp, 128px, 2.2 KB). Projects without a
+ * except Black Sync and Skool: their remote icons are served locally
+ * instead (public/img/black-sync-icon.webp, 128px, 2.2 KB, and
+ * public/img/skool-icon.webp, 128px, 3.2 KB). Projects without a
  * public site or without an accessible favicon have no entry and keep
  * their initial letter: CRESER (its tenant favicon endpoints answer 404
  * TENANT_NOT_FOUND from outside), Aerial Depot (no public URL in the
@@ -367,7 +368,7 @@ export const PROJECT_NAV_CYCLE: NyxheimBody[] = NAV_CYCLE.filter((b) => b.projec
  */
 export const PROJECT_FAVICONS: Record<string, string> = {
   duplica: "https://duplicamlm.app/api/tenant/icon.svg",
-  skool: "https://skool.com.mx/favicon.ico",
+  skool: "/img/skool-icon.webp",
   rnme: "https://www.redmexicoemprende.mx/icon.png?icon.1642624a.png",
   krkn: "https://krkn.mx/icons/favicon-32x32.png",
   cpmx: "https://cpmx.blck-sheep.com/cpmx.png",
