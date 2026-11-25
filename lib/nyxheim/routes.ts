@@ -31,9 +31,27 @@ export const NYXHEIM_SEGMENTS: string[] = [
   ...buildSkills.map((s) => s.id).map((id) => `sinistra/${id}`),
 ];
 
-/** Static params for the (hud)/[panel] route: one entry per segment. */
+/**
+ * Static params for the (hud)/[panel] route: one entry per segment.
+ * Excludes "cv": since Ronda 7 option B, `/cv` is the CV document
+ * (era-agnostic, `app/cv/page.tsx`), not a root destination. The CV
+ * planet's deep link lives under the era: `/era/exordia/cv/`
+ * (see `listEraNyxheimParams`).
+ */
 export function listNyxheimParams(): { panel: string }[] {
+  return NYXHEIM_SEGMENTS.filter((s) => !s.includes("/") && s !== "cv").map((panel) => ({ panel }));
+}
+
+/** Static params for the era route `/era/exordia/[panel]`: all segments, CV included. */
+export function listEraNyxheimParams(): { panel: string }[] {
   return NYXHEIM_SEGMENTS.filter((s) => !s.includes("/")).map((panel) => ({ panel }));
+}
+
+/** Era prefix of a pathname when the world renders under `/era/exordia`. */
+export function nyxheimBasePath(pathname: string): string {
+  return pathname === "/era/exordia" || pathname.startsWith("/era/exordia/")
+    ? "/era/exordia"
+    : "";
 }
 
 /** Static params for the (hud)/sinistra/[skill] route. */
@@ -62,16 +80,27 @@ export function bodySegment(body: NyxheimBody): string {
   }
 }
 
-/** Browser URL for a body (trailing slash, like the rest of the site). */
-export function bodyToHref(bodyId: string, skillId?: string | null): string {
-  if (bodyId === "sinistra" && skillId) return `/sinistra/${skillId}/`;
+/**
+ * Browser URL for a body (trailing slash, like the rest of the site).
+ * `base` is the era prefix when the world renders under `/era/exordia`
+ * ("" at the root). The CV planet has no root twin anymore (option B:
+ * `/cv` is the document), so it always points at `/era/exordia/cv/`.
+ */
+export function bodyToHref(bodyId: string, skillId?: string | null, base = ""): string {
+  if (bodyId === "cv") return "/era/exordia/cv/";
+  if (bodyId === "sinistra" && skillId) return `${base}/sinistra/${skillId}/`;
   const body = getNyxheimBody(bodyId);
-  if (!body) return "/";
-  return `/${bodySegment(body)}/`;
+  if (!body) return base ? `${base}/` : "/";
+  return `${base}/${bodySegment(body)}/`;
 }
 
 export function parseNyxheimPath(pathname: string): NyxheimDestination {
-  const clean = pathname.replace(/\/+$/, "") || "/";
+  // The world also renders under `/era/exordia/...`: strip that prefix
+  // first. `cv` is only a destination there — at the root `/cv` is the
+  // CV document (option B), not the planet.
+  const eraBase = nyxheimBasePath(pathname);
+  const stripped = eraBase ? pathname.slice(eraBase.length) || "/" : pathname;
+  const clean = stripped.replace(/\/+$/, "") || "/";
   if (clean === "/") {
     return { bodyId: null, skillId: null, valid: true };
   }
@@ -95,6 +124,8 @@ export function parseNyxheimPath(pathname: string): NyxheimDestination {
       return { bodyId: "certificaciones", skillId: null, valid: true };
     }
     if (segment === "cv") {
+      // Only under /era/exordia: at the root /cv is the CV document.
+      if (!eraBase) return { bodyId: null, skillId: null, valid: false };
       return { bodyId: "cv", skillId: null, valid: true };
     }
     if (segment === "contacto") {

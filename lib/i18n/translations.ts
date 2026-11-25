@@ -265,6 +265,21 @@ const es = {
       nextSlide: "Diapositiva siguiente",
       slide: "Diapositiva",
     },
+    eras: {
+      title: "Viajar en el tiempo",
+      subtitle: "El mismo portafolio, en otra era",
+      era: "Era",
+      here: "Estás aquí",
+      travelTo: "Viajar",
+      comingSoon: "En restauración",
+      close: "Cerrar",
+      legacyTagline: "El sitio estático original",
+      legacyBlurb: "El primer portafolio: HTML, CSS y JavaScript, 2022–2026.",
+      hudTagline: "La terminal HUD: ventanas y misiones",
+      hudBlurb: "El portafolio como sistema operativo: paneles, terminal y orbe 3D.",
+      exordiaTagline: "El sistema solar de Gael Uribe",
+      exordiaBlurb: "Nyxheim, Duplica, Sinistra y Erebo: el portafolio como sistema solar.",
+    },
 } as const;
 
 type Copy = Widen<typeof es>;
@@ -527,6 +542,21 @@ const en: Copy = {
       prevSlide: "Previous slide",
       nextSlide: "Next slide",
       slide: "Slide",
+    },
+    eras: {
+      title: "Travel in time",
+      subtitle: "The same portfolio, in another era",
+      era: "Era",
+      here: "You are here",
+      travelTo: "Travel",
+      comingSoon: "In restoration",
+      close: "Close",
+      legacyTagline: "The original static site",
+      legacyBlurb: "The first portfolio: HTML, CSS and JavaScript, 2022–2026.",
+      hudTagline: "The HUD terminal: windows and missions",
+      hudBlurb: "The portfolio as an operating system: panels, terminal and 3D orb.",
+      exordiaTagline: "Gael Uribe's solar system",
+      exordiaBlurb: "Nyxheim, Duplica, Sinistra and Erebo: the portfolio as a solar system.",
     },
 };
 

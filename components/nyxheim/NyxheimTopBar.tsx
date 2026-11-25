@@ -6,6 +6,7 @@ import { useLocaleStore } from "@/lib/store/useLocaleStore";
 import { useNyxheimStore } from "@/lib/nyxheim/useNyxheimStore";
 import { playHUDClick } from "@/lib/audio/audio";
 import NyxheimSettings from "@/components/nyxheim/NyxheimSettings";
+import { EraSwitcher } from "@/components/eras/EraSwitcher";
 
 /**
  * The only chrome above the world: the system name (Exordia, a button that
@@ -111,6 +112,8 @@ export function NyxheimTopBar() {
         {/* Settings: palette + sound + labels, in one popover. No theme
             toggle: dark is the only mode. */}
         <div className="pointer-events-auto order-2 ml-auto flex items-center gap-1 md:order-3 md:ml-0">
+          {/* Era switcher (Ronda 7): travel to another era of the portfolio. */}
+          <EraSwitcher currentEra="exordia" variant="topbar" />
           <NyxheimSettings />
           <button
             type="button"

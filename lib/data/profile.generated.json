@@ -422,7 +422,7 @@
       "title": "Duplica",
       "tagline": "Membresías, comunidad y app móvil",
       "description": "Monorepo con API Next, app Expo y paquete compartido: aula, comunidad, DupliBot, pagos y admin multi-tenant.",
-      "org": "Black Sheep Lab",
+      "org": "Black Sheep Labs",
       "orgUrl": "https://blck-sheep.com",
       "period": {
         "start": "2026-02",
@@ -467,7 +467,7 @@
       "title": "Skool",
       "tagline": "El LMS multi-empresa del lab",
       "description": "Plataforma de cursos multi-tenant: roles, programas, certificados, SCORM, reportes y wrapper Capacitor.",
-      "org": "Black Sheep Lab",
+      "org": "Black Sheep Labs",
       "orgUrl": "https://blck-sheep.com",
       "period": {
         "start": "2025-12",
@@ -511,7 +511,7 @@
       "id": "creser",
       "title": "CRESER",
       "tagline": "Comunidad, aula y app móvil",
-      "org": "Black Sheep Lab",
+      "org": "Black Sheep Labs",
       "orgUrl": "https://blck-sheep.com",
       "period": {
         "start": "2026-08",
@@ -551,7 +551,7 @@
       "title": "Red México Emprende",
       "tagline": "Comunidad, eventos y membresías",
       "description": "Módulos de comunidad, eventos con boletos, membresías, cursos y certificados.",
-      "org": "Black Sheep Lab",
+      "org": "Black Sheep Labs",
       "orgUrl": "https://blck-sheep.com",
       "period": {
         "start": "2025-10",
@@ -596,7 +596,7 @@
       "title": "KRKN WMS",
       "tagline": "Layout de almacén y etiquetas",
       "description": "WMS sobre Microsip (Firebird): layout del almacén, rutas de picking e impresión de etiquetas ZPL/TSPL.",
-      "org": "Black Sheep Lab",
+      "org": "Black Sheep Labs",
       "orgUrl": "https://blck-sheep.com",
       "period": {
         "start": "2026-02",
@@ -625,7 +625,7 @@
       "id": "cpmx",
       "title": "CPMX",
       "tagline": "API de colonias y códigos postales",
-      "org": "Black Sheep Lab",
+      "org": "Black Sheep Labs",
       "orgUrl": "https://blck-sheep.com",
       "period": {
         "start": "2026-06",
@@ -655,7 +655,7 @@
       "title": "Black Sync",
       "tagline": "WhatsApp/IA hablando con Microsip",
       "description": "Puente entre WhatsApp y el ERP Microsip (Firebird).",
-      "org": "Black Sheep Lab",
+      "org": "Black Sheep Labs",
       "orgUrl": "https://blck-sheep.com",
       "period": {
         "start": "2026-08",
@@ -687,8 +687,8 @@
       "icon": "Sheep",
       "rank": "S",
       "title": {
-        "es": "Black Sheep Lab",
-        "en": "Black Sheep Lab"
+        "es": "Black Sheep Labs",
+        "en": "Black Sheep Labs"
       },
       "codename": {
         "es": "OPERACIÓN: SAAS",
@@ -699,10 +699,10 @@
         "en": "Since October 2025 I've been shipping real lab products: LMS, white-label apps, community, and bridges into Microsip/WhatsApp."
       },
       "org": {
-        "es": "Black Sheep Lab — SaaS e Innovación",
-        "en": "Black Sheep Lab — SaaS & Innovation"
+        "es": "Black Sheep Labs — SaaS e Innovación",
+        "en": "Black Sheep Labs — SaaS & Innovation"
       },
-      "orgName": "Black Sheep Lab",
+      "orgName": "Black Sheep Labs",
       "orgUrl": "https://blck-sheep.com",
       "role": {
         "es": "Desarrollador Full-Stack y Mobile",
@@ -1391,8 +1391,8 @@
           "id": "aerial-depot",
           "slug": "aerial-depot",
           "title": {
-            "es": "Sistema de Inventarios | AERIAL DEPOT",
-            "en": "Inventory System | AERIAL DEPOT"
+            "es": "Aerial Depot",
+            "en": "Aerial Depot"
           },
           "tagline": {
             "es": "Visualización 3D del almacén",
