@@ -12,6 +12,11 @@ import {
   readBodyPosition,
 } from "@/lib/nyxheim/bodies";
 import { useNyxheimStore } from "@/lib/nyxheim/useNyxheimStore";
+import {
+  focusRadius,
+  overviewPhi,
+  overviewRadius,
+} from "@/lib/nyxheim/cameraFraming";
 
 /** World units the focused body shifts left when its panel is open on desktop. */
 const PANEL_SHIFT = 2.6;
@@ -63,23 +68,30 @@ export function NyxheimCameraRig({ reduced }: { reduced: boolean }) {
   const tmpUp = useMemo(() => new THREE.Vector3(0, 1, 0), []);
 
   // Focus change: pick a camera distance for the new target, and reset the
-  // free-flight offset so every destination starts centered.
+  // free-flight offset so every destination starts centered. The distances
+  // are aspect-aware (cameraFraming): on a portrait phone the camera pulls
+  // back so the overview reads as a system and a focused body fits with
+  // its ring. The effect also runs when the aspect changes (rotation), so
+  // turning the phone reframes instead of leaving a cropped view.
+  const aspect = size.width / Math.max(1, size.height);
   useEffect(() => {
     targetOffset.current.set(0, 0, 0);
     if (!focusedId) {
-      goal.current.radius = 34;
-      goal.current.phi = 1.12;
+      goal.current.radius = overviewRadius(aspect);
+      goal.current.phi = overviewPhi(aspect);
       return;
     }
     if (focusedId === "sinistra") {
-      goal.current.radius = 16;
+      goal.current.radius = focusRadius(16, aspect);
       goal.current.phi = 1.2;
       return;
     }
     const body = getNyxheimBody(focusedId);
-    goal.current.radius = body ? clamp(body.size * 4.6, 7, 18) : 12;
+    goal.current.radius = body
+      ? focusRadius(clamp(body.size * 4.6, 7, 18), aspect)
+      : 12;
     goal.current.phi = 1.2;
-  }, [focusedId]);
+  }, [focusedId, aspect]);
 
   // WASD / arrows / Q-E free flight. Ignored while typing in a field.
   useEffect(() => {
@@ -162,7 +174,7 @@ export function NyxheimCameraRig({ reduced }: { reduced: boolean }) {
         const dist = Math.hypot(a.x - b.x, a.y - b.y);
         const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
         if (pinchDist.current > 0 && dist > 0) {
-          goal.current.radius = clamp(goal.current.radius * (pinchDist.current / dist), 4, 70);
+          goal.current.radius = clamp(goal.current.radius * (pinchDist.current / dist), 4, 90);
         }
         // Two-finger drag pans by the midpoint travel.
         panByPixels(mid.x - pinchMid.current.x, mid.y - pinchMid.current.y);
@@ -208,7 +220,7 @@ export function NyxheimCameraRig({ reduced }: { reduced: boolean }) {
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      goal.current.radius = clamp(goal.current.radius * Math.exp(e.deltaY * 0.001), 4, 70);
+      goal.current.radius = clamp(goal.current.radius * Math.exp(e.deltaY * 0.001), 4, 90);
     };
 
     const onContextMenu = (e: Event) => e.preventDefault();

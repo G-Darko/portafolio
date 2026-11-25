@@ -18,7 +18,7 @@ import {
 } from "@/lib/nyxheim/bodies";
 import { getPlanetTexture } from "@/lib/nyxheim/textures";
 import { useNyxheimStore } from "@/lib/nyxheim/useNyxheimStore";
-import { useNyxheimSettings } from "@/lib/nyxheim/useNyxheimSettings";
+import { isCoarsePointer, useNyxheimSettings } from "@/lib/nyxheim/useNyxheimSettings";
 
 /** Display name of a body in the current locale. */
 export function useBodyName(body: NyxheimBody): string {
@@ -52,6 +52,12 @@ function BodyLabel({ body }: { body: NyxheimBody }) {
   // labels stop overlapping each other in the overview.
   if (focusedId !== null || overviewOpen) return null;
   if (labelMode === "hover" && hoveredId !== body.id) return null;
+  // On touch devices "always" shows only the dock destinations (plus the
+  // sun): all 19 labels at once overlap on a narrow screen, and the minor
+  // projects stay reachable by tapping the planet or the panel arrows.
+  if (labelMode === "always" && isCoarsePointer() && !body.dock && body.kind !== "sun") {
+    return null;
+  }
   // The sun is scenery: its tag is a name only, never a button.
   if (body.kind === "sun") {
     return (

@@ -81,10 +81,11 @@ export function NyxheimTopBar() {
 
         {/* Section navigator: the important destinations, always visible.
             Scrollable with snap on mobile so no pill is ever cut in half;
-            the fade at the right edge hints the row scrolls. */}
+            the stronger fade at the right edge hints the row scrolls, and
+            the pills tighten below 380px so the 5th one is less clipped. */}
         <nav
           aria-label={t.nyxheim.sections}
-          className="order-3 flex w-full snap-x gap-1.5 overflow-x-auto px-0.5 pb-1 max-md:[mask-image:linear-gradient(to_right,black_85%,transparent_100%)] md:order-2 md:w-auto md:flex-1 md:justify-center md:overflow-visible md:pb-0"
+          className="order-3 flex w-full snap-x gap-1.5 overflow-x-auto px-0.5 pb-1 max-md:[mask-image:linear-gradient(to_right,black_70%,transparent_100%)] max-[380px]:gap-1 md:order-2 md:w-auto md:flex-1 md:justify-center md:overflow-visible md:pb-0"
           style={{ scrollbarWidth: "none" }}
         >
           {SECTIONS.map(({ id }) => {
@@ -97,7 +98,7 @@ export function NyxheimTopBar() {
                   focus(id);
                 }}
                 aria-current={active ? "page" : undefined}
-                className={`hud-focus-ring pointer-events-auto shrink-0 snap-start rounded-full border px-3 py-2 font-mono text-xs font-bold tracking-wide whitespace-nowrap backdrop-blur-xl transition-colors md:text-sm ${
+                className={`hud-focus-ring pointer-events-auto shrink-0 snap-start rounded-full border px-3 py-2 font-mono text-xs font-bold tracking-wide whitespace-nowrap backdrop-blur-xl transition-colors max-[380px]:px-2 md:text-sm ${
                   active
                     ? "border-hud-cyan/70 bg-hud-cyan/15 text-hud-cyan"
                     : "border-hud-border/60 bg-hud-bg/60 text-muted-foreground hover:border-hud-cyan/50 hover:text-foreground"

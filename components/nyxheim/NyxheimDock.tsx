@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { getSubMissionCopy } from "@/lib/i18n/missionContent";
@@ -106,6 +106,17 @@ function DockItem({ body }: { body: NyxheimBody }) {
 export function NyxheimDock({ reduced }: { reduced: boolean }) {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
+  const focusedId = useNyxheimStore((s) => s.focusedId);
+
+  // Keep the focused chip in view: on narrow screens only 7-8 of the 11
+  // chips fit, so traveling to a chip past the edge used to leave the
+  // active one scrolled out of sight. No-op where everything fits.
+  useEffect(() => {
+    if (!focusedId) return;
+    containerRef.current
+      ?.querySelector<HTMLElement>(`[data-dock-item="${focusedId}"]`)
+      ?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }, [focusedId]);
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
@@ -146,7 +157,7 @@ export function NyxheimDock({ reduced }: { reduced: boolean }) {
       onMouseLeave={resetMagnification}
       role="navigation"
       aria-label={t.nyxheim.destinations}
-      className="flex w-full snap-x items-end gap-1.5 overflow-x-auto rounded-2xl border border-hud-border/60 bg-hud-bg/60 px-2 py-2 shadow-[0_0_30px_oklch(0.65_0.18_255/0.15)] backdrop-blur-xl max-md:[mask-image:linear-gradient(to_right,black_85%,transparent_100%)] md:w-auto md:gap-2 md:overflow-visible md:px-3"
+      className="flex w-full snap-x items-end gap-1.5 overflow-x-auto rounded-2xl border border-hud-border/60 bg-hud-bg/60 px-2 py-2 shadow-[0_0_30px_oklch(0.65_0.18_255/0.15)] backdrop-blur-xl max-md:[mask-image:linear-gradient(to_right,black_70%,transparent_100%)] md:w-auto md:gap-2 md:overflow-visible md:px-3"
       style={{ scrollbarWidth: "none" }}
     >
       {DOCK_BODIES.map((body) => (
