@@ -171,7 +171,10 @@ export function EraTravelProvider({ children }: { children: ReactNode }) {
             role="dialog"
             aria-label={t.eras.title}
             onClick={skip}
-            className="fixed inset-0 z-[999] flex cursor-pointer flex-col items-center justify-center overflow-hidden bg-[#05070d] text-[#e2e8f0]"
+            // Above the legacy header (z-3000) and its fixed travel chip
+            // (z-3500): with z-999 the outgoing header stayed visible
+            // on top of the tunnel for the whole trip from LEGACY.
+            className="fixed inset-0 z-[4000] flex cursor-pointer flex-col items-center justify-center overflow-hidden bg-[#05070d] text-[#e2e8f0]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
