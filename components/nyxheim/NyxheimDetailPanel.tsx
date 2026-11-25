@@ -749,7 +749,7 @@ export function NyxheimDetailPanel({ body }: { body: NyxheimBody }) {
       exit={{ opacity: 0, x: 24 }}
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       aria-label={title}
-      className="pointer-events-auto absolute z-30 flex flex-col overflow-hidden rounded-2xl border border-hud-border/80 bg-hud-bg/85 shadow-[0_0_40px_oklch(0.65_0.18_255/0.18)] backdrop-blur-xl max-md:inset-x-0 max-md:bottom-0 max-md:max-h-[60vh] max-md:rounded-b-none max-md:[padding-bottom:env(safe-area-inset-bottom)] md:top-20 md:right-4 md:bottom-24 md:w-[min(30rem,44vw)]"
+      className="pointer-events-auto absolute z-30 flex flex-col overflow-hidden rounded-2xl border border-hud-border/80 bg-hud-bg/85 shadow-[0_0_40px_oklch(0.65_0.18_255/0.18)] backdrop-blur-xl max-md:inset-x-0 max-md:bottom-0 max-md:max-h-[55vh] max-md:rounded-b-none max-md:[padding-bottom:env(safe-area-inset-bottom)] md:top-20 md:right-4 md:bottom-24 md:w-[min(30rem,44vw)]"
       style={{ boxShadow: `0 0 48px ${body.color}30, 0 0 40px oklch(0.65 0.18 255 / 0.15)` }}
     >
       {/* Orbit accent: the panel is part of the world — its top edge glows

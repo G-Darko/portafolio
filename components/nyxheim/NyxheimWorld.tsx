@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { NYXHEIM_STATS } from "@/lib/nyxheim/bodies";
 import { useNyxheimStore, usePrefersReducedMotion } from "@/lib/nyxheim/useNyxheimStore";
+import { framingFov } from "@/lib/nyxheim/cameraFraming";
 import { NyxheimScene } from "./NyxheimScene";
 import { NyxheimDock } from "./NyxheimDock";
 import { NyxheimDetailPanel, AvatarImg } from "./NyxheimDetailPanel";
@@ -75,8 +76,29 @@ function OverviewCard() {
   );
 }
 
+/** Viewport aspect for the camera fov: portrait phones get a wider fov
+    (cameraFraming) so the system fits instead of cropping. Read from the
+    window so the prop is right before the first frame; R3F recreates the
+    camera and updates its projection matrix when the fov changes. */
+function useViewportAspect(): number {
+  const [aspect, setAspect] = useState(() =>
+    typeof window === "undefined"
+      ? 16 / 9
+      : window.innerWidth / Math.max(1, window.innerHeight)
+  );
+  useEffect(() => {
+    const update = () =>
+      setAspect(window.innerWidth / Math.max(1, window.innerHeight));
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+  return aspect;
+}
+
 export default function NyxheimWorld() {
   const reduced = usePrefersReducedMotion();
+  const aspect = useViewportAspect();
   const focusedId = useNyxheimStore((s) => s.focusedId);
   const overviewOpen = useNyxheimStore((s) => s.overviewOpen);
   const goOverview = useNyxheimStore((s) => s.goOverview);
@@ -162,7 +184,7 @@ export default function NyxheimWorld() {
   return (
     <div ref={wrapperRef} className="absolute inset-0 overflow-hidden bg-[#05070d]">
       <Canvas
-        camera={{ position: [0, 9, 34], fov: 50, near: 0.1, far: 400 }}
+        camera={{ position: [0, 9, 34], fov: framingFov(aspect), near: 0.1, far: 400 }}
         dpr={[1, 2]}
         gl={{ antialias: true }}
         frameloop={frameloop}
