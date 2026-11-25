@@ -4,6 +4,7 @@ import { MotionConfig } from "motion/react";
 import "./globals.css";
 import { THEME_COLOR, buildJsonLd, rootMetadata } from "@/lib/seo";
 import { DEFAULT_PALETTE_ID, PALETTE_IDS } from "@/lib/theme/hud-color-presets";
+import { EraTravelProvider } from "@/components/eras/EraTravel";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -81,7 +82,9 @@ export default function RootLayout({
       <body className="min-h-dvh w-dvw overflow-x-hidden">
         {/* Reduced motion: motion/* animations collapse to opacity-only,
             instant fades instead of spatial movement. */}
-        <MotionConfig reducedMotion="user">{children}</MotionConfig>
+        <MotionConfig reducedMotion="user">
+          <EraTravelProvider>{children}</EraTravelProvider>
+        </MotionConfig>
       </body>
     </html>
   );

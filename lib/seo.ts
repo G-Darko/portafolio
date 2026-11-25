@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { profileSnapshot } from "@/lib/data/snapshot";
 import { CONTACT_EMAIL, SITE_URL as SITE_URL_SLASH } from "@/lib/data/profile";
 import { listNyxheimParams, listSinistraSkillParams } from "@/lib/nyxheim/routes";
+import { ACTIVE_ERA_ID, ERAS } from "@/lib/eras";
 
 export const SITE_URL = SITE_URL_SLASH.replace(/\/+$/, "");
 export const FULL_NAME = "Isaac Gael Uribe Ortiz";
@@ -84,7 +85,13 @@ export function canonicalPath(path = "/"): string {
   return clean ? `/${clean}/` : "/";
 }
 
-export function buildMetadata(opts: { title?: string; description?: string; path?: string } = {}): Metadata {
+export function buildMetadata(opts: {
+  title?: string;
+  description?: string;
+  path?: string;
+  /** Noindex (e.g. the explicit URL of the active era, a redirect page). */
+  noindex?: boolean;
+} = {}): Metadata {
   const title = opts.title ? `${opts.title} | ${FULL_NAME}` : DEFAULT_TITLE;
   const description = opts.description ?? DEFAULT_DESCRIPTION;
   const url = canonicalPath(opts.path);
@@ -92,6 +99,7 @@ export function buildMetadata(opts: { title?: string; description?: string; path
     title,
     description,
     alternates: { canonical: url },
+    robots: opts.noindex ? { index: false, follow: true } : undefined,
     openGraph: {
       type: "website",
       url,
@@ -159,12 +167,30 @@ export function buildJsonLd() {
   return { "@context": "https://schema.org", "@graph": [person, website] };
 }
 
-/** Every static route, for sitemap.xml. */
+/**
+ * Every static route, for sitemap.xml. Derived from the era registry
+ * (Ronda 7): the root destinations of the active era, the Sinistra
+ * technologies, the CV document (`/cv`, era-agnostic), and the indexable
+ * era URLs — the home and deep links of non-active eras with real
+ * content (`/era/hud/`, `/era/hud/missions/`, ...). Excluded on purpose:
+ * `/era/<active>/` (canonical → `/`, noindex), its deep links (canonical
+ * → their root twin), `/era/legacy/` (placeholder, noindex until PR-2)
+ * and the `/cv/documento/` alias (canonical → `/cv/`).
+ */
 export function listSitePaths(): string[] {
   // Nyxheim destinations (planets, station, constellation, black hole...),
-  // every technology as its own Sinistra route, and the CV document
-  // (the CV itself lives at /cv, a destination route).
+  // every technology as its own Sinistra route, and the CV document.
   const destinations = listNyxheimParams().map((p) => p.panel);
   const skillPaths = listSinistraSkillParams().map((p) => `sinistra/${p.skill}`);
-  return ["/", ...destinations, ...skillPaths, "cv/documento"].map(canonicalPath);
+  const eraPaths = ERAS.filter((e) => e.id !== ACTIVE_ERA_ID && e.hasContent).flatMap((e) =>
+    e.id === "hud" ? ["era/hud", ...hudSitePaths()] : [`era/${e.id}`]
+  );
+  return ["/", ...destinations, ...skillPaths, "cv", ...eraPaths].map(canonicalPath);
+}
+
+/** Sitemap paths of the HUD era (its home + main panels). */
+function hudSitePaths(): string[] {
+  return ["missions", "profile", "skills", "certifications", "contact"].map(
+    (panel) => `era/hud/${panel}`
+  );
 }

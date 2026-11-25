@@ -53,6 +53,16 @@ export function getProjectSlug(sm: SubMission): string {
   return sm.slug;
 }
 
+/** Static params for the HUD missions index (`/era/hud/missions`). */
+export function listMissionParams(): { missionId: string }[] {
+  return missions.map((m) => ({ missionId: m.id }));
+}
+
+/** Static params for HUD mission projects (`/era/hud/missions/<id>/<slug>`). */
+export function listMissionProjectParams(): { missionId: string; projectId: string }[] {
+  return missions.flatMap((m) => m.subMissions.map((sm) => ({ missionId: m.id, projectId: sm.slug })));
+}
+
 /** Sprite ids of every project in a mission (orb highlight). */
 export function missionSpriteIds(mission: Mission): string[] {
   return [...new Set(mission.subMissions.flatMap((s) => s.spriteIds))];

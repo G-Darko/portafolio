@@ -17,7 +17,14 @@ export const LINKEDIN_LABEL = LINKEDIN_URL?.replace(/^https?:\/\/(www\.)?/, "").
 /** Local only: the phone is not published by the API. */
 export const PHONE = "+52 720 294 8727";
 export const FORMSPREE_ENDPOINT = "https://formspree.io/f/xlevgjee";
-export const CV_PATH = "/cv/documento";
+/**
+ * The CV document. Option B (Gael, Ronda 7): `/cv` IS the document
+ * (`CvView`), identical in every era, outside the era system. The old
+ * value pointed at `/cv/documento/`; that route stays as an alias that
+ * renders the same document. The Exordia CV planet's deep link moved to
+ * `/era/exordia/cv/` (see lib/nyxheim/routes.ts).
+ */
+export const CV_PATH = "/cv";
 
 /** Digits-only E.164-ish value for `tel:` links. */
 export function telHref(phone: string = PHONE): string {

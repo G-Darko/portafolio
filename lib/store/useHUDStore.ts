@@ -24,6 +24,7 @@ interface HUDState {
   konamiActive: boolean;
 
   completeBoot: () => void;
+  endSession: () => void;
   openPanel: (id: PanelId) => void;
   closePanel: () => void;
   togglePanel: (id: PanelId) => void;
@@ -47,6 +48,17 @@ export const useHUDStore = create<HUDState>()(
       konamiActive: false,
 
       completeBoot: () => set({ sessionActive: true, bootupDone: true }),
+      // Back to the boot gate (used by the classic HUD header + terminal).
+      // Restored with the HUD era (Ronda 7); `bootEpoch` remounts BootupSequence.
+      endSession: () =>
+        set((s) => ({
+          sessionActive: false,
+          bootupDone: false,
+          activePanel: null,
+          activeMissionId: null,
+          activeSubMissionId: null,
+          bootEpoch: s.bootEpoch + 1,
+        })),
       openPanel: (id) =>
         set({
           activePanel: id,

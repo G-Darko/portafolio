@@ -15,6 +15,8 @@ import { getNyxheimBody } from "@/lib/nyxheim/bodies";
 import { useHUDStore } from "@/lib/store/useHUDStore";
 import { startAmbient } from "@/lib/audio/ambient";
 import HudStatusDot from "@/components/hud/HudStatusDot";
+import { EraSwitcher } from "@/components/eras/EraSwitcher";
+import { useEraTravel } from "@/components/eras/EraTravel";
 
 /**
  * The welcome card is born closed: it opens from the Exordia button in the
@@ -67,6 +69,8 @@ function OverviewCard() {
           <strong className="text-hud-cyan">{NYXHEIM_STATS.certifications}</strong> {t.nyxheim.certs}
         </span>
       </div>
+      {/* Era switcher (Ronda 7): the same portfolio, in another era. */}
+      <EraSwitcher currentEra="exordia" variant="card" />
     </motion.div>
   );
 }
@@ -81,6 +85,10 @@ export default function NyxheimWorld() {
   // Pause the WebGL loop when the tab is hidden or the world is offscreen,
   // same pattern as TechSphere.
   const [frameloop, setFrameloop] = useState<"always" | "never">("always");
+  // During an era travel the tunnel overlay covers the world completely,
+  // so the loop pauses: rendering behind an opaque overlay is wasted
+  // work, and on software renderers it starves the travel timers.
+  const { travelingTo } = useEraTravel();
 
   // Deep routes: every body opens by URL, with history and shareable links.
   useNyxheimRouting();
@@ -90,13 +98,13 @@ export default function NyxheimWorld() {
       const offscreen = wrapperRef.current
         ? !wrapperRef.current.getBoundingClientRect().width
         : false;
-      setFrameloop(document.hidden || offscreen ? "never" : "always");
+      setFrameloop(travelingTo || document.hidden || offscreen ? "never" : "always");
     };
     update();
     const onVisibility = () => update();
     document.addEventListener("visibilitychange", onVisibility);
     const observer = new IntersectionObserver(
-      ([entry]) => setFrameloop(document.hidden || !entry.isIntersecting ? "never" : "always"),
+      ([entry]) => setFrameloop(travelingTo || document.hidden || !entry.isIntersecting ? "never" : "always"),
       { threshold: 0 }
     );
     if (wrapperRef.current) observer.observe(wrapperRef.current);
@@ -104,7 +112,7 @@ export default function NyxheimWorld() {
       document.removeEventListener("visibilitychange", onVisibility);
       observer.disconnect();
     };
-  }, []);
+  }, [travelingTo]);
 
   // Esc returns to the overview. Arrows/WASD fly the camera (camera rig).
   useEffect(() => {
