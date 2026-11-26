@@ -12,8 +12,13 @@ export function NyxheimScene({ reduced }: { reduced: boolean }) {
     <>
       <color attach="background" args={["#05070d"]} />
       <fog attach="fog" args={["#05070d", 70, 160]} />
-      <ambientLight intensity={0.45} />
-      <directionalLight position={[20, 30, 10]} intensity={0.6} color="#cfe8ff" />
+      {/* The sun is the key light (its point light lives on the sun
+          mesh, with distance falloff): the ambient and the directional
+          are only a faint fill, so the night side of every planet is
+          actually dark and the terminator reads. Flat even light was
+          half of the plastic look. */}
+      <ambientLight intensity={0.22} />
+      <directionalLight position={[20, 30, 10]} intensity={0.12} color="#cfe8ff" />
       <Stars radius={90} depth={40} count={2500} factor={3} saturation={0} fade speed={reduced ? 0 : 0.5} />
       {ORBIT_RINGS.map((r) => (
         <mesh key={r} rotation-x={Math.PI / 2} position={[0, 0, 0]}>

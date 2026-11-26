@@ -2,28 +2,15 @@
  * Procedural planet textures, drawn on canvas at runtime. No new image
  * assets: each body reads as its project (Skool = ruled notebook paper,
  * KRKN = stacked containers, Duplica = teal seas, CRESER = green fields).
+ *
+ * Every kind draws ONCE into one canvas; the color map, the bump map and
+ * the roughness map are three texture views of related canvases, so the
+ * relief and the roughness variation always match the surface you see.
+ * That is what keeps the planets from looking like smooth plastic:
+ * uniform roughness + a flat color map + even light reads as a toy ball.
  */
 import * as THREE from "three";
 import type { PlanetTextureKind } from "./bodies";
-
-function makeTexture(
-  w: number,
-  h: number,
-  draw: (ctx: CanvasRenderingContext2D, w: number, h: number) => void
-): THREE.CanvasTexture {
-  const canvas = document.createElement("canvas");
-  canvas.width = w;
-  canvas.height = h;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("Nyxheim: canvas 2d unavailable");
-  draw(ctx, w, h);
-  const tex = new THREE.CanvasTexture(canvas);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  tex.wrapS = THREE.RepeatWrapping;
-  tex.wrapT = THREE.RepeatWrapping;
-  tex.anisotropy = 4;
-  return tex;
-}
 
 function blotches(
   ctx: CanvasRenderingContext2D,
@@ -244,13 +231,167 @@ const DRAWERS: Record<PlanetTextureKind, (ctx: CanvasRenderingContext2D, w: numb
   },
 };
 
+/** Draw each kind once and keep its canvas: the color map and the bump
+    map must be two views of the SAME drawing, or the relief would not
+    match the surface. */
+const canvasCache = new Map<PlanetTextureKind, HTMLCanvasElement>();
+
+function getPlanetCanvas(kind: PlanetTextureKind): HTMLCanvasElement {
+  const cached = canvasCache.get(kind);
+  if (cached) return cached;
+  const canvas = document.createElement("canvas");
+  canvas.width = 512;
+  canvas.height = 256;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Nyxheim: canvas 2d unavailable");
+  DRAWERS[kind](ctx, 512, 256);
+  canvasCache.set(kind, canvas);
+  return canvas;
+}
+
+function textureFromCanvas(
+  canvas: HTMLCanvasElement,
+  colorSpace: THREE.ColorSpace
+): THREE.CanvasTexture {
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = colorSpace;
+  tex.wrapS = THREE.RepeatWrapping;
+  tex.wrapT = THREE.RepeatWrapping;
+  tex.anisotropy = 4;
+  return tex;
+}
+
 /** Memoize per kind: textures are shared by every body of that kind. */
 const cache = new Map<PlanetTextureKind, THREE.CanvasTexture>();
 
 export function getPlanetTexture(kind: PlanetTextureKind): THREE.CanvasTexture {
   const cached = cache.get(kind);
   if (cached) return cached;
-  const tex = makeTexture(512, 256, DRAWERS[kind]);
+  const tex = textureFromCanvas(getPlanetCanvas(kind), THREE.SRGBColorSpace);
   cache.set(kind, tex);
+  return tex;
+}
+
+/**
+ * Relief from the same drawing as the color map: the bump uses the
+ * canvas luminance, so seas, fields and container edges all get real
+ * shading instead of a perfectly smooth ball. Linear (not sRGB): a bump
+ * map is data, not color.
+ */
+const bumpCache = new Map<PlanetTextureKind, THREE.CanvasTexture>();
+
+export function getPlanetBumpMap(kind: PlanetTextureKind): THREE.CanvasTexture {
+  const cached = bumpCache.get(kind);
+  if (cached) return cached;
+  const tex = textureFromCanvas(getPlanetCanvas(kind), THREE.NoColorSpace);
+  bumpCache.set(kind, tex);
+  return tex;
+}
+
+/**
+ * Roughness variation, so no two patches of a planet reflect alike:
+ * a flat gray at `base` plus soft lighter/darker blotches and speckle.
+ * The material sets roughness to 1 and lets this map carry the value.
+ */
+const roughnessCache = new Map<PlanetTextureKind, THREE.CanvasTexture>();
+
+export function getPlanetRoughnessMap(
+  kind: PlanetTextureKind,
+  base: number
+): THREE.CanvasTexture {
+  const cached = roughnessCache.get(kind);
+  if (cached) return cached;
+  const w = 256;
+  const h = 128;
+  const canvas = document.createElement("canvas");
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Nyxheim: canvas 2d unavailable");
+  const gray = Math.round(THREE.MathUtils.clamp(base, 0.05, 1) * 255);
+  ctx.fillStyle = `rgb(${gray},${gray},${gray})`;
+  ctx.fillRect(0, 0, w, h);
+  // Soft patches rougher (+) and smoother (-) than the base.
+  const spread = 55;
+  for (let i = 0; i < 42; i++) {
+    const x = Math.random() * w;
+    const y = Math.random() * h;
+    const r = 12 + Math.random() * 48;
+    const v = THREE.MathUtils.clamp(gray + (Math.random() < 0.5 ? -1 : 1) * Math.random() * spread, 0, 255);
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, `rgba(${v},${v},${v},0.6)`);
+    g.addColorStop(1, `rgba(${v},${v},${v},0)`);
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  speckle(ctx, w, h, "#ffffff", 220, 2);
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.NoColorSpace;
+  tex.wrapS = THREE.RepeatWrapping;
+  tex.wrapT = THREE.RepeatWrapping;
+  roughnessCache.set(kind, tex);
+  return tex;
+}
+
+/**
+ * Duplica's ring, painted instead of flat-colored: ringGeometry UVs are
+ * planar, so concentric arcs on this canvas become bands on the ring —
+ * bright narrow lanes, a darker Cassini-style gap, and a soft outer
+ * fade. Transparent where there is no band, so the planet shows through
+ * the gaps.
+ */
+let ringTexture: THREE.CanvasTexture | null = null;
+
+export function getRingTexture(): THREE.CanvasTexture {
+  if (ringTexture) return ringTexture;
+  const s = 512;
+  const canvas = document.createElement("canvas");
+  canvas.width = s;
+  canvas.height = s;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Nyxheim: canvas 2d unavailable");
+  const cx = s / 2;
+  const cy = s / 2;
+  // RingGeometry [1.35, 2.1] of a size-2.3 planet maps to UV radius
+  // 1.35/2.1 = 0.643 .. 1.0 of the half-canvas, i.e. px 165 .. 256.
+  const rInner = 0.643 * (s / 2);
+  const rOuter = s / 2;
+  const bands: Array<[number, number, string]> = [
+    [0.0, 0.1, "rgba(94, 234, 212, 0.85)"],
+    [0.1, 0.18, "rgba(204, 251, 241, 0.5)"],
+    [0.18, 0.3, "rgba(45, 212, 191, 0.75)"],
+    [0.3, 0.38, "rgba(13, 148, 136, 0.25)"],
+    [0.38, 0.55, "rgba(94, 234, 212, 0.65)"],
+    [0.55, 0.68, "rgba(153, 246, 228, 0.55)"],
+    [0.68, 0.8, "rgba(45, 212, 191, 0.4)"],
+    [0.8, 0.92, "rgba(94, 234, 212, 0.3)"],
+    [0.92, 1.0, "rgba(204, 251, 241, 0.12)"],
+  ];
+  for (const [t0, t1, color] of bands) {
+    const r0 = rInner + (rOuter - rInner) * t0;
+    const r1 = rInner + (rOuter - rInner) * t1;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = Math.max(1, r1 - r0);
+    ctx.beginPath();
+    ctx.arc(cx, cy, (r0 + r1) / 2, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+  // Fine streaks: thin bright arcs at random radii, like ice lanes.
+  for (let i = 0; i < 60; i++) {
+    const r = rInner + Math.random() * (rOuter - rInner);
+    const a0 = Math.random() * Math.PI * 2;
+    const a1 = a0 + 0.4 + Math.random() * 1.6;
+    ctx.strokeStyle = `rgba(255, 255, 255, ${0.08 + Math.random() * 0.22})`;
+    ctx.lineWidth = 1 + Math.random() * 2;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, a0, a1);
+    ctx.stroke();
+  }
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 4;
+  ringTexture = tex;
   return tex;
 }
