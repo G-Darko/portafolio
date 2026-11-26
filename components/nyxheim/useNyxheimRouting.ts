@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useHUDStore } from "@/lib/store/useHUDStore";
 import { useNyxheimStore } from "@/lib/nyxheim/useNyxheimStore";
-import { bodyToHref, nyxheimBasePath, parseNyxheimPath } from "@/lib/nyxheim/routes";
+import { bodyToHref, nyxheimLinkBase, parseNyxheimPath } from "@/lib/nyxheim/routes";
 
 /**
  * Syncs the Nyxheim world focus with Next.js routing, same guard pattern
@@ -52,10 +52,14 @@ export function useNyxheimRouting() {
     if (!sessionActive && !bootupDone) return;
     if (syncingFromUrl.current) return;
 
+    // Links the world builds are root-relative while Exordia is the
+    // active era (nyxheimLinkBase collapses the /era/exordia prefix);
+    // the prefix only survives when Exordia is NOT the active era.
+    const linkBase = nyxheimLinkBase(pathname);
     const href = focusedId
-      ? bodyToHref(focusedId, focusedSkillId, nyxheimBasePath(pathname))
-      : nyxheimBasePath(pathname)
-        ? `${nyxheimBasePath(pathname)}/`
+      ? bodyToHref(focusedId, focusedSkillId, linkBase)
+      : linkBase
+        ? `${linkBase}/`
         : "/";
     if (href === lastHref.current || href === pathname) {
       lastHref.current = href;

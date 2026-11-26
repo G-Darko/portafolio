@@ -8,6 +8,7 @@
  * lives in (hud)/layout, so soft navigations never remount the canvas.
  */
 import { buildSkills } from "@/lib/data/skills";
+import { ACTIVE_ERA_ID } from "@/lib/eras";
 import {
   getNyxheimBody,
   getProjectBodyBySlug,
@@ -54,6 +55,23 @@ export function nyxheimBasePath(pathname: string): string {
     : "";
 }
 
+/**
+ * Base for links the world builds (see `useNyxheimRouting`): "" while
+ * Exordia is the active era — its root URLs are canonical, so a planet
+ * clicked from `/era/exordia/cv/` goes to `/skool/`, not
+ * `/era/exordia/skool/`. The explicit prefix only survives when
+ * Exordia is NOT the active era. `nyxheimBasePath` is untouched: it
+ * still strips the prefix when PARSING, so `/era/exordia/cv/` keeps
+ * resolving to the CV planet. Same collapse as `hudBasePath()` in
+ * `lib/hud/routes.ts`.
+ */
+export function nyxheimLinkBase(pathname: string): string {
+  const base = nyxheimBasePath(pathname);
+  if (!base) return "";
+  const eraId = base.slice("/era/".length);
+  return eraId === ACTIVE_ERA_ID ? "" : base;
+}
+
 /** Static params for the (hud)/sinistra/[skill] route. */
 export function listSinistraSkillParams(): { skill: string }[] {
   return buildSkills.map((s) => ({ skill: s.id }));
@@ -82,9 +100,11 @@ export function bodySegment(body: NyxheimBody): string {
 
 /**
  * Browser URL for a body (trailing slash, like the rest of the site).
- * `base` is the era prefix when the world renders under `/era/exordia`
- * ("" at the root). The CV planet has no root twin anymore (option B:
- * `/cv` is the document), so it always points at `/era/exordia/cv/`.
+ * `base` is the era prefix for links (`nyxheimLinkBase`: "" while
+ * Exordia is the active era, `/era/exordia` otherwise). The CV planet
+ * has no root twin anymore (option B: `/cv` is the document), so it
+ * always points at `/era/exordia/cv/` — but from there, every other
+ * planet link is root-relative again.
  */
 export function bodyToHref(bodyId: string, skillId?: string | null, base = ""): string {
   if (bodyId === "cv") return "/era/exordia/cv/";
