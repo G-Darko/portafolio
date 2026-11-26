@@ -170,9 +170,13 @@ function BodyLabel({ body }: { body: NyxheimBody }) {
     return null;
   }
   // The sun is scenery: its tag is a name only, never a button.
+  // The tag never intercepts the pointer: in "hover" mode the drei Html
+  // wrapper defaults to pointer-events auto, so an intercepting tag
+  // would steal the canvas pointermove, clear the hover that showed it,
+  // and flicker on and off under a still cursor.
   if (body.kind === "sun") {
     return (
-      <Html center distanceFactor={14} zIndexRange={[60, 0]}>
+      <Html center distanceFactor={14} zIndexRange={[60, 0]} style={{ pointerEvents: "none" }}>
         <span className="pointer-events-none flex shrink-0 items-center gap-1.5 rounded-full border border-hud-border/70 bg-hud-bg/85 px-2.5 py-1 font-mono text-xs font-bold whitespace-nowrap text-foreground backdrop-blur-md">
           <span
             aria-hidden
@@ -184,8 +188,20 @@ function BodyLabel({ body }: { body: NyxheimBody }) {
       </Html>
     );
   }
+  // In "hover" mode the tag must not intercept the pointer: hover is
+  // governed by the 3D mesh (BodyMesh onPointerOver), and an intercepting
+  // tag would steal the canvas pointermove, clear the hover that showed
+  // it, and flicker on and off under a still cursor. The planet itself
+  // stays clickable, so the tag needs no pointer in this mode. In
+  // "always" mode visibility does not depend on hover, so the tag stays
+  // a clickable button.
   return (
-    <Html center distanceFactor={14} zIndexRange={[60, 0]}>
+    <Html
+      center
+      distanceFactor={14}
+      zIndexRange={[60, 0]}
+      style={labelMode === "hover" ? { pointerEvents: "none" } : undefined}
+    >
       <button
         type="button"
         onClick={(e) => {
@@ -195,7 +211,7 @@ function BodyLabel({ body }: { body: NyxheimBody }) {
         onPointerEnter={() => setHovered(body.id)}
         onPointerLeave={() => setHovered(null)}
         aria-label={name}
-        className={`pointer-events-auto flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-xs font-bold whitespace-nowrap backdrop-blur-md transition-colors hud-focus-ring ${
+        className={`${labelMode === "hover" ? "pointer-events-none" : "pointer-events-auto"} flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-xs font-bold whitespace-nowrap backdrop-blur-md transition-colors hud-focus-ring ${
           focused
             ? "border-hud-cyan bg-hud-cyan/25 text-foreground"
             : "border-hud-border/70 bg-hud-bg/85 text-foreground hover:border-hud-cyan/60"
@@ -221,6 +237,7 @@ function MoonBody({ body, reduced }: { body: NyxheimBody; reduced: boolean }) {
   const texture = useMemo(() => getPlanetTexture(body.texture), [body.texture]);
   const atmosphere = PLANET_MATERIALS[body.texture].atmosphere;
   const tmp = useMemo(() => new THREE.Vector3(), []);
+  const setHovered = useNyxheimStore((s) => s.setHovered);
 
   useFrame((_, delta) => {
     if (!reduced) angleRef.current += body.orbitSpeed * delta;
@@ -249,7 +266,19 @@ function MoonBody({ body, reduced }: { body: NyxheimBody; reduced: boolean }) {
   }, [body.id]);
 
   return (
-    <group ref={groupRef}>
+    <group
+      ref={groupRef}
+      onPointerOver={(e) => {
+        // Stop at the moon: without this the event would bubble to
+        // Duplica's group and show Duplica's tag over CRESER.
+        e.stopPropagation();
+        setHovered(body.id);
+      }}
+      onPointerOut={(e) => {
+        e.stopPropagation();
+        setHovered(null);
+      }}
+    >
       <mesh ref={meshRef}>
         <sphereGeometry args={[body.size, 32, 32]} />
         <PlanetMaterial kind={body.texture} texture={texture} color={body.color} />
@@ -301,6 +330,12 @@ function BodyMesh({ body, reduced }: { body: NyxheimBody; reduced: boolean }) {
   const atmosphere = PLANET_MATERIALS[body.texture].atmosphere;
   const tmp = useMemo(() => new THREE.Vector3(), []);
   const moonBody = body.id === "project-duplica" ? getNyxheimBody("project-creser") : undefined;
+  // Hover is governed here, from the 3D mesh: until now no mesh carried
+  // pointer handlers, so hovering a planet never set hoveredId and its
+  // tag could never appear in "hover" mode (only the constellation
+  // stars had handlers). The group covers the whole body (sphere, rings,
+  // halo) so the tag stays up while the cursor moves across it.
+  const setHovered = useNyxheimStore((s) => s.setHovered);
 
   useFrame((_, delta) => {
     if (body.kind === "sun") {
@@ -341,7 +376,18 @@ function BodyMesh({ body, reduced }: { body: NyxheimBody; reduced: boolean }) {
   const isSun = body.kind === "sun";
 
   return (
-    <group ref={groupRef} position={isSun ? [0, 0, 0] : undefined}>
+    <group
+      ref={groupRef}
+      position={isSun ? [0, 0, 0] : undefined}
+      onPointerOver={(e) => {
+        e.stopPropagation();
+        setHovered(body.id);
+      }}
+      onPointerOut={(e) => {
+        e.stopPropagation();
+        setHovered(null);
+      }}
+    >
       <group ref={spinRef}>
         {isSun ? (
           <>
@@ -349,8 +395,11 @@ function BodyMesh({ body, reduced }: { body: NyxheimBody; reduced: boolean }) {
               <sphereGeometry args={[body.size, 48, 48]} />
               <meshBasicMaterial map={texture} />
             </mesh>
-            {/* Corona: two additive shells around the sun. */}
-            <mesh>
+            {/* Corona: two additive shells around the sun. Pure glow, so
+                they never raycast: a glow shell must not steal the hover
+                from a planet that happens to sit behind it (its tag would
+                never show, only the sun's). */}
+            <mesh raycast={() => null}>
               <sphereGeometry args={[body.size * 1.25, 32, 32]} />
               <meshBasicMaterial
                 color="#ffb347"
@@ -360,7 +409,7 @@ function BodyMesh({ body, reduced }: { body: NyxheimBody; reduced: boolean }) {
                 depthWrite={false}
               />
             </mesh>
-            <mesh>
+            <mesh raycast={() => null}>
               <sphereGeometry args={[body.size * 1.6, 32, 32]} />
               <meshBasicMaterial
                 color="#ff8c00"
@@ -405,7 +454,10 @@ function BodyMesh({ body, reduced }: { body: NyxheimBody; reduced: boolean }) {
                 depthWrite={false}
               />
             </mesh>
-            <mesh>
+            {/* Outer glow shell: pure glow, never a hover target, same as
+                the sun's corona — it must not steal the hover from a body
+                sitting behind it. */}
+            <mesh raycast={() => null}>
               <sphereGeometry args={[body.size * 1.5, 32, 32]} />
               <meshBasicMaterial
                 color="#ff8c1a"
@@ -552,6 +604,7 @@ function Constellation({ reduced }: { reduced: boolean }) {
   const focusedSkillId = useNyxheimStore((s) => s.focusedSkillId);
   const focusedId = useNyxheimStore((s) => s.focusedId);
   const overviewOpen = useNyxheimStore((s) => s.overviewOpen);
+  const labelMode = useNyxheimSettings((s) => s.labelMode);
   const tmp = useMemo(() => new THREE.Vector3(), []);
 
   // Deterministic orbit per star (stable layout, no random jumps).
@@ -603,11 +656,15 @@ function Constellation({ reduced }: { reduced: boolean }) {
     <group ref={groupRef}>
       {CONSTELLATION_STARS.map((star, i) => {
         // Star name tags only ride the scene while no panel or welcome
-        // card is open; with either open they would cover its text.
-        // Stars are always hover-gated (they were never "always
-        // visible"); the label mode governs the body labels.
+        // card is open; with either open they would cover its text. The
+        // label mode governs them like the body tags: in "always" mode
+        // every star shows its name, in "hover" mode only the hovered
+        // star does (they used to be hover-gated in both modes, so
+        // "always" showed the planets but never the constellation).
         const showLabel =
-          focusedId === null && !overviewOpen && hoveredSkillId === star.id;
+          focusedId === null &&
+          !overviewOpen &&
+          (labelMode === "always" || hoveredSkillId === star.id);
         // Hover lights the star up — and so does being the focused
         // destination (deep link or click in the panel), so the star you
         // traveled to is always identifiable.
@@ -647,8 +704,13 @@ function Constellation({ reduced }: { reduced: boolean }) {
                 />
               </mesh>
             )}
+            {/* The tag is a name only and never intercepts the pointer:
+                the drei Html wrapper defaults to pointer-events auto, so
+                without this the tag would steal the canvas pointermove,
+                clear the star hover that showed it, and flicker on and
+                off under a still cursor. */}
             {showLabel && (
-              <Html center distanceFactor={12} zIndexRange={[55, 0]}>
+              <Html center distanceFactor={12} zIndexRange={[55, 0]} style={{ pointerEvents: "none" }}>
                 <span className="pointer-events-none rounded-full border border-hud-border/70 bg-hud-bg/90 px-2 py-0.5 font-mono text-xs font-bold whitespace-nowrap text-foreground backdrop-blur-md">
                   {star.name}
                 </span>
@@ -733,7 +795,12 @@ function SinistraLabel({ reduced }: { reduced: boolean }) {
 
   return (
     <group ref={groupRef}>
-      <Html center distanceFactor={14} zIndexRange={[60, 0]}>
+      <Html
+        center
+        distanceFactor={14}
+        zIndexRange={[60, 0]}
+        style={labelMode === "hover" ? { pointerEvents: "none" } : undefined}
+      >
         <button
           type="button"
           onClick={(e) => {
@@ -743,7 +810,7 @@ function SinistraLabel({ reduced }: { reduced: boolean }) {
           onPointerEnter={() => setHovered("sinistra")}
           onPointerLeave={() => setHovered(null)}
           aria-label={t.nyxheim.sinistra}
-          className="pointer-events-auto flex shrink-0 items-center gap-1.5 rounded-full border border-hud-border/70 bg-hud-bg/85 px-2.5 py-1 font-mono text-xs font-bold whitespace-nowrap text-foreground backdrop-blur-md transition-colors hud-focus-ring hover:border-hud-cyan/60"
+          className={`${labelMode === "hover" ? "pointer-events-none" : "pointer-events-auto"} flex shrink-0 items-center gap-1.5 rounded-full border border-hud-border/70 bg-hud-bg/85 px-2.5 py-1 font-mono text-xs font-bold whitespace-nowrap text-foreground backdrop-blur-md transition-colors hud-focus-ring hover:border-hud-cyan/60`}
         >
           <span
             aria-hidden
