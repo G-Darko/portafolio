@@ -20,7 +20,9 @@ export interface EraDef {
   id: EraId;
   /** Display name (a proper name, never translated). */
   name: string;
-  /** Years shown on the time-travel date card. */
+  /** Years the era spans. Kept in the registry as data, but NOT
+   * displayed anywhere: neither the travel overlay nor the dial show
+   * years (Ronda 7 pulido). */
   years: string;
   /** i18n key for the short tagline (see `t.eras.*`). */
   taglineKey: string;
