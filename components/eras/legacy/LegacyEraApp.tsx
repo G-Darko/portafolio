@@ -38,9 +38,10 @@
  *   the site uses (`lib/data/profile.ts`).
  */
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
-import { Mail, Menu, X } from "lucide-react";
+import { Globe, Mail, Menu, X } from "lucide-react";
 import { useTranslation } from "@/lib/i18n/useTranslation";
 import { useLocaleStore } from "@/lib/store/useLocaleStore";
+import { playHUDClick } from "@/lib/audio/audio";
 import SkillIcon from "@/components/SkillIcon";
 import TechIconsSprite from "@/components/TechIconsSprite";
 import { EraSwitcher } from "@/components/eras/EraSwitcher";
@@ -68,6 +69,10 @@ const NAV_ITEMS = [
 
 export default function LegacyEraApp() {
   const { t, locale } = useTranslation();
+  // Same store/action as the HUD and Exordia headers: the persisted
+  // locale lives in `useLocaleStore`, so toggling here re-renders every
+  // era (and the shell) in the new language.
+  const toggleLocale = useLocaleStore((s) => s.toggleLocale);
   // Hydration gate (same pattern as HudEraApp): the server prerenders
   // with the Node default locale ("en"), but the client renders in the
   // visitor's locale — rendering locale-dependent copy before the
@@ -165,10 +170,13 @@ export default function LegacyEraApp() {
       <TechIconsSprite />
       <style>{`
         .lgcy-warp {
+          /* Clean circular glow behind the photo: the original's
+             circular fondo.gif (350 px, opacity .6, hue animation).
+             A single radial gradient only — the previous
+             repeating-conic-gradient painted radial stripes
+             ("rayas raras") around the photo instead of a halo. */
           background:
-            radial-gradient(circle at 50% 50%, #ffffff 0%, #ff2d55 8%, #7f1d1d 22%, rgba(60, 10, 10, 0.6) 38%, transparent 55%),
-            repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 255, 255, 0.6) 0deg 0.5deg, rgba(255, 45, 85, 0.35) 0.5deg 1deg, transparent 1deg 3.5deg),
-            radial-gradient(circle at 50% 50%, #3f0a0a 0%, #12060a 60%, #0a0a0a 100%);
+            radial-gradient(circle at 50% 50%, rgba(13, 248, 249, 0.4) 0%, rgba(13, 130, 249, 0.22) 38%, rgba(102, 204, 255, 0.08) 58%, transparent 72%);
           animation: lgcy-hue 5s linear infinite;
         }
         .lgcy-ring {
@@ -266,6 +274,23 @@ export default function LegacyEraApp() {
               ))}
             </ul>
           </nav>
+          {/* Language switch (Ronda 7 polish): LEGACY already respected
+              the persisted locale, but had no way to change it. Same
+              store/action as the HUD and Exordia headers. Desktop only —
+              on mobile it lives inside the menu below. */}
+          <button
+            type="button"
+            onClick={() => {
+              playHUDClick();
+              toggleLocale();
+            }}
+            className="hidden h-11 items-center justify-center gap-1.5 rounded-[10px] border border-[#66ccff]/60 bg-[#1e1e1e] px-3 text-sm font-bold text-[#f0f0f0] transition-colors hover:border-[#66ccff] hover:text-[#66ccff] md:flex"
+            title={t.legacy.toggleLanguage}
+            aria-label={t.legacy.toggleLanguage}
+          >
+            <Globe size={16} aria-hidden />
+            {locale.toUpperCase()}
+          </button>
           <button
             type="button"
             className="flex h-11 w-11 items-center justify-center text-[2em] text-[#f0f0f0] md:hidden"
@@ -294,6 +319,21 @@ export default function LegacyEraApp() {
                     </a>
                   </li>
                 ))}
+                <li className="my-1.5 w-full">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      playHUDClick();
+                      toggleLocale();
+                      setMenuOpen(false);
+                    }}
+                    className="mx-auto flex items-center justify-center gap-1.5 rounded-[10px] border border-[#66ccff]/60 bg-[#1e1e1e] px-3 py-1 text-base font-bold text-[#f0f0f0] transition-colors hover:border-[#66ccff] hover:text-[#66ccff]"
+                    aria-label={t.legacy.toggleLanguage}
+                  >
+                    <Globe size={16} aria-hidden />
+                    {locale.toUpperCase()} — {t.legacy.toggleLanguage}
+                  </button>
+                </li>
               </ul>
             </nav>
           )}
@@ -377,8 +417,11 @@ export default function LegacyEraApp() {
           <div className="hero relative flex h-[350px] w-[350px] max-w-full items-center justify-center">
             <div className="lgcy-warp absolute inset-0 rounded-full opacity-60" aria-hidden />
             <div className="perfil absolute inset-0 flex items-center justify-center" aria-hidden>
-              <div className="lgcy-ring absolute h-[245px] w-[245px] rounded-full opacity-60 blur-[5px]" />
-              <div className="lgcy-ring absolute h-[200px] w-[200px] rounded-full opacity-60 blur-[5px]" />
+              {/* Solid gradient circles, like the original `.circulo-t`
+                  (245 px) and `.circulo` (200 px): no blur — the blur
+                  smeared the rings into the striped warp behind them. */}
+              <div className="lgcy-ring absolute h-[245px] w-[245px] rounded-full opacity-60" />
+              <div className="lgcy-ring absolute h-[200px] w-[200px] rounded-full opacity-60" />
               <div className="absolute">
                 {/* eslint-disable-next-line @next/next/no-img-element -- local /img/DARKO.png, the legacy avatar */}
                 <img

@@ -311,6 +311,7 @@ const es = {
       certView: "Ver certificado",
       certFolio: "Folio para validar",
       visitSite: "Ir a la página",
+      toggleLanguage: "Cambiar idioma",
       typewriterRoles: ["Desarrollador web & ", "de Software: ", "Frontend &", "Backend."],
     },
 } as const;
@@ -622,6 +623,7 @@ const en: Copy = {
       certView: "View certificate",
       certFolio: "Validation folio",
       visitSite: "Visit page",
+      toggleLanguage: "Toggle language",
       typewriterRoles: ["Web developer & ", "Software: ", "Frontend &", "Backend."],
     },
 };
