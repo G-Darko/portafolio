@@ -146,12 +146,12 @@ export default function NyxheimWorld() {
   }, [focusedId, goOverview]);
 
   // Ambient drone: browsers block audio until the user interacts, so it
-  // only starts on the first pointer/key gesture — and only if sound is
-  // enabled in the settings.
+  // only starts on the first pointer/key gesture — and only if background
+  // sound is enabled in the settings.
   useEffect(() => {
     const onFirstGesture = () => {
       noteAmbientGesture();
-      startAmbient(useHUDStore.getState().soundEnabled);
+      startAmbient(useHUDStore.getState().backgroundSoundEnabled);
     };
     window.addEventListener("pointerdown", onFirstGesture, { once: true });
     window.addEventListener("keydown", onFirstGesture, { once: true });
@@ -161,18 +161,18 @@ export default function NyxheimWorld() {
     };
   }, []);
 
-  // The drone belongs to this world: it follows the settings sound
+  // The drone belongs to this world: it follows the background sound
   // switch while mounted and stops when the world unmounts — otherwise
   // the module singleton would keep playing the Exordia drone in the
   // HUD/LEGACY eras, where it was never meant to sound.
-  const soundEnabled = useHUDStore((s) => s.soundEnabled);
+  const backgroundSoundEnabled = useHUDStore((s) => s.backgroundSoundEnabled);
   useEffect(() => {
-    if (soundEnabled) {
+    if (backgroundSoundEnabled) {
       if (hasAmbientInteracted()) startAmbient(true);
     } else {
       setAmbientEnabled(false);
     }
-  }, [soundEnabled]);
+  }, [backgroundSoundEnabled]);
   useEffect(() => {
     return () => {
       stopAmbient();
