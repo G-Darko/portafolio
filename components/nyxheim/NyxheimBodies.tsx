@@ -15,10 +15,121 @@ import {
   liveBodyPositions,
   liveStarPositions,
   type NyxheimBody,
+  type PlanetTextureKind,
 } from "@/lib/nyxheim/bodies";
-import { getPlanetTexture } from "@/lib/nyxheim/textures";
+import {
+  getPlanetBumpMap,
+  getPlanetRoughnessMap,
+  getPlanetTexture,
+  getRingTexture,
+} from "@/lib/nyxheim/textures";
 import { useNyxheimStore } from "@/lib/nyxheim/useNyxheimStore";
 import { isCoarsePointer, useNyxheimSettings } from "@/lib/nyxheim/useNyxheimSettings";
+
+/** Surface recipe per texture kind: base roughness (the roughness map
+    varies around it), metalness, bump strength, atmosphere tint, and
+    the faint emissive lift on the night side. No kind shares one flat
+    0.9 roughness anymore — that single value, plus a flat color map and
+    even light, is what made every planet read as the same plastic ball.
+    Sun and accretion are never planet materials; they keep their
+    defaults so the table stays total over PlanetTextureKind. */
+const PLANET_MATERIALS: Record<
+  PlanetTextureKind,
+  {
+    roughness: number;
+    metalness: number;
+    bumpScale: number;
+    atmosphere: string | null;
+    emissive: number;
+  }
+> = {
+  duplica: { roughness: 0.8, metalness: 0.05, bumpScale: 0.05, atmosphere: "#2dd4bf", emissive: 0.06 },
+  creser: { roughness: 0.85, metalness: 0, bumpScale: 0.06, atmosphere: "#4ade80", emissive: 0.05 },
+  notebook: { roughness: 0.95, metalness: 0, bumpScale: 0.02, atmosphere: null, emissive: 0.04 },
+  containers: { roughness: 0.6, metalness: 0.25, bumpScale: 0.04, atmosphere: null, emissive: 0.04 },
+  aerial: { roughness: 0.85, metalness: 0.05, bumpScale: 0.05, atmosphere: "#f59e0b", emissive: 0.05 },
+  yiza: { roughness: 0.85, metalness: 0, bumpScale: 0.05, atmosphere: "#84cc16", emissive: 0.05 },
+  rock: { roughness: 1.0, metalness: 0, bumpScale: 0.08, atmosphere: null, emissive: 0.03 },
+  paper: { roughness: 0.95, metalness: 0, bumpScale: 0.015, atmosphere: null, emissive: 0.04 },
+  metal: { roughness: 0.55, metalness: 0.35, bumpScale: 0.03, atmosphere: null, emissive: 0.03 },
+  sun: { roughness: 1, metalness: 0, bumpScale: 0, atmosphere: null, emissive: 0 },
+  accretion: { roughness: 1, metalness: 0, bumpScale: 0, atmosphere: null, emissive: 0 },
+};
+
+/** A planet's surface: color map + matching bump relief + a roughness
+    map that varies around the kind's base (the material roughness is 1
+    so the map carries the value) + a faint emissive lift in the body's
+    own hue, so the night side is never dead black. */
+function PlanetMaterial({
+  kind,
+  texture,
+  color,
+}: {
+  kind: PlanetTextureKind;
+  texture: THREE.CanvasTexture;
+  color: string;
+}) {
+  const params = PLANET_MATERIALS[kind];
+  return (
+    <meshStandardMaterial
+      map={texture}
+      bumpMap={getPlanetBumpMap(kind)}
+      bumpScale={params.bumpScale}
+      roughnessMap={getPlanetRoughnessMap(kind, params.roughness)}
+      roughness={1}
+      metalness={params.metalness}
+      emissive={color}
+      emissiveIntensity={params.emissive}
+    />
+  );
+}
+
+const ATMOSPHERE_VERTEX = `
+  varying vec3 vNormal;
+  void main() {
+    vNormal = normalize(normalMatrix * normal);
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+
+const ATMOSPHERE_FRAGMENT = `
+  uniform vec3 uColor;
+  uniform float uIntensity;
+  varying vec3 vNormal;
+  void main() {
+    float rim = pow(0.65 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.5);
+    gl_FragColor = vec4(uColor, rim * uIntensity);
+  }
+`;
+
+/** Fresnel atmosphere: a slightly larger backside shell whose additive
+    glow hugs the planet's limb and fades outward — the planet reads as
+    a ball of gas and rock instead of a billboard. The planet itself
+    occludes the shell's bright center, so only the halo shows. */
+function AtmosphereGlow({ size, color }: { size: number; color: string }) {
+  const material = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        vertexShader: ATMOSPHERE_VERTEX,
+        fragmentShader: ATMOSPHERE_FRAGMENT,
+        uniforms: {
+          uColor: { value: new THREE.Color(color) },
+          uIntensity: { value: 0.7 },
+        },
+        side: THREE.BackSide,
+        blending: THREE.AdditiveBlending,
+        transparent: true,
+        depthWrite: false,
+      }),
+    [color]
+  );
+  useEffect(() => () => material.dispose(), [material]);
+  return (
+    <mesh material={material}>
+      <sphereGeometry args={[size * 1.22, 48, 48]} />
+    </mesh>
+  );
+}
 
 /** Display name of a body in the current locale. */
 export function useBodyName(body: NyxheimBody): string {
@@ -108,6 +219,7 @@ function MoonBody({ body, reduced }: { body: NyxheimBody; reduced: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const angleRef = useRef(body.orbitAngle);
   const texture = useMemo(() => getPlanetTexture(body.texture), [body.texture]);
+  const atmosphere = PLANET_MATERIALS[body.texture].atmosphere;
   const tmp = useMemo(() => new THREE.Vector3(), []);
 
   useFrame((_, delta) => {
@@ -140,8 +252,9 @@ function MoonBody({ body, reduced }: { body: NyxheimBody; reduced: boolean }) {
     <group ref={groupRef}>
       <mesh ref={meshRef}>
         <sphereGeometry args={[body.size, 32, 32]} />
-        <meshStandardMaterial map={texture} roughness={0.9} metalness={0.05} />
+        <PlanetMaterial kind={body.texture} texture={texture} color={body.color} />
       </mesh>
+      {atmosphere && <AtmosphereGlow size={body.size} color={atmosphere} />}
       <BodyLabel body={body} />
     </group>
   );
@@ -185,6 +298,7 @@ function BodyMesh({ body, reduced }: { body: NyxheimBody; reduced: boolean }) {
   const spinRef = useRef<THREE.Group>(null);
   const angleRef = useRef(body.orbitAngle);
   const texture = useMemo(() => getPlanetTexture(body.texture), [body.texture]);
+  const atmosphere = PLANET_MATERIALS[body.texture].atmosphere;
   const tmp = useMemo(() => new THREE.Vector3(), []);
   const moonBody = body.id === "project-duplica" ? getNyxheimBody("project-creser") : undefined;
 
@@ -256,7 +370,11 @@ function BodyMesh({ body, reduced }: { body: NyxheimBody; reduced: boolean }) {
                 depthWrite={false}
               />
             </mesh>
-            <pointLight intensity={2.2} decay={0} color="#ffd9a0" />
+            {/* The sun is the key light: distance falloff (decay 1) so
+                the inner planets are bright and the outer ones dimmer,
+                instead of the same flat light everywhere. At Duplica's
+                orbit (11 units) this is ~2.4; at the edge (~36) ~0.7. */}
+            <pointLight intensity={26} decay={1} color="#ffd9a0" />
           </>
         ) : body.kind === "blackhole" ? (
           <>
@@ -340,7 +458,7 @@ function BodyMesh({ body, reduced }: { body: NyxheimBody; reduced: boolean }) {
           <>
             <mesh>
               <cylinderGeometry args={[body.size, body.size, 0.18, 40]} />
-              <meshStandardMaterial map={texture} roughness={0.9} metalness={0} />
+              <PlanetMaterial kind={body.texture} texture={texture} color={body.color} />
             </mesh>
             <mesh position={[0, 0.14, 0]} rotation-y={0.4}>
               <boxGeometry args={[body.size * 1.1, 0.06, body.size * 0.8]} />
@@ -368,16 +486,18 @@ function BodyMesh({ body, reduced }: { body: NyxheimBody; reduced: boolean }) {
           <>
             <mesh>
               <sphereGeometry args={[body.size, 48, 48]} />
-              <meshStandardMaterial map={texture} roughness={0.9} metalness={0.05} />
+              <PlanetMaterial kind={body.texture} texture={texture} color={body.color} />
             </mesh>
+            {atmosphere && <AtmosphereGlow size={body.size} color={atmosphere} />}
             {body.ring && (
               <mesh rotation-x={Math.PI / 2.3}>
-                <ringGeometry args={[body.size * 1.35, body.size * 2.1, 64]} />
+                <ringGeometry args={[body.size * 1.35, body.size * 2.1, 96]} />
                 <meshBasicMaterial
-                  color="#5eead4"
+                  map={getRingTexture()}
                   transparent
-                  opacity={0.45}
+                  opacity={0.9}
                   side={THREE.DoubleSide}
+                  depthWrite={false}
                 />
               </mesh>
             )}
