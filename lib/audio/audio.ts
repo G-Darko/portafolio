@@ -52,9 +52,10 @@ export function playNavigate() {
  * 400→4000→300 Hz over ~0.9 s, same pattern as `lib/audio/ambient.ts`
  * (no audio files, no new dependencies) — and `arrival` on landing
  * (~1 s, when the route change is covered by the tunnel overlay).
- * Silent when sound is off: `syncHudAudioEnabled` keeps the local flag
- * in sync with `soundEnabled` in `useHUDStore` (and Cuelume's own
- * enabled flag silences the `scan`/`arrival` cues the same way).
+ * The travel sound is an effect: silent when effects are off.
+ * `syncHudAudioEnabled` keeps the local flag in sync with
+ * `effectsSoundEnabled` in `useHUDStore` (and Cuelume's own enabled
+ * flag silences the `scan`/`arrival` cues the same way).
  */
 export function playTimeTravel() {
   if (!soundOn || typeof window === "undefined") return;
@@ -122,19 +123,19 @@ export function playQTEMiss() {
   play("error");
 }
 
-/** Init once on the client; sync mute with HUD store. */
-export function initHudAudio(soundEnabled: boolean) {
+/** Init once on the client; sync mute with the effects flag in HUD store. */
+export function initHudAudio(effectsSoundEnabled: boolean) {
   bind();
   setVolume(0.7);
-  soundOn = soundEnabled;
-  setEnabled(soundEnabled);
+  soundOn = effectsSoundEnabled;
+  setEnabled(effectsSoundEnabled);
 }
 
-export function syncHudAudioEnabled(soundEnabled: boolean) {
-  soundOn = soundEnabled;
-  setEnabled(soundEnabled);
+export function syncHudAudioEnabled(effectsSoundEnabled: boolean) {
+  soundOn = effectsSoundEnabled;
+  setEnabled(effectsSoundEnabled);
 }
 
-/** Local mirror of `soundEnabled` (the store imports this module, so the
+/** Local mirror of `effectsSoundEnabled` (the store imports this module, so the
     flag is synced from the store side instead of importing it back). */
 let soundOn = true;

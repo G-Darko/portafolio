@@ -17,18 +17,59 @@ function SectionLabel({ children }: { children: string }) {
   );
 }
 
+function SoundSwitch({
+  label,
+  enabled,
+  onToggle,
+}: {
+  label: string;
+  enabled: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={enabled}
+      onClick={onToggle}
+      className="hud-focus-ring flex w-full items-center gap-2.5 rounded-lg border border-hud-border/60 px-3 py-2 text-left text-sm text-foreground transition-colors hover:border-hud-cyan/50"
+    >
+      {enabled ? (
+        <Volume2 size={16} aria-hidden className="shrink-0 text-hud-cyan" />
+      ) : (
+        <VolumeX size={16} aria-hidden className="shrink-0 text-muted-foreground" />
+      )}
+      <span className="min-w-0 flex-1">{label}</span>
+      <span
+        aria-hidden
+        className={`flex h-5 w-9 shrink-0 items-center rounded-full p-0.5 transition-colors ${
+          enabled ? "bg-hud-cyan/70" : "bg-hud-border/60"
+        }`}
+      >
+        <span
+          className={`h-4 w-4 rounded-full bg-white transition-transform ${
+            enabled ? "translate-x-4" : "translate-x-0"
+          }`}
+        />
+      </span>
+    </button>
+  );
+}
+
 /**
- * The Nyxheim settings popover: palette, sound (Cuelume cues + ambient
- * drone, one switch) and the label mode (hover-only by default, or always
- * visible). It replaces the standalone palette picker in the top bar so
- * every world setting lives in one place.
+ * The Nyxheim settings popover: palette, sound (background drone and
+ * effect cues, two separate switches) and the label mode (hover-only by
+ * default, or always visible). It replaces the standalone palette picker
+ * in the top bar so every world setting lives in one place.
  */
 export default function NyxheimSettings() {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
-  const soundEnabled = useHUDStore((s) => s.soundEnabled);
-  const toggleSound = useHUDStore((s) => s.toggleSound);
+  const backgroundSoundEnabled = useHUDStore((s) => s.backgroundSoundEnabled);
+  const toggleBackgroundSound = useHUDStore((s) => s.toggleBackgroundSound);
+  const effectsSoundEnabled = useHUDStore((s) => s.effectsSoundEnabled);
+  const toggleEffectsSound = useHUDStore((s) => s.toggleEffectsSound);
   const labelMode = useNyxheimSettings((s) => s.labelMode);
   const setLabelMode = useNyxheimSettings((s) => s.setLabelMode);
 
@@ -48,10 +89,17 @@ export default function NyxheimSettings() {
     setLabelMode(mode);
   };
 
-  const onToggleSound = () => {
+  const onToggleBackgroundSound = () => {
+    // The drone fades out/in on its own; the tick is an effect cue, so it
+    // only sounds when effects are enabled.
+    toggleBackgroundSound();
+    playHUDClick();
+  };
+
+  const onToggleEffectsSound = () => {
     // Toggle first (it silences Cuelume), then confirm with a tick — which
     // only sounds when the switch ends up enabled.
-    toggleSound();
+    toggleEffectsSound();
     playHUDClick();
   };
 
@@ -88,32 +136,18 @@ export default function NyxheimSettings() {
 
               <div>
                 <SectionLabel>{t.nyxheim.sound}</SectionLabel>
-                <button
-                  type="button"
-                  role="switch"
-                  aria-checked={soundEnabled}
-                  onClick={onToggleSound}
-                  className="hud-focus-ring flex w-full items-center gap-2.5 rounded-lg border border-hud-border/60 px-3 py-2 text-left text-sm text-foreground transition-colors hover:border-hud-cyan/50"
-                >
-                  {soundEnabled ? (
-                    <Volume2 size={16} aria-hidden className="shrink-0 text-hud-cyan" />
-                  ) : (
-                    <VolumeX size={16} aria-hidden className="shrink-0 text-muted-foreground" />
-                  )}
-                  <span className="min-w-0 flex-1">{t.nyxheim.sound}</span>
-                  <span
-                    aria-hidden
-                    className={`flex h-5 w-9 shrink-0 items-center rounded-full p-0.5 transition-colors ${
-                      soundEnabled ? "bg-hud-cyan/70" : "bg-hud-border/60"
-                    }`}
-                  >
-                    <span
-                      className={`h-4 w-4 rounded-full bg-white transition-transform ${
-                        soundEnabled ? "translate-x-4" : "translate-x-0"
-                      }`}
-                    />
-                  </span>
-                </button>
+                <div className="space-y-1.5">
+                  <SoundSwitch
+                    label={t.nyxheim.soundBackground}
+                    enabled={backgroundSoundEnabled}
+                    onToggle={onToggleBackgroundSound}
+                  />
+                  <SoundSwitch
+                    label={t.nyxheim.soundEffects}
+                    enabled={effectsSoundEnabled}
+                    onToggle={onToggleEffectsSound}
+                  />
+                </div>
               </div>
 
               <div>

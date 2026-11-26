@@ -22,7 +22,7 @@ export default function HudEraApp() {
   const bootupDone = useHUDStore((s) => s.bootupDone);
   const bootEpoch = useHUDStore((s) => s.bootEpoch);
   const completeBoot = useHUDStore((s) => s.completeBoot);
-  const soundEnabled = useHUDStore((s) => s.soundEnabled);
+  const effectsSoundEnabled = useHUDStore((s) => s.effectsSoundEnabled);
   const hydrated = useSyncExternalStore(
     (onChange) => useHUDStore.persist.onFinishHydration(onChange),
     () => useHUDStore.persist.hasHydrated(),
@@ -31,13 +31,13 @@ export default function HudEraApp() {
 
   useEffect(() => {
     if (!hydrated) return;
-    initHudAudio(useHUDStore.getState().soundEnabled);
+    initHudAudio(useHUDStore.getState().effectsSoundEnabled);
   }, [hydrated]);
 
   useEffect(() => {
     if (!hydrated) return;
-    syncHudAudioEnabled(soundEnabled);
-  }, [hydrated, soundEnabled]);
+    syncHudAudioEnabled(effectsSoundEnabled);
+  }, [hydrated, effectsSoundEnabled]);
 
   // Deep links skip the boot gate so shared URLs open the panel directly
   useEffect(() => {

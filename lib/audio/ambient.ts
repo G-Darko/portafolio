@@ -7,8 +7,8 @@
  * Autoplay policy: browsers block audio until the user interacts with the
  * page, so the drone only starts after the first pointer/key gesture
  * (see `startAmbient`, wired from NyxheimWorld) and stays silent until
- * then. It shares the `soundEnabled` preference with Cuelume: muting in
- * the settings silences the drone too.
+ * then. It answers to the `backgroundSoundEnabled` preference only: the
+ * effects switch (Cuelume cues) never touches it.
  *
  * Ownership: the drone belongs to the Exordia world (NyxheimWorld). It
  * starts on mount / first gesture and stops on unmount or when an era
@@ -116,13 +116,14 @@ export function hasAmbientInteracted() {
 /**
  * Start the drone. Call only from a user gesture (or from a gesture
  * handler): before that the AudioContext stays suspended by the browser
- * and this is a silent no-op. If sound is muted, remember the intent and
- * start as soon as it is enabled again. Returning to Exordia reuses the
- * context built on the earlier visit instead of building a new one.
+ * and this is a silent no-op. If background sound is muted, remember the
+ * intent and start as soon as it is enabled again. Returning to Exordia
+ * reuses the context built on the earlier visit instead of building a
+ * new one.
  */
-export function startAmbient(soundOn: boolean) {
+export function startAmbient(backgroundOn: boolean) {
   if (typeof window === "undefined") return;
-  enabled = soundOn;
+  enabled = backgroundOn;
   // A pending stop (travel away, then back within ~1.5 s) is cancelled:
   // the drone comes back instead of suspending under the new era.
   if (stopTimer !== null) {
@@ -167,14 +168,14 @@ export function stopAmbient() {
   }, 1500);
 }
 
-/** The settings sound switch: mute fades the drone out, unmute fades it in.
+/** The settings background switch: mute fades the drone out, unmute fades it in.
     It only ever touches a RUNNING drone: starting is NyxheimWorld's job
     (mount / first gesture), so toggling sound in another era can never
     wake the Exordia drone up there. */
-export function setAmbientEnabled(soundOn: boolean) {
-  enabled = soundOn;
+export function setAmbientEnabled(backgroundOn: boolean) {
+  enabled = backgroundOn;
   if (!started) return;
-  if (soundOn) {
+  if (backgroundOn) {
     resume();
     fadeTo(MASTER_LEVEL);
   } else {
